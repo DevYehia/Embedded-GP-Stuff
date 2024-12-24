@@ -7,7 +7,7 @@ void CanTP_init(can_instance_t* can_pal1_instance, can_user_config_t* can_pal1_C
 
 //Send control frame
 //TODO handle differnet cases of FS
-void send_flow_control(void);
+void send_flow_control(uint32_t buffIdx);
 
 
 void recv_single(void);
