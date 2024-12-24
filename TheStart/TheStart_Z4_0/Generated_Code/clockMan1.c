@@ -7,7 +7,7 @@
 **     Version     : Component SDK_S32_PA_11, Driver 01.00, CPU db: 3.00.000
 **     Repository  : SDK_S32_PA_11
 **     Compiler    : GNU C Compiler
-**     Date/Time   : 2024-12-23, 20:12, # CodeGen: 0
+**     Date/Time   : 2024-12-24, 19:42, # CodeGen: 3
 **
 **     Copyright 1997 - 2015 Freescale Semiconductor, Inc. 
 **     Copyright 2016-2017 NXP 
@@ -64,6 +64,51 @@ mc_me_peripheral_clock_config_t peripheralClockMcMeConfig0[] = {
         .mc_me_LowPowerPeriphConfig     = MC_ME_PERIPH_CONFIG_1,
     },
     {
+        .clockName                      = DMAMUX0_CLK,
+        .mc_me_RunPeriphConfig          = MC_ME_PERIPH_CONFIG_1,
+        .mc_me_LowPowerPeriphConfig     = MC_ME_PERIPH_CONFIG_1,
+    },
+    {
+        .clockName                      = FLEXCAN0_CLK,
+        .mc_me_RunPeriphConfig          = MC_ME_PERIPH_CONFIG_1,
+        .mc_me_LowPowerPeriphConfig     = MC_ME_PERIPH_CONFIG_1,
+    },
+    {
+        .clockName                      = FLEXCAN1_CLK,
+        .mc_me_RunPeriphConfig          = MC_ME_PERIPH_CONFIG_1,
+        .mc_me_LowPowerPeriphConfig     = MC_ME_PERIPH_CONFIG_1,
+    },
+    {
+        .clockName                      = FLEXCAN2_CLK,
+        .mc_me_RunPeriphConfig          = MC_ME_PERIPH_CONFIG_1,
+        .mc_me_LowPowerPeriphConfig     = MC_ME_PERIPH_CONFIG_1,
+    },
+    {
+        .clockName                      = FLEXCAN3_CLK,
+        .mc_me_RunPeriphConfig          = MC_ME_PERIPH_CONFIG_1,
+        .mc_me_LowPowerPeriphConfig     = MC_ME_PERIPH_CONFIG_1,
+    },
+    {
+        .clockName                      = FLEXCAN4_CLK,
+        .mc_me_RunPeriphConfig          = MC_ME_PERIPH_CONFIG_1,
+        .mc_me_LowPowerPeriphConfig     = MC_ME_PERIPH_CONFIG_1,
+    },
+    {
+        .clockName                      = FLEXCAN5_CLK,
+        .mc_me_RunPeriphConfig          = MC_ME_PERIPH_CONFIG_1,
+        .mc_me_LowPowerPeriphConfig     = MC_ME_PERIPH_CONFIG_1,
+    },
+    {
+        .clockName                      = FLEXCAN6_CLK,
+        .mc_me_RunPeriphConfig          = MC_ME_PERIPH_CONFIG_1,
+        .mc_me_LowPowerPeriphConfig     = MC_ME_PERIPH_CONFIG_1,
+    },
+    {
+        .clockName                      = FLEXCAN7_CLK,
+        .mc_me_RunPeriphConfig          = MC_ME_PERIPH_CONFIG_1,
+        .mc_me_LowPowerPeriphConfig     = MC_ME_PERIPH_CONFIG_1,
+    },
+    {
         .clockName                      = PITRTI0_CLK,
         .mc_me_RunPeriphConfig          = MC_ME_PERIPH_CONFIG_1,
         .mc_me_LowPowerPeriphConfig     = MC_ME_PERIPH_CONFIG_1,
@@ -75,6 +120,11 @@ mc_me_peripheral_clock_config_t peripheralClockMcMeConfig0[] = {
     },
     {
         .clockName                      = ENET0_TIME_CLK,
+        .mc_me_RunPeriphConfig          = MC_ME_PERIPH_CONFIG_1,
+        .mc_me_LowPowerPeriphConfig     = MC_ME_PERIPH_CONFIG_1,
+    },
+    {
+        .clockName                      = DMAMUX1_CLK,
         .mc_me_RunPeriphConfig          = MC_ME_PERIPH_CONFIG_1,
         .mc_me_LowPowerPeriphConfig     = MC_ME_PERIPH_CONFIG_1,
     },
@@ -399,7 +449,7 @@ clock_manager_user_config_t clockMan1_InitConfig0 = {
                 .stop0               = false,
             },
         },        
-        .count                    = 6,
+        .count                    = 16,
         .peripherals              = peripheralClockMcMeConfig0,
     },
     
