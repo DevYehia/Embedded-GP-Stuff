@@ -1,7 +1,7 @@
 #ifndef CANTP_H
 #define CANTP_H
 
-#include "can_pal1.h";
+#include "can_pal1.h"
 
 void CanTP_init(can_instance_t* can_pal1_instance, can_user_config_t* can_pal1_Config0);
 

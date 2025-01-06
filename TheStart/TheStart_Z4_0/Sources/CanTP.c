@@ -9,12 +9,7 @@ typedef enum CANTP_Frame_Types {SINGLE, FIRST,CONSECUTIVE ,FLOW} CANTP_Frame_Typ
 uint32_t consecutive_cntr = 0;
 CANTP_States currState = WAIT_FOR_FIRST;
 uint16_t  dataSize = 0;
-void CanTP_init(can_instance_t* can_pal_instance, can_user_config_t* can_pal_Config){
 
-    can_instance = can_pal_instance;
-    CAN_Init(can_pal_instance, can_pal_Config);
-    CAN_InstallEventCallback(can_pal_instance, interrupt_callback, NULL);
-}
 
 void send_flow_control(uint32_t buffIdx)
 {
@@ -86,3 +81,9 @@ void interrupt_callback(uint32_t instance, can_event_t eventType, uint32_t buffI
 
 }
 
+void CanTP_init(can_instance_t* can_pal_instance, can_user_config_t* can_pal_Config){
+
+    can_instance = can_pal_instance;
+    CAN_Init(can_pal_instance, can_pal_Config);
+    CAN_InstallEventCallback(can_pal_instance, interrupt_callback, NULL);
+}

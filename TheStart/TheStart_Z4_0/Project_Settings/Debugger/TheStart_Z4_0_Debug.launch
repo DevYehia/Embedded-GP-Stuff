@@ -1,9 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <launchConfiguration type="com.pemicro.debug.gdbjtag.ppc.launchConfigurationType">
-<listAttribute key="com.pemicro.debug.gdbjtag.ppc.ELVES">
-<listEntry value=""/>
-<listEntry value=""/>
-</listAttribute>
+<listAttribute key="com.pemicro.debug.gdbjtag.ppc.ELVES"/>
 <intAttribute key="com.pemicro.debug.gdbjtag.ppc.NUMBER_ELVES" value="0"/>
 <stringAttribute key="com.pemicro.debug.gdbjtag.ppc.PE.DEVICE_NAME" value="MPC5748G"/>
 <stringAttribute key="com.pemicro.debug.gdbjtag.ppc.PE.GDB_OPTIONS" value=""/>
@@ -63,6 +60,9 @@
 <stringAttribute key="com.pemicro.debug.gdbjtag.ppc.gdbClientOtherCommands" value="set mem inaccessible-by-default off&#13;&#10;set tcp auto-retry on&#13;&#10;set tcp connect-timeout 240&#13;&#10;set remotetimeout 60"/>
 <stringAttribute key="com.pemicro.debug.gdbjtag.ppc.gdbClientOtherOptions" value=""/>
 <intAttribute key="com.pemicro.debug.gdbjtag.ppc.gdbServerTelnetPortNumber" value="51794"/>
+<intAttribute key="com.pemicro.debug.gdbjtag.ppc.gdbmiPortNumber" value="6224"/>
+<stringAttribute key="com.pemicro.debug.gdbjtag.ppc.macScript" value=""/>
+<booleanAttribute key="com.pemicro.debug.gdbjtag.ppc.macScriptEnable" value="false"/>
 <stringAttribute key="com.pemicro.debug.gdbjtag.ppc.ml.CYCLONE_IP" value=""/>
 <booleanAttribute key="com.pemicro.debug.gdbjtag.ppc.ml.DO_RESET_DELAY" value="true"/>
 <intAttribute key="com.pemicro.debug.gdbjtag.ppc.ml.INTERFACE_PORT" value="-1"/>
@@ -102,6 +102,7 @@
 <booleanAttribute key="com.pemicro.debug.gdbjtag.ppc.sda.SPECIFY_IP" value="false"/>
 <booleanAttribute key="com.pemicro.debug.gdbjtag.ppc.sda.SPECIFY_NETWORK_CARD" value="false"/>
 <intAttribute key="com.pemicro.debug.gdbjtag.ppc.selectedCoreNumber" value="1"/>
+<intAttribute key="com.pemicro.debug.gdbjtag.ppc.serverPortNumber" value="7224"/>
 <stringAttribute key="com.pemicro.debug.gdbjtag.ppc.trc_eth.CYCLONE_IP" value=""/>
 <booleanAttribute key="com.pemicro.debug.gdbjtag.ppc.trc_eth.DO_RESET_DELAY" value="false"/>
 <intAttribute key="com.pemicro.debug.gdbjtag.ppc.trc_eth.INTERFACE_PORT" value="0"/>

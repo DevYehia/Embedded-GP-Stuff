@@ -42,6 +42,7 @@
 
 /* Including necessary module. Cpu.h contains other modules needed for compiling.*/
 #include "Cpu.h"
+#include "CanTP.h"
 
   volatile int exit_code = 0;
 /* User includes (#include below this line is not maintained by Processor Expert) */
@@ -64,7 +65,11 @@ int main(void)
 
   /* Write your code here */
   /* For example: for(;;) { } */
-    CAN_Init(&can_pal1_instance, &can_pal1_Config0);
+    CLOCK_DRV_Init(&clockMan1_InitConfig0);
+    CanTP_init(&can_pal1_instance, &can_pal1_Config0);
+
+    for(;;){}
+    //CAN_Init(&can_pal1_instance, &can_pal1_Config0);
 
   /*** Don't write any code pass this line, or it will be deleted during code generation. ***/
   /*** RTOS startup code. Macro PEX_RTOS_START is defined by the RTOS component. DON'T MODIFY THIS CODE!!! ***/
