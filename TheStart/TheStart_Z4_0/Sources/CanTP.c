@@ -10,6 +10,9 @@ uint32_t consecutive_cntr = 0;
 CANTP_States currState = WAIT_FOR_FIRST;
 uint16_t  dataSize = 0;
 
+can_message_t recvMessage;
+void (* currStateFunc) ();
+
 
 void send_flow_control(uint32_t buffIdx)
 {
@@ -39,51 +42,51 @@ uint16_t get_size(can_message_t message)
 }
 
 void interrupt_callback(uint32_t instance, can_event_t eventType, uint32_t buffIdx, void *driverState){
-    if(eventType == CAN_EVENT_RX_COMPLETE){
-        can_message_t message;
-        CAN_Receive(can_instance,buffIdx,&message);
-        CANTP_Frame_Types type = get_type(message);
-        if(currState == WAIT_FOR_FIRST){
-            if(type == FIRST){
-                dataSize = get_size(message);
-                dataSize = dataSize - 6;
-                currState = SEND_FLOW_CTL;
-                send_flow_control(buffIdx);
-                
-            }
-        }
-        else if(currState == WAIT_FOR_CONSECUTIVE){
-            if(type == CONSECUTIVE){
-                consecutive_cntr++;
-                if(dataSize >= 7)
-                {
-                    dataSize = dataSize-7;
-                }
-                else
-                {
-                    dataSize = 0;
-                }
-            }
-            if(consecutive_cntr == 4) // block size 4 until
-            {
-                currState = SEND_FLOW_CTL;
-                send_flow_control(buffIdx);
-            }
-            if(dataSize == 0)
-            {
-                currState = WAIT_FOR_FIRST;
-            }
-        }
-    }
-    else if(eventType == CAN_EVENT_TX_COMPLETE){
-        currState = WAIT_FOR_CONSECUTIVE;
-    }
-
+    currStateFunc();
 }
+
+void handleConsecutiveFrame(){
+
+    CANTP_Frame_Types type = get_type(recvMessage);
+    if(type == CONSECUTIVE){
+        consecutive_cntr++;
+        if(dataSize >= 7)
+        {
+            dataSize = dataSize-7;
+        }
+        else
+        {
+            dataSize = 0;
+        }
+    }
+    if(dataSize == 0)
+    {
+        currState = WAIT_FOR_FIRST;
+    }
+}
+
+void handleFlowCtl(){
+    CAN_Receive(&can_pal1_instance, RX_BUFF_NUM, &recvMessage);
+    currState = handleConsecutiveFrame;
+}
+
+void handleFirstFrame(){
+        dataSize = get_size(recvMessage);
+        dataSize = dataSize - 6;
+        currState = handleFlowCtl;
+        send_flow_control(TX_BUFF_NUM);
+}
+
+
 
 void CanTP_init(can_instance_t* can_pal_instance, can_user_config_t* can_pal_Config){
 
     can_instance = can_pal_instance;
     CAN_Init(can_pal_instance, can_pal_Config);
     CAN_InstallEventCallback(can_pal_instance, interrupt_callback, NULL);
+    can_buff_config_t buffConf = {false, false, 0xAA, CAN_MSG_ID_STD, false};
+    CAN_ConfigRxBuff(&can_pal1_instance, RX_BUFF_NUM, &buffConf, 0x3);
+    CAN_Receive(&can_pal1_instance, RX_BUFF_NUM, &recvMessage);
+    currStateFunc = handleFirstFrame;
+
 }

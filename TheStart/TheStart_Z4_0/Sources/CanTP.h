@@ -3,6 +3,10 @@
 
 #include "can_pal1.h"
 
+
+#define TX_BUFF_NUM 1
+#define RX_BUFF_NUM 0
+
 void CanTP_init(can_instance_t* can_pal1_instance, can_user_config_t* can_pal1_Config0);
 
 //Send control frame

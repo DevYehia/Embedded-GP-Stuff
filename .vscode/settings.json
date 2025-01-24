@@ -1,5 +1,7 @@
 {
     "files.associations": {
-        "cpu.h": "c"
+        "*.embeddedhtml": "html",
+        "cpu.h": "c",
+        "cantp.h": "c"
     }
 }

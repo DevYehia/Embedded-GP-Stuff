@@ -67,6 +67,14 @@ int main(void)
   /* For example: for(;;) { } */
     CLOCK_DRV_Init(&clockMan1_InitConfig0);
     CanTP_init(&can_pal1_instance, &can_pal1_Config0);
+    can_message_t message = {0, 0x3, {1,2,3}, 3};
+
+    can_buff_config_t buffConf = {false, false, 0xAA, CAN_MSG_ID_STD, false};
+    CAN_ConfigTxBuff(&can_pal1_instance, 1, &buffConf);
+    CAN_ConfigRxBuff(&can_pal1_instance, 0, &buffConf, 0x3);
+    CAN_SendBlocking(&can_pal1_instance, 1, &message, 2000);
+    can_message_t recvMessage;
+    CAN_Receive(&can_pal1_instance, 0, &recvMessage);
 
     for(;;){}
     //CAN_Init(&can_pal1_instance, &can_pal1_Config0);

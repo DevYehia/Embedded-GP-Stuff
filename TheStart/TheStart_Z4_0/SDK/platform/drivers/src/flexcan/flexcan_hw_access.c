@@ -507,7 +507,7 @@ void FLEXCAN_Init(CAN_Type * base)
 
     /* Disable all MB interrupts */
     (base->IMASK1) = 0x0;
-    /* Clear all MB interrupt flags */
+   
     (base->IFLAG1) = CAN_IMASK1_BUF31TO0M_MASK;
 #if FEATURE_CAN_MAX_MB_NUM > 32U
     if (FLEXCAN_GetMaxMbNum(base) > 32U)
@@ -525,7 +525,7 @@ void FLEXCAN_Init(CAN_Type * base)
 #endif	
     /* Clear all error interrupt flags */
     (base->ESR1) = FLEXCAN_ALL_INT;
-}
+} /* Clear all MB interrupt flags */
 
 #if (defined(CPU_S32K116) || defined(CPU_S32K118))
 /*FUNCTION**********************************************************************
