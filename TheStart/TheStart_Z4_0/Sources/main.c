@@ -53,6 +53,8 @@
  * - startup asm routine
  * - main()
 */
+
+uint8_t sendConsec = 0;
 int main(void)
 {
   /* Write your local variable definition here */
@@ -67,16 +69,22 @@ int main(void)
   /* For example: for(;;) { } */
     CLOCK_DRV_Init(&clockMan1_InitConfig0);
     CanTP_init(&can_pal1_instance, &can_pal1_Config0);
-    can_message_t message = {0, 0x3, {1,2,3}, 3};
+    can_message_t message = {0, 0x3, {0x10,0x0E,1,2,3,4,5,6}, 8};
 
     can_buff_config_t buffConf = {false, false, 0xAA, CAN_MSG_ID_STD, false};
     CAN_ConfigTxBuff(&can_pal1_instance, 1, &buffConf);
-    CAN_ConfigRxBuff(&can_pal1_instance, 0, &buffConf, 0x3);
     CAN_SendBlocking(&can_pal1_instance, 1, &message, 2000);
-    can_message_t recvMessage;
-    CAN_Receive(&can_pal1_instance, 0, &recvMessage);
 
-    for(;;){}
+
+
+    //while(sendConsec == 0);
+
+
+    for(int i = 0;i<2; i = (i + 1) % 16){
+      message.data[0] = 0x20 + i;
+      //for(int j = 1 ; j < 7 ; j++)
+      CAN_SendBlocking(&can_pal1_instance, 1, &message, 2000);        
+    }
     //CAN_Init(&can_pal1_instance, &can_pal1_Config0);
 
   /*** Don't write any code pass this line, or it will be deleted during code generation. ***/

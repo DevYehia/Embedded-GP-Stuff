@@ -474,7 +474,7 @@
     </GenFiles>
     <SignalListFile />
     <DestinationCompiler>GNUC</DestinationCompiler>
-    <ProjectModificationStamp>2</ProjectModificationStamp>
+    <ProjectModificationStamp>3</ProjectModificationStamp>
   </Options>
   <CpuID_1>
     <Generated>true</Generated>
@@ -632,7 +632,7 @@
     <GenDriverVersion>01.00</GenDriverVersion>
     <GenEventModule />
     <HeaderAge>1512484166</HeaderAge>
-    <CodeAge>1512484166</CodeAge>
+    <CodeAge>1513004827</CodeAge>
     <AsemblAge>-1</AsemblAge>
     <GenNumMethods>16</GenNumMethods>
     <CAN_Init>true</CAN_Init>

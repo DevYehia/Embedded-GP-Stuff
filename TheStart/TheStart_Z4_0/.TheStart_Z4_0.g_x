@@ -34,8 +34,8 @@
       <File Name="SDK/platform/drivers/inc/edma_driver.h" FileDate="2025-01-06, 21:42:12" FileAge="1736192532637" FileType="1048576" CompNumb="6" />
       <File Name="Generated_Code/pin_mux.h" FileDate="2025-01-06, 21:42:12" FileAge="1736192532499" FileType="45637" CompNumb="2" />
       <File Name="SDK/platform/devices/status.h" FileDate="2025-01-06, 21:42:12" FileAge="1736192532622" FileType="1048576" CompNumb="1" />
-      <File Name="SDK/platform/pal/src/can/can_pal.c" FileDate="2025-01-06, 21:42:12" FileAge="1736192532791" FileType="1048576" CompNumb="0" />
       <File Name="Project_Settings/Linker_Files/linker_flash.ld" FileDate="2025-01-06, 21:42:12" FileAge="1736192532533" FileType="1048576" CompNumb="1" />
+      <File Name="SDK/platform/pal/src/can/can_pal.c" FileDate="2025-01-06, 21:42:12" FileAge="1736192532791" FileType="1048576" CompNumb="0" />
       <File Name="SDK/platform/devices/MPC5748G/include/MPC5748G.h" FileDate="2025-01-06, 21:42:12" FileAge="1736192532571" FileType="1048576" CompNumb="1" />
       <File Name="Generated_Code/pin_mux.c" FileDate="2025-01-06, 21:42:12" FileAge="1736192532493" FileType="45637" CompNumb="2" />
       <File Name="SDK/platform/drivers/src/flexcan/flexcan_hw_access.h" FileDate="2025-01-06, 21:42:12" FileAge="1736192532734" FileType="1048576" CompNumb="1" />
@@ -46,15 +46,15 @@
       <File Name="SDK/platform/drivers/src/flexcan/flexcan_hw_access.c" FileDate="2025-01-06, 21:42:12" FileAge="1736192532728" FileType="1048576" CompNumb="1" />
       <File Name="SDK/platform/pal/inc/can_pal_mapping.h" FileDate="2025-01-06, 21:42:12" FileAge="1736192532785" FileType="1048576" CompNumb="0" />
       <File Name="SDK/platform/drivers/src/edma/edma_hw_access.c" FileDate="2025-01-06, 21:42:12" FileAge="1736192532699" FileType="1048576" CompNumb="6" />
-      <File Name="Sources/main.c" FileDate="2025-01-06, 21:42:12" FileAge="1736192532817" FileType="128" />
+      <File Name="Sources/main.c" FileDate="2025-01-24, 00:14:57" FileAge="1737670497214" FileType="128" />
       <File Name="SDK/platform/drivers/inc/clock.h" FileDate="2025-01-06, 21:42:12" FileAge="1736192532627" FileType="1048576" CompNumb="3" />
       <File Name="SDK/platform/drivers/src/clock/MPC57xx/mc_me_hw_access.h" FileDate="2025-01-06, 21:42:12" FileAge="1736192532687" FileType="1048576" CompNumb="3" />
       <File Name="SDK/platform/drivers/src/clock/MPC57xx/cgmcs_hw_access.h" FileDate="2025-01-06, 21:42:12" FileAge="1736192532665" FileType="1048576" CompNumb="3" />
-      <File Name="Generated_Code/can_pal1.h" FileDate="2025-01-06, 21:42:12" FileAge="1736192532466" FileType="45637" CompNumb="5" />
       <File Name="SDK/platform/devices/MPC5748G/startup/system_MPC5748G.h" FileDate="2025-01-06, 21:42:12" FileAge="1736192532588" FileType="1048576" CompNumb="1" />
+      <File Name="Generated_Code/can_pal1.h" FileDate="2025-01-06, 21:42:12" FileAge="1736192532466" FileType="45637" CompNumb="5" />
       <File Name="SDK/platform/devices/callbacks.h" FileDate="2025-01-06, 21:42:12" FileAge="1736192532593" FileType="1048576" CompNumb="1" />
       <File Name="SDK/platform/devices/MPC5748G/startup/system_MPC5748G.c" FileDate="2025-01-06, 21:42:12" FileAge="1736192532583" FileType="1048576" CompNumb="1" />
-      <File Name="Generated_Code/can_pal1.c" FileDate="2025-01-06, 21:42:12" FileAge="1736192532462" FileType="45637" CompNumb="5" />
+      <File Name="Generated_Code/can_pal1.c" FileDate="2025-01-14, 19:56:55" FileAge="1736877415767" FileType="45637" CompNumb="5" />
       <File Name="SDK/platform/drivers/src/pins/siul2/siul2_hw_access.h" FileDate="2025-01-06, 21:42:12" FileAge="1736192532773" FileType="1048576" CompNumb="2" />
       <File Name="Project_Settings/Startup_Code/core0_intc_sw_handlers.S" FileDate="2025-01-06, 21:42:12" FileAge="1736192532543" FileType="1048576" CompNumb="1" />
       <File Name="SDK/platform/devices/MPC5748G/include/MPC5748G_features.h" FileDate="2025-01-06, 21:42:12" FileAge="1736192532577" FileType="1048576" CompNumb="1" />
@@ -92,5 +92,5 @@
       <File Name="SDK/platform/drivers/src/edma/edma_irq.c" FileDate="2025-01-06, 21:42:12" FileAge="1736192532711" FileType="1048576" CompNumb="6" />
     </GeneratedByPE>
   </GeneratedFilesList>
-  <CodeGenReference>5</CodeGenReference>
+  <CodeGenReference>7</CodeGenReference>
 </CodeGenerationInfo>
