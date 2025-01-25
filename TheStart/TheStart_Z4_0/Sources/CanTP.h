@@ -15,7 +15,7 @@
 #define startFirst 2
 #define startConsecutive 1
 
-void CanTP_init(can_instance_t* can_pal1_instance, can_user_config_t* can_pal1_Config0);
+void CanTP_init(can_instance_t* can_pal1_instance, can_user_config_t* can_pal1_Config0, void (*ptr_func)(uint8_t *) );
 
 //Send control frame
 //TODO handle differnet cases of FS

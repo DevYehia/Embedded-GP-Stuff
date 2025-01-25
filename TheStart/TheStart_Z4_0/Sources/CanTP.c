@@ -13,7 +13,7 @@ uint8_t dataBuffer[MAX_TP_SIZE];
 
 can_message_t recvMessage;
 void (* currState) ();
-
+void (* UDS_Callback)();
 
 void send_flow_control(uint32_t buffIdx)
 {
@@ -113,6 +113,7 @@ void handleSingleFrame(){
 	for(int i=0; i<size ; i++){
 		payload[i] = recvMessage.data[i+1];
 	}
+    UDS_Callback(payload);
 	CAN_Receive(&can_pal1_instance, RX_BUFF_NUM, &recvMessage);
 
 }
@@ -143,8 +144,9 @@ void readCanTPPayload(uint8_t size,uint8_t start)
 //        curr_buff_idx += size;
 }
 
-void CanTP_init(can_instance_t* can_pal_instance, can_user_config_t* can_pal_Config){
-
+void CanTP_init(can_instance_t* can_pal_instance, can_user_config_t* can_pal_Config, void (*ptr_func)(uint8_t *) )
+{
+    UDS_Callback = ptr_func;
     can_instance = can_pal_instance;
     CAN_Init(can_pal_instance, can_pal_Config);
     CAN_InstallEventCallback(can_pal_instance, interrupt_callback, NULL);
