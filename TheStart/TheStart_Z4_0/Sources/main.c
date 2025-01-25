@@ -69,7 +69,7 @@ int main(void)
   /* For example: for(;;) { } */
     CLOCK_DRV_Init(&clockMan1_InitConfig0);
     CanTP_init(&can_pal1_instance, &can_pal1_Config0);
-    can_message_t message = {0, 0x3, {0x10,0x0E,1,2,3,4,5,6}, 8};
+    can_message_t message = {0, 0x3, {0x04,0x0E,1,2,3,0xAA,0xAA,0xAA}, 8};
 
     can_buff_config_t buffConf = {false, false, 0xAA, CAN_MSG_ID_STD, false};
     CAN_ConfigTxBuff(&can_pal1_instance, 1, &buffConf);

@@ -30,6 +30,17 @@ void send_flow_control(uint32_t buffIdx)
     CAN_Send(can_instance,buffIdx,&message);
 }
 
+void send_single_frame(uint8_t *payload){
+	can_message_t message;
+	message.id = 0x000;      //set later with tooling for HMI or application
+	message.length = 8;
+	message.data[0] = get_payload_size(payload);
+    for(int i = 1;i<8;i++)
+    {
+        message.data[i] = payload[i];
+    }
+}
+
 CANTP_Frame_Types get_type(can_message_t message)
 {
     return message.data[0]>>4;
@@ -43,10 +54,25 @@ uint16_t get_size(can_message_t message)
     return size;
 }
 
+uint8_t get_payload_size(uint8_t *payload){
+	uint8_t size = 0;
+	for(int i=0; i<7 ; i++){
+		if(payload[i] != 0xAA){
+			size++;
+		}
+	}
+	return size;
+}
+
 void interrupt_callback(uint32_t instance, can_event_t eventType, uint32_t buffIdx, void *driverState){
     if(eventType == CAN_EVENT_RX_COMPLETE){
-        currState();
-    }
+        if(get_type(recvMessage) == SINGLE){
+        	handleSingleFrame();
+        }
+        else{
+        	currState();
+        }
+	}
     else if(eventType == CAN_EVENT_TX_COMPLETE){
         if(currState == handleFlowCtl){
             currState();
@@ -79,6 +105,16 @@ void handleConsecutiveFrame(){
         curr_buff_idx = 0;
     }
     CAN_Receive(&can_pal1_instance, RX_BUFF_NUM, &recvMessage);
+}
+
+void handleSingleFrame(){
+	uint8_t payload[7];
+	uint8_t size = recvMessage.data[0];
+	for(int i=0; i<size ; i++){
+		payload[i] = recvMessage.data[i+1];
+	}
+	CAN_Receive(&can_pal1_instance, RX_BUFF_NUM, &recvMessage);
+
 }
 
 void handleFlowCtl(){

@@ -35,8 +35,11 @@ void handleFirstFrame();
 
 void readCanTPPayload(uint8_t size ,uint8_t start);
 
+void send_single_frame(uint8_t *payload);
 
+uint8_t get_payload_size(uint8_t *payload);
 
+void handleSingleFrame();
 
 
 #endif
