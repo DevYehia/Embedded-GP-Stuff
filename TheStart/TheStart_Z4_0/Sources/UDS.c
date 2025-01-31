@@ -19,10 +19,14 @@ void UDS_Create_response(uint8_t* request){
 
 void UDS_Session_Control(uint8_t* payload){
     DIAGNOSTIC_SESSION_SUBFUNC requested_session = payload[3];
+    if(requested_session != DEFAULT_SESSION && requested_session != PROGRAMMING_SESSION){
+        //send negative response
+    }
+    else{
     UDS_Create_response(payload);
 
     send_single_frame(response);
-
+    }
 
     if(requested_session == PROGRAMMING_SESSION && currentSession == DEFAULT_SESSION){
         currentSession = requested_session;
@@ -34,6 +38,17 @@ void UDS_Session_Control(uint8_t* payload){
 
 void UDS_ECU_Reset(uint8_t* payload){
     ECU_RESET_SUBFUNC requested_reset = payload[3];
+
+    //respond
+    UDS_Create_response(payload);
+    send_single_frame(response);
+
+    if(requested_reset == HARD_RESET){
+        //hard reset code
+    }
+    else if(requested_reset == SOFT_RESET){
+        //soft reset code
+    }
 
 }
 
