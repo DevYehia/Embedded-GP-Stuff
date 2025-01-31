@@ -5,6 +5,11 @@ DIAGNOSTIC_SESSION_SUBFUNC currentSession = DEFAULT_SESSION;
 void (*curr_state)();
 uint8_t response[8];
 
+volatile uint8_t memory_length = 0;
+volatile uint8_t memory_address_size = 0;
+volatile uint32_t mem_start_address = 0;
+volatile uint32_t data_size = 0;
+
 UDS_SID UDS_Get_type(uint8_t* payload){
     //payload[0] and [1] are for the diagnostic ID
     return payload[2];
@@ -34,6 +39,48 @@ void UDS_Session_Control(uint8_t* payload){
         //set new SW Flag
         //execute reset
     }
+}
+
+/******************** NEW ******************/
+/* Assuming payload[0] is SID */
+/* Receives frame of type Transfer Data from the client */
+void UDS_Transfer_Data(uint8_t* payload){
+        if(SID == REQUEST_DOWNLOAD && currentSession == PROGRAMMING_SESSION){
+        currentSession = PROGRAMMING_SESSION;
+        memory_length = data[2]>>4; /* Defines number of bytes of MEMORY LENGTH parameter */
+        memory_address_size = data[2] & 0x0F; /* Defines number of bytes of MEMORY ADDRESS parameter*/
+        mem_start_address = 0;
+        data_size = 0;
+        for(int i=3; i<3+memory_length ;i++){
+            mem_start_address <<= 8;
+            mem_start_address |= data[i];
+        }
+            for(int i=3+memory_length; i<7+memory_address_size ;i++){
+            data_size <<= 8;
+            data_size |= data[i];
+        }
+        /* Do memory adressing range check */
+        
+        /* Get following parameters for +ve response:
+            1. RSID = 0x74.
+            2. length (number of bytes) of the maxNumberOfBlockLength parameter.
+            3. 0x0 (reserved).
+            4. convey the maxNumberOfBlockLength for each TransferData request to the client. This length encompasses the service identifier
+               and data parameters within the TransferData request message. The parameter serves the purpose of enabling the client to adapt 
+               to the server’s receive buffer size before initiating the data transfer process.
+            e.g: 74 20 0F FA
+        */
+
+        /* Send positive response */
+
+        
+        /* Store in flash the following variables
+            1. mem_start_address
+            2. data_size
+        */
+        /* Reset */
+    }
+    
 }
 
 void UDS_ECU_Reset(uint8_t* payload){
@@ -69,18 +116,7 @@ void UDS_Receive(uint8_t *data){
 //        }
     }
     if(SID == REQUEST_DOWNLOAD && currentSession == PROGRAMMING_SESSION){
-        uint8_t memory_length = data[2]>>4;
-        volatile uint8_t memory_address_size = data[2] & 0x0F;
-        volatile uint32_t mem_start_address = 0;
-        volatile uint32_t data_size = 0;
-        for(int i=3; i<3+memory_length ;i++){
-            mem_start_address <<= 8;
-            mem_start_address |= data[i];
-        }
-            for(int i=3+memory_length; i<7+memory_address_size ;i++){
-            data_size <<= 8;
-            data_size |= data[i];
-        }
+        UDS_Transfer_Data(data);
     }
 //    else if(SID == TRANSFER_DATA && Subfunc_ID == PROGRAMMING_SESSION){
 //
