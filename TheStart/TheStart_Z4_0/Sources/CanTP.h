@@ -15,11 +15,18 @@
 #define startFirst 2
 #define startConsecutive 1
 
+
+struct dataFrame
+{
+    uint8_t ready;
+    uint8_t dataBuffer[MAX_TP_SIZE];
+};
+
 void CanTP_init(can_instance_t* can_pal1_instance, can_user_config_t* can_pal1_Config0, void (*ptr_func)(uint8_t *) );
 
 //Send control frame
 //TODO handle differnet cases of FS
-void send_flow_control(uint32_t buffIdx);
+void send_flow_control(char type,uint32_t buffIdx);
 
 
 void recv_single(void);

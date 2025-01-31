@@ -11,16 +11,29 @@ uint16_t  dataSize = 0;
 
 uint8_t dataBuffer[MAX_TP_SIZE];
 
+
+uint8_t prevblock = 0;
+
+struct dataFrame canTp ;
+uint8_t timeout = 0;
+
 can_message_t recvMessage;
 void (* currState) ();
 void (* UDS_Callback)();
 
-void send_flow_control(uint32_t buffIdx)
+void send_flow_control(char type,uint32_t buffIdx)
 {
     can_message_t message;
     message.id = 0x000;      //set later with tooling for HMI or application
     message.length = 8;
-    message.data[0] = 0x30;
+    if(type == 'E')
+    {
+        message.data[0] = 0x32;
+    }
+    if(type == 'A')
+    {
+        message.data[0] = 0x30;
+    }
     message.data[1]= 0x04; // block size
     message.data[2] = 0x05;
     for(int i = 3;i<8;i++)
@@ -66,11 +79,16 @@ uint8_t get_payload_size(uint8_t *payload){
 
 void interrupt_callback(uint32_t instance, can_event_t eventType, uint32_t buffIdx, void *driverState){
     if(eventType == CAN_EVENT_RX_COMPLETE){
-        if(get_type(recvMessage) == SINGLE){
-        	handleSingleFrame();
-        }
-        else{
-        	currState();
+        // if(get_type(recvMessage) == SINGLE){
+        // 	handleSingleFrame();
+        // }
+        // else{
+        // 	currState();
+        // }
+        canTp.ready = 1;
+        for(int i =0 ;i<64;i++)
+        {
+            canTp.dataBuffer[i] = recvMessage.data[i];
         }
 	}
     else if(eventType == CAN_EVENT_TX_COMPLETE){
@@ -80,10 +98,51 @@ void interrupt_callback(uint32_t instance, can_event_t eventType, uint32_t buffI
     }
 }
 
-void handleConsecutiveFrame(){
 
+void recieve(void * pv)
+{
+    if(canTp.ready == 1)
+    {
+    if(get_type(recvMessage) == SINGLE){
+        	handleSingleFrame();
+        }
+    else if(get_type(recvMessage)!= SINGLE){
+        currState();
+        }
+    }
+
+}
+
+void handleConsecutiveFrame(){
     CANTP_Frame_Types type = get_type(recvMessage);
     if(type == CONSECUTIVE){
+         if((prevblock + 1 ) == (recvMessage.data[0] & 0X2F) )
+         {
+            if(timeout == 0x11)
+            {
+                //deletetask
+                timeout = 0X00;
+            }
+            else if(timeout == 0x00)
+            {
+                //create time out task
+                timeout = 0x11;
+            }
+            readCanTPPayload(consecutiveFrameSize,startConsecutive);
+         }
+
+         else if((prevblock + 1 ) != (recvMessage.data[0] & 0X0F) )
+         {
+            dataSize = 0;
+            currState = handleFirstFrame;
+            curr_buff_idx = 0;
+            canTp.ready = 0;
+            for(int i = 0; i<MAX_TP_SIZE;i++)
+            {
+            canTp.dataBuffer[i] = 0;
+            }
+            send_flow_control('E',TX_BUFF_NUM);
+         }
         
         /*if(dataSize >= 7)
         {
@@ -97,7 +156,18 @@ void handleConsecutiveFrame(){
 
     //copy 7 bytes from received message to message buffer
     //stop when dataSize = 0 or 7 bytes are read
-    readCanTPPayload(consecutiveFrameSize,startConsecutive);
+    }
+    if(curr_buff_idx > dataSize)
+    {
+            dataSize = 0;
+            currState = handleFirstFrame;
+            curr_buff_idx = 0;
+            canTp.ready = 0;
+            for(int i = 0; i<MAX_TP_SIZE;i++)
+            {
+            canTp.dataBuffer[i] = 0;
+            }
+            send_flow_control('E',TX_BUFF_NUM);
     }
     if(dataSize == 0)
     {
@@ -130,8 +200,26 @@ void handleFirstFrame(){
         dataSize = get_size(recvMessage);
         currState = handleFlowCtl;
         readCanTPPayload(firstFrameSize,startFirst);
-        send_flow_control(TX_BUFF_NUM);
+        send_flow_control('A',TX_BUFF_NUM);
         }
+}
+
+
+
+void timeOutTask(void * pv)
+{
+   
+            dataSize = 0;
+            currState = handleFirstFrame;
+            curr_buff_idx = 0;
+            canTp.ready = 0;
+            for(int i = 0; i<MAX_TP_SIZE;i++)
+            {
+            canTp.dataBuffer[i] = 0;
+            }
+            send_flow_control('E',TX_BUFF_NUM);
+            timeout = 0x00;
+            //delete self
 }
 
 //save payload
