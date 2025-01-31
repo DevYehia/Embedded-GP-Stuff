@@ -1,8 +1,41 @@
 #include "UDS.h"
 
 UDS_SID SID = 0;
-DIAGNOSTIC_SESSION_SUBFUNC Subfunc_ID = 0;
+DIAGNOSTIC_SESSION_SUBFUNC currentSession = DEFAULT_SESSION;
 void (*curr_state)();
+uint8_t response[8];
+
+UDS_SID UDS_Get_type(uint8_t* payload){
+    //payload[0] and [1] are for the diagnostic ID
+    return payload[2];
+}
+
+void UDS_Create_response(uint8_t* request){
+    for(int i = 0 ; i < 8 ; i++){
+        response[i] = request[i];
+    }
+    response[2] += 0x40;
+}
+
+void UDS_Session_Control(uint8_t* payload){
+    DIAGNOSTIC_SESSION_SUBFUNC requested_session = payload[3];
+    UDS_Create_response(payload);
+
+    send_single_frame(response);
+
+
+    if(requested_session == PROGRAMMING_SESSION && currentSession == DEFAULT_SESSION){
+        currentSession = requested_session;
+
+        //set new SW Flag
+        //execute reset
+    }
+}
+
+void UDS_ECU_Reset(uint8_t* payload){
+    ECU_RESET_SUBFUNC requested_reset = payload[3];
+
+}
 
 void UDS_Init(can_instance_t* can_pal1_instance, can_user_config_t* can_pal1_Config0){
     CanTP_init(can_pal1_instance,can_pal1_Config0, UDS_Receive);
@@ -12,7 +45,7 @@ void UDS_Receive(uint8_t *data){
     SID = data[0];
     int data1 = data[1];   
     if(SID == DIAGNOSTIC_SESSION_CONTROL){
-        Subfunc_ID = data[1];
+        currentSession = data[1];
 //        if(Subfunc_ID == DEFAULT_SESSION ){
 //
 //        }
@@ -20,7 +53,7 @@ void UDS_Receive(uint8_t *data){
 //
 //        }
     }
-    if(SID == REQUEST_DOWNLOAD && Subfunc_ID == PROGRAMMING_SESSION){
+    if(SID == REQUEST_DOWNLOAD && currentSession == PROGRAMMING_SESSION){
         uint8_t memory_length = data[2]>>4;
         volatile uint8_t memory_address_size = data[2] & 0x0F;
         volatile uint32_t mem_start_address = 0;

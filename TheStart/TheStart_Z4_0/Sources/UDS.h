@@ -35,4 +35,14 @@ typedef enum COMMUNICATION_CONTROL_SUBFUNC {
 void UDS_Receive();
 void UDS_Init(can_instance_t* can_pal1_instance, can_user_config_t* can_pal1_Config0);
 
+//uses the SID Byte to identify type of UDS Service
+UDS_SID UDS_Get_type(uint8_t* payload);
+
+//Handle Session Control
+void UDS_Session_Control(uint8_t* payload);
+
+void UDS_ECU_Reset(uint8_t* payload);
+
+void UDS_Create_response(uint8_t* request);
+
 #endif
