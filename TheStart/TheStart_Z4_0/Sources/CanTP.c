@@ -9,13 +9,16 @@ typedef enum CANTP_Frame_Types {SINGLE, FIRST,CONSECUTIVE ,FLOW} CANTP_Frame_Typ
 uint32_t curr_buff_idx = 0;
 uint16_t  dataSize = 0;
 
-uint8_t dataBuffer[MAX_TP_SIZE];
+// uint8_t dataBuffer[MAX_TP_SIZE];
 
+uint8_t ready = 0;
 
 uint8_t prevblock = 0;
 
-struct dataFrame canTp ;
+struct dataFrame UDSFrame ;
 uint8_t timeout = 0;
+
+struct dataFrame sendingUDS;
 
 can_message_t recvMessage;
 void (* currState) ();
@@ -85,23 +88,35 @@ void interrupt_callback(uint32_t instance, can_event_t eventType, uint32_t buffI
         // else{
         // 	currState();
         // }
-        canTp.ready = 1;
-        for(int i =0 ;i<64;i++)
-        {
-            canTp.dataBuffer[i] = recvMessage.data[i];
-        }
+        ready = 1;
+        // for(int i =0 ;i<64;i++)
+        // {
+        //     canTp.dataBuffer[i] = recvMessage.data[i];
+        // }
 	}
-    else if(eventType == CAN_EVENT_TX_COMPLETE){
-        if(currState == handleFlowCtl){
-            currState();
-        }
+    // else if(eventType == CAN_EVENT_TX_COMPLETE){
+    //     if(currState == handleFlowCtl){
+    //         currState();
+    //     }
+    // }
+}
+
+
+
+
+
+void sendFromUDS(void * pv)
+{
+    if(sendingUDS.ready == 1)
+    {
+        send_single_frame(sendingUDS.dataBuffer);
     }
 }
 
 
 void recieve(void * pv)
 {
-    if(canTp.ready == 1)
+    if(ready == 1)
     {
     if(get_type(recvMessage) == SINGLE){
         	handleSingleFrame();
@@ -109,6 +124,7 @@ void recieve(void * pv)
     else if(get_type(recvMessage)!= SINGLE){
         currState();
         }
+        ready = 0;
     }
 
 }
@@ -136,10 +152,10 @@ void handleConsecutiveFrame(){
             dataSize = 0;
             currState = handleFirstFrame;
             curr_buff_idx = 0;
-            canTp.ready = 0;
+            UDSFrame.ready = 0;
             for(int i = 0; i<MAX_TP_SIZE;i++)
             {
-            canTp.dataBuffer[i] = 0;
+            UDSFrame.dataBuffer[i] = 0;
             }
             send_flow_control('E',TX_BUFF_NUM);
          }
@@ -162,10 +178,10 @@ void handleConsecutiveFrame(){
             dataSize = 0;
             currState = handleFirstFrame;
             curr_buff_idx = 0;
-            canTp.ready = 0;
+            UDSFrame.ready = 0;
             for(int i = 0; i<MAX_TP_SIZE;i++)
             {
-            canTp.dataBuffer[i] = 0;
+            UDSFrame.dataBuffer[i] = 0;
             }
             send_flow_control('E',TX_BUFF_NUM);
     }
@@ -173,6 +189,7 @@ void handleConsecutiveFrame(){
     {
         currState = handleFirstFrame;
         curr_buff_idx = 0;
+        UDSFrame.ready = 1;
     }
     CAN_Receive(&can_pal1_instance, RX_BUFF_NUM, &recvMessage);
 }
@@ -181,9 +198,10 @@ void handleSingleFrame(){
 	uint8_t payload[7];
 	uint8_t size = recvMessage.data[0];
 	for(int i=0; i<size ; i++){
-		payload[i] = recvMessage.data[i+1];
+		UDSFrame.dataBuffer[i]  = recvMessage.data[i+1];
 	}
-    UDS_Callback(payload);
+    //UDS_Callback(payload);
+    UDSFrame.ready = 1;
 	CAN_Receive(&can_pal1_instance, RX_BUFF_NUM, &recvMessage);
 
 }
@@ -212,10 +230,10 @@ void timeOutTask(void * pv)
             dataSize = 0;
             currState = handleFirstFrame;
             curr_buff_idx = 0;
-            canTp.ready = 0;
+            UDSFrame.ready = 0;
             for(int i = 0; i<MAX_TP_SIZE;i++)
             {
-            canTp.dataBuffer[i] = 0;
+            UDSFrame.dataBuffer[i] = 0;
             }
             send_flow_control('E',TX_BUFF_NUM);
             timeout = 0x00;
@@ -226,7 +244,7 @@ void timeOutTask(void * pv)
 void readCanTPPayload(uint8_t size,uint8_t start)
 {
     for(uint8_t i = 0 ;  i < size && dataSize > 0 ; i++){
-            dataBuffer[curr_buff_idx ++] = recvMessage.data[i + start];
+            UDSFrame.dataBuffer[curr_buff_idx ++] = recvMessage.data[i + start];
             dataSize--;
        }
 //        curr_buff_idx += size;
