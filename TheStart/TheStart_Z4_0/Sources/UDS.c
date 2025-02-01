@@ -5,10 +5,16 @@ DIAGNOSTIC_SESSION_SUBFUNC currentSession = DEFAULT_SESSION;
 void (*curr_state)();
 uint8_t response[8];
 
+uint8_t send_frame[8];
+
+/* Req Download Variables */
 volatile uint8_t memory_length = 0;
 volatile uint8_t memory_address_size = 0;
 volatile uint32_t mem_start_address = 0;
 volatile uint32_t data_size = 0;
+uint16_t MaxNumberOfBlockLength = 0;
+Transferred_Data UDS_Data = {0, 0, NULL};
+uint8_t block_seq_no = 0; /* Sequence number of current received block */
 
 UDS_SID UDS_Get_type(uint8_t* payload){
     //payload[0] and [1] are for the diagnostic ID
@@ -35,52 +41,79 @@ void UDS_Session_Control(uint8_t* payload){
 
     if(requested_session == PROGRAMMING_SESSION && currentSession == DEFAULT_SESSION){
         currentSession = requested_session;
-
+        
         //set new SW Flag
         //execute reset
     }
 }
 
-/******************** NEW ******************/
 /* Assuming payload[0] is SID */
+/* Receives frame of type Request_Download from the client */
+void UDS_Request_Download(uint8_t* payload){
+    currentSession = PROGRAMMING_SESSION;
+    memory_length = data[2]>>4; /* Defines number of bytes of MEMORY LENGTH parameter */
+    memory_address_size = data[2] & 0x0F; /* Defines number of bytes of MEMORY ADDRESS parameter*/
+    mem_start_address = 0;
+    data_size = 0; /* specifies the total size of the data that will be transferred during the subsequent */    
+    for(int i=3; i<3+memory_length ;i++){
+        mem_start_address <<= 8;
+        mem_start_address |= data[i];
+    }
+        for(int i=3+memory_length; i<7+memory_address_size ;i++){
+        data_size <<= 8;
+        data_size |= data[i];
+    }
+    /* Do memory adressing range check */
+    
+    /* +ve Response */
+    response[1] = 0x74; /* +ve SID */
+    response[2] = 0x20; /* maxNumberOfBlockLength = 2 bytes, followed by reserved 4 bits = 0 */ 
+    response[3] = 0x0F; /* 1st byte */
+    response[4] = 0xFA; /* 2nd byte  0x0FFA = 4090 ... max size to be transmitted using Transfer Data service */
+    MaxNumberOfBlockLength = reponse[3] << 8 | response[4];
+    /* Get following parameters for +ve response:
+        1. RSID = 0x74.
+        2. length (number of bytes) of the maxNumberOfBlockLength parameter.
+        3. 0x0 (reserved).
+        4. convey the maxNumberOfBlockLength for each TransferData request to the client. This length encompasses the service identifier
+            and data parameters within the TransferData request message. The parameter serves the purpose of enabling the client to adapt 
+            to the server’s receive buffer size before initiating the data transfer process.
+        e.g: 74 20 0F FA
+    */
+    /* Send positive response */
+
+    /* Store in flash the following variables
+        1. mem_start_address
+        2. data_size
+    */
+    /* Reset */ 
+}
+
 /* Receives frame of type Transfer Data from the client */
 void UDS_Transfer_Data(uint8_t* payload){
-        if(SID == REQUEST_DOWNLOAD && currentSession == PROGRAMMING_SESSION){
-        currentSession = PROGRAMMING_SESSION;
-        memory_length = data[2]>>4; /* Defines number of bytes of MEMORY LENGTH parameter */
-        memory_address_size = data[2] & 0x0F; /* Defines number of bytes of MEMORY ADDRESS parameter*/
-        mem_start_address = 0;
-        data_size = 0;
-        for(int i=3; i<3+memory_length ;i++){
-            mem_start_address <<= 8;
-            mem_start_address |= data[i];
-        }
-            for(int i=3+memory_length; i<7+memory_address_size ;i++){
-            data_size <<= 8;
-            data_size |= data[i];
-        }
-        /* Do memory adressing range check */
-        
-        /* Get following parameters for +ve response:
-            1. RSID = 0x74.
-            2. length (number of bytes) of the maxNumberOfBlockLength parameter.
-            3. 0x0 (reserved).
-            4. convey the maxNumberOfBlockLength for each TransferData request to the client. This length encompasses the service identifier
-               and data parameters within the TransferData request message. The parameter serves the purpose of enabling the client to adapt 
-               to the server’s receive buffer size before initiating the data transfer process.
-            e.g: 74 20 0F FA
-        */
 
-        /* Send positive response */
-
-        
-        /* Store in flash the following variables
-            1. mem_start_address
-            2. data_size
-        */
-        /* Reset */
+    currentSession = PROGRAMMING_SESSION;
+    if( UDS_Data.seq_number == 15 && payload[1] == 0){
+        UDS_Data.seq_number = payload[1];
+        UDS_Data.isValid = 1;
+        for(int i=0 ; i<MaxNumberOfBlockLength; i++){
+            data[i] = payload[2+i];
+        }
+        /* +ve Response */
+        response[1] = 0x76;
+        response[2] = UDS_Data.seq_number;
+    }else if(payload[1] == ((UDS_Data.seq_number) + 1)){
+        UDS_Data.seq_number = payload[1];
+        UDS_Data.isValid = 1;
+        for(int i=0 ; i<MaxNumberOfBlockLength; i++){
+            data[i] = payload[2+i];
+        }
+        /* +ve Response */
+        response[1] = 0x76;
+        response[2] = UDS_Data.seq_number;
+    }else{
+        /* -ve response */
     }
-    
 }
 
 void UDS_ECU_Reset(uint8_t* payload){
@@ -116,6 +149,9 @@ void UDS_Receive(uint8_t *data){
 //        }
     }
     if(SID == REQUEST_DOWNLOAD && currentSession == PROGRAMMING_SESSION){
+        UDS_Request_Download(data);
+    }
+    if(SID == TRANSFER_DATA && currentSession == PROGRAMMING_SESSION){
         UDS_Transfer_Data(data);
     }
 //    else if(SID == TRANSFER_DATA && Subfunc_ID == PROGRAMMING_SESSION){

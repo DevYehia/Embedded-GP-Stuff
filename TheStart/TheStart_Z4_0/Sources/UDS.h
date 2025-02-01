@@ -32,6 +32,12 @@ typedef enum COMMUNICATION_CONTROL_SUBFUNC {
     DIS_RX_DIS_TX = 0X03
 } COMMUNICATION_CONTROL_SUBFUNC;
 
+typedef struct UDS_Data{
+    uint8_t isValid;
+    uint8_t seq_number;
+    uint8_t *data;
+} Transferred_Data;
+
 void UDS_Receive();
 void UDS_Init(can_instance_t* can_pal1_instance, can_user_config_t* can_pal1_Config0);
 
@@ -44,5 +50,9 @@ void UDS_Session_Control(uint8_t* payload);
 void UDS_ECU_Reset(uint8_t* payload);
 
 void UDS_Create_response(uint8_t* request);
+
+/********************* NEW **********************8*/
+void UDS_Request_Download(uint8_t* payload);
+void UDS_Transfer_Data(uint8_t* payload);
 
 #endif
