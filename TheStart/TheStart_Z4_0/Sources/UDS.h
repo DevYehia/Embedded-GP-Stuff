@@ -3,6 +3,17 @@
 
 #include "CanTP.h"
 
+//HELPER MACROS
+#define PADDING 0xAA
+#define RESPONSE_BUFF_SIZE 8
+
+#define DID_LOW_BYTE_POS 2
+#define DID_HIGH_BYTE_POS 3
+#define getSID(buffer) (buffer[1])
+
+
+
+
 typedef enum UDS_SID {
     DIAGNOSTIC_SESSION_CONTROL = 0X10, 
     ECU_RESET=0X11,
@@ -32,11 +43,22 @@ typedef enum COMMUNICATION_CONTROL_SUBFUNC {
     DIS_RX_DIS_TX = 0X03
 } COMMUNICATION_CONTROL_SUBFUNC;
 
+typedef enum NRC{
+    GENERAL_REJECT = 0x10,
+    SERVICE_NOT_SUPPORTED = 0x11,
+    SUB_FUNC_NOT_SUPPORTED = 0x12,
+    WRONG_MSG_LEN_OR_FORMAT = 0x13,
+    CONDITIONS_NOT_CORRECCT = 0x22,
+    REQ_OUT_OF_RANGE = 0x31
+} NRC;
+
 typedef struct UDS_Data{
     uint8_t isValid;
     uint8_t seq_number;
     uint8_t *data;
 } Transferred_Data;
+
+
 
 void UDS_Receive();
 void UDS_Init(can_instance_t* can_pal1_instance, can_user_config_t* can_pal1_Config0);
@@ -49,7 +71,12 @@ void UDS_Session_Control(uint8_t* payload);
 
 void UDS_ECU_Reset(uint8_t* payload);
 
-void UDS_Create_response(uint8_t* request);
+void UDS_Read_by_ID(uint8_t* payload);
+void UDS_Write_by_ID(uint8_t* payload);
+
+/************RESPONSE APIs*************/
+void UDS_Create_pos_response(uint8_t* request);
+void UDS_Create_neg_response(uint8_t* request);
 
 /********************* NEW **********************8*/
 void UDS_Request_Download(uint8_t* payload);

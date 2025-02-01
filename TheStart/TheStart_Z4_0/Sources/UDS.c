@@ -3,7 +3,8 @@
 UDS_SID SID = 0;
 DIAGNOSTIC_SESSION_SUBFUNC currentSession = DEFAULT_SESSION;
 void (*curr_state)();
-uint8_t response[8];
+void (*send_lower_layer)(uint8_t*);
+uint8_t response[RESPONSE_BUFF_SIZE];
 
 uint8_t send_frame[8];
 
@@ -21,22 +22,33 @@ UDS_SID UDS_Get_type(uint8_t* payload){
     return payload[2];
 }
 
-void UDS_Create_response(uint8_t* request){
+void UDS_Create_pos_response(uint8_t* request){
     for(int i = 0 ; i < 8 ; i++){
         response[i] = request[i];
     }
     response[2] += 0x40;
 }
 
+void UDS_Create_neg_response(uint8_t* request, NRC neg_code){
+    response[0] = 0x7F;
+    response[1] = getSID(request);
+    response[2] = neg_code;
+    for(int i = 3 ; i < RESPONSE_BUFF_SIZE ; i++){
+        response[i] = PADDING;
+    }
+
+}
+
 void UDS_Session_Control(uint8_t* payload){
     DIAGNOSTIC_SESSION_SUBFUNC requested_session = payload[3];
     if(requested_session != DEFAULT_SESSION && requested_session != PROGRAMMING_SESSION){
         //send negative response
+        UDS_Create_neg_response(payload, SUB_FUNC_NOT_SUPPORTED);
+        send_lower_layer(response);
     }
     else{
-    UDS_Create_response(payload);
-
-    send_single_frame(response);
+        UDS_Create_response(payload);
+        send_lower_layer(response);
     }
 
     if(requested_session == PROGRAMMING_SESSION && currentSession == DEFAULT_SESSION){
@@ -45,6 +57,11 @@ void UDS_Session_Control(uint8_t* payload){
         //set new SW Flag
         //execute reset
     }
+}
+
+void UDS_Read_by_ID(uint8_t* payload){
+    uint16_t requested_ID = (uint16_t)payload[DID_HIGH_BYTE_POS] << 8 | payload[DID_LOW_BYTE_POS];
+    
 }
 
 /* Assuming payload[0] is SID */
@@ -132,7 +149,8 @@ void UDS_ECU_Reset(uint8_t* payload){
 
 }
 
-void UDS_Init(can_instance_t* can_pal1_instance, can_user_config_t* can_pal1_Config0){
+void UDS_Init(can_instance_t* can_pal1_instance, can_user_config_t* can_pal1_Config0, void (*lower_send)(uint8_t*)){
+    send_lower_layer = lower_send;
     CanTP_init(can_pal1_instance,can_pal1_Config0, UDS_Receive);
 }
 
