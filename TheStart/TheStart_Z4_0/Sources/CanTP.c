@@ -82,13 +82,13 @@ uint8_t get_payload_size(uint8_t *payload){
 
 void interrupt_callback(uint32_t instance, can_event_t eventType, uint32_t buffIdx, void *driverState){
     if(eventType == CAN_EVENT_RX_COMPLETE){
+        ready = 1;
         // if(get_type(recvMessage) == SINGLE){
         // 	handleSingleFrame();
         // }
         // else{
         // 	currState();
         // }
-        ready = 1;
         // for(int i =0 ;i<64;i++)
         // {
         //     canTp.dataBuffer[i] = recvMessage.data[i];
@@ -126,6 +126,12 @@ void recieve(void * pv)
         }
         ready = 0;
     }
+    //delay here 10ms
+    timeout++;
+    if(timeout >= 100)
+    {
+        timeOutHandle();
+    }
 
 }
 
@@ -134,16 +140,6 @@ void handleConsecutiveFrame(){
     if(type == CONSECUTIVE){
          if((prevblock + 1 ) == (recvMessage.data[0] & 0X2F) )
          {
-            if(timeout == 0x11)
-            {
-                //deletetask
-                timeout = 0X00;
-            }
-            else if(timeout == 0x00)
-            {
-                //create time out task
-                timeout = 0x11;
-            }
             readCanTPPayload(consecutiveFrameSize,startConsecutive);
          }
 
@@ -224,7 +220,7 @@ void handleFirstFrame(){
 
 
 
-void timeOutTask(void * pv)
+void timeOutHandle()
 {
    
             dataSize = 0;
