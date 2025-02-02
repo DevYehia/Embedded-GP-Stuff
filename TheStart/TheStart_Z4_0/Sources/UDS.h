@@ -13,8 +13,6 @@
 #define getSID(buffer) (buffer[1])
 
 
-
-
 typedef enum UDS_SID {
     DIAGNOSTIC_SESSION_CONTROL = 0X10, 
     ECU_RESET=0X11,
@@ -26,6 +24,7 @@ typedef enum UDS_SID {
     TRANSFER_DATA = 0X36, 
     REQUEST_TRANSFER_EXIT = 0X37
 } UDS_SID;
+
 typedef enum DIAGNOSTIC_SESSION_SUBFUNC {
     DEFAULT_SESSION = 0X01 ,
     PROGRAMMING_SESSION = 0X02
@@ -49,8 +48,11 @@ typedef enum NRC{
     SERVICE_NOT_SUPPORTED = 0x11,
     SUB_FUNC_NOT_SUPPORTED = 0x12,
     WRONG_MSG_LEN_OR_FORMAT = 0x13,
-    CONDITIONS_NOT_CORRECCT = 0x22,
-    REQ_OUT_OF_RANGE = 0x31
+    CONDITIONS_NOT_CORRECT = 0x22,
+    REQ_SEQ_ERROR = 0x24,
+    REQ_OUT_OF_RANGE = 0x31,
+    SECURITY_ACCESS_DENIED = 0x33, /* still unused */
+    UPLOAD_DOWNLOAD_NOT_ACCEPTED = 0x70
 } NRC;
 
 typedef struct UDS_Data{
@@ -59,7 +61,11 @@ typedef struct UDS_Data{
     uint8_t *data;
 } Transferred_Data;
 
-
+typedef struct BootLoader_Data{
+        uint32_t mem_start_address;
+        uint32_t total_size; /* Total size of data to be received 0 ~ 4095*/
+        uint16_t MaxNumberBlockLength; /* Max size to be received with each Transfer Data service request */
+} BL_Data;
 
 void UDS_Receive();
 void UDS_Init(can_instance_t* can_pal1_instance, can_user_config_t* can_pal1_Config0);
@@ -75,12 +81,12 @@ void UDS_ECU_Reset(uint8_t* payload);
 void UDS_Read_by_ID(uint8_t* payload);
 void UDS_Write_by_ID(uint8_t* payload);
 
+
+void UDS_Request_Download(uint8_t* payload);
+void UDS_Transfer_Data(uint8_t* payload);
+
 /************RESPONSE APIs*************/
 void UDS_Create_pos_response(uint8_t* request);
 void UDS_Create_neg_response(uint8_t* request);
-
-/********************* NEW **********************8*/
-void UDS_Request_Download(uint8_t* payload);
-void UDS_Transfer_Data(uint8_t* payload);
 
 #endif
