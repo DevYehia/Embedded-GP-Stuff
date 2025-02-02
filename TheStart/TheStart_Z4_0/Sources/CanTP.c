@@ -118,6 +118,7 @@ void recieve(void * pv)
 {
     if(ready == 1)
     {
+        timeout = 0;
     if(get_type(recvMessage) == SINGLE){
         	handleSingleFrame();
         }
