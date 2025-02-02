@@ -9,6 +9,7 @@
 
 #define DID_LOW_BYTE_POS 2
 #define DID_HIGH_BYTE_POS 3
+#define DATA_START_POS 4
 #define getSID(buffer) (buffer[1])
 
 

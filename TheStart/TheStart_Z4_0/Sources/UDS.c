@@ -61,7 +61,17 @@ void UDS_Session_Control(uint8_t* payload){
 
 void UDS_Read_by_ID(uint8_t* payload){
     uint16_t requested_ID = (uint16_t)payload[DID_HIGH_BYTE_POS] << 8 | payload[DID_LOW_BYTE_POS];
-    
+    UDS_Create_pos_response(payload);
+    response[DATA_START_POS] = 0xAB; //TODO Replace with actual identifier
+    send_lower_layer(response);
+}
+
+void UDS_Write_by_ID(uint8_t* payload){
+    uint16_t requested_ID = (uint16_t)payload[DID_HIGH_BYTE_POS] << 8 | payload[DID_LOW_BYTE_POS];
+    uint8_t data = payload[DATA_START_POS];
+    UDS_Create_pos_response(payload);
+    response[DATA_START_POS] = PADDING;
+    send_lower_layer(response);    
 }
 
 /* Assuming payload[0] is SID */
