@@ -27,7 +27,7 @@ void (* UDS_Callback)();
 void send_flow_control(char type,uint32_t buffIdx)
 {
     can_message_t message;
-    message.id = 0x000;      //set later with tooling for HMI or application
+    message.id = 0x33;      //set later with tooling for HMI or application
     message.length = 8;
     if(type == 'E')
     {
@@ -38,7 +38,7 @@ void send_flow_control(char type,uint32_t buffIdx)
         message.data[0] = 0x30;
     }
     message.data[1]= 0x00; // block size
-    message.data[2] = 0x05;
+    message.data[2] = 0x0A; //st min
     for(int i = 3;i<8;i++)
     {
         message.data[i] = 0xAA;
@@ -46,15 +46,20 @@ void send_flow_control(char type,uint32_t buffIdx)
     CAN_Send(can_instance,buffIdx,&message);
 }
 
-void send_single_frame(uint8_t *payload){
+void send_single_frame(uint8_t *payload,uint32_t buffIdx){
 	can_message_t message;
-	message.id = 0x000;      //set later with tooling for HMI or application
+	message.id = 0x33;      //set later with tooling for HMI or application
 	message.length = 8;
-	message.data[0] = get_payload_size(payload);
-    for(int i = 1;i<8;i++)
+	message.data[0] = (0x0F<<4) & sendingUDS.dataSize;
+    for(int i = 1;i<sendingUDS.dataSize;i++)
     {
         message.data[i] = payload[i];
     }
+    for(int i = sendingUDS.dataSize;i<8;i++)
+    {
+        message.data[i] = 0xAA;
+    }
+    CAN_Send(can_instance,buffIdx,&message);
 }
 
 CANTP_Frame_Types get_type(can_message_t message)
@@ -109,7 +114,7 @@ void sendFromUDS(void * pv)
 {
     if(sendingUDS.ready == 1)
     {
-        send_single_frame(sendingUDS.dataBuffer);
+        send_single_frame(sendingUDS.dataBuffer,TX_BUFF_NUM);
     }
 }
 
