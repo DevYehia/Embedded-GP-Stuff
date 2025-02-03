@@ -137,7 +137,7 @@ void UDS_Write_by_ID(){
         return;
     }
     write_data_by_ID(requested_ID, data);
-    UDS_Create_pos_response(payload);
+    UDS_Create_pos_response(NOTREADY);
     responseFrame.dataBuffer[DID_HIGH_BYTE_POS] = requestFrame.dataBuffer[DID_HIGH_BYTE_POS];
     responseFrame.dataBuffer[DID_LOW_BYTE_POS] = requestFrame.dataBuffer[DID_LOW_BYTE_POS];
     responseFrame.dataSize = 4;
@@ -193,10 +193,12 @@ void UDS_Request_Download(){
     /* Do memory adressing range check .. if invalid NRC: REQ_OUT_OF_RANGE*/
     //else{
         /* +ve Response */
+        UDS_Create_pos_response(NOTREADY); /* isReady parameter is set to 0*/
         responseFrame.dataBuffer[SID_POS] = 0x74; /* +ve SID */
         responseFrame.dataBuffer[1] = 0x20; /* MaxNumberBlockLength = 2 bytes, followed by reserved 4 bits = 0 */ 
         responseFrame.dataBuffer[2] = 0x0F; /* 1st byte */
         responseFrame.dataBuffer[3] = 0xFA; /* 2nd byte  0x0FFA = 4090 ... max size in bytes (including SID) to be transmitted using Transfer Data service */
+        responseFrame.ready = READY;
         BL_data.MaxNumberBlockLength = responseFrame.dataBuffer[2] << 8 | responseFrame.dataBuffer[3];
         /*  convey the MaxNumberBlockLength for each TransferData request to the client. This length encompasses the service identifier
                 and data parameters within the TransferData request message. The parameter serves the purpose of enabling the client to adapt 
@@ -237,8 +239,9 @@ void UDS_Transfer_Data(){
             responseFrame.dataBuffer[i] = requestFrame.dataBuffer[2+i];
         }
         /* +ve Response */
-        responseFrame.dataBuffer[SID_POS] = 0x76;
+        UDS_Create_pos_response(NOTREADY);
         responseFrame.dataBuffer[1] = UDS_Data.seq_number;
+        responseFrame.ready = READY;
     }else{
         UDS_Create_neg_response(REQ_SEQ_ERROR);
     }
