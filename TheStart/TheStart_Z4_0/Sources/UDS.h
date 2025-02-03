@@ -112,7 +112,7 @@ void UDS_Write_by_ID();
 
 void UDS_Request_Download();
 void UDS_Transfer_Data();
-
+void UDS_Request_Transfer_Exit();
 /************RESPONSE APIs*************/
 void UDS_Create_pos_response(uint8_t isReady);
 void UDS_Create_neg_response(NRC neg_code);
