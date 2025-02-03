@@ -22,6 +22,42 @@ Transferred_Data UDS_Data = {0, 0, NULL};
 uint8_t block_seq_no = 0; /* Sequence number of current received block */
 
 
+static DID_Found_Status checkIfIDExists(DID ID){
+    switch (ID){
+        case CURR_SESSION_ID:
+            return FOUND;
+
+        default:
+            return NOT_FOUND;
+
+    }
+}
+
+//returns data by ID
+static uint8_t get_data_by_ID(DID ID){
+    switch (ID){
+        case CURR_SESSION_ID:
+            return currentSession;
+
+        default:
+            return NOT_DEFINED_ID;
+
+    }
+
+}
+
+static void write_data_by_ID(DID ID, uint8_t data){
+    switch (ID){
+        case CURR_SESSION_ID:
+            currentSession = data;
+            break;
+
+        default:
+            break;
+
+    }    
+}
+
 void UDS_Create_pos_response(uint8_t isReady){
 
 
@@ -73,8 +109,17 @@ void UDS_Read_by_ID(){
     UDS_Create_pos_response(NOTREADY);
     responseFrame.dataBuffer[DID_HIGH_BYTE_POS] = requestFrame.dataBuffer[DID_HIGH_BYTE_POS];
     responseFrame.dataBuffer[DID_LOW_BYTE_POS] = requestFrame.dataBuffer[DID_LOW_BYTE_POS];
-    //Return current session
-    responseFrame.dataBuffer[DATA_START_POS] = currentSession; //TODO Replace with actual identifier
+
+    
+    //Return Data By ID
+    uint8_t status = checkIfIDExists(requested_ID);
+    if(status == NOT_FOUND){
+        UDS_Create_neg_response(GENERAL_REJECT);
+        return;
+    }
+    uint8_t data = get_data_by_ID(requested_ID);
+
+    responseFrame.dataBuffer[DATA_START_POS]; //TODO Replace with actual identifier
     responseFrame.dataSize = 5;
     responseFrame.ready = READY;
 
@@ -86,6 +131,12 @@ void UDS_Write_by_ID(){
     uint8_t data = payload[DATA_START_POS];
 
     //make response
+    uint8_t status = checkIfIDExists(requested_ID);
+    if(status == NOT_FOUND){
+        UDS_Create_neg_response(GENERAL_REJECT);
+        return;
+    }
+    write_data_by_ID(requested_ID, data);
     UDS_Create_pos_response(payload);
     responseFrame.dataBuffer[DID_HIGH_BYTE_POS] = requestFrame.dataBuffer[DID_HIGH_BYTE_POS];
     responseFrame.dataBuffer[DID_LOW_BYTE_POS] = requestFrame.dataBuffer[DID_LOW_BYTE_POS];
