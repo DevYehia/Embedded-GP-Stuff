@@ -87,7 +87,10 @@ uint8_t get_payload_size(uint8_t *payload){
 
 void interrupt_callback(uint32_t instance, can_event_t eventType, uint32_t buffIdx, void *driverState){
     if(eventType == CAN_EVENT_RX_COMPLETE){
-        ready = 1;
+        if(recvMessage.id == 0X33)
+        {
+             ready = 1;
+        }
         // if(get_type(recvMessage) == SINGLE){
         // 	handleSingleFrame();
         // }
