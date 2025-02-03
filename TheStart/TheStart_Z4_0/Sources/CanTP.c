@@ -50,12 +50,12 @@ void send_single_frame(uint8_t *payload,uint32_t buffIdx){
 	can_message_t message;
 	message.id = 0x33;      //set later with tooling for HMI or application
 	message.length = 8;
-	message.data[0] = (0x0F<<4) & sendingUDS.dataSize;
-    for(int i = 1;i<sendingUDS.dataSize;i++)
+	message.data[0] = (0x0F<<4) & sendingUDS->dataSize;
+    for(int i = 1;i<sendingUDS->dataSize;i++)
     {
         message.data[i] = payload[i];
     }
-    for(int i = sendingUDS.dataSize;i<8;i++)
+    for(int i = sendingUDS->dataSize;i<8;i++)
     {
         message.data[i] = 0xAA;
     }
@@ -112,9 +112,9 @@ void interrupt_callback(uint32_t instance, can_event_t eventType, uint32_t buffI
 
 void sendFromUDS(void * pv)
 {
-    if(sendingUDS.ready == 1)
+    if(sendingUDS->ready == 1)
     {
-        send_single_frame(sendingUDS.dataBuffer,TX_BUFF_NUM);
+        send_single_frame(sendingUDS->dataBuffer,TX_BUFF_NUM);
     }
 }
 
@@ -155,10 +155,10 @@ void handleConsecutiveFrame(){
             dataSize = 0;
             currState = handleFirstFrame;
             curr_buff_idx = 0;
-            UDSFrame.ready = 0;
+            UDSFrame->ready = 0;
             for(int i = 0; i<MAX_TP_SIZE;i++)
             {
-            UDSFrame.dataBuffer[i] = 0;
+            UDSFrame->dataBuffer[i] = 0;
             }
             send_flow_control('E',TX_BUFF_NUM);
          }
@@ -181,10 +181,10 @@ void handleConsecutiveFrame(){
             dataSize = 0;
             currState = handleFirstFrame;
             curr_buff_idx = 0;
-            UDSFrame.ready = 0;
+            UDSFrame->ready = 0;
             for(int i = 0; i<MAX_TP_SIZE;i++)
             {
-            UDSFrame.dataBuffer[i] = 0;
+            UDSFrame->dataBuffer[i] = 0;
             }
             send_flow_control('E',TX_BUFF_NUM);
     }
@@ -192,7 +192,7 @@ void handleConsecutiveFrame(){
     {
         currState = handleFirstFrame;
         curr_buff_idx = 0;
-        UDSFrame.ready = 1;
+        UDSFrame->ready = 1;
     }
     CAN_Receive(&can_pal1_instance, RX_BUFF_NUM, &recvMessage);
 }
@@ -201,10 +201,10 @@ void handleSingleFrame(){
 	uint8_t payload[7];
 	uint8_t size = recvMessage.data[0];
 	for(int i=0; i<size ; i++){
-		UDSFrame.dataBuffer[i]  = recvMessage.data[i+1];
+		UDSFrame->dataBuffer[i]  = recvMessage.data[i+1];
 	}
     //UDS_Callback(payload);
-    UDSFrame.ready = 1;
+    UDSFrame->ready = 1;
 	CAN_Receive(&can_pal1_instance, RX_BUFF_NUM, &recvMessage);
 
 }
@@ -219,7 +219,7 @@ void handleFirstFrame(){
     CANTP_Frame_Types type = get_type(recvMessage);
     if(type == FIRST){
         dataSize = get_size(recvMessage);
-        UDSFrame.dataSize = dataSize;
+        UDSFrame->dataSize = dataSize;
         currState = handleFlowCtl;
         readCanTPPayload(firstFrameSize,startFirst);
         send_flow_control('A',TX_BUFF_NUM);
@@ -233,11 +233,11 @@ void timeOutHandle()
             dataSize = 0;
             currState = handleFirstFrame;
             curr_buff_idx = 0;
-            UDSFrame.ready = 0;
-            UDSFrame.dataSize = 0;
+            UDSFrame->ready = 0;
+            UDSFrame->dataSize = 0;
             for(int i = 0; i<MAX_TP_SIZE;i++)
             {
-            UDSFrame.dataBuffer[i] = 0;
+            UDSFrame->dataBuffer[i] = 0;
             }
             send_flow_control('E',TX_BUFF_NUM);
             timeout = 0;
@@ -247,7 +247,7 @@ void timeOutHandle()
 void readCanTPPayload(uint8_t size,uint8_t start)
 {
     for(uint8_t i = 0 ;  i < size && dataSize > 0 ; i++){
-            UDSFrame.dataBuffer[curr_buff_idx ++] = recvMessage.data[i + start];
+            UDSFrame->dataBuffer[curr_buff_idx ++] = recvMessage.data[i + start];
             dataSize--;
        }
 //        curr_buff_idx += size;
