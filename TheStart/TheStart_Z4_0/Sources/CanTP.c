@@ -155,7 +155,7 @@ void handleConsecutiveFrame(){
     if(type == CONSECUTIVE){
          if((prevblock + 1 ) == (recvMessage.data[0] & 0X2F) )
          {
-            prevblock++;
+            prevblock= (prevblock + 1)%16;
             readCanTPPayload(consecutiveFrameSize,startConsecutive);
          }
 
