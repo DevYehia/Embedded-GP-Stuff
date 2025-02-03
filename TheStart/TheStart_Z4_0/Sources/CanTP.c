@@ -37,7 +37,7 @@ void send_flow_control(char type,uint32_t buffIdx)
     {
         message.data[0] = 0x30;
     }
-    message.data[1]= 0x04; // block size
+    message.data[1]= 0x00; // block size
     message.data[2] = 0x05;
     for(int i = 3;i<8;i++)
     {
@@ -141,6 +141,7 @@ void handleConsecutiveFrame(){
     if(type == CONSECUTIVE){
          if((prevblock + 1 ) == (recvMessage.data[0] & 0X2F) )
          {
+            prevblock++;
             readCanTPPayload(consecutiveFrameSize,startConsecutive);
          }
 
@@ -213,6 +214,7 @@ void handleFirstFrame(){
     CANTP_Frame_Types type = get_type(recvMessage);
     if(type == FIRST){
         dataSize = get_size(recvMessage);
+        UDSFrame.dataSize = dataSize;
         currState = handleFlowCtl;
         readCanTPPayload(firstFrameSize,startFirst);
         send_flow_control('A',TX_BUFF_NUM);
@@ -223,18 +225,17 @@ void handleFirstFrame(){
 
 void timeOutHandle()
 {
-   
             dataSize = 0;
             currState = handleFirstFrame;
             curr_buff_idx = 0;
             UDSFrame.ready = 0;
+            UDSFrame.dataSize = 0;
             for(int i = 0; i<MAX_TP_SIZE;i++)
             {
             UDSFrame.dataBuffer[i] = 0;
             }
             send_flow_control('E',TX_BUFF_NUM);
-            timeout = 0x00;
-            //delete self
+            timeout = 0;
 }
 
 //save payload
@@ -247,15 +248,21 @@ void readCanTPPayload(uint8_t size,uint8_t start)
 //        curr_buff_idx += size;
 }
 
-void CanTP_init(can_instance_t* can_pal_instance, can_user_config_t* can_pal_Config, void (*ptr_func)(uint8_t *) )
+void CanTP_init()
 {
-    UDS_Callback = ptr_func;
+    //UDS_Callback = ptr_func;
+    // can_instance = can_pal_instance;
+    currState = handleFirstFrame;
+
+}
+
+void Can_init(can_instance_t* can_pal_instance, can_user_config_t* can_pal_Config)
+{
     can_instance = can_pal_instance;
     CAN_Init(can_pal_instance, can_pal_Config);
     CAN_InstallEventCallback(can_pal_instance, interrupt_callback, NULL);
     can_buff_config_t buffConf = {false, false, 0xAA, CAN_MSG_ID_STD, false};
     CAN_ConfigRxBuff(&can_pal1_instance, RX_BUFF_NUM, &buffConf, 0x3);
     CAN_Receive(&can_pal1_instance, RX_BUFF_NUM, &recvMessage);
-    currState = handleFirstFrame;
-
 }
+

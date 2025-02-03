@@ -65,6 +65,16 @@ int main(void)
   #endif
   /*** End of Processor Expert internal initialization.                    ***/
 
+
+    /* Initialize clocks */
+    CLOCK_SYS_Init(g_clockManConfigsArr,   CLOCK_MANAGER_CONFIG_CNT,
+  		 g_clockManCallbacksArr, CLOCK_MANAGER_CALLBACK_CNT);
+    CLOCK_SYS_UpdateConfiguration(0U, CLOCK_MANAGER_POLICY_AGREEMENT);
+
+
+
+
+
   /* Write your code here */
   /* For example: for(;;) { } */
     CLOCK_DRV_Init(&clockMan1_InitConfig0);

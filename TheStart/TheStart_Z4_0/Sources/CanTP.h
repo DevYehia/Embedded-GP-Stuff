@@ -20,9 +20,10 @@ struct dataFrame
 {
     uint8_t ready;
     uint8_t dataBuffer[MAX_TP_SIZE];
+    uint8_t dataSize;
 };
 
-void CanTP_init(can_instance_t* can_pal1_instance, can_user_config_t* can_pal1_Config0, void (*ptr_func)(uint8_t *) );
+void CanTP_init();
 
 //Send control frame
 //TODO handle differnet cases of FS
