@@ -2,6 +2,7 @@
 #define CANTP_H
 
 #include "can_pal1.h"
+#include "frameTypes.h"
 
 
 #define TX_BUFF_NUM 1
@@ -16,12 +17,6 @@
 #define startConsecutive 1
 
 
-struct dataFrame
-{
-    uint8_t ready;
-    uint8_t dataBuffer[MAX_TP_SIZE];
-    uint8_t dataSize;
-};
 
 void CanTP_init();
 
