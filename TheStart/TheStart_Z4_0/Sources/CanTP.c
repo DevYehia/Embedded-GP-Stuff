@@ -15,10 +15,10 @@ uint8_t ready = 0;
 
 uint8_t prevblock = 0;
 
-struct dataFrame UDSFrame ;
+dataFrame* UDSFrame ;
 uint8_t timeout = 0;
 
-struct dataFrame sendingUDS;
+dataFrame* sendingUDS;
 
 can_message_t recvMessage;
 void (* currState) ();
@@ -253,10 +253,12 @@ void readCanTPPayload(uint8_t size,uint8_t start)
 //        curr_buff_idx += size;
 }
 
-void CanTP_init()
+void CanTP_init(dataFrame* sendingBuffer, dataFrame* recieveBuffer)
 {
     //UDS_Callback = ptr_func;
     // can_instance = can_pal_instance;
+    sendingUDS = sendingBuffer;
+    UDSFrame = recieveBuffer;
     currState = handleFirstFrame;
 
 }

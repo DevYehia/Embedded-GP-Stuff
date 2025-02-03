@@ -6,7 +6,12 @@ UDS_SID prev_SID = 0;
 DIAGNOSTIC_SESSION_SUBFUNC currentSession = DEFAULT_SESSION;
 void (*curr_state)();
 void (*send_lower_layer)(uint8_t*);
-uint8_t response[RESPONSE_BUFF_SIZE];
+
+
+//UDS Buffers
+//uint8_t response[RESPONSE_BUFF_SIZE];
+dataFrame requestFrame;
+dataFrame responseFrame;
 
 uint8_t send_frame[8];
 
@@ -16,42 +21,42 @@ BL_Data BL_data = {0,0,0};
 Transferred_Data UDS_Data = {0, 0, NULL};
 uint8_t block_seq_no = 0; /* Sequence number of current received block */
 
-UDS_SID UDS_Get_type(uint8_t* payload){
-    //payload[0] and [1] are for the diagnostic ID
-    return payload[2];
-}
 
-void UDS_Create_pos_response(uint8_t* request){
-    for(int i = 0 ; i < 8 ; i++){
-        response[i] = request[i];
-    }
-    response[2] += 0x40;
-}
+void UDS_Create_pos_response(uint8_t isReady){
 
-void UDS_Create_neg_response(uint8_t* request, NRC neg_code){
-    response[0] = 0x7F;
-    response[1] = getSID(request);
-    response[2] = neg_code;
-    for(int i = 3 ; i < RESPONSE_BUFF_SIZE ; i++){
-        response[i] = PADDING;
-    }
+
+    responseFrame.dataBuffer[SID_POS] = requestFrame.dataBuffer[SID_POS] + 0x40;
+    responseFrame.dataBuffer[SUB_BYTE_POS] = requestFrame.dataBuffer[SUB_BYTE_POS];
+    responseFrame.dataSize = 2;
+
+    responseFrame.ready = isReady;
 
 }
 
-void UDS_Session_Control(uint8_t* payload){
-    DIAGNOSTIC_SESSION_SUBFUNC requested_session = payload[3];
+void UDS_Create_neg_response(NRC neg_code){
+    responseFrame.dataBuffer[0] = 0x7F;
+    responseFrame.dataBuffer[1] = requestFrame.dataBuffer[SID_POS];
+    responseFrame.dataBuffer[2] = neg_code;
+    responseFrame.dataBuffer[3] = requestFrame.dataBuffer[SUB_BYTE_POS];
+    responseFrame.dataSize = 4;
+    responseFrame.ready = 1;
+
+}
+
+void UDS_Session_Control(){
+    DIAGNOSTIC_SESSION_SUBFUNC requested_session = requestFrame.dataBuffer[SUB_BYTE_POS];
     if(requested_session != DEFAULT_SESSION && requested_session != PROGRAMMING_SESSION){
-        //send negative response
-        UDS_Create_neg_response(payload, SUB_FUNC_NOT_SUPPORTED);
-        send_lower_layer(response);
+        UDS_Create_neg_response(SUB_FUNC_NOT_SUPPORTED);
+        return;
     }
     else{
-        UDS_Create_response(payload);
-        send_lower_layer(response);
+        UDS_Create_response(READY);
     }
 
     if(requested_session == PROGRAMMING_SESSION && currentSession == DEFAULT_SESSION){
         currentSession = requested_session;
+
+        Do_Reset(SOFT_RESET);
         
         //set new SW Flag
         //execute reset
@@ -59,19 +64,33 @@ void UDS_Session_Control(uint8_t* payload){
     }
 }
 
-void UDS_Read_by_ID(uint8_t* payload){
+void UDS_Read_by_ID(){
+    uint8_t* payload = requestFrame.dataBuffer;
     uint16_t requested_ID = (uint16_t)payload[DID_HIGH_BYTE_POS] << 8 | payload[DID_LOW_BYTE_POS];
-    UDS_Create_pos_response(payload);
-    response[DATA_START_POS] = 0xAB; //TODO Replace with actual identifier
-    send_lower_layer(response);
+
+
+    //make response
+    UDS_Create_pos_response(NOTREADY);
+    responseFrame.dataBuffer[DID_HIGH_BYTE_POS] = requestFrame.dataBuffer[DID_HIGH_BYTE_POS];
+    responseFrame.dataBuffer[DID_LOW_BYTE_POS] = requestFrame.dataBuffer[DID_LOW_BYTE_POS];
+    //Return current session
+    responseFrame.dataBuffer[DATA_START_POS] = currentSession; //TODO Replace with actual identifier
+    responseFrame.dataSize = 5;
+    responseFrame.ready = READY;
+
 }
 
-void UDS_Write_by_ID(uint8_t* payload){
+void UDS_Write_by_ID(){
+    uint8_t* payload = requestFrame.dataBuffer;
     uint16_t requested_ID = (uint16_t)payload[DID_HIGH_BYTE_POS] << 8 | payload[DID_LOW_BYTE_POS];
     uint8_t data = payload[DATA_START_POS];
+
+    //make response
     UDS_Create_pos_response(payload);
-    response[DATA_START_POS] = PADDING;
-    send_lower_layer(response);    
+    responseFrame.dataBuffer[DID_HIGH_BYTE_POS] = requestFrame.dataBuffer[DID_HIGH_BYTE_POS];
+    responseFrame.dataBuffer[DID_LOW_BYTE_POS] = requestFrame.dataBuffer[DID_LOW_BYTE_POS];
+    responseFrame.dataSize = 4;
+    responseFrame.ready = READY;
 }
 
 /* Assuming payload[0] is SID */
@@ -174,12 +193,13 @@ void UDS_Transfer_Data(uint8_t* payload, uint8_t payload_len){
     }
 }
 
-void UDS_ECU_Reset(uint8_t* payload){
-    ECU_RESET_SUBFUNC requested_reset = payload[3];
+void UDS_ECU_Reset(){
+    uint8_t* payload = requestFrame.dataBuffer;
+    ECU_RESET_SUBFUNC requested_reset = payload[SID_POS];
 
     //respond
-    UDS_Create_response(payload);
-    send_single_frame(response);
+    UDS_Create_response(READY);
+    //send_single_frame(response);
 
     if(requested_reset == HARD_RESET){
         //hard reset code
@@ -190,9 +210,8 @@ void UDS_ECU_Reset(uint8_t* payload){
 
 }
 
-void UDS_Init(can_instance_t* can_pal1_instance, can_user_config_t* can_pal1_Config0, void (*lower_send)(uint8_t*)){
-    send_lower_layer = lower_send;
-    CanTP_init(can_pal1_instance,can_pal1_Config0, UDS_Receive);
+void UDS_Init(){
+
 
 }
 

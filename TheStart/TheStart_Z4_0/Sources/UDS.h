@@ -1,16 +1,32 @@
 #ifndef UDS_H  
 #define UDS_H
 
-#include "CanTP.h"
+#include "frameTypes.h"
+#include "ResetWrapper.h"
 
 //HELPER MACROS
 #define PADDING 0xAA
 #define RESPONSE_BUFF_SIZE 8
+#define REQUEST_BUFF_SIZE  400
 
+#define SID_POS 0
+#define SUB_BYTE_POS 1
 #define DID_LOW_BYTE_POS 2
 #define DID_HIGH_BYTE_POS 3
 #define DATA_START_POS 4
-#define getSID(buffer) (buffer[1])
+#define getSID(buffer) (buffer[SID_POS])
+
+#define READY 1
+#define NOTREADY 0
+
+
+typedef struct dataFrame
+{
+    uint8_t ready;
+    uint8_t dataBuffer[REQUEST_BUFF_SIZE];
+    uint8_t dataSize;
+} dataFrame;
+
 
 
 typedef enum UDS_SID {
@@ -70,23 +86,21 @@ typedef struct BootLoader_Data{
 void UDS_Receive();
 void UDS_Init(can_instance_t* can_pal1_instance, can_user_config_t* can_pal1_Config0);
 
-//uses the SID Byte to identify type of UDS Service
-UDS_SID UDS_Get_type(uint8_t* payload);
 
 //Handle Session Control
-void UDS_Session_Control(uint8_t* payload);
+void UDS_Session_Control();
 
-void UDS_ECU_Reset(uint8_t* payload);
+void UDS_ECU_Reset();
 
-void UDS_Read_by_ID(uint8_t* payload);
-void UDS_Write_by_ID(uint8_t* payload);
+void UDS_Read_by_ID();
+void UDS_Write_by_ID();
 
 
-void UDS_Request_Download(uint8_t* payload);
-void UDS_Transfer_Data(uint8_t* payload);
+void UDS_Request_Download();
+void UDS_Transfer_Data();
 
 /************RESPONSE APIs*************/
-void UDS_Create_pos_response(uint8_t* request);
-void UDS_Create_neg_response(uint8_t* request);
+void UDS_Create_pos_response(uint8_t isReady);
+void UDS_Create_neg_response(NRC neg_code);
 
 #endif
