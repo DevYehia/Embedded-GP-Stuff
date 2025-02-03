@@ -38,11 +38,15 @@ void handleFirstFrame();
 
 void readCanTPPayload(uint8_t size ,uint8_t start);
 
-void send_single_frame(uint8_t *payload);
+void send_single_frame(uint8_t *payload,uint32_t buffIdx);
 
 uint8_t get_payload_size(uint8_t *payload);
 
 void handleSingleFrame();
 
+void sendFromUDS(void * pv);
+void recieve(void * pv);
+void timeOutHandle();
+void Can_init(can_instance_t* can_pal_instance, can_user_config_t* can_pal_Config);
 
 #endif
