@@ -1,0 +1,188 @@
+/*
+ * Copyright (c) 2013 - 2015, Freescale Semiconductor, Inc.
+ * Copyright 2016-2017 NXP
+ * All rights reserved.
+ *
+ * THIS SOFTWARE IS PROVIDED BY NXP "AS IS" AND ANY EXPRESSED OR
+ * IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES
+ * OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.
+ * IN NO EVENT SHALL NXP OR ITS CONTRIBUTORS BE LIABLE FOR ANY DIRECT,
+ * INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
+ * (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+ * SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
+ * HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT,
+ * STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING
+ * IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF
+ * THE POSSIBILITY OF SUCH DAMAGE.
+ */
+/* ###################################################################
+ **     Filename    : main.c
+ **     Processor   : MPC574xG
+ **     Abstract    :
+ **         Main module.
+ **         This module contains user's application code.
+ **     Settings    :
+ **     Contents    :
+ **         No public methods
+ **
+ ** ###################################################################*/
+/*!
+ ** @file main.c
+ ** @version 01.00
+ ** @brief
+ **         Main module.
+ **         This module contains user's application code.
+ */
+/*!
+ **  @addtogroup main_module main module documentation
+ **  @{
+ */
+/* MODULE main */
+
+
+/* Including necessary module. Cpu.h contains other modules needed for compiling.*/
+#include "Cpu.h"
+
+volatile int exit_code = 0;
+/* User includes (#include below this line is not maintained by Processor Expert) */
+#include "Bootloader_Flash/BootloaderFlash.h"
+#include "flash_c55_driver.h"
+/*! 
+  \brief The main function for the project.
+  \details The startup initialization sequence is the following:
+ * - startup asm routine
+ * - main()
+ */
+
+/* buffer size */
+#define BUFFER_SIZE_BYTE                (256U)
+/* Platform Flash */
+#define FLASH_FMC                       PFLASH_BASE
+#define FLASH_PFCR1                     0x000000000U
+#define FLASH_PFCR2                     0x000000004U
+#define FLASH_FMC_BFEN_MASK             0x000000001U
+#define BLOCK_START_ADDRS               (0x01200000U)
+#define BLOCK_END_ADDRS                 (0x01245000U)
+
+/**************************************************************
+*                          Disable Flash Cache                *
+***************************************************************/
+void DisableFlashControllerCache(uint32_t flashConfigReg,
+                                 uint32_t disableVal,
+                                 uint32_t *origin_pflash_pfcr)
+{
+    /* Read the values of the register of flash configuration */
+    *origin_pflash_pfcr = REG_READ32(FLASH_FMC + flashConfigReg);
+    /* Disable Caches */
+    REG_BIT_CLEAR32(FLASH_FMC + flashConfigReg, disableVal);
+}
+/*****************************************************************
+*               Restore configuration register of FCM            *
+******************************************************************/
+void RestoreFlashControllerCache(uint32_t flashConfigReg,
+                                 uint32_t pflash_pfcr)
+{
+    REG_WRITE32(FLASH_FMC + flashConfigReg, pflash_pfcr);
+}
+
+
+
+int main(void)
+{
+	/* Write your local variable definition here */
+	uint32_t dest=BLOCK_START_ADDRS;
+	uint32_t buffer [BUFFER_SIZE_BYTE/BOOTLOADER_FLASH_WORDSIZE];
+	uint32_t size = BUFFER_SIZE_BYTE/BOOTLOADER_FLASH_WORDSIZE;
+	uint32_t idx = 0;
+	uint32_t pflash_pfcr1, pflash_pfcr2;
+	/*** Processor Expert internal initialization. DON'T REMOVE THIS CODE!!! ***/
+#ifdef PEX_RTOS_INIT
+	PEX_RTOS_INIT();                   /* Initialization of the selected RTOS. Macro is defined by the RTOS component. */
+#endif
+	/*** End of Processor Expert internal initialization.                    ***/
+	/* Initialize clock gate*/
+	CLOCK_SYS_Init(g_clockManConfigsArr,   CLOCK_MANAGER_CONFIG_CNT,
+			g_clockManCallbacksArr, CLOCK_MANAGER_CALLBACK_CNT);
+	CLOCK_SYS_UpdateConfiguration(0U, CLOCK_MANAGER_POLICY_AGREEMENT);
+    DisableFlashControllerCache(FLASH_PFCR1, FLASH_FMC_BFEN_MASK, &pflash_pfcr1);
+    DisableFlashControllerCache(FLASH_PFCR2, FLASH_FMC_BFEN_MASK, &pflash_pfcr2);
+
+	for(idx=0;idx<size;idx++){
+		buffer[idx]=0xAABBCCDD; /*Initialize Buffer*/
+	}
+	/* Write your code here */
+	status_t ret;
+	ret = BootloaderFlash_Init();
+	if (ret != STATUS_SUCCESS){
+		while(1);
+	}
+	ret = BootloaderFlash_Unlock();
+	if (ret != STATUS_SUCCESS){
+		while(1);
+	}
+	ret = BootloaderFlash_Erase(BLOCK_START_ADDRS, (BLOCK_END_ADDRS-BLOCK_START_ADDRS));
+	if (ret != STATUS_SUCCESS){
+		while(1);
+	}
+	ret = BootloaderFlash_VerifyBlank(BLOCK_START_ADDRS, (BLOCK_END_ADDRS-BLOCK_START_ADDRS));
+	if (ret != STATUS_SUCCESS){
+		while(1);
+	}
+	size = BUFFER_SIZE_BYTE;/*Size in bytes for the program API*/
+	ret = BootloaderFlash_Program(dest, size, (uint32_t)buffer);
+	if (ret != STATUS_SUCCESS){
+		while(1);
+	}
+	ret = BootloaderFlash_ProgramVerify(dest, size, (uint32_t)buffer);
+	while (ret == STATUS_FLASH_INPROGRESS){
+		ret = BootloaderFlash_ProgramVerify(dest, size, (uint32_t)buffer);
+	}
+	if (ret != STATUS_SUCCESS){
+		while(1);
+	}
+
+	dest = 0x01241000;
+	ret = BootloaderFlash_Program(dest, size, (uint32_t)buffer);
+	if (ret != STATUS_SUCCESS){
+		while(1);
+	}
+	ret = BootloaderFlash_ProgramVerify(dest, size, (uint32_t)buffer);
+	while (ret == STATUS_FLASH_INPROGRESS){
+		ret = BootloaderFlash_ProgramVerify(dest, size, (uint32_t)buffer);
+	}
+	if (ret != STATUS_SUCCESS){
+		while(1);
+	}
+    /* Restore flash controller cache */
+    RestoreFlashControllerCache(FLASH_PFCR1, pflash_pfcr1);
+    RestoreFlashControllerCache(FLASH_PFCR2, pflash_pfcr2);
+	/* For example: for(;;) { } */
+
+			/*** Don't write any code pass this line, or it will be deleted during code generation. ***/
+  /*** RTOS startup code. Macro PEX_RTOS_START is defined by the RTOS component. DON'T MODIFY THIS CODE!!! ***/
+  #ifdef PEX_RTOS_START
+    PEX_RTOS_START();                  /* Startup of the selected RTOS. Macro is defined by the RTOS component. */
+  #endif
+  /*** End of RTOS startup code.  ***/
+  /*** Processor Expert end of main routine. DON'T MODIFY THIS CODE!!! ***/
+  for(;;) {
+    if(exit_code != 0) {
+      break;
+    }
+  }
+  return exit_code;
+  /*** Processor Expert end of main routine. DON'T WRITE CODE BELOW!!! ***/
+} /*** End of main routine. DO NOT MODIFY THIS TEXT!!! ***/
+
+/* END main */
+/*!
+ ** @}
+ */
+/*
+ ** ###################################################################
+ **
+ **     This file was created by Processor Expert 10.1 [05.21]
+ **     for the NXP C55 series of microcontrollers.
+ **
+ ** ###################################################################
+ */
