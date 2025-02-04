@@ -13,10 +13,10 @@ void (*send_lower_layer)(uint8_t*);
 dataFrame requestFrame;
 dataFrame responseFrame;
 
-uint8_t send_frame[8];
+uint16_t remaining_Data = 0;
 
 /* Req Download Variables */
-BL_Data BL_data = {0,0,0};
+BL_Req_Donwload_Data BL_data = {0,0,0};
 
 Transferred_Data UDS_Data = {0, 0, NULL};
 uint8_t block_seq_no = 0; /* Sequence number of current received block */
@@ -69,20 +69,20 @@ void UDS_Create_pos_response(uint8_t isReady){
 
 }
 
-void UDS_Create_neg_response(NRC neg_code){
+void UDS_Create_neg_response(NRC neg_code, uint8_t isReady){
     responseFrame.dataBuffer[0] = 0x7F;
     responseFrame.dataBuffer[1] = requestFrame.dataBuffer[SID_POS];
     responseFrame.dataBuffer[2] = neg_code;
     responseFrame.dataBuffer[3] = requestFrame.dataBuffer[SUB_BYTE_POS];
     responseFrame.dataSize = 4;
-    responseFrame.ready = 1;
+    responseFrame.ready = isReady;
 
 }
 
 void UDS_Session_Control(){
     DIAGNOSTIC_SESSION_SUBFUNC requested_session = requestFrame.dataBuffer[SUB_BYTE_POS];
     if(requested_session != DEFAULT_SESSION && requested_session != PROGRAMMING_SESSION){
-        UDS_Create_neg_response(SUB_FUNC_NOT_SUPPORTED);
+        UDS_Create_neg_response(SUB_FUNC_NOT_SUPPORTED, READY);
         return;
     }
     else{
@@ -114,7 +114,7 @@ void UDS_Read_by_ID(){
     //Return Data By ID
     uint8_t status = checkIfIDExists(requested_ID);
     if(status == NOT_FOUND){
-        UDS_Create_neg_response(GENERAL_REJECT);
+        UDS_Create_neg_response(GENERAL_REJECT, READY);
         return;
     }
     uint8_t data = get_data_by_ID(requested_ID);
@@ -133,11 +133,11 @@ void UDS_Write_by_ID(){
     //make response
     uint8_t status = checkIfIDExists(requested_ID);
     if(status == NOT_FOUND){
-        UDS_Create_neg_response(GENERAL_REJECT);
+        UDS_Create_neg_response(GENERAL_REJECT, READY);
         return;
     }
     write_data_by_ID(requested_ID, data);
-    UDS_Create_pos_response(payload);
+    UDS_Create_pos_response(NOTREADY);
     responseFrame.dataBuffer[DID_HIGH_BYTE_POS] = requestFrame.dataBuffer[DID_HIGH_BYTE_POS];
     responseFrame.dataBuffer[DID_LOW_BYTE_POS] = requestFrame.dataBuffer[DID_LOW_BYTE_POS];
     responseFrame.dataSize = 4;
@@ -146,101 +146,145 @@ void UDS_Write_by_ID(){
 
 /* Assuming payload[0] is SID */
 /* Receives frame of type Request_Download from the client */
-void UDS_Request_Download(uint8_t* payload, uint8_t payload_len){
+void UDS_Request_Download(){
     volatile uint8_t memory_length = 0;
     volatile uint8_t memory_address_size = 0;
 
     if(SID == REQUEST_DOWNLOAD && prev_SID == TRANSFER_DATA){
-        UDS_Create_neg_response(payload, CONDITIONS_NOT_CORRECT);
-        return;
+        UDS_Create_neg_response(WRONG_MSG_LEN_OR_FORMAT, NOTREADY);  
+        responseFrame.dataBuffer[3] = 0x00;
+        responseFrame.dataSize = 3;
+        return; 
     }
 
-    if (payload_len < 3) {
-        UDS_Create_neg_response(payload, WRONG_MSG_LEN_OR_FORMAT);
-        return;
+    if (requestFrame.dataSize < 3) {
+        UDS_Create_neg_response(WRONG_MSG_LEN_OR_FORMAT, NOTREADY);  
+        responseFrame.dataBuffer[3] = 0x00;
+        responseFrame.dataSize = 3;
+        return; 
     }
 
-    memory_length = data[2]>>4; /* Defines number of bytes of MEMORY LENGTH parameter */
-    memory_address_size = data[2] & 0x0F; /* Defines number of bytes of MEMORY ADDRESS parameter*/
+    memory_length = requestFrame.dataBuffer[2]>>4; /* Defines number of bytes of MEMORY LENGTH parameter */
+    memory_address_size = requestFrame.dataBuffer[2] & 0x0F; /* Defines number of bytes of MEMORY ADDRESS parameter*/
     
     if (memory_length < 1 || memory_length > 4 || memory_address_size < 1 || memory_address_size > 4) {
-        UDS_Create_neg_response(payload, WRONG_MSG_LEN_OR_FORMAT);
-        return;
+        UDS_Create_neg_response(WRONG_MSG_LEN_OR_FORMAT, NOTREADY);  
+        responseFrame.dataBuffer[3] = 0x00;
+        responseFrame.dataSize = 3;
+        return; 
     }
     
     uint8_t expected_length = 3 + memory_length + memory_address_size;
-    if (payload_len < expected_length || payload_len > expected_length) {
-        UDS_Create_neg_response(payload, WRONG_MSG_LEN_OR_FORMAT);
-        return;
+    if (requestFrame.dataSize < expected_length || requestFrame.dataSize > expected_length) {
+        UDS_Create_neg_response(WRONG_MSG_LEN_OR_FORMAT, NOTREADY);  
+        responseFrame.dataBuffer[3] = 0x00;
+        responseFrame.dataSize = 3;
+        return; 
     }
-    currentSession = PROGRAMMING_SESSION;
+
     BL_data.mem_start_address = 0;
-    BL_data.data_size = 0; /* specifies the total size of the data that will be transferred during the subsequent (multiple) transfer data services */
-    BL.MaxNumberBlockLength = 0; /* max size in bytes (including SID) to be transmitted in every Transfer Data service */
+    BL_data.total_size = 0; /* specifies the total size of the data that will be transferred during the subsequent (multiple) transfer data services */
+    BL_data.MaxNumberBlockLength = 0; /* max size in bytes (including SID) to be transmitted in every Transfer Data service */
+
     for(uint8_t i=3; i<3+memory_length ;i++){
         BL_data.mem_start_address <<= 8;
-        BL_data.mem_start_address |= payload[i];
+        BL_data.mem_start_address |= requestFrame.dataBuffer[i];
     }
     for(uint8_t i=3+memory_length; i<7+memory_address_size ;i++){
-        if(payload.size() > 7+memory_address_size){
-            UDS_Create_neg_response(payload, WRONG_MSG_LEN_OR_FORMAT);
-            return;
+        if(requestFrame.dataSize > 7+memory_address_size){
+            UDS_Create_neg_response(WRONG_MSG_LEN_OR_FORMAT, NOTREADY);  
+            responseFrame.dataBuffer[3] = 0x00;
+            responseFrame.dataSize = 3;
+            return; 
         }
         BL_data.total_size <<= 8;
-        BL_data.total_size |= payload[i];
-        
+        BL_data.total_size |= requestFrame.dataBuffer[i];
     }
+    remaining_Data = BL_data.total_size;
     /* Do memory adressing range check .. if invalid NRC: REQ_OUT_OF_RANGE*/
-    else{
+    //else{
         /* +ve Response */
-        response[1] = 0x74; /* +ve SID */
-        response[2] = 0x20; /* MaxNumberBlockLength = 2 bytes, followed by reserved 4 bits = 0 */ 
-        response[3] = 0x0F; /* 1st byte */
-        response[4] = 0xFA; /* 2nd byte  0x0FFA = 4090 ... max size in bytes (including SID) to be transmitted using Transfer Data service */
-        BL_data.MaxNumberBlockLength = reponse[3] << 8 | response[4];
+        UDS_Create_pos_response(NOTREADY); /* isReady parameter is set to 0*/
+        responseFrame.dataBuffer[SID_POS] = 0x74; /* +ve SID */
+        responseFrame.dataBuffer[1] = 0x20; /* MaxNumberBlockLength = 2 bytes, followed by reserved 4 bits = 0 */ 
+        responseFrame.dataBuffer[2] = 0x0F; /* 1st byte */
+        responseFrame.dataBuffer[3] = 0xFA; /* 2nd byte  0x0FFA = 4090 ... max size in bytes (including SID) to be transmitted using Transfer Data service */
+        responseFrame.ready = READY;
+        BL_data.MaxNumberBlockLength = responseFrame.dataBuffer[2] << 8 | responseFrame.dataBuffer[3];
         /*  convey the MaxNumberBlockLength for each TransferData request to the client. This length encompasses the service identifier
                 and data parameters within the TransferData request message. The parameter serves the purpose of enabling the client to adapt 
                 to the server’s receive buffer size before initiating the data transfer process.
         */
-    }
+    //}
 }
 
 /* Receives frame of type Transfer Data from the client */
-void UDS_Transfer_Data(uint8_t* payload, uint8_t payload_len){
+void UDS_Transfer_Data(){
     
-    if (payload_len < 2) {   
-        UDS_Create_neg_response(payload, INCORRECT_MSG_LENGTH_OR_FORMAT);  
+    if (requestFrame.dataSize < 2) {   
+        UDS_Create_neg_response(WRONG_MSG_LEN_OR_FORMAT, NOTREADY);  
+        responseFrame.dataBuffer[3] = 0x00;
+        responseFrame.dataSize = 3;
         return; 
     } 
     
     /* Ensure the message does not exceed MaxNumberOfBlockLength */  
-    if (payload_len > BL_data.MaxNumberOfBlockLength) {   
-        UDS_Create_neg_response(payload, INCORRECT_MSG_LENGTH_OR_FORMAT);  
+    if (requestFrame.dataSize > BL_data.MaxNumberBlockLength) {   
+        UDS_Create_neg_response(WRONG_MSG_LEN_OR_FORMAT, NOTREADY);  
+        responseFrame.dataBuffer[3] = 0x00;
+        responseFrame.dataSize = 3;
         return; 
     }
 
-    currentSession = PROGRAMMING_SESSION;
     /* Note: seq_number starts from 1 till 255 then goes back to 0 */
-    if( UDS_Data.seq_number == 15 && payload[1] == 0){
-        UDS_Data.seq_number = payload[1];
-        UDS_Data.isValid = 1;
+    if( (UDS_Data.seq_number == 15 && requestFrame.dataBuffer[1] == 0) || (requestFrame.dataBuffer[1] == ((UDS_Data.seq_number) + 1)) ){
+        UDS_Data.seq_number = requestFrame.dataBuffer[1];
         for(int i=0 ; i<BL_data.MaxNumberBlockLength; i++){
-            data[i] = payload[2+i];
+            UDS_Data.data[i] = requestFrame.dataBuffer[2+i];
+            remaining_Data--;
         }
-        /* +ve Response */
-        response[1] = 0x76;
-        response[2] = UDS_Data.seq_number;
-    }else if(payload[1] == ((UDS_Data.seq_number) + 1)){
-        UDS_Data.seq_number = payload[1];
         UDS_Data.isValid = 1;
-        for(int i=0 ; i<BL_data.MaxNumberBlockLength; i++){
-            data[i] = payload[2+i];
-        }
         /* +ve Response */
-        response[1] = 0x76;
-        response[2] = UDS_Data.seq_number;
+        UDS_Create_pos_response(NOTREADY);
+        responseFrame.dataBuffer[1] = UDS_Data.seq_number;
+        responseFrame.ready = READY;
+    }else if(requestFrame.dataBuffer[1] == ((UDS_Data.seq_number) + 1)){
+        UDS_Data.seq_number = requestFrame.dataBuffer[1];
+        for(int i=0 ; i<BL_data.MaxNumberBlockLength; i++){
+            responseFrame.dataBuffer[i] = requestFrame.dataBuffer[2+i];
+            remaining_Data--;
+        }
+        UDS_Data.isValid = 1;
+        /* +ve Response */
+        UDS_Create_pos_response(NOTREADY);
+        responseFrame.dataBuffer[1] = UDS_Data.seq_number;
+        responseFrame.ready = READY;
     }else{
-        UDS_Create_neg_response(payload, REQ_SEQ_ERROR);
+        UDS_Create_neg_response(WRONG_MSG_LEN_OR_FORMAT, NOTREADY);  
+        responseFrame.dataBuffer[3] = 0x00;
+        responseFrame.dataSize = 3;
+        return; 
+    }
+}
+
+void UDS_Request_Transfer_Exit(){
+    if (requestFrame.dataSize != 1) {   
+        UDS_Create_neg_response(WRONG_MSG_LEN_OR_FORMAT, NOTREADY);  
+        responseFrame.dataBuffer[3] = 0x00;
+        responseFrame.dataSize = 3;
+        return; 
+    }else{
+        /* +ve Response */
+        if(remaining_Data == 0){
+            UDS_Create_pos_response(NOTREADY);
+            responseFrame.dataBuffer[1] = 0x00;
+            responseFrame.ready = READY;
+        }/*else if(){
+            // -ve Response
+        }*/else{
+            /* -ve Response */
+        }
+
     }
 }
 
@@ -272,12 +316,12 @@ void UDS_Receive(uint8_t *data){
     int data1 = data[1];   
     if(SID == DIAGNOSTIC_SESSION_CONTROL){
         currentSession = data[1];
-//        if(Subfunc_ID == DEFAULT_SESSION ){
-//
-//        }
-//        else if(Subfunc_ID == PROGRAMMING_SESSION ){
-//
-//        }
+        // if(Subfunc_ID == DEFAULT_SESSION ){
+
+        // }
+        // else if(Subfunc_ID == PROGRAMMING_SESSION ){
+
+        // }
     }
     if(SID == REQUEST_DOWNLOAD && currentSession == PROGRAMMING_SESSION){
         /* Set flag ... to be in flash/eeprom */
@@ -288,16 +332,20 @@ void UDS_Receive(uint8_t *data){
     if(SID == TRANSFER_DATA && currentSession == PROGRAMMING_SESSION){
         UDS_Transfer_Data(data);
     }
-//    else if(SID == TRANSFER_DATA && Subfunc_ID == PROGRAMMING_SESSION){
-//
-//    }
-//    else if(SID == REQUEST_TRANSFER_EXIT && Subfunc_ID == PROGRAMMING_SESSION){
-//
-//    }
-//    else if(SID == READ_DATA_BY_ID && Subfunc_ID == PROGRAMMING_SESSION){
-//
-//    }
-//    else if(SID == WRITE_DATA_BY_ID && Subfunc_ID == PROGRAMMING_SESSION){
-//
-//    }
+    /* some check on SID == REQUEST_TRANSFER_EXIT */
+        UDS_Request_Transfer_Exit();
+
+
+    // else if(SID == TRANSFER_DATA && Subfunc_ID == PROGRAMMING_SESSION){
+
+    // }
+    // else if(SID == REQUEST_TRANSFER_EXIT && Subfunc_ID == PROGRAMMING_SESSION){
+
+    // }
+    // else if(SID == READ_DATA_BY_ID && Subfunc_ID == PROGRAMMING_SESSION){
+
+    // }
+    // else if(SID == WRITE_DATA_BY_ID && Subfunc_ID == PROGRAMMING_SESSION){
+
+    // }
 }

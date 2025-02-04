@@ -93,7 +93,9 @@ typedef struct BootLoader_Data{
         uint32_t mem_start_address;
         uint32_t total_size; /* Total size of data to be received 0 ~ 4095*/
         uint16_t MaxNumberBlockLength; /* Max size to be received with each Transfer Data service request */
-} BL_Data;
+} BL_Req_Donwload_Data;
+
+
 
 void UDS_Receive();
 void UDS_Init(can_instance_t* can_pal1_instance, can_user_config_t* can_pal1_Config0);
@@ -110,10 +112,10 @@ void UDS_Write_by_ID();
 
 void UDS_Request_Download();
 void UDS_Transfer_Data();
-
+void UDS_Request_Transfer_Exit();
 /************RESPONSE APIs*************/
 void UDS_Create_pos_response(uint8_t isReady);
-void UDS_Create_neg_response(NRC neg_code);
+void UDS_Create_neg_response(NRC neg_code, uint8_t isReady);
 
 //helper functions for DID
 //returns data by ID

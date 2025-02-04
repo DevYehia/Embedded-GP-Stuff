@@ -87,7 +87,10 @@ uint8_t get_payload_size(uint8_t *payload){
 
 void interrupt_callback(uint32_t instance, can_event_t eventType, uint32_t buffIdx, void *driverState){
     if(eventType == CAN_EVENT_RX_COMPLETE){
-        ready = 1;
+        if(recvMessage.id == 0X33)
+        {
+             ready = 1;
+        }
         // if(get_type(recvMessage) == SINGLE){
         // 	handleSingleFrame();
         // }
@@ -112,33 +115,42 @@ void interrupt_callback(uint32_t instance, can_event_t eventType, uint32_t buffI
 
 void sendFromUDS(void * pv)
 {
-    if(sendingUDS->ready == 1)
+    while (1)
     {
-        send_single_frame(sendingUDS->dataBuffer,TX_BUFF_NUM);
+        if(sendingUDS->ready == 1)
+        {
+            send_single_frame(sendingUDS->dataBuffer,TX_BUFF_NUM);
+        }
+        //vTaskDelay(pdMS_TO_TICKS(10))
     }
+    
 }
 
 
 void recieve(void * pv)
 {
-    if(ready == 1)
+    
+    while (1)
     {
-        timeout = 0;
-    if(get_type(recvMessage) == SINGLE){
-        	handleSingleFrame();
+        if(ready == 1)
+        {
+            timeout = 0;
+        if(get_type(recvMessage) == SINGLE){
+                handleSingleFrame();
+            }
+        else if(get_type(recvMessage)!= SINGLE){
+            currState();
+            }
+            ready = 0;
         }
-    else if(get_type(recvMessage)!= SINGLE){
-        currState();
+        //vTaskDelay(pdMS_TO_TICKS( 10 ))
+        //delay here 10ms
+        timeout++;
+        if(timeout >= 100)
+        {
+            timeOutHandle();
         }
-        ready = 0;
     }
-    //delay here 10ms
-    timeout++;
-    if(timeout >= 100)
-    {
-        timeOutHandle();
-    }
-
 }
 
 void handleConsecutiveFrame(){
@@ -146,7 +158,7 @@ void handleConsecutiveFrame(){
     if(type == CONSECUTIVE){
          if((prevblock + 1 ) == (recvMessage.data[0] & 0X2F) )
          {
-            prevblock++;
+            prevblock= (prevblock + 1)%16;
             readCanTPPayload(consecutiveFrameSize,startConsecutive);
          }
 
