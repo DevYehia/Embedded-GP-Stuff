@@ -22,7 +22,7 @@ dataFrame* sendingUDS;
 
 can_message_t recvMessage;
 void (* currState) ();
-void (* UDS_Callback)();
+// void (* UDS_Callback)();
 
 void send_flow_control(char type,uint32_t buffIdx)
 {
@@ -38,7 +38,7 @@ void send_flow_control(char type,uint32_t buffIdx)
         message.data[0] = 0x30;
     }
     message.data[1]= 0x00; // block size
-    message.data[2] = 0x0A; //st min
+    message.data[2] = 0x14; //st min
     for(int i = 3;i<8;i++)
     {
         message.data[i] = 0xAA;
@@ -188,7 +188,7 @@ void handleConsecutiveFrame(){
     //copy 7 bytes from received message to message buffer
     //stop when dataSize = 0 or 7 bytes are read
     }
-    if(curr_buff_idx > dataSize)
+    if(curr_buff_idx > UDSFrame->dataSize)
     {
             dataSize = 0;
             currState = handleFirstFrame;
@@ -212,6 +212,7 @@ void handleConsecutiveFrame(){
 void handleSingleFrame(){
 	uint8_t payload[7];
 	uint8_t size = recvMessage.data[0];
+    UDSFrame->dataSize = size;
 	for(int i=0; i<size ; i++){
 		UDSFrame->dataBuffer[i]  = recvMessage.data[i+1];
 	}
