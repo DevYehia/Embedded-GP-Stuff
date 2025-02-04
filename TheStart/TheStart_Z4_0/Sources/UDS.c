@@ -16,7 +16,7 @@ dataFrame responseFrame;
 uint16_t remaining_Data = 0;
 
 /* Req Download Variables */
-BL_Req_Donwload_Data BL_data = {0,0,0};
+BL_Req_Download_Data BL_data = {0,0,0};
 
 Transferred_Data UDS_Data = {0, 0, NULL};
 uint8_t block_seq_no = 0; /* Sequence number of current received block */
@@ -167,7 +167,7 @@ void UDS_Request_Download(){
     memory_length = requestFrame.dataBuffer[2]>>4; /* Defines number of bytes of MEMORY LENGTH parameter */
     memory_address_size = requestFrame.dataBuffer[2] & 0x0F; /* Defines number of bytes of MEMORY ADDRESS parameter*/
     
-    if (memory_length < 1 || memory_length > 4 || memory_address_size < 1 || memory_address_size > 4) {
+    if (memory_length < 1 || memory_length > ECU_ADDRESS_LENGTH || memory_address_size < 1 || memory_address_size > 4) {
         UDS_Create_neg_response(WRONG_MSG_LEN_OR_FORMAT, NOTREADY);  
         responseFrame.dataBuffer[3] = 0x00;
         responseFrame.dataSize = 3;

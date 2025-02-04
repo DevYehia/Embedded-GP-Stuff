@@ -19,6 +19,7 @@
 #define READY 1
 #define NOTREADY 0
 
+#define ECU_ADDRESS_LENGTH 4
 
 typedef struct dataFrame
 {
@@ -94,7 +95,7 @@ typedef struct BootLoader_Data{
         uint32_t mem_start_address;
         uint32_t total_size; /* Total size of data to be received 0 ~ 4095*/
         uint16_t MaxNumberBlockLength; /* Max size to be received with each Transfer Data service request */
-} BL_Req_Donwload_Data;
+} BL_Req_Download_Data;
 
 
 
