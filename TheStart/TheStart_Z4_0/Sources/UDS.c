@@ -320,6 +320,7 @@ void UDS_Receive(void* params){
 	while(1){
 
 		if(requestFrame.ready == NOTREADY){
+			vTaskDelay(pdMS_TO_TICKS(5));
 			continue;
 		}
 	    if(SID == DIAGNOSTIC_SESSION_CONTROL){
@@ -337,8 +338,9 @@ void UDS_Receive(void* params){
 	    /* some check on SID == REQUEST_TRANSFER_EXIT */
 	       // UDS_Request_Transfer_Exit();
 	    requestFrame.ready = NOTREADY;
+//	    vTaskDelay(pdMS_TO_TICKS(5));
 	}
-    vTaskDelay(pdMS_TO_TICKS(5));
+
 
 
 

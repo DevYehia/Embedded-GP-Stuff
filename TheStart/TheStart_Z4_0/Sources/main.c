@@ -73,6 +73,7 @@ void loopBackTask(void* params){
       message.data[0] = 0x20 + i;
       //for(int j = 1 ; j < 7 ; j++)
       CAN_SendBlocking(&can_pal1_instance, 1, &message, 2000);
+      vTaskDelay(pdMS_TO_TICKS( 20 ));
     }
 
 	while(1);
@@ -109,34 +110,34 @@ int main(void)
 //    Can_init(&can_pal1_instance, &can_pal1_Config0);
     CanTP_init(&responseFrame, &requestFrame);
 
-//    xTaskCreate(loopBackTask,
-//        "green",
-//		configMINIMAL_STACK_SIZE,
-//        (void *) 0,
-//        1,
-//        NULL);
-//
-    xTaskCreate(recieve,
-        "TpReceieve",
-		50,
+    xTaskCreate(loopBackTask,
+        "green",
+		configMINIMAL_STACK_SIZE,
         (void *) 0,
         1,
         NULL);
-//
-//    xTaskCreate(sendFromUDS,
-//        "TPSend",
-//		configMINIMAL_STACK_SIZE,
-//        (void *) 0,
-//        1,
-//        NULL);
-//
-//    xTaskCreate(UDS_Receive,
-//    		"UDSReceive",
-//    		configMINIMAL_STACK_SIZE,
-//        (void *) 0,
-//        1,
-//        NULL
-//    		);
+
+    xTaskCreate(recieve,
+        "TpReceieve",
+		configMINIMAL_STACK_SIZE,
+        (void *) 0,
+        1,
+        NULL);
+
+    xTaskCreate(sendFromUDS,
+        "TPSend",
+		configMINIMAL_STACK_SIZE,
+        (void *) 0,
+        1,
+        NULL);
+
+    xTaskCreate(UDS_Receive,
+    		"UDSReceive",
+    		configMINIMAL_STACK_SIZE,
+        (void *) 0,
+        1,
+        NULL
+    		);
 
     vTaskStartScheduler();
 

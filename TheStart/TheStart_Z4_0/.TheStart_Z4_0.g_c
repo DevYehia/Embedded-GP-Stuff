@@ -18,7 +18,7 @@
         <Line>Generated_Code\FreeRTOSConfig.h</Line>
         <Line>Generated_Code\can_pal_cfg.h</Line>
       </GenExtraFiles>
-      <XtraAge0>1514414499</XtraAge0>
+      <XtraAge0>1514434816</XtraAge0>
       <XtraAge1>1514413892</XtraAge1>
       <GenExtraFileType1>4</GenExtraFileType1>
       <GenExtraFileType0>4</GenExtraFileType0>
@@ -751,7 +751,7 @@
     </GenFiles>
     <SignalListFile />
     <DestinationCompiler>GNUC</DestinationCompiler>
-    <ProjectModificationStamp>4</ProjectModificationStamp>
+    <ProjectModificationStamp>5</ProjectModificationStamp>
   </Options>
   <CpuID_1>
     <Generated>true</Generated>
