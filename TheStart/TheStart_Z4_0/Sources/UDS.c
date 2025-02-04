@@ -92,7 +92,7 @@ void UDS_Session_Control(){
     if(requested_session == PROGRAMMING_SESSION && currentSession == DEFAULT_SESSION){
         currentSession = requested_session;
 
-        Do_Reset(SOFT_RESET);
+       // Do_Reset(SOFT_RESET);
         
         //set new SW Flag
         //execute reset
