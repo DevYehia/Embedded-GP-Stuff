@@ -11,6 +11,10 @@
  ****************************************************************************************/
 #include "BootloaderFlash.h"
 
+extern const uint32_t crc_table[256];
+extern const uint32_t g_InitialCRCRemainder;
+extern const uint32_t g_FinalCRCXorVal;
+
 static void BootloaderFlash_Error(uint8_t a_ErrorSource)
 {
 	while (1)
@@ -161,7 +165,7 @@ status_t BootloaderFlash_Erase(uint32_t a_Dest, uint32_t a_Size)
 	/**************************************************************************/
 	for(idx=0U;idx<BOOTLOADER_FLASH_NUM_256KB_BLOCKS;idx++){
 		if((g_BlocksStartAddresses[idx]<=startAddress)&&
-		   (g_BlocksStartAddresses[idx+1]>startAddress)){
+				(g_BlocksStartAddresses[idx+1]>startAddress)){
 			blocksToErase |=(1<<idx);
 		}
 		else if((startAddress<g_BlocksStartAddresses[idx])&&
@@ -328,5 +332,39 @@ status_t BootloaderFlash_Read(uint32_t a_dest, uint32_t a_size, uint32_t* a_pBuf
 		a_size -= C55_WORD_SIZE;
 	}
 	return returnCode;
+}
+/****************************************************************
+ * Function Name: BootloaderFlash_Read                          *
+ * Inputs       : a_dest  - Source address in flash to read from*
+ *                a_size  - Size of data to calculate CRC for 	*
+ *                (in bytes)     								*
+ * Outputs      : uint32_t - Caclulated CRC32              		*
+ * Reentrancy   : Non-Reentrant                                 *
+ * Synchronous  : Synchronous                                   *
+ * Description  : Calculates CRC32 for flashed data				*
+ ****************************************************************/
+uint32_t BootloaderFlash_CalculateCRC32(uint32_t a_dest, uint32_t a_size){
+	uint32_t destIndex = 0U;                      	/* destination address index */
+	uint32_t iterations = a_size / C55_WORD_SIZE; 	/* Number of words needs to be read */
+	uint32_t remainder = g_InitialCRCRemainder;	  	/*Variable to store modulo 2 operations remainder*/
+	uint32_t flashWord;								/* Word read from flash*/
+	uint8_t *p_wordByte;							/* Pointer to access byte by byte from flash*/
+	uint8_t byteIdx= 0U;							/* Index to loop over bytes in word */
+	uint8_t data;
+	/* Word by word verify */
+	for (destIndex = 0U; destIndex < iterations; destIndex++)
+	{
+		flashWord = *(volatile uint32_t *)a_dest;
+		p_wordByte = & flashWord;
+		for(byteIdx = 0U; byteIdx<BOOTLOADER_FLASH_WORDSIZE;byteIdx++){
+			data = p_wordByte[byteIdx] ^ (remainder >> (sizeof(remainder) - 8));
+			remainder = crc_table[data] ^ (remainder << 8);
+		}
+
+			a_dest += C55_WORD_SIZE;
+		a_size -= C55_WORD_SIZE;
+	}
+
+	return (remainder ^ g_FinalCRCXorVal);
 }
 /*******************************************************************************/

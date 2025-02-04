@@ -125,6 +125,18 @@ status_t BootloaderFlash_ProgramVerify(uint32_t a_dest, uint32_t a_size, uint32_
  ****************************************************************/
 status_t BootloaderFlash_Read(uint32_t a_dest, uint32_t a_size, uint32_t* a_pBuffer);
 
+/****************************************************************
+ * Function Name: BootloaderFlash_Read                          *
+ * Inputs       : a_dest  - Source address in flash to read from*
+ *                a_size  - Size of data to calculate CRC for 	*
+ *                (in bytes)     								*
+ * Outputs      : uint32_t - Caclulated CRC32              		*
+ * Reentrancy   : Non-Reentrant                                 *
+ * Synchronous  : Synchronous                                   *
+ * Description  : Calculates CRC32 for flashed data				*
+ ****************************************************************/
+uint32_t BootloaderFlash_CalculateCRC32(uint32_t a_dest, uint32_t a_size);
+
 /****************************************************************************************
  *                          -=[Static Functions Prototypes]=-                           *
  ****************************************************************************************/
