@@ -84,8 +84,9 @@ typedef enum NRC{
 } NRC;
 
 typedef struct UDS_Data{
-    uint8_t isValid;
     uint8_t seq_number;
+    /* Finished flag */
+    /* Data Size */
     uint8_t *data;
 } Transferred_Data;
 

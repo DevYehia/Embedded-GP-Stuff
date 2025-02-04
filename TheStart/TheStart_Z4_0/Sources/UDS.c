@@ -86,7 +86,7 @@ void UDS_Session_Control(){
         return;
     }
     else{
-        UDS_Create_response(READY);
+        UDS_Create_pos_response(READY);
     }
 
     if(requested_session == PROGRAMMING_SESSION && currentSession == DEFAULT_SESSION){
@@ -238,23 +238,24 @@ void UDS_Transfer_Data(){
 
     /* Note: seq_number starts from 1 till 255 then goes back to 0 */
     if( (UDS_Data.seq_number == 15 && requestFrame.dataBuffer[1] == 0) || (requestFrame.dataBuffer[1] == ((UDS_Data.seq_number) + 1)) ){
-        UDS_Data.seq_number = requestFrame.dataBuffer[1];
         for(int i=0 ; i<BL_data.MaxNumberBlockLength; i++){
             UDS_Data.data[i] = requestFrame.dataBuffer[2+i];
             remaining_Data--;
         }
-        UDS_Data.isValid = 1;
+        UDS_Data.seq_number = requestFrame.dataBuffer[1];
+        // UDS_Data.isValid = 1;
         /* +ve Response */
         UDS_Create_pos_response(NOTREADY);
         responseFrame.dataBuffer[1] = UDS_Data.seq_number;
         responseFrame.ready = READY;
     }else if(requestFrame.dataBuffer[1] == ((UDS_Data.seq_number) + 1)){
-        UDS_Data.seq_number = requestFrame.dataBuffer[1];
         for(int i=0 ; i<BL_data.MaxNumberBlockLength; i++){
-            responseFrame.dataBuffer[i] = requestFrame.dataBuffer[2+i];
+            UDS_Data.data[i] = requestFrame.dataBuffer[2+i];
             remaining_Data--;
         }
-        UDS_Data.isValid = 1;
+        UDS_Data.seq_number = requestFrame.dataBuffer[1];
+        /* Add last block flag */
+
         /* +ve Response */
         UDS_Create_pos_response(NOTREADY);
         responseFrame.dataBuffer[1] = UDS_Data.seq_number;
@@ -279,10 +280,15 @@ void UDS_Request_Transfer_Exit(){
             UDS_Create_pos_response(NOTREADY);
             responseFrame.dataBuffer[1] = 0x00;
             responseFrame.ready = READY;
-        }/*else if(){
-            // -ve Response
-        }*/else{
-            /* -ve Response */
+        }else{
+            /* CRC check */
+            if(){
+
+            }
+            else{
+                /* +ve response */
+            }
+            
         }
 
     }
@@ -293,7 +299,7 @@ void UDS_ECU_Reset(){
     ECU_RESET_SUBFUNC requested_reset = payload[SID_POS];
 
     //respond
-    UDS_Create_response(READY);
+    UDS_Create_pos_response(READY);
     //send_single_frame(response);
 
     if(requested_reset == HARD_RESET){
