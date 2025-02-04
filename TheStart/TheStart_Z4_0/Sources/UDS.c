@@ -282,7 +282,7 @@ void UDS_Request_Transfer_Exit(){
             responseFrame.ready = READY;
         }else{
             /* CRC check */
-            if(){
+            if(0){
 
             }
             else{
@@ -316,42 +316,32 @@ void UDS_Init(){
 
 }
 
-void UDS_Receive(uint8_t *data){
-    prev_SID = SID;
-    SID = data[0];
-    int data1 = data[1];   
-    if(SID == DIAGNOSTIC_SESSION_CONTROL){
-        currentSession = data[1];
-        // if(Subfunc_ID == DEFAULT_SESSION ){
+void UDS_Receive(void* params){
+	while(1){
 
-        // }
-        // else if(Subfunc_ID == PROGRAMMING_SESSION ){
+		if(requestFrame.ready == NOTREADY){
+			continue;
+		}
+	    if(SID == DIAGNOSTIC_SESSION_CONTROL){
+	    	UDS_Session_Control();
+	    }
+	    if(SID == REQUEST_DOWNLOAD && currentSession == PROGRAMMING_SESSION){
+	        /* Set flag ... to be in flash/eeprom */
+	        /* Reset */
+	        /* UDS_erase_memory() */
+	        UDS_Request_Download();
+	    }
+	    if(SID == TRANSFER_DATA && currentSession == PROGRAMMING_SESSION){
+	        UDS_Transfer_Data();
+	    }
+	    /* some check on SID == REQUEST_TRANSFER_EXIT */
+	       // UDS_Request_Transfer_Exit();
+	    requestFrame.ready = NOTREADY;
+	}
+    vTaskDelay(pdMS_TO_TICKS(5));
 
-        // }
-    }
-    if(SID == REQUEST_DOWNLOAD && currentSession == PROGRAMMING_SESSION){
-        /* Set flag ... to be in flash/eeprom */
-        /* Reset */
-        /* UDS_erase_memory() */
-        UDS_Request_Download(data);
-    }
-    if(SID == TRANSFER_DATA && currentSession == PROGRAMMING_SESSION){
-        UDS_Transfer_Data(data);
-    }
-    /* some check on SID == REQUEST_TRANSFER_EXIT */
-        UDS_Request_Transfer_Exit();
 
 
-    // else if(SID == TRANSFER_DATA && Subfunc_ID == PROGRAMMING_SESSION){
 
-    // }
-    // else if(SID == REQUEST_TRANSFER_EXIT && Subfunc_ID == PROGRAMMING_SESSION){
 
-    // }
-    // else if(SID == READ_DATA_BY_ID && Subfunc_ID == PROGRAMMING_SESSION){
-
-    // }
-    // else if(SID == WRITE_DATA_BY_ID && Subfunc_ID == PROGRAMMING_SESSION){
-
-    // }
 }

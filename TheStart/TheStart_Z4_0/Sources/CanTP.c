@@ -121,7 +121,7 @@ void sendFromUDS(void * pv)
         {
             send_single_frame(sendingUDS->dataBuffer,TX_BUFF_NUM);
         }
-        //vTaskDelay(pdMS_TO_TICKS(10))
+        vTaskDelay(pdMS_TO_TICKS(10));
     }
     
 }
@@ -143,7 +143,7 @@ void recieve(void * pv)
             }
             ready = 0;
         }
-        //vTaskDelay(pdMS_TO_TICKS( 10 ))
+        vTaskDelay(pdMS_TO_TICKS( 10 ));
         //delay here 10ms
         timeout++;
         if(timeout >= 100)
@@ -278,7 +278,7 @@ void CanTP_init(dataFrame* sendingBuffer, dataFrame* recieveBuffer)
 void Can_init(can_instance_t* can_pal_instance, can_user_config_t* can_pal_Config)
 {
     can_instance = can_pal_instance;
-    CAN_Init(can_pal_instance, can_pal_Config);
+
     CAN_InstallEventCallback(can_pal_instance, interrupt_callback, NULL);
     can_buff_config_t buffConf = {false, false, 0xAA, CAN_MSG_ID_STD, false};
     CAN_ConfigRxBuff(&can_pal1_instance, RX_BUFF_NUM, &buffConf, 0x3);

@@ -21,12 +21,6 @@
 
 #define ECU_ADDRESS_LENGTH 4
 
-typedef struct dataFrame
-{
-    uint8_t ready;
-    uint8_t dataBuffer[REQUEST_BUFF_SIZE];
-    uint8_t dataSize;
-} dataFrame;
 
 typedef enum DID{
     NOT_DEFINED_ID = 0x0000,
@@ -99,8 +93,8 @@ typedef struct BootLoader_Data{
 
 
 
-void UDS_Receive();
-void UDS_Init(can_instance_t* can_pal1_instance, can_user_config_t* can_pal1_Config0);
+void UDS_Receive(void* params);
+void UDS_Init();
 
 
 //Handle Session Control

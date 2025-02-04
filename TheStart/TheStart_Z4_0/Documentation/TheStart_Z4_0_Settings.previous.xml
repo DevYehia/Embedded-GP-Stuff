@@ -72,5 +72,46 @@
       <EmptySection_DummyValue />
     </Events>
   </Bean>
+  <Bean name="can_pal1" type="can_pal">
+    <Enabled v="Y" />
+    <Properties>
+      <Component_name v="can_pal1" />
+      <Device v="CAN_0" />
+      <Component_version v="S32_SDK" />
+    </Properties>
+    <Methods>
+      <EmptySection_DummyValue />
+    </Methods>
+    <Events>
+      <EmptySection_DummyValue />
+    </Events>
+  </Bean>
+  <Bean name="dmaController1" type="edma">
+    <Enabled v="Y" />
+    <Properties>
+      <Component_name v="dmaController1" />
+      <Device v="DMA" />
+      <Component_version v="S32_SDK_DMA_32CH" />
+    </Properties>
+    <Methods>
+      <EmptySection_DummyValue />
+    </Methods>
+    <Events>
+      <EmptySection_DummyValue />
+    </Events>
+  </Bean>
+  <Bean name="osif1" type="osif">
+    <Enabled v="Y" />
+    <Properties>
+      <Component_name v="osif1" />
+      <Component_version v="osifcommon" />
+    </Properties>
+    <Methods>
+      <EmptySection_DummyValue />
+    </Methods>
+    <Events>
+      <EmptySection_DummyValue />
+    </Events>
+  </Bean>
 </PE_PROJECT_SETTINGS_DOCUMENTATION>
 

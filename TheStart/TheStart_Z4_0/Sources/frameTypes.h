@@ -4,6 +4,9 @@
 #define MAX_BUFF_SIZE 400
 
 
+#include "can_pal1.h"
+
+
 typedef struct dataFrame
 {
     uint8_t ready;

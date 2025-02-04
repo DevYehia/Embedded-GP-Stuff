@@ -113,5 +113,19 @@
       <EmptySection_DummyValue />
     </Events>
   </Bean>
+  <Bean name="FreeRTOS" type="FreeRTOS">
+    <Enabled v="Y" />
+    <Properties>
+      <Component_name v="FreeRTOS" />
+      <FreeRTOS_version v="&amp;quot;V10.0.1&amp;quot;" />
+      <Component_version v="S32_SDK_C55" />
+    </Properties>
+    <Methods>
+      <EmptySection_DummyValue />
+    </Methods>
+    <Events>
+      <EmptySection_DummyValue />
+    </Events>
+  </Bean>
 </PE_PROJECT_SETTINGS_DOCUMENTATION>
 

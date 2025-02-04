@@ -7,7 +7,7 @@
 **     Version     : Component SDK_S32_PA_11, Driver 01.00, CPU db: 3.00.000
 **     Repository  : SDK_S32_PA_11
 **     Compiler    : GNU C Compiler
-**     Date/Time   : 2024-12-24, 19:42, # CodeGen: 3
+**     Date/Time   : 2025-02-04, 03:57, # CodeGen: 7
 **     Contents    :
 **         EDMA_DRV_Init                              - status_t EDMA_DRV_Init(edma_state_t *edmaState, const edma_user_config_t...
 **         EDMA_DRV_Deinit                            - status_t EDMA_DRV_Deinit(void);

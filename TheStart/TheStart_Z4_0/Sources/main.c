@@ -43,6 +43,7 @@
 /* Including necessary module. Cpu.h contains other modules needed for compiling.*/
 #include "Cpu.h"
 #include "UDS.h"
+#include "CanTP.h"
 
   volatile int exit_code = 0;
 /* User includes (#include below this line is not maintained by Processor Expert) */
@@ -55,6 +56,31 @@
 */
 
 uint8_t sendConsec = 0;
+
+void loopBackTask(void* params){
+
+    can_message_t message = {0, 0x33, {0x02,0x10,0x02,0xAA,0xAA,0xAA,0xAA,0xAA}, 8};
+
+    can_buff_config_t buffConf = {false, false, 0xAA, CAN_MSG_ID_STD, false};
+    CAN_ConfigTxBuff(&can_pal1_instance, 1, &buffConf);
+    CAN_SendBlocking(&can_pal1_instance, 1, &message, 2000);
+
+    //while(sendConsec == 0);
+    can_message_t message1 = {0, 0x33, {0x04,0x34,0x00,0x31,0x12,0x34,0x56,0x58}, 8};
+    CAN_SendBlocking(&can_pal1_instance, 1, &message1, 2000);
+
+    for(int i = 0;i<2; i = (i + 1) % 16){
+      message.data[0] = 0x20 + i;
+      //for(int j = 1 ; j < 7 ; j++)
+      CAN_SendBlocking(&can_pal1_instance, 1, &message, 2000);
+    }
+
+	while(1);
+}
+
+extern dataFrame requestFrame;
+extern dataFrame responseFrame;
+
 int main(void)
 {
   /* Write your local variable definition here */
@@ -77,23 +103,43 @@ int main(void)
 
   /* Write your code here */
   /* For example: for(;;) { } */
-    CLOCK_DRV_Init(&clockMan1_InitConfig0);
-    UDS_Init(&can_pal1_instance, &can_pal1_Config0);
-    can_message_t message = {0, 0x3, {0x04,0x10,0x02,2,3,0xAA,0xAA,0xAA}, 8};
+//    CLOCK_DRV_Init(&clockMan1_InitConfig0);
+    //UDS_Init(&can_pal1_instance, &can_pal1_Config0);
+    CAN_Init(&can_pal1_instance, &can_pal1_Config0);
+//    Can_init(&can_pal1_instance, &can_pal1_Config0);
+    CanTP_init(&responseFrame, &requestFrame);
 
-    can_buff_config_t buffConf = {false, false, 0xAA, CAN_MSG_ID_STD, false};
-    CAN_ConfigTxBuff(&can_pal1_instance, 1, &buffConf);
-    CAN_SendBlocking(&can_pal1_instance, 1, &message, 2000);
+//    xTaskCreate(loopBackTask,
+//        "green",
+//		configMINIMAL_STACK_SIZE,
+//        (void *) 0,
+//        1,
+//        NULL);
+//
+    xTaskCreate(recieve,
+        "TpReceieve",
+		50,
+        (void *) 0,
+        1,
+        NULL);
+//
+//    xTaskCreate(sendFromUDS,
+//        "TPSend",
+//		configMINIMAL_STACK_SIZE,
+//        (void *) 0,
+//        1,
+//        NULL);
+//
+//    xTaskCreate(UDS_Receive,
+//    		"UDSReceive",
+//    		configMINIMAL_STACK_SIZE,
+//        (void *) 0,
+//        1,
+//        NULL
+//    		);
 
-    //while(sendConsec == 0);
-    can_message_t message1 = {0, 0x3, {0x04,0x34,0x00,0x31,0x12,0x34,0x56,0x58}, 8};
-    CAN_SendBlocking(&can_pal1_instance, 1, &message1, 2000);
+    vTaskStartScheduler();
 
-    for(int i = 0;i<2; i = (i + 1) % 16){
-      message.data[0] = 0x20 + i;
-      //for(int j = 1 ; j < 7 ; j++)
-      CAN_SendBlocking(&can_pal1_instance, 1, &message, 2000);        
-    }
     //CAN_Init(&can_pal1_instance, &can_pal1_Config0);
 
   /*** Don't write any code pass this line, or it will be deleted during code generation. ***/

@@ -55,6 +55,8 @@
 									<listOptionValue builtIn="false" value="&quot;${ProjDirPath}/SDK/platform/drivers/inc&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${ProjDirPath}/SDK/rtos/osif/&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${ProjDirPath}/SDK/platform/pal/inc&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${ProjDirPath}/SDK/rtos/FreeRTOS_PA/Source/include&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${ProjDirPath}/SDK/rtos/FreeRTOS_PA/Source/portable/GCC/PowerPC&quot;"/>
 								</option>
 								<option id="gnu.c.compiler.option.misc.other.583005735" name="Other flags" superClass="gnu.c.compiler.option.misc.other" useByScannerDiscovery="false" value="-c -fmessage-length=0 -fstrict-volatile-bitfields -mlra -msdata=eabi" valueType="string"/>
 								<option id="com.freescale.s32ds.cross.gnu.e200.tool.c.compiler.option.target.family.83077344" name="Target Processor" superClass="com.freescale.s32ds.cross.gnu.e200.tool.c.compiler.option.target.family" useByScannerDiscovery="true" value="com.freescale.s32ds.cross.gnu.e200.tool.c.compiler.option.target.family.e200z4" valueType="enumerated"/>
@@ -70,6 +72,7 @@
 									<listOptionValue builtIn="false" value="TURN_ON_CPU2"/>
 									<listOptionValue builtIn="false" value="START_FROM_FLASH"/>
 									<listOptionValue builtIn="false" value="DEBUG_SECONDARY_CORES"/>
+									<listOptionValue builtIn="false" value="USING_OS_FREERTOS"/>
 								</option>
 								<inputType id="cdt.managedbuild.tool.gnu.c.compiler.input.1468882815" superClass="cdt.managedbuild.tool.gnu.c.compiler.input"/>
 							</tool>
@@ -138,6 +141,7 @@
 									<listOptionValue builtIn="false" value="TURN_ON_CPU0"/>
 									<listOptionValue builtIn="false" value="SEMIHOSTING"/>
 									<listOptionValue builtIn="false" value="CPU_MPC5748G"/>
+									<listOptionValue builtIn="false" value="USING_OS_FREERTOS"/>
 								</option>
 								<inputType id="cdt.managedbuild.tool.gnu.assembler.input.96894861" superClass="cdt.managedbuild.tool.gnu.assembler.input"/>
 								<inputType id="com.freescale.s32ds.cross.gnu.tool.assembler.inputType.asmfile.1260836979" superClass="com.freescale.s32ds.cross.gnu.tool.assembler.inputType.asmfile"/>
@@ -168,9 +172,12 @@
 									<listOptionValue builtIn="false" value="&quot;${ProjDirPath}/SDK/platform/drivers/inc&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${ProjDirPath}/SDK/rtos/osif/&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${ProjDirPath}/SDK/platform/pal/inc&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${ProjDirPath}/SDK/rtos/FreeRTOS_PA/Source/include&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${ProjDirPath}/SDK/rtos/FreeRTOS_PA/Source/portable/GCC/PowerPC&quot;"/>
 								</option>
 								<option id="com.freescale.s32ds.cross.gnu.e200.tool.spt.preprocessor.option.defs.1716117373" name="Defined symbols (-D)" superClass="com.freescale.s32ds.cross.gnu.e200.tool.spt.preprocessor.option.defs" valueType="definedSymbols">
 									<listOptionValue builtIn="false" value="CPU_MPC5748G"/>
+									<listOptionValue builtIn="false" value="USING_OS_FREERTOS"/>
 								</option>
 							</tool>
 						</toolChain>
@@ -242,6 +249,8 @@
 									<listOptionValue builtIn="false" value="&quot;${ProjDirPath}/SDK/platform/drivers/inc&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${ProjDirPath}/SDK/rtos/osif/&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${ProjDirPath}/SDK/platform/pal/inc&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${ProjDirPath}/SDK/rtos/FreeRTOS_PA/Source/include&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${ProjDirPath}/SDK/rtos/FreeRTOS_PA/Source/portable/GCC/PowerPC&quot;"/>
 								</option>
 								<option id="gnu.c.compiler.option.misc.other.1343744686" name="Other flags" superClass="gnu.c.compiler.option.misc.other" useByScannerDiscovery="false" value="-c -fmessage-length=0 -fstrict-volatile-bitfields -mlra -msdata=eabi" valueType="string"/>
 								<option id="com.freescale.s32ds.cross.gnu.e200.tool.c.compiler.option.target.family.1651743909" name="Target Processor" superClass="com.freescale.s32ds.cross.gnu.e200.tool.c.compiler.option.target.family" useByScannerDiscovery="true" value="com.freescale.s32ds.cross.gnu.e200.tool.c.compiler.option.target.family.e200z4" valueType="enumerated"/>
@@ -257,6 +266,7 @@
 									<listOptionValue builtIn="false" value="TURN_ON_CPU2"/>
 									<listOptionValue builtIn="false" value="START_FROM_FLASH"/>
 									<listOptionValue builtIn="false" value="DEBUG_SECONDARY_CORES"/>
+									<listOptionValue builtIn="false" value="USING_OS_FREERTOS"/>
 								</option>
 								<inputType id="cdt.managedbuild.tool.gnu.c.compiler.input.1947014828" superClass="cdt.managedbuild.tool.gnu.c.compiler.input"/>
 							</tool>
@@ -325,6 +335,7 @@
 									<listOptionValue builtIn="false" value="TURN_ON_CPU0"/>
 									<listOptionValue builtIn="false" value="SEMIHOSTING"/>
 									<listOptionValue builtIn="false" value="CPU_MPC5748G"/>
+									<listOptionValue builtIn="false" value="USING_OS_FREERTOS"/>
 								</option>
 								<inputType id="cdt.managedbuild.tool.gnu.assembler.input.1045344982" superClass="cdt.managedbuild.tool.gnu.assembler.input"/>
 								<inputType id="com.freescale.s32ds.cross.gnu.tool.assembler.inputType.asmfile.440069290" superClass="com.freescale.s32ds.cross.gnu.tool.assembler.inputType.asmfile"/>
@@ -355,9 +366,12 @@
 									<listOptionValue builtIn="false" value="&quot;${ProjDirPath}/SDK/platform/drivers/inc&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${ProjDirPath}/SDK/rtos/osif/&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${ProjDirPath}/SDK/platform/pal/inc&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${ProjDirPath}/SDK/rtos/FreeRTOS_PA/Source/include&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${ProjDirPath}/SDK/rtos/FreeRTOS_PA/Source/portable/GCC/PowerPC&quot;"/>
 								</option>
 								<option id="com.freescale.s32ds.cross.gnu.e200.tool.spt.preprocessor.option.defs.863560805" name="Defined symbols (-D)" superClass="com.freescale.s32ds.cross.gnu.e200.tool.spt.preprocessor.option.defs" valueType="definedSymbols">
 									<listOptionValue builtIn="false" value="CPU_MPC5748G"/>
+									<listOptionValue builtIn="false" value="USING_OS_FREERTOS"/>
 								</option>
 							</tool>
 						</toolChain>
@@ -429,6 +443,8 @@
 									<listOptionValue builtIn="false" value="&quot;${ProjDirPath}/SDK/platform/drivers/inc&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${ProjDirPath}/SDK/rtos/osif/&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${ProjDirPath}/SDK/platform/pal/inc&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${ProjDirPath}/SDK/rtos/FreeRTOS_PA/Source/include&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${ProjDirPath}/SDK/rtos/FreeRTOS_PA/Source/portable/GCC/PowerPC&quot;"/>
 								</option>
 								<option id="gnu.c.compiler.option.misc.other.1185912815" name="Other flags" superClass="gnu.c.compiler.option.misc.other" useByScannerDiscovery="false" value="-c -fmessage-length=0 -fstrict-volatile-bitfields -mlra -msdata=eabi" valueType="string"/>
 								<option id="com.freescale.s32ds.cross.gnu.e200.tool.c.compiler.option.target.family.1226659809" name="Target Processor" superClass="com.freescale.s32ds.cross.gnu.e200.tool.c.compiler.option.target.family" useByScannerDiscovery="true" value="com.freescale.s32ds.cross.gnu.e200.tool.c.compiler.option.target.family.e200z4" valueType="enumerated"/>
@@ -443,6 +459,7 @@
 									<listOptionValue builtIn="false" value="TURN_ON_CPU1"/>
 									<listOptionValue builtIn="false" value="TURN_ON_CPU2"/>
 									<listOptionValue builtIn="false" value="DEBUG_SECONDARY_CORES"/>
+									<listOptionValue builtIn="false" value="USING_OS_FREERTOS"/>
 								</option>
 								<inputType id="cdt.managedbuild.tool.gnu.c.compiler.input.1456597127" superClass="cdt.managedbuild.tool.gnu.c.compiler.input"/>
 							</tool>
@@ -510,6 +527,7 @@
 									<listOptionValue builtIn="false" value="TURN_ON_CPU0"/>
 									<listOptionValue builtIn="false" value="SEMIHOSTING"/>
 									<listOptionValue builtIn="false" value="CPU_MPC5748G"/>
+									<listOptionValue builtIn="false" value="USING_OS_FREERTOS"/>
 								</option>
 								<inputType id="cdt.managedbuild.tool.gnu.assembler.input.2089319597" superClass="cdt.managedbuild.tool.gnu.assembler.input"/>
 								<inputType id="com.freescale.s32ds.cross.gnu.tool.assembler.inputType.asmfile.1152872615" superClass="com.freescale.s32ds.cross.gnu.tool.assembler.inputType.asmfile"/>
@@ -540,9 +558,12 @@
 									<listOptionValue builtIn="false" value="&quot;${ProjDirPath}/SDK/platform/drivers/inc&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${ProjDirPath}/SDK/rtos/osif/&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${ProjDirPath}/SDK/platform/pal/inc&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${ProjDirPath}/SDK/rtos/FreeRTOS_PA/Source/include&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${ProjDirPath}/SDK/rtos/FreeRTOS_PA/Source/portable/GCC/PowerPC&quot;"/>
 								</option>
 								<option id="com.freescale.s32ds.cross.gnu.e200.tool.spt.preprocessor.option.defs.980040164" name="Defined symbols (-D)" superClass="com.freescale.s32ds.cross.gnu.e200.tool.spt.preprocessor.option.defs" valueType="definedSymbols">
 									<listOptionValue builtIn="false" value="CPU_MPC5748G"/>
+									<listOptionValue builtIn="false" value="USING_OS_FREERTOS"/>
 								</option>
 							</tool>
 						</toolChain>
