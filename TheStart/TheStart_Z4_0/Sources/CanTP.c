@@ -1,7 +1,6 @@
 #include "CanTP.h"
 
 
-extern uint8_t sendConsec;
 
 can_instance_t* can_instance;
 typedef enum CanTP_States {WAIT_FOR_FIRST, SEND_FLOW_CTL, WAIT_FOR_CONSECUTIVE} CANTP_States;
@@ -9,7 +8,7 @@ typedef enum CANTP_Frame_Types {SINGLE, FIRST,CONSECUTIVE ,FLOW} CANTP_Frame_Typ
 uint32_t curr_buff_idx = 0;
 uint16_t  dataSize = 0;
 
-// uint8_t dataBuffer[MAX_TP_SIZE];
+// uint8_t dataBuffer[MAX_TP_SIZE]; 
 
 uint8_t ready = 0;
 
@@ -17,6 +16,7 @@ uint8_t prevblock = 0;
 
 dataFrame* UDSFrame ;
 uint8_t timeout = 0;
+uint8_t timerStarted = 0;
 
 dataFrame* sendingUDS;
 
@@ -87,10 +87,7 @@ uint8_t get_payload_size(uint8_t *payload){
 
 void interrupt_callback(uint32_t instance, can_event_t eventType, uint32_t buffIdx, void *driverState){
     if(eventType == CAN_EVENT_RX_COMPLETE){
-        if(recvMessage.id == 0X33)
-        {
              ready = 1;
-        }
         // if(get_type(recvMessage) == SINGLE){
         // 	handleSingleFrame();
         // }
@@ -138,17 +135,28 @@ void recieve(void * pv)
         if(get_type(recvMessage) == SINGLE){
                 handleSingleFrame();
             }
-        else if(get_type(recvMessage)!= SINGLE){
+        else if(get_type(recvMessage)== FIRST){
             currState();
             }
+        else if (get_type(recvMessage) == CONSECUTIVE)
+        {
+            currState();
+        }
+        else if (get_type(recvMessage) == FLOW)
+        {
+
+        }
             ready = 0;
         }
         vTaskDelay(pdMS_TO_TICKS( 10 ));
         //delay here 10ms
-        timeout++;
-        if(timeout >= 100)
+        if(timerStarted == 1)
         {
-            timeOutHandle();
+            timeout++;
+            if(timeout >= 100)
+            {
+                timeOutHandle();
+            }
         }
     }
 }
@@ -198,6 +206,8 @@ void handleConsecutiveFrame(){
             {
             UDSFrame->dataBuffer[i] = 0;
             }
+            timeout = 0;
+            timerStarted = 0;
             send_flow_control('E',TX_BUFF_NUM);
     }
     if(dataSize == 0)
@@ -205,6 +215,8 @@ void handleConsecutiveFrame(){
         currState = handleFirstFrame;
         curr_buff_idx = 0;
         UDSFrame->ready = 1;
+        timerStarted = 0;
+        timeout = 0;
     }
     CAN_Receive(&can_pal1_instance, RX_BUFF_NUM, &recvMessage);
 }
@@ -225,7 +237,6 @@ void handleSingleFrame(){
 void handleFlowCtl(){
     CAN_Receive(&can_pal1_instance, RX_BUFF_NUM, &recvMessage);
     currState = handleConsecutiveFrame;
-    sendConsec = 1;
 }
 
 void handleFirstFrame(){
@@ -235,6 +246,7 @@ void handleFirstFrame(){
         UDSFrame->dataSize = dataSize;
         currState = handleFlowCtl;
         readCanTPPayload(firstFrameSize,startFirst);
+        timerStarted = 1;
         send_flow_control('A',TX_BUFF_NUM);
         }
 }
@@ -252,14 +264,17 @@ void timeOutHandle()
             {
             UDSFrame->dataBuffer[i] = 0;
             }
-            send_flow_control('E',TX_BUFF_NUM);
+            timerStarted = 0;
             timeout = 0;
+            send_flow_control('E',TX_BUFF_NUM);
+            
+
 }
 
 //save payload
 void readCanTPPayload(uint8_t size,uint8_t start)
 {
-    for(uint8_t i = 0 ;  i < size && dataSize > 0 ; i++){
+    for(int i = 0 ;  i < size && dataSize > 0 ; i++){
             UDSFrame->dataBuffer[curr_buff_idx ++] = recvMessage.data[i + start];
             dataSize--;
        }
