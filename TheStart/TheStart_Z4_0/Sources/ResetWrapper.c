@@ -19,10 +19,21 @@ void Do_Reset(uint8_t resetType){
 
     uint32_t invKey = MC_ME_MCTL_KEY(MC_ME->MCTL);
 
+    uint32_t firstWrite;
+    uint32_t secondWrite;
+    if(resetType == FUNC_RESET){
+        firstWrite = 0x00005AF0;
+        secondWrite = 0x0000A50F;
+    }
+    else if(resetType == DEST_RESET){
+        firstWrite = 0xF0005AF0;
+        secondWrite = 0xF000A50F;       
+    }
+
     //first write with key
-    MC_ME->MCTL = (uint32_t)resetType << MC_ME_MCTL_TARGET_MODE_SHIFT | ~invKey << MC_ME_MCTL_KEY_SHIFT;
+    MC_ME->MCTL = firstWrite;
 
     //second write with inverted key
-    MC_ME->MCTL = (uint32_t)resetType << MC_ME_MCTL_TARGET_MODE_SHIFT | invKey << MC_ME_MCTL_KEY_SHIFT;
+    MC_ME->MCTL = secondWrite;
 
 }
