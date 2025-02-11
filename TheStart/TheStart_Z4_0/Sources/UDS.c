@@ -220,30 +220,15 @@ void UDS_Request_Download(){
 void UDS_Transfer_Data(){
     status_t status = 0;
     if (requestFrame.dataSize < 2) {   
-<<<<<<< HEAD
         Transfer_Data_Abort();
         UDS_Create_neg_response(WRONG_MSG_LEN_OR_FORMAT, READY);  
-=======
-        /* Abort code */
-        UDS_Create_neg_response(WRONG_MSG_LEN_OR_FORMAT, NOTREADY);  
-        responseFrame.dataBuffer[3] = 0x00;
-        responseFrame.dataSize = 3;
->>>>>>> b512ee30e3b4806e8db33ab2f2edbba71f84f7fe
         return; 
     } 
     
     /* Ensure the message does not exceed MaxNumberOfBlockLength */  
-<<<<<<< HEAD
     if (requestFrame.dataSize > MaxNumberBlockLength) {   
         Transfer_Data_Abort();
         UDS_Create_neg_response(WRONG_MSG_LEN_OR_FORMAT, READY);  
-=======
-    if (requestFrame.dataSize > BL_data.MaxNumberBlockLength) {   
-        /* Abort code */
-        UDS_Create_neg_response(WRONG_MSG_LEN_OR_FORMAT, NOTREADY);  
-        responseFrame.dataBuffer[3] = 0x00;
-        responseFrame.dataSize = 3;
->>>>>>> b512ee30e3b4806e8db33ab2f2edbba71f84f7fe
         return; 
     }
 
@@ -271,35 +256,19 @@ void UDS_Transfer_Data(){
             // call CAN_TP send?
         }
     }else{
-<<<<<<< HEAD
         Transfer_Data_Abort();
         UDS_Create_neg_response(GENERAL_PROGRAMMING_FAILURE, READY);  
-=======
-        /* Abort code */
-        UDS_Create_neg_response(WRONG_MSG_LEN_OR_FORMAT, NOTREADY);  
-        responseFrame.dataBuffer[3] = 0x00;
-        responseFrame.dataSize = 3;
->>>>>>> b512ee30e3b4806e8db33ab2f2edbba71f84f7fe
         return; 
     }
 }
 
 void UDS_Request_Transfer_Exit(){
-<<<<<<< HEAD
     if (requestFrame.dataSize == 33) {   
         for(uint8_t i = 0; i<32; i++){
             BL_data.CRC_Field <<= 8;
             BL_data.CRC_Field |= requestFrame.dataBuffer[1 + i];
         }
         UDS_Create_neg_response(WRONG_MSG_LEN_OR_FORMAT, READY);  
-=======
-    if (requestFrame.dataSize != 1) {   
-        /* Take in CRC Data */
-        UDS_Create_neg_response(WRONG_MSG_LEN_OR_FORMAT, NOTREADY);  
-        responseFrame.dataBuffer[3] = 0x00;
-        responseFrame.dataSize = 3;
-        responseFrame.ready = READY;
->>>>>>> b512ee30e3b4806e8db33ab2f2edbba71f84f7fe
         return; 
     }else{
         /* +ve Response */
@@ -310,14 +279,7 @@ void UDS_Request_Transfer_Exit(){
             responseFrame.dataSize = 1;
             responseFrame.ready = READY;
         }else{
-<<<<<<< HEAD
             UDS_Create_neg_response(WRONG_MSG_LEN_OR_FORMAT, READY);  
-=======
-            UDS_Create_neg_response(WRONG_MSG_LEN_OR_FORMAT, NOTREADY);  
-            responseFrame.dataBuffer[3] = 0x00;
-            responseFrame.dataSize = 3;
-            responseFrame.ready = READY;
->>>>>>> b512ee30e3b4806e8db33ab2f2edbba71f84f7fe
             return; 
         }
     }
@@ -341,15 +303,16 @@ void UDS_ECU_Reset(){
 }
 
 void UDS_Routine_Control(){
-<<<<<<< HEAD
     if(requestFrame.dataSize < ROUTINE_CTRL_SIZE){
-        /* -ve response */
-        /* SEIF */
+        /* fix */
+        UDS_Create_neg_response(WRONG_MSG_LEN_OR_FORMAT, READY);  
+        return; 
     }
     uint8_t expected_size = 0;
     uint16_t routine_id = 0;
     status_t status = 0;
     static RoutineControlType prev_ctrl_type = STOP_ROUTINE;
+    
     if(requestFrame.dataBuffer[1] == START_ROUTINE && prev_ctrl_type == STOP_ROUTINE){
 
         routine_id = (requestFrame.dataBuffer[2] << 8) | requestFrame.dataBuffer[3];
@@ -491,31 +454,6 @@ void UDS_Erase_Memory(status_t *status){
 }
 
 
-=======
-    static RoutineControlType prev_ctrl_type = STOP_ROUTINE;
-    if(requestFrame.dataBuffer[1] == START_ROUTINE && prev_ctrl_type == STOP_ROUTINE){
-        if(requestFrame.dataBuffer[3] == ERASE_MEMORY){
-            /* Buffer[2]<<8 | Buffer[3] is the chosen service ID ... due to limited services to be implemented assume buffer[2]
-             * is always 0x00, thus check on Buffer[3] directly */
-            UDS_Erase_Memory();
-        }else if(requestFrame.dataBuffer[3] == CHECK_MEMORY){
-            /* Assume requestFrame.dataBuffer[2] is always 0x00 thus check on requestFrame.dataBuffer[3] directly */
-            UDS_Check_Memory();
-        }else{
-            /* -ve response */
-        }
-    }else if(requestFrame.dataBuffer[1] == STOP_ROUTINE && prev_ctrl_type == START_ROUTINE){
-        
-    }else if(requestFrame.dataBuffer[1] == REQ_ROUTINE_CTRL && prev_ctrl_type == START_ROUTINE){
-        
-    }else{
-        /* -ve response */
-    }
-    prev_ctrl_type = requestFrame.dataBuffer[1];
-
-}
-
->>>>>>> b512ee30e3b4806e8db33ab2f2edbba71f84f7fe
 void UDS_Init(){
 
 
@@ -523,48 +461,31 @@ void UDS_Init(){
 
 /* Don't forget NRC = 0x78 ... P2 Star*/
 
-<<<<<<< HEAD
 void UDS_Receive(void *params){
     uint8_t *data = params ;
     prev_SID = SID;
     SID = data[SID_POS];
     int data1 = data[1];
-=======
-void UDS_Receive(uint8_t *data){
-    prev_SID = SID;
-    SID = data[SID_POS];
-    int data1 = data[1];   
->>>>>>> b512ee30e3b4806e8db33ab2f2edbba71f84f7fe
 	while(1){
 
 		if(requestFrame.ready == NOTREADY){
 			vTaskDelay(pdMS_TO_TICKS(5));
 			continue;
 		}else{
-<<<<<<< HEAD
             reset_dataframe(&responseFrame);
             if(SID == DIAGNOSTIC_SESSION_CONTROL){
 	    	    UDS_Session_Control();
             }
             if(SID == REQUEST_DOWNLOAD && currentSession == PROGRAMMING_SESSION && (prev_SID == PROGRAMMING_SESSION || prev_SID == REQUEST_TRANSFER_EXIT)){
-=======
-            if(SID == DIAGNOSTIC_SESSION_CONTROL){
-	    	    UDS_Session_Control();
-            }
-            if(SID == REQUEST_DOWNLOAD && currentSession == PROGRAMMING_SESSION){
->>>>>>> b512ee30e3b4806e8db33ab2f2edbba71f84f7fe
                 /* Set flag ... to be in flash/eeprom */
                 #ifdef UDS_APP
                     /* Reset */
                 #endif
                 UDS_Request_Download();
-<<<<<<< HEAD
             }else{
                 /* -ve response 0x70 */
                 UDS_Create_neg_response(UPLOAD_DOWNLOAD_NOT_ACCEPTED, READY);
                 return;
-=======
->>>>>>> b512ee30e3b4806e8db33ab2f2edbba71f84f7fe
             }
             if(SID == ROUTINE_CONTROL && currentSession == PROGRAMMING_SESSION){
                 UDS_Routine_Control();
@@ -572,11 +493,7 @@ void UDS_Receive(uint8_t *data){
             if(SID == TRANSFER_DATA && currentSession == PROGRAMMING_SESSION){
                 UDS_Transfer_Data();
             }
-<<<<<<< HEAD
             if(SID == REQUEST_TRANSFER_EXIT && currentSession == PROGRAMMING_SESSION){
-=======
-            if(SID == UDS_Request_Transfer_Exit && currentSession == PROGRAMMING_SESSION){
->>>>>>> b512ee30e3b4806e8db33ab2f2edbba71f84f7fe
                 UDS_Request_Transfer_Exit();
             }
         }
