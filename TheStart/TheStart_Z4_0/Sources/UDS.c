@@ -100,10 +100,10 @@ void UDS_Session_Control(){
 
         if(requested_session == PROGRAMMING_SESSION && currentSession == DEFAULT_SESSION){
             currentSession = requested_session;
-            // Do_Reset(SOFT_RESET);
-            
-            //set new SW Flag
-            //execute reset
+            /* Set flag ... to be in flash/eeprom */
+            #ifdef UDS_APP
+                /* Reset */
+            #endif
         }
         
         UDS_Create_pos_response(READY);
@@ -206,6 +206,7 @@ void UDS_Request_Download(){
         UDS_Create_pos_response(NOTREADY);        /* isReady parameter is set to 0 */
         responseFrame.dataBuffer[1] = 0x20;       /* MaxNumberBlockLength = 2 bytes, followed by reserved 4 bits = 0 */ 
         
+        //test with vlaue = 5
         BL_Max_N_Block(&MaxNumberBlockLength);
         responseFrame.dataBuffer[2] = (uint8_t)(MaxNumberBlockLength>>8); /* 1st byte */
         responseFrame.dataBuffer[3] = (uint8_t)(MaxNumberBlockLength);    /* 2nd byte  e.g: 0x0FFA = 4090 ... max size in bytes (including SID) to be transmitted using Transfer Data service */
@@ -477,10 +478,6 @@ void UDS_Receive(void *params){
 	    	    UDS_Session_Control();
             }
             if(SID == REQUEST_DOWNLOAD && currentSession == PROGRAMMING_SESSION && (prev_SID == PROGRAMMING_SESSION || prev_SID == REQUEST_TRANSFER_EXIT)){
-                /* Set flag ... to be in flash/eeprom */
-                #ifdef UDS_APP
-                    /* Reset */
-                #endif
                 UDS_Request_Download();
             }else{
                 /* -ve response 0x70 */
