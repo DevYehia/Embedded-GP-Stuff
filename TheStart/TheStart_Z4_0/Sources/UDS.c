@@ -102,7 +102,7 @@ void UDS_Session_Control(){
             currentSession = requested_session;
             /* Set flag ... to be in flash/eeprom */
             #ifdef UDS_APP
-                /* Reset */
+                SOFT_RESET();
             #endif
         }
         
