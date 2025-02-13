@@ -124,6 +124,17 @@ status_t BootloaderFlash_ProgramVerify(uint32_t a_dest, uint32_t a_size, uint32_
 status_t BootloaderFlash_Read(uint32_t a_dest, uint32_t a_size, uint32_t* a_pBuffer);
 
 /****************************************************************
+ * Function Name: BootloaderFlash_InitCRC                       *
+ * Inputs       : None                                          *
+ * Outputs      : status_t - Initialization status              *
+ * Reentrancy   : Non-Reentrant                                 *
+ * Synchronous  : Synchronous                                   *
+ * Description  : Initializes CRC module using predefined        *
+ *                instance and configuration.                   *
+ ****************************************************************/
+status_t BootloaderFlash_InitCRC(void);
+
+/****************************************************************
  * Function Name: BootloaderFlash_Read                          *
  * Inputs       : a_dest  - Source address in flash to read from*
  *                a_size  - Size of data to calculate CRC for 	*

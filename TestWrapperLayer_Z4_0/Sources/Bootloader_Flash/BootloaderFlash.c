@@ -87,6 +87,11 @@ static const uint32_t g_BlocksStartAddresses[BOOTLOADER_FLASH_NUM_256KB_BLOCKS]=
 		0x01540000	/* Start Address of 256KB Code Flash Block 21 */
 };
 
+/****************************************************************
+ * Global Variable Name : g_BootloaderFLashCRC_InitConfig       *
+ *--------------------------------------------------------------*
+ * Description          : Structure with CRC Module configs.    *
+ ****************************************************************/
 extern const crc_user_config_t g_BootloaderFLashCRC_InitConfig;
 /*******************************************************************************/
 
@@ -110,7 +115,6 @@ status_t BootloaderFlash_Init(void)
 		returnCode = FLASH_DRV_Init();
 		if(returnCode == STATUS_SUCCESS){
 			g_BootLoaderFlashModuleInit = true;
-			returnCode = CRC_DRV_Init(BOOTLOADERFLASH_CRC_INSTANCE, &g_BootloaderFLashCRC_InitConfig);
 		}
 		else{
 			/*Do Nothing*/
@@ -229,7 +233,7 @@ status_t BootloaderFlash_Erase(uint32_t a_Dest, uint32_t a_Size)
  * Inputs       : None                                          *
  * Outputs      : status_t - Verification status                *
  * Reentrancy   : Non-Reentrant                                 *
- * Synchronous  : Synchronous                                    *
+ * Synchronous  : Synchronous                                   *
  * Description  : Verifies if the specified flash block is blank*
  ****************************************************************/
 status_t BootloaderFlash_VerifyBlank(uint32_t a_Dest, uint32_t a_Size)
@@ -277,7 +281,7 @@ status_t BootloaderFlash_Program(uint32_t a_dest, uint32_t a_size, uint32_t a_so
  *                a_source- Source address of data              *
  * Outputs      : status_t - Verification status                *
  * Reentrancy   : Non-Reentrant                                 *
- * Synchronous  : Synchronous                                    *
+ * Synchronous  : Synchronous                                   *
  * Description  : Verifies the programmed data in flash.        *
  ****************************************************************/
 status_t BootloaderFlash_ProgramVerify(uint32_t a_dest, uint32_t a_size, uint32_t a_source)
@@ -334,6 +338,23 @@ status_t BootloaderFlash_Read(uint32_t a_dest, uint32_t a_size, uint32_t* a_pBuf
 	}
 	return returnCode;
 }
+
+/****************************************************************
+ * Function Name: BootloaderFlash_InitCRC                       *
+ * Inputs       : None                                          *
+ * Outputs      : status_t - Initialization status              *
+ * Reentrancy   : Non-Reentrant                                 *
+ * Synchronous  : Synchronous                                   *
+ * Description  : Initializes CRC module using predefined       *
+ *                instance and configuration.                   *
+ ****************************************************************/
+status_t BootloaderFlash_InitCRC(void)
+{
+    status_t returnCode = STATUS_SUCCESS;         /* return code */
+    returnCode = CRC_DRV_Init(BOOTLOADERFLASH_CRC_INSTANCE, &g_BootloaderFLashCRC_InitConfig);
+    return returnCode;
+}
+
 /****************************************************************
  * Function Name: BootloaderFlash_Read                          *
  * Inputs       : a_dest  - Source address in flash to read from*
