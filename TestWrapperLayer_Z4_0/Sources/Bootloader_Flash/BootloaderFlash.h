@@ -12,20 +12,16 @@
  *                                    -=[Includes]=-                                    *
  ****************************************************************************************/
 #include "flash_c55_driver.h"
+#include "crc_driver.h"
 #include "status.h"
 
 
 /****************************************************************************************
  *                                  -=[Definitions]=-                                   *
  ****************************************************************************************/
-// #define BOOTLOADER_FLASH_SUCCES				(1U)
-// #define BOOTLOADER_FLASH_FAIL				(0U)
 #define BOOTLOADER_FLASH_WORDSIZE		(C55_WORD_SIZE)
 
 /* Lock State */
-#define UNLOCK_LOW_BLOCKS               (0x00000000U)
-#define UNLOCK_MID_BLOCKS               (0x00000000U)
-#define UNLOCK_HIGH_BLOCKS              (0x00000000U)
 #define UNLOCK_FIRST256_BLOCKS          (0x00000000U)
 #define UNLOCK_SECOND256_BLOCKS         (0x00000000U)
 
@@ -33,6 +29,8 @@
 #define NUMBER_OF_WORD_BLANK_CHECK      (0x90)
 #define NUMBER_OF_WORD_PGM_VERIFY       (0x80)
 #define NUMBER_OF_WORD_CHECK_SUM        (0x120)
+
+#define BOOTLOADERFLASH_CRC_INSTANCE	(0U)
 
 
 #define BOOTLOADER_FLASH_NUM_256KB_BLOCKS				(22U)

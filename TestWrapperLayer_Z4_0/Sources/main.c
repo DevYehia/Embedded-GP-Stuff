@@ -65,24 +65,24 @@ volatile int exit_code = 0;
 #define BLOCK_END_ADDRS                 (0x01245000U)
 
 /**************************************************************
-*                          Disable Flash Cache                *
-***************************************************************/
+ *                          Disable Flash Cache                *
+ ***************************************************************/
 void DisableFlashControllerCache(uint32_t flashConfigReg,
-                                 uint32_t disableVal,
-                                 uint32_t *origin_pflash_pfcr)
+		uint32_t disableVal,
+		uint32_t *origin_pflash_pfcr)
 {
-    /* Read the values of the register of flash configuration */
-    *origin_pflash_pfcr = REG_READ32(FLASH_FMC + flashConfigReg);
-    /* Disable Caches */
-    REG_BIT_CLEAR32(FLASH_FMC + flashConfigReg, disableVal);
+	/* Read the values of the register of flash configuration */
+	*origin_pflash_pfcr = REG_READ32(FLASH_FMC + flashConfigReg);
+	/* Disable Caches */
+	REG_BIT_CLEAR32(FLASH_FMC + flashConfigReg, disableVal);
 }
 /*****************************************************************
-*               Restore configuration register of FCM            *
-******************************************************************/
+ *               Restore configuration register of FCM            *
+ ******************************************************************/
 void RestoreFlashControllerCache(uint32_t flashConfigReg,
-                                 uint32_t pflash_pfcr)
+		uint32_t pflash_pfcr)
 {
-    REG_WRITE32(FLASH_FMC + flashConfigReg, pflash_pfcr);
+	REG_WRITE32(FLASH_FMC + flashConfigReg, pflash_pfcr);
 }
 
 
@@ -95,6 +95,7 @@ int main(void)
 	uint32_t size = BUFFER_SIZE_BYTE/BOOTLOADER_FLASH_WORDSIZE;
 	uint32_t idx = 0;
 	uint32_t pflash_pfcr1, pflash_pfcr2;
+	uint32_t calculatedCRC32;
 	/*** Processor Expert internal initialization. DON'T REMOVE THIS CODE!!! ***/
 #ifdef PEX_RTOS_INIT
 	PEX_RTOS_INIT();                   /* Initialization of the selected RTOS. Macro is defined by the RTOS component. */
@@ -104,8 +105,8 @@ int main(void)
 	CLOCK_SYS_Init(g_clockManConfigsArr,   CLOCK_MANAGER_CONFIG_CNT,
 			g_clockManCallbacksArr, CLOCK_MANAGER_CALLBACK_CNT);
 	CLOCK_SYS_UpdateConfiguration(0U, CLOCK_MANAGER_POLICY_AGREEMENT);
-    DisableFlashControllerCache(FLASH_PFCR1, FLASH_FMC_BFEN_MASK, &pflash_pfcr1);
-    DisableFlashControllerCache(FLASH_PFCR2, FLASH_FMC_BFEN_MASK, &pflash_pfcr2);
+	DisableFlashControllerCache(FLASH_PFCR1, FLASH_FMC_BFEN_MASK, &pflash_pfcr1);
+	DisableFlashControllerCache(FLASH_PFCR2, FLASH_FMC_BFEN_MASK, &pflash_pfcr2);
 
 	for(idx=0;idx<size;idx++){
 		buffer[idx]=0xAABBCCDD; /*Initialize Buffer*/
@@ -141,6 +142,8 @@ int main(void)
 		while(1);
 	}
 
+	calculatedCRC32=BootloaderFlash_CalculateCRC32(dest, size);
+
 	dest = 0x01241000;
 	ret = BootloaderFlash_Program(dest, size, (uint32_t)buffer);
 	if (ret != STATUS_SUCCESS){
@@ -153,12 +156,13 @@ int main(void)
 	if (ret != STATUS_SUCCESS){
 		while(1);
 	}
-    /* Restore flash controller cache */
-    RestoreFlashControllerCache(FLASH_PFCR1, pflash_pfcr1);
-    RestoreFlashControllerCache(FLASH_PFCR2, pflash_pfcr2);
+	calculatedCRC32=BootloaderFlash_CalculateCRC32(dest, size);
+	/* Restore flash controller cache */
+	RestoreFlashControllerCache(FLASH_PFCR1, pflash_pfcr1);
+	RestoreFlashControllerCache(FLASH_PFCR2, pflash_pfcr2);
 	/* For example: for(;;) { } */
 
-			/*** Don't write any code pass this line, or it will be deleted during code generation. ***/
+	/*** Don't write any code pass this line, or it will be deleted during code generation. ***/
   /*** RTOS startup code. Macro PEX_RTOS_START is defined by the RTOS component. DON'T MODIFY THIS CODE!!! ***/
   #ifdef PEX_RTOS_START
     PEX_RTOS_START();                  /* Startup of the selected RTOS. Macro is defined by the RTOS component. */
