@@ -74,6 +74,19 @@ Module "flash_c551" (component flash_c55)
                 erase complete or suspend program, erase.
    - flash_c551_FLASH_DRV_DisableCmdCompleteInterupt -Disable the command program, erase, suspend complete interrupt.
 
+Module "crc1"      (component crc)
+   - crc1_CRC_DRV_Init -This function initializes CRC driver based on user configuration input. The user must make sure that 
+                the clock is enabled.
+   - crc1_CRC_DRV_Deinit -This function sets the default configuration.
+   - crc1_CRC_DRV_WriteData -This function appends a block of bytes to the current CRC calculation.
+   - crc1_CRC_DRV_GetCrcResult -This function returns the current result of the CRC calculation.
+   - crc1_CRC_DRV_Configure -This function configures the CRC module from a user configuration structure.
+   - crc1_CRC_DRV_GetCrc32 -This function appends 32-bit data to the current CRC calculation and returns new result.
+   - crc1_CRC_DRV_GetCrc16 -This function appends 16-bit data to the current CRC calculation and returns new result.
+   - crc1_CRC_DRV_GetCrc8 -This function appends 8-bit data to the current CRC calculation and returns new result.
+   - crc1_CRC_DRV_GetConfig -This function Get configures of the CRC module currently.
+   - crc1_CRC_DRV_GetDefaultConfig -This function Get default configures the CRC module for user configuration structure.
+
 Module "Cpu"       (component MPC5748G_324)
    - Cpu_SystemInit -This method configures the oscillator (PLL) that is part of the microcontroller device. SystemInit is 
                 called from startup_device file.

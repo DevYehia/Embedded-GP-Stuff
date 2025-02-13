@@ -29,7 +29,7 @@
     <GeneratedByPE>
       <File Name="Generated_Code/clockMan1.h" FileDate="2025-02-02, 22:55:09" FileAge="1738529709469" FileType="45637" CompNumb="3" />
       <File Name="SDK/platform/devices/MPC5748G/include/MPC5748G_features.h" FileDate="2025-02-02, 22:55:09" FileAge="1738529709391" FileType="1048576" CompNumb="1" />
-      <File Name="Generated_Code/clockMan1.c" FileDate="2025-02-02, 22:55:09" FileAge="1738529709457" FileType="45637" CompNumb="3" />
+      <File Name="Generated_Code/clockMan1.c" FileDate="2025-02-13, 13:58:30" FileAge="1739447910355" FileType="45637" CompNumb="3" />
       <File Name="SDK/platform/devices/MPC5748G/include/MPC5748G.h" FileDate="2025-02-02, 22:55:09" FileAge="1738529709407" FileType="1048576" CompNumb="1" />
       <File Name="SDK/platform/devices/common/s32_core_e200.h" FileDate="2025-02-02, 22:55:09" FileAge="1738529709283" FileType="1048576" CompNumb="1" />
       <File Name="SDK/platform/drivers/inc/flash_c55_driver.h" FileDate="2025-02-02, 22:55:09" FileAge="1738529709188" FileType="1048576" CompNumb="5" />
@@ -37,15 +37,19 @@
       <File Name="SDK/platform/devices/MPC5748G/startup/system_MPC5748G.c" FileDate="2025-02-02, 22:55:09" FileAge="1738529709363" FileType="1048576" CompNumb="1" />
       <File Name="SDK/platform/drivers/src/flash_c55/flash_c55_hw_access.h" FileDate="2025-02-02, 22:55:09" FileAge="1738529709164" FileType="1048576" CompNumb="5" />
       <File Name="SDK/platform/drivers/src/interrupt/interrupt_manager_MPC57xx.c" FileDate="2025-02-02, 22:55:08" FileAge="1738529708938" FileType="1048576" CompNumb="4" />
-      <File Name="Documentation/TestWrapperLayer_Z4_0.txt" FileDate="2025-02-02, 22:55:09" FileAge="1738529709560" FileType="3072" />
-      <File Name="Sources/main.c" FileDate="2025-02-03, 16:15:01" FileAge="1738592101393" FileType="128" />
+      <File Name="Documentation/TestWrapperLayer_Z4_0.txt" FileDate="2025-02-13, 13:58:30" FileAge="1739447910512" FileType="3072" />
+      <File Name="Sources/main.c" FileDate="2025-02-13, 14:15:46" FileAge="1739448946652" FileType="128" />
+      <File Name="Generated_Code/crc1.h" FileDate="2025-02-13, 13:58:30" FileAge="1739447910308" FileType="45637" CompNumb="6" />
       <File Name="Project_Settings/Startup_Code/interrupt_vectors.S" FileDate="2025-02-02, 16:16:19" FileAge="1738505779839" FileType="1048576" CompNumb="1" />
+      <File Name="Generated_Code/crc1.c" FileDate="2025-02-13, 14:48:40" FileAge="1739450920965" FileType="45637" CompNumb="6" />
       <File Name="SDK/platform/drivers/src/pins/siul2/siul2_hw_access.h" FileDate="2025-02-02, 22:55:08" FileAge="1738529708912" FileType="1048576" CompNumb="2" />
-      <File Name="Documentation/TestWrapperLayer_Z4_0_Settings.xml" FileDate="2025-02-02, 22:55:09" FileAge="1738529709545" FileType="3072" />
+      <File Name="Documentation/TestWrapperLayer_Z4_0_Settings.xml" FileDate="2025-02-13, 13:58:30" FileAge="1739447910465" FileType="3072" />
       <File Name="Generated_Code/pin_mux.h" FileDate="2025-02-02, 22:55:09" FileAge="1738529709496" FileType="45637" CompNumb="2" />
       <File Name="Project_Settings/Startup_Code/core0_intc_sw_handlers.S" FileDate="2025-02-02, 16:16:19" FileAge="1738505779849" FileType="1048576" CompNumb="1" />
       <File Name="SDK/platform/drivers/src/pins/siul2/siul2_hw_access.c" FileDate="2025-02-02, 22:55:08" FileAge="1738529708875" FileType="1048576" CompNumb="2" />
+      <File Name="SDK/platform/drivers/src/crc/crc_c55_hw_access.h" FileDate="2025-02-13, 13:58:30" FileAge="1739447910152" FileType="1048576" />
       <File Name="Generated_Code/pin_mux.c" FileDate="2025-02-02, 22:55:09" FileAge="1738529709480" FileType="45637" CompNumb="2" />
+      <File Name="SDK/platform/drivers/src/crc/crc_c55_hw_access.c" FileDate="2025-02-13, 13:58:30" FileAge="1739447910136" FileType="1048576" />
       <File Name="SDK/platform/drivers/inc/clock_manager.h" FileDate="2025-02-02, 22:55:09" FileAge="1738529709122" FileType="1048576" CompNumb="3" />
       <File Name="SDK/platform/drivers/src/clock/MPC57xx/mc_me_hw_access.h" FileDate="2025-02-02, 22:55:09" FileAge="1738529709079" FileType="1048576" CompNumb="3" />
       <File Name="SDK/platform/drivers/inc/interrupt_manager.h" FileDate="2025-02-02, 22:55:08" FileAge="1738529708964" FileType="1048576" CompNumb="4" />
@@ -54,6 +58,7 @@
       <File Name="SDK/platform/devices/status.h" FileDate="2025-02-02, 22:55:09" FileAge="1738529709228" FileType="1048576" CompNumb="1" />
       <File Name="SDK/platform/devices/startup.h" FileDate="2025-02-02, 22:55:09" FileAge="1738529709307" FileType="1048576" CompNumb="1" />
       <File Name="SDK/platform/devices/device_registers.h" FileDate="2025-02-02, 22:55:09" FileAge="1738529709245" FileType="1048576" CompNumb="1" />
+      <File Name="SDK/platform/drivers/inc/crc_driver.h" FileDate="2025-02-13, 13:58:30" FileAge="1739447910168" FileType="1048576" />
       <File Name="Project_Settings/Startup_Code/startup_MPC5748G.S" FileDate="2025-02-02, 16:16:19" FileAge="1738505779828" FileType="1048576" CompNumb="1" />
       <File Name="SDK/platform/drivers/inc/clock.h" FileDate="2025-02-02, 22:55:09" FileAge="1738529709106" FileType="1048576" CompNumb="3" />
       <File Name="SDK/platform/devices/startup.c" FileDate="2025-02-02, 22:55:09" FileAge="1738529709324" FileType="1048576" CompNumb="1" />
@@ -61,16 +66,17 @@
       <File Name="SDK/platform/drivers/src/clock/MPC57xx/cgm_hw_access.h" FileDate="2025-02-02, 22:55:09" FileAge="1738529709025" FileType="1048576" CompNumb="3" />
       <File Name="SDK/platform/drivers/src/clock/MPC57xx/cmu_hw_access.h" FileDate="2025-02-02, 22:55:09" FileAge="1738529709061" FileType="1048576" CompNumb="3" />
       <File Name="SDK/platform/drivers/src/clock/MPC57xx/clock_MPC57xx.h" FileDate="2025-02-02, 22:55:09" FileAge="1738529709044" FileType="1048576" CompNumb="3" />
+      <File Name="SDK/platform/drivers/src/crc/crc_driver.c" FileDate="2025-02-13, 13:58:30" FileAge="1739447910121" FileType="1048576" />
       <File Name="SDK/platform/devices/callbacks.h" FileDate="2025-02-02, 22:55:09" FileAge="1738529709261" FileType="1048576" CompNumb="1" />
       <File Name="SDK/platform/drivers/src/clock/MPC57xx/clock_MPC57xx.c" FileDate="2025-02-02, 22:55:08" FileAge="1738529708989" FileType="1048576" CompNumb="3" />
       <File Name="SDK/platform/drivers/src/pins/siul2/pins_siul2_driver.h" FileDate="2025-02-02, 22:55:08" FileAge="1738529708894" FileType="1048576" CompNumb="2" />
       <File Name="SDK/platform/drivers/src/pins/siul2/pins_siul2_driver.c" FileDate="2025-02-02, 22:55:08" FileAge="1738529708859" FileType="1048576" CompNumb="2" />
-      <File Name="Generated_Code/Cpu.h" FileDate="2025-02-02, 22:55:09" FileAge="1738529709444" FileType="45637" CompNumb="1" />
+      <File Name="Generated_Code/Cpu.h" FileDate="2025-02-13, 13:58:30" FileAge="1739447910371" FileType="45637" CompNumb="1" />
       <File Name="SDK/platform/devices/devassert.h" FileDate="2025-02-02, 22:55:09" FileAge="1738529709211" FileType="1048576" CompNumb="1" />
       <File Name="SDK/platform/drivers/src/flash_c55/flash_c55_driver.c" FileDate="2025-02-02, 22:55:09" FileAge="1738529709146" FileType="1048576" CompNumb="5" />
-      <File Name="Generated_Code/Cpu.c" FileDate="2025-02-02, 22:55:09" FileAge="1738529709433" FileType="45637" CompNumb="1" />
+      <File Name="Generated_Code/Cpu.c" FileDate="2025-02-13, 13:58:30" FileAge="1739447910386" FileType="45637" CompNumb="1" />
       <File Name="Project_Settings/Linker_Files/linker_flash.ld" FileDate="2025-02-02, 16:16:19" FileAge="1738505779802" FileType="1048576" CompNumb="1" />
     </GeneratedByPE>
   </GeneratedFilesList>
-  <CodeGenReference>3</CodeGenReference>
+  <CodeGenReference>6</CodeGenReference>
 </CodeGenerationInfo>

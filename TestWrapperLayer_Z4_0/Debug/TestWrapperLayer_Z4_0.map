@@ -660,6 +660,7 @@ Discarded input sections
  .group         0x00000000        0x8 ./Generated_Code/Cpu.o
  .group         0x00000000        0x8 ./Generated_Code/Cpu.o
  .group         0x00000000        0x8 ./Generated_Code/Cpu.o
+ .group         0x00000000        0x8 ./Generated_Code/Cpu.o
  .text          0x00000000        0x0 ./Generated_Code/Cpu.o
  .data          0x00000000        0x0 ./Generated_Code/Cpu.o
  .bss           0x00000000        0x0 ./Generated_Code/Cpu.o
@@ -667,7 +668,7 @@ Discarded input sections
  .debug_abbrev  0x00000000       0x29 ./Generated_Code/Cpu.o
  .debug_aranges
                 0x00000000       0x18 ./Generated_Code/Cpu.o
- .debug_macro   0x00000000      0x1ad ./Generated_Code/Cpu.o
+ .debug_macro   0x00000000      0x1c0 ./Generated_Code/Cpu.o
  .debug_macro   0x00000000      0x61c ./Generated_Code/Cpu.o
  .debug_macro   0x00000000       0x52 ./Generated_Code/Cpu.o
  .debug_macro   0x00000000       0xa0 ./Generated_Code/Cpu.o
@@ -693,8 +694,9 @@ Discarded input sections
  .debug_macro   0x00000000       0x53 ./Generated_Code/Cpu.o
  .debug_macro   0x00000000       0x28 ./Generated_Code/Cpu.o
  .debug_macro   0x00000000       0x10 ./Generated_Code/Cpu.o
- .debug_line    0x00000000      0x609 ./Generated_Code/Cpu.o
- .debug_str     0x00000000   0x106dc4 ./Generated_Code/Cpu.o
+ .debug_macro   0x00000000       0x10 ./Generated_Code/Cpu.o
+ .debug_line    0x00000000      0x59e ./Generated_Code/Cpu.o
+ .debug_str     0x00000000   0x106de9 ./Generated_Code/Cpu.o
  .comment       0x00000000       0x83 ./Generated_Code/Cpu.o
  .group         0x00000000        0x8 ./Generated_Code/clockMan1.o
  .group         0x00000000        0x8 ./Generated_Code/clockMan1.o
@@ -746,6 +748,69 @@ Discarded input sections
  .debug_macro   0x00000000       0x53 ./Generated_Code/clockMan1.o
  .debug_macro   0x00000000       0x28 ./Generated_Code/clockMan1.o
  .debug_macro   0x00000000       0x10 ./Generated_Code/clockMan1.o
+ .group         0x00000000        0x8 ./Generated_Code/crc1.o
+ .group         0x00000000        0x8 ./Generated_Code/crc1.o
+ .group         0x00000000        0x8 ./Generated_Code/crc1.o
+ .group         0x00000000        0x8 ./Generated_Code/crc1.o
+ .group         0x00000000        0x8 ./Generated_Code/crc1.o
+ .group         0x00000000        0x8 ./Generated_Code/crc1.o
+ .group         0x00000000        0x8 ./Generated_Code/crc1.o
+ .group         0x00000000        0x8 ./Generated_Code/crc1.o
+ .group         0x00000000        0x8 ./Generated_Code/crc1.o
+ .group         0x00000000        0x8 ./Generated_Code/crc1.o
+ .group         0x00000000        0x8 ./Generated_Code/crc1.o
+ .group         0x00000000        0x8 ./Generated_Code/crc1.o
+ .group         0x00000000        0x8 ./Generated_Code/crc1.o
+ .group         0x00000000        0x8 ./Generated_Code/crc1.o
+ .group         0x00000000        0x8 ./Generated_Code/crc1.o
+ .group         0x00000000        0x8 ./Generated_Code/crc1.o
+ .group         0x00000000        0x8 ./Generated_Code/crc1.o
+ .group         0x00000000        0x8 ./Generated_Code/crc1.o
+ .group         0x00000000        0x8 ./Generated_Code/crc1.o
+ .group         0x00000000        0x8 ./Generated_Code/crc1.o
+ .group         0x00000000        0x8 ./Generated_Code/crc1.o
+ .group         0x00000000        0x8 ./Generated_Code/crc1.o
+ .group         0x00000000        0x8 ./Generated_Code/crc1.o
+ .group         0x00000000        0x8 ./Generated_Code/crc1.o
+ .group         0x00000000        0x8 ./Generated_Code/crc1.o
+ .text          0x00000000        0x0 ./Generated_Code/crc1.o
+ .data          0x00000000        0x0 ./Generated_Code/crc1.o
+ .bss           0x00000000        0x0 ./Generated_Code/crc1.o
+ .rodata.crc1_InitConfig0
+                0x00000000       0x14 ./Generated_Code/crc1.o
+ .debug_info    0x00000000      0xdfe ./Generated_Code/crc1.o
+ .debug_abbrev  0x00000000       0x80 ./Generated_Code/crc1.o
+ .debug_aranges
+                0x00000000       0x18 ./Generated_Code/crc1.o
+ .debug_macro   0x00000000      0x1c5 ./Generated_Code/crc1.o
+ .debug_macro   0x00000000      0x61c ./Generated_Code/crc1.o
+ .debug_macro   0x00000000       0x52 ./Generated_Code/crc1.o
+ .debug_macro   0x00000000       0xa0 ./Generated_Code/crc1.o
+ .debug_macro   0x00000000       0x16 ./Generated_Code/crc1.o
+ .debug_macro   0x00000000       0x5e ./Generated_Code/crc1.o
+ .debug_macro   0x00000000      0x1aa ./Generated_Code/crc1.o
+ .debug_macro   0x00000000      0x13a ./Generated_Code/crc1.o
+ .debug_macro   0x00000000       0x1c ./Generated_Code/crc1.o
+ .debug_macro   0x00000000       0x9d ./Generated_Code/crc1.o
+ .debug_macro   0x00000000       0x10 ./Generated_Code/crc1.o
+ .debug_macro   0x00000000      0x15b ./Generated_Code/crc1.o
+ .debug_macro   0x00000000       0x28 ./Generated_Code/crc1.o
+ .debug_macro   0x00000000       0x58 ./Generated_Code/crc1.o
+ .debug_macro   0x00000000       0x11 ./Generated_Code/crc1.o
+ .debug_macro   0x00000000       0x75 ./Generated_Code/crc1.o
+ .debug_macro   0x00000000    0x27e8c ./Generated_Code/crc1.o
+ .debug_macro   0x00000000     0x15f0 ./Generated_Code/crc1.o
+ .debug_macro   0x00000000       0x10 ./Generated_Code/crc1.o
+ .debug_macro   0x00000000      0x3f7 ./Generated_Code/crc1.o
+ .debug_macro   0x00000000       0x16 ./Generated_Code/crc1.o
+ .debug_macro   0x00000000       0x16 ./Generated_Code/crc1.o
+ .debug_macro   0x00000000       0x16 ./Generated_Code/crc1.o
+ .debug_macro   0x00000000       0x53 ./Generated_Code/crc1.o
+ .debug_macro   0x00000000       0x28 ./Generated_Code/crc1.o
+ .debug_macro   0x00000000       0x10 ./Generated_Code/crc1.o
+ .debug_line    0x00000000      0x59f ./Generated_Code/crc1.o
+ .debug_str     0x00000000   0x108f31 ./Generated_Code/crc1.o
+ .comment       0x00000000       0x83 ./Generated_Code/crc1.o
  .group         0x00000000        0x8 ./Generated_Code/pin_mux.o
  .group         0x00000000        0x8 ./Generated_Code/pin_mux.o
  .group         0x00000000        0x8 ./Generated_Code/pin_mux.o
@@ -961,6 +1026,107 @@ Discarded input sections
  .debug_macro   0x00000000       0x16 ./SDK/platform/drivers/src/clock/MPC57xx/clock_MPC57xx.o
  .debug_macro   0x00000000       0x16 ./SDK/platform/drivers/src/clock/MPC57xx/clock_MPC57xx.o
  .debug_macro   0x00000000      0x3f7 ./SDK/platform/drivers/src/clock/MPC57xx/clock_MPC57xx.o
+ .group         0x00000000        0x8 ./SDK/platform/drivers/src/crc/crc_c55_hw_access.o
+ .group         0x00000000        0x8 ./SDK/platform/drivers/src/crc/crc_c55_hw_access.o
+ .group         0x00000000        0x8 ./SDK/platform/drivers/src/crc/crc_c55_hw_access.o
+ .group         0x00000000        0x8 ./SDK/platform/drivers/src/crc/crc_c55_hw_access.o
+ .group         0x00000000        0x8 ./SDK/platform/drivers/src/crc/crc_c55_hw_access.o
+ .group         0x00000000        0x8 ./SDK/platform/drivers/src/crc/crc_c55_hw_access.o
+ .group         0x00000000        0x8 ./SDK/platform/drivers/src/crc/crc_c55_hw_access.o
+ .group         0x00000000        0x8 ./SDK/platform/drivers/src/crc/crc_c55_hw_access.o
+ .group         0x00000000        0x8 ./SDK/platform/drivers/src/crc/crc_c55_hw_access.o
+ .group         0x00000000        0x8 ./SDK/platform/drivers/src/crc/crc_c55_hw_access.o
+ .group         0x00000000        0x8 ./SDK/platform/drivers/src/crc/crc_c55_hw_access.o
+ .group         0x00000000        0x8 ./SDK/platform/drivers/src/crc/crc_c55_hw_access.o
+ .group         0x00000000        0x8 ./SDK/platform/drivers/src/crc/crc_c55_hw_access.o
+ .group         0x00000000        0x8 ./SDK/platform/drivers/src/crc/crc_c55_hw_access.o
+ .group         0x00000000        0x8 ./SDK/platform/drivers/src/crc/crc_c55_hw_access.o
+ .group         0x00000000        0x8 ./SDK/platform/drivers/src/crc/crc_c55_hw_access.o
+ .group         0x00000000        0x8 ./SDK/platform/drivers/src/crc/crc_c55_hw_access.o
+ .group         0x00000000        0x8 ./SDK/platform/drivers/src/crc/crc_c55_hw_access.o
+ .group         0x00000000        0x8 ./SDK/platform/drivers/src/crc/crc_c55_hw_access.o
+ .group         0x00000000        0x8 ./SDK/platform/drivers/src/crc/crc_c55_hw_access.o
+ .text          0x00000000        0x0 ./SDK/platform/drivers/src/crc/crc_c55_hw_access.o
+ .data          0x00000000        0x0 ./SDK/platform/drivers/src/crc/crc_c55_hw_access.o
+ .bss           0x00000000        0x0 ./SDK/platform/drivers/src/crc/crc_c55_hw_access.o
+ .text.CRC_GetWriteTranspose
+                0x00000000       0x1e ./SDK/platform/drivers/src/crc/crc_c55_hw_access.o
+ .debug_macro   0x00000000      0x61c ./SDK/platform/drivers/src/crc/crc_c55_hw_access.o
+ .debug_macro   0x00000000       0x52 ./SDK/platform/drivers/src/crc/crc_c55_hw_access.o
+ .debug_macro   0x00000000       0xa0 ./SDK/platform/drivers/src/crc/crc_c55_hw_access.o
+ .debug_macro   0x00000000       0x16 ./SDK/platform/drivers/src/crc/crc_c55_hw_access.o
+ .debug_macro   0x00000000       0x5e ./SDK/platform/drivers/src/crc/crc_c55_hw_access.o
+ .debug_macro   0x00000000      0x1aa ./SDK/platform/drivers/src/crc/crc_c55_hw_access.o
+ .debug_macro   0x00000000      0x13a ./SDK/platform/drivers/src/crc/crc_c55_hw_access.o
+ .debug_macro   0x00000000       0x16 ./SDK/platform/drivers/src/crc/crc_c55_hw_access.o
+ .debug_macro   0x00000000       0x28 ./SDK/platform/drivers/src/crc/crc_c55_hw_access.o
+ .debug_macro   0x00000000       0x10 ./SDK/platform/drivers/src/crc/crc_c55_hw_access.o
+ .debug_macro   0x00000000       0x16 ./SDK/platform/drivers/src/crc/crc_c55_hw_access.o
+ .debug_macro   0x00000000       0x16 ./SDK/platform/drivers/src/crc/crc_c55_hw_access.o
+ .debug_macro   0x00000000       0x11 ./SDK/platform/drivers/src/crc/crc_c55_hw_access.o
+ .debug_macro   0x00000000       0x75 ./SDK/platform/drivers/src/crc/crc_c55_hw_access.o
+ .debug_macro   0x00000000       0x16 ./SDK/platform/drivers/src/crc/crc_c55_hw_access.o
+ .debug_macro   0x00000000       0x9d ./SDK/platform/drivers/src/crc/crc_c55_hw_access.o
+ .debug_macro   0x00000000    0x27e7a ./SDK/platform/drivers/src/crc/crc_c55_hw_access.o
+ .debug_macro   0x00000000     0x15f0 ./SDK/platform/drivers/src/crc/crc_c55_hw_access.o
+ .debug_macro   0x00000000       0x22 ./SDK/platform/drivers/src/crc/crc_c55_hw_access.o
+ .group         0x00000000        0x8 ./SDK/platform/drivers/src/crc/crc_driver.o
+ .group         0x00000000        0x8 ./SDK/platform/drivers/src/crc/crc_driver.o
+ .group         0x00000000        0x8 ./SDK/platform/drivers/src/crc/crc_driver.o
+ .group         0x00000000        0x8 ./SDK/platform/drivers/src/crc/crc_driver.o
+ .group         0x00000000        0x8 ./SDK/platform/drivers/src/crc/crc_driver.o
+ .group         0x00000000        0x8 ./SDK/platform/drivers/src/crc/crc_driver.o
+ .group         0x00000000        0x8 ./SDK/platform/drivers/src/crc/crc_driver.o
+ .group         0x00000000        0x8 ./SDK/platform/drivers/src/crc/crc_driver.o
+ .group         0x00000000        0x8 ./SDK/platform/drivers/src/crc/crc_driver.o
+ .group         0x00000000        0x8 ./SDK/platform/drivers/src/crc/crc_driver.o
+ .group         0x00000000        0x8 ./SDK/platform/drivers/src/crc/crc_driver.o
+ .group         0x00000000        0x8 ./SDK/platform/drivers/src/crc/crc_driver.o
+ .group         0x00000000        0x8 ./SDK/platform/drivers/src/crc/crc_driver.o
+ .group         0x00000000        0x8 ./SDK/platform/drivers/src/crc/crc_driver.o
+ .group         0x00000000        0x8 ./SDK/platform/drivers/src/crc/crc_driver.o
+ .group         0x00000000        0x8 ./SDK/platform/drivers/src/crc/crc_driver.o
+ .group         0x00000000        0x8 ./SDK/platform/drivers/src/crc/crc_driver.o
+ .group         0x00000000        0x8 ./SDK/platform/drivers/src/crc/crc_driver.o
+ .group         0x00000000        0x8 ./SDK/platform/drivers/src/crc/crc_driver.o
+ .group         0x00000000        0x8 ./SDK/platform/drivers/src/crc/crc_driver.o
+ .group         0x00000000        0x8 ./SDK/platform/drivers/src/crc/crc_driver.o
+ .text          0x00000000        0x0 ./SDK/platform/drivers/src/crc/crc_driver.o
+ .data          0x00000000        0x0 ./SDK/platform/drivers/src/crc/crc_driver.o
+ .bss           0x00000000        0x0 ./SDK/platform/drivers/src/crc/crc_driver.o
+ .text.CRC_DRV_Deinit
+                0x00000000       0x1c ./SDK/platform/drivers/src/crc/crc_driver.o
+ .text.CRC_DRV_GetCrc32
+                0x00000000       0x2a ./SDK/platform/drivers/src/crc/crc_driver.o
+ .text.CRC_DRV_GetCrc16
+                0x00000000       0x2a ./SDK/platform/drivers/src/crc/crc_driver.o
+ .text.CRC_DRV_GetCrc8
+                0x00000000       0x2a ./SDK/platform/drivers/src/crc/crc_driver.o
+ .text.CRC_DRV_GetConfig
+                0x00000000       0x64 ./SDK/platform/drivers/src/crc/crc_driver.o
+ .text.CRC_DRV_GetDefaultConfig
+                0x00000000       0x16 ./SDK/platform/drivers/src/crc/crc_driver.o
+ .debug_macro   0x00000000      0x61c ./SDK/platform/drivers/src/crc/crc_driver.o
+ .debug_macro   0x00000000       0x52 ./SDK/platform/drivers/src/crc/crc_driver.o
+ .debug_macro   0x00000000       0xa0 ./SDK/platform/drivers/src/crc/crc_driver.o
+ .debug_macro   0x00000000       0x16 ./SDK/platform/drivers/src/crc/crc_driver.o
+ .debug_macro   0x00000000       0x11 ./SDK/platform/drivers/src/crc/crc_driver.o
+ .debug_macro   0x00000000       0x75 ./SDK/platform/drivers/src/crc/crc_driver.o
+ .debug_macro   0x00000000       0x16 ./SDK/platform/drivers/src/crc/crc_driver.o
+ .debug_macro   0x00000000       0x5e ./SDK/platform/drivers/src/crc/crc_driver.o
+ .debug_macro   0x00000000      0x1aa ./SDK/platform/drivers/src/crc/crc_driver.o
+ .debug_macro   0x00000000      0x13a ./SDK/platform/drivers/src/crc/crc_driver.o
+ .debug_macro   0x00000000       0x9d ./SDK/platform/drivers/src/crc/crc_driver.o
+ .debug_macro   0x00000000       0x10 ./SDK/platform/drivers/src/crc/crc_driver.o
+ .debug_macro   0x00000000      0x15b ./SDK/platform/drivers/src/crc/crc_driver.o
+ .debug_macro   0x00000000       0x28 ./SDK/platform/drivers/src/crc/crc_driver.o
+ .debug_macro   0x00000000       0x58 ./SDK/platform/drivers/src/crc/crc_driver.o
+ .debug_macro   0x00000000    0x27e7a ./SDK/platform/drivers/src/crc/crc_driver.o
+ .debug_macro   0x00000000     0x15f0 ./SDK/platform/drivers/src/crc/crc_driver.o
+ .debug_macro   0x00000000       0x22 ./SDK/platform/drivers/src/crc/crc_driver.o
+ .debug_macro   0x00000000       0x16 ./SDK/platform/drivers/src/crc/crc_driver.o
+ .debug_macro   0x00000000       0x16 ./SDK/platform/drivers/src/crc/crc_driver.o
+ .debug_macro   0x00000000       0x16 ./SDK/platform/drivers/src/crc/crc_driver.o
  .group         0x00000000        0x8 ./SDK/platform/drivers/src/flash_c55/flash_c55_driver.o
  .group         0x00000000        0x8 ./SDK/platform/drivers/src/flash_c55/flash_c55_driver.o
  .group         0x00000000        0x8 ./SDK/platform/drivers/src/flash_c55/flash_c55_driver.o
@@ -1034,6 +1200,7 @@ Discarded input sections
  .debug_macro   0x00000000       0x75 ./SDK/platform/drivers/src/flash_c55/flash_c55_driver.o
  .debug_macro   0x00000000       0x16 ./SDK/platform/drivers/src/flash_c55/flash_c55_driver.o
  .debug_macro   0x00000000       0x9d ./SDK/platform/drivers/src/flash_c55/flash_c55_driver.o
+ .debug_macro   0x00000000      0x1af ./SDK/platform/drivers/src/flash_c55/flash_c55_driver.o
  .debug_macro   0x00000000    0x27e7a ./SDK/platform/drivers/src/flash_c55/flash_c55_driver.o
  .debug_macro   0x00000000     0x15f0 ./SDK/platform/drivers/src/flash_c55/flash_c55_driver.o
  .debug_macro   0x00000000       0x10 ./SDK/platform/drivers/src/flash_c55/flash_c55_driver.o
@@ -1282,6 +1449,50 @@ Discarded input sections
  .debug_macro   0x00000000     0x15f0 ./Sources/Bootloader_Flash/BootloaderFlash.o
  .debug_macro   0x00000000       0x10 ./Sources/Bootloader_Flash/BootloaderFlash.o
  .debug_macro   0x00000000       0x53 ./Sources/Bootloader_Flash/BootloaderFlash.o
+ .group         0x00000000        0x8 ./Sources/Bootloader_Flash/BootloaderFlashCRCConfig.o
+ .group         0x00000000        0x8 ./Sources/Bootloader_Flash/BootloaderFlashCRCConfig.o
+ .group         0x00000000        0x8 ./Sources/Bootloader_Flash/BootloaderFlashCRCConfig.o
+ .group         0x00000000        0x8 ./Sources/Bootloader_Flash/BootloaderFlashCRCConfig.o
+ .group         0x00000000        0x8 ./Sources/Bootloader_Flash/BootloaderFlashCRCConfig.o
+ .group         0x00000000        0x8 ./Sources/Bootloader_Flash/BootloaderFlashCRCConfig.o
+ .group         0x00000000        0x8 ./Sources/Bootloader_Flash/BootloaderFlashCRCConfig.o
+ .group         0x00000000        0x8 ./Sources/Bootloader_Flash/BootloaderFlashCRCConfig.o
+ .group         0x00000000        0x8 ./Sources/Bootloader_Flash/BootloaderFlashCRCConfig.o
+ .group         0x00000000        0x8 ./Sources/Bootloader_Flash/BootloaderFlashCRCConfig.o
+ .group         0x00000000        0x8 ./Sources/Bootloader_Flash/BootloaderFlashCRCConfig.o
+ .group         0x00000000        0x8 ./Sources/Bootloader_Flash/BootloaderFlashCRCConfig.o
+ .group         0x00000000        0x8 ./Sources/Bootloader_Flash/BootloaderFlashCRCConfig.o
+ .group         0x00000000        0x8 ./Sources/Bootloader_Flash/BootloaderFlashCRCConfig.o
+ .group         0x00000000        0x8 ./Sources/Bootloader_Flash/BootloaderFlashCRCConfig.o
+ .group         0x00000000        0x8 ./Sources/Bootloader_Flash/BootloaderFlashCRCConfig.o
+ .group         0x00000000        0x8 ./Sources/Bootloader_Flash/BootloaderFlashCRCConfig.o
+ .group         0x00000000        0x8 ./Sources/Bootloader_Flash/BootloaderFlashCRCConfig.o
+ .group         0x00000000        0x8 ./Sources/Bootloader_Flash/BootloaderFlashCRCConfig.o
+ .group         0x00000000        0x8 ./Sources/Bootloader_Flash/BootloaderFlashCRCConfig.o
+ .text          0x00000000        0x0 ./Sources/Bootloader_Flash/BootloaderFlashCRCConfig.o
+ .data          0x00000000        0x0 ./Sources/Bootloader_Flash/BootloaderFlashCRCConfig.o
+ .bss           0x00000000        0x0 ./Sources/Bootloader_Flash/BootloaderFlashCRCConfig.o
+ .debug_macro   0x00000000      0x61c ./Sources/Bootloader_Flash/BootloaderFlashCRCConfig.o
+ .debug_macro   0x00000000       0x52 ./Sources/Bootloader_Flash/BootloaderFlashCRCConfig.o
+ .debug_macro   0x00000000       0xa0 ./Sources/Bootloader_Flash/BootloaderFlashCRCConfig.o
+ .debug_macro   0x00000000       0x16 ./Sources/Bootloader_Flash/BootloaderFlashCRCConfig.o
+ .debug_macro   0x00000000       0x5e ./Sources/Bootloader_Flash/BootloaderFlashCRCConfig.o
+ .debug_macro   0x00000000      0x1aa ./Sources/Bootloader_Flash/BootloaderFlashCRCConfig.o
+ .debug_macro   0x00000000      0x13a ./Sources/Bootloader_Flash/BootloaderFlashCRCConfig.o
+ .debug_macro   0x00000000       0x9d ./Sources/Bootloader_Flash/BootloaderFlashCRCConfig.o
+ .debug_macro   0x00000000       0x10 ./Sources/Bootloader_Flash/BootloaderFlashCRCConfig.o
+ .debug_macro   0x00000000      0x15b ./Sources/Bootloader_Flash/BootloaderFlashCRCConfig.o
+ .debug_macro   0x00000000       0x28 ./Sources/Bootloader_Flash/BootloaderFlashCRCConfig.o
+ .debug_macro   0x00000000       0x58 ./Sources/Bootloader_Flash/BootloaderFlashCRCConfig.o
+ .debug_macro   0x00000000       0x16 ./Sources/Bootloader_Flash/BootloaderFlashCRCConfig.o
+ .debug_macro   0x00000000       0x16 ./Sources/Bootloader_Flash/BootloaderFlashCRCConfig.o
+ .debug_macro   0x00000000       0x16 ./Sources/Bootloader_Flash/BootloaderFlashCRCConfig.o
+ .debug_macro   0x00000000       0x11 ./Sources/Bootloader_Flash/BootloaderFlashCRCConfig.o
+ .debug_macro   0x00000000       0x75 ./Sources/Bootloader_Flash/BootloaderFlashCRCConfig.o
+ .debug_macro   0x00000000    0x27e8c ./Sources/Bootloader_Flash/BootloaderFlashCRCConfig.o
+ .debug_macro   0x00000000     0x15f0 ./Sources/Bootloader_Flash/BootloaderFlashCRCConfig.o
+ .debug_macro   0x00000000       0x22 ./Sources/Bootloader_Flash/BootloaderFlashCRCConfig.o
+ .group         0x00000000        0x8 ./Sources/main.o
  .group         0x00000000        0x8 ./Sources/main.o
  .group         0x00000000        0x8 ./Sources/main.o
  .group         0x00000000        0x8 ./Sources/main.o
@@ -1338,6 +1549,7 @@ Discarded input sections
  .debug_macro   0x00000000       0x53 ./Sources/main.o
  .debug_macro   0x00000000       0x28 ./Sources/main.o
  .debug_macro   0x00000000       0x10 ./Sources/main.o
+ .debug_macro   0x00000000       0x10 ./Sources/main.o
  .bss           0x00000000        0x0 c:/nxp/s32ds_power_v2.1/s32ds/build_tools/powerpc-eabivle-4_9/bin/../lib/gcc/powerpc-eabivle/4.9.4/e200z4/fp\libgcc.a(eabivle.o)
  .data          0x00000000        0x0 c:/nxp/s32ds_power_v2.1/s32ds/build_tools/powerpc-eabivle-4_9/bin/../lib/gcc/powerpc-eabivle/4.9.4/e200z4/fp/crtend.o
  .bss           0x00000000        0x0 c:/nxp/s32ds_power_v2.1/s32ds/build_tools/powerpc-eabivle-4_9/bin/../lib/gcc/powerpc-eabivle/4.9.4/e200z4/fp/crtend.o
@@ -1380,6 +1592,7 @@ LOAD ./FreeMaster_MPC57xxx/src_common/freemaster_tsa.o
 LOAD ./FreeMaster_MPC57xxx/src_platforms/MPC57xx/freemaster_MPC57xx.o
 LOAD ./Generated_Code/Cpu.o
 LOAD ./Generated_Code/clockMan1.o
+LOAD ./Generated_Code/crc1.o
 LOAD ./Generated_Code/pin_mux.o
 LOAD ./Project_Settings/Startup_Code/core0_intc_sw_handlers.o
 LOAD ./Project_Settings/Startup_Code/interrupt_vectors.o
@@ -1387,11 +1600,14 @@ LOAD ./Project_Settings/Startup_Code/startup_MPC5748G.o
 LOAD ./SDK/platform/devices/MPC5748G/startup/system_MPC5748G.o
 LOAD ./SDK/platform/devices/startup.o
 LOAD ./SDK/platform/drivers/src/clock/MPC57xx/clock_MPC57xx.o
+LOAD ./SDK/platform/drivers/src/crc/crc_c55_hw_access.o
+LOAD ./SDK/platform/drivers/src/crc/crc_driver.o
 LOAD ./SDK/platform/drivers/src/flash_c55/flash_c55_driver.o
 LOAD ./SDK/platform/drivers/src/interrupt/interrupt_manager_MPC57xx.o
 LOAD ./SDK/platform/drivers/src/pins/siul2/pins_siul2_driver.o
 LOAD ./SDK/platform/drivers/src/pins/siul2/siul2_hw_access.o
 LOAD ./Sources/Bootloader_Flash/BootloaderFlash.o
+LOAD ./Sources/Bootloader_Flash/BootloaderFlashCRCConfig.o
 LOAD ./Sources/main.o
 LOAD C:/NXP/S32DS_Power_v2.1/S32DS/software/AMMCLIB_1.1.15/MPC574xG_AMMCLIB_v1.1.15/lib/s32ds_ppc/e200z4\MPC574xG_AMMCLIB.a
 START GROUP
@@ -1801,7 +2017,7 @@ LOAD c:/nxp/s32ds_power_v2.1/s32ds/build_tools/powerpc-eabivle-4_9/bin/../lib/gc
                 0x00000c00                __RAM_VECTOR_TABLE_SIZE = 0xc00
                 0x01002c00                __VECTOR_TABLE_COPY_END = (__VECTOR_TABLE + __RAM_VECTOR_TABLE_SIZE)
 
-.text           0x01002bd0     0x20e0
+.text           0x01002bd0     0x22b0
  *(.text.startup)
  *(.text)
  .text          0x01002bd0      0x16c c:/nxp/s32ds_power_v2.1/s32ds/build_tools/powerpc-eabivle-4_9/bin/../lib/gcc/powerpc-eabivle/4.9.4/e200z4/fp/crtbegin.o
@@ -1849,214 +2065,254 @@ LOAD c:/nxp/s32ds_power_v2.1/s32ds/build_tools/powerpc-eabivle-4_9/bin/../lib/gc
                 0x01003f00      0x172 ./SDK/platform/drivers/src/clock/MPC57xx/clock_MPC57xx.o
                 0x01003f00                CLOCK_SYS_UpdateConfiguration
  *fill*         0x01004072        0x2 
+ .text.CRC_SetWriteTranspose
+                0x01004074       0x3e ./SDK/platform/drivers/src/crc/crc_c55_hw_access.o
+                0x01004074                CRC_SetWriteTranspose
+ *fill*         0x010040b2        0x2 
+ .text.CRC_Init
+                0x010040b4       0x34 ./SDK/platform/drivers/src/crc/crc_c55_hw_access.o
+                0x010040b4                CRC_Init
+ .text.CRC_GetCrcResult
+                0x010040e8       0x26 ./SDK/platform/drivers/src/crc/crc_c55_hw_access.o
+                0x010040e8                CRC_GetCrcResult
+ *fill*         0x0100410e        0x2 
+ .text.CRC_DRV_WriteData
+                0x01004110       0x1e ./SDK/platform/drivers/src/crc/crc_driver.o
+                0x01004110                CRC_DRV_WriteData
+ *fill*         0x0100412e        0x2 
+ .text.CRC_DRV_GetCrcResult
+                0x01004130       0x1a ./SDK/platform/drivers/src/crc/crc_driver.o
+                0x01004130                CRC_DRV_GetCrcResult
+ *fill*         0x0100414a        0x2 
+ .text.CRC_DRV_Configure
+                0x0100414c       0x62 ./SDK/platform/drivers/src/crc/crc_driver.o
+                0x0100414c                CRC_DRV_Configure
+ *fill*         0x010041ae        0x2 
+ .text.CRC_DRV_Init
+                0x010041b0       0x2e ./SDK/platform/drivers/src/crc/crc_driver.o
+                0x010041b0                CRC_DRV_Init
+ *fill*         0x010041de        0x2 
  .text.FLASH_DRV_CheckEraseStatus
-                0x01004074       0x84 ./SDK/platform/drivers/src/flash_c55/flash_c55_driver.o
-                0x01004074                FLASH_DRV_CheckEraseStatus
+                0x010041e0       0x84 ./SDK/platform/drivers/src/flash_c55/flash_c55_driver.o
+                0x010041e0                FLASH_DRV_CheckEraseStatus
  .text.FLASH_DRV_Init
-                0x010040f8       0x12 ./SDK/platform/drivers/src/flash_c55/flash_c55_driver.o
-                0x010040f8                FLASH_DRV_Init
- *fill*         0x0100410a        0x2 
+                0x01004264       0x12 ./SDK/platform/drivers/src/flash_c55/flash_c55_driver.o
+                0x01004264                FLASH_DRV_Init
+ *fill*         0x01004276        0x2 
  .text.FLASH_DRV_SetLock
-                0x0100410c      0x150 ./SDK/platform/drivers/src/flash_c55/flash_c55_driver.o
-                0x0100410c                FLASH_DRV_SetLock
+                0x01004278      0x150 ./SDK/platform/drivers/src/flash_c55/flash_c55_driver.o
+                0x01004278                FLASH_DRV_SetLock
  .text.FLASH_DRV_GetLock
-                0x0100425c      0x10e ./SDK/platform/drivers/src/flash_c55/flash_c55_driver.o
-                0x0100425c                FLASH_DRV_GetLock
- *fill*         0x0100436a        0x2 
+                0x010043c8      0x10e ./SDK/platform/drivers/src/flash_c55/flash_c55_driver.o
+                0x010043c8                FLASH_DRV_GetLock
+ *fill*         0x010044d6        0x2 
  .text.FLASH_DRV_Erase
-                0x0100436c      0x28e ./SDK/platform/drivers/src/flash_c55/flash_c55_driver.o
-                0x0100436c                FLASH_DRV_Erase
- *fill*         0x010045fa        0x2 
+                0x010044d8      0x28e ./SDK/platform/drivers/src/flash_c55/flash_c55_driver.o
+                0x010044d8                FLASH_DRV_Erase
+ *fill*         0x01004766        0x2 
  .text.FLASH_DRV_BlankCheck
-                0x010045fc       0x9a ./SDK/platform/drivers/src/flash_c55/flash_c55_driver.o
-                0x010045fc                FLASH_DRV_BlankCheck
- *fill*         0x01004696        0x2 
+                0x01004768       0x9a ./SDK/platform/drivers/src/flash_c55/flash_c55_driver.o
+                0x01004768                FLASH_DRV_BlankCheck
+ *fill*         0x01004802        0x2 
  .text.FLASH_DRV_Program
-                0x01004698       0xc2 ./SDK/platform/drivers/src/flash_c55/flash_c55_driver.o
-                0x01004698                FLASH_DRV_Program
- *fill*         0x0100475a        0x2 
+                0x01004804       0xc2 ./SDK/platform/drivers/src/flash_c55/flash_c55_driver.o
+                0x01004804                FLASH_DRV_Program
+ *fill*         0x010048c6        0x2 
  .text.FLASH_DRV_CheckProgramStatus
-                0x0100475c       0xe6 ./SDK/platform/drivers/src/flash_c55/flash_c55_driver.o
-                0x0100475c                FLASH_DRV_CheckProgramStatus
- *fill*         0x01004842        0x2 
+                0x010048c8       0xe6 ./SDK/platform/drivers/src/flash_c55/flash_c55_driver.o
+                0x010048c8                FLASH_DRV_CheckProgramStatus
+ *fill*         0x010049ae        0x2 
  .text.FLASH_DRV_ProgramVerify
-                0x01004844       0xa0 ./SDK/platform/drivers/src/flash_c55/flash_c55_driver.o
-                0x01004844                FLASH_DRV_ProgramVerify
+                0x010049b0       0xa0 ./SDK/platform/drivers/src/flash_c55/flash_c55_driver.o
+                0x010049b0                FLASH_DRV_ProgramVerify
  .text.INT_SYS_EnableIRQGlobal
-                0x010048e4       0x26 ./SDK/platform/drivers/src/interrupt/interrupt_manager_MPC57xx.o
-                0x010048e4                INT_SYS_EnableIRQGlobal
- *fill*         0x0100490a        0x2 
+                0x01004a50       0x26 ./SDK/platform/drivers/src/interrupt/interrupt_manager_MPC57xx.o
+                0x01004a50                INT_SYS_EnableIRQGlobal
+ *fill*         0x01004a76        0x2 
  .text.INT_SYS_DisableIRQGlobal
-                0x0100490c       0x10 ./SDK/platform/drivers/src/interrupt/interrupt_manager_MPC57xx.o
-                0x0100490c                INT_SYS_DisableIRQGlobal
+                0x01004a78       0x10 ./SDK/platform/drivers/src/interrupt/interrupt_manager_MPC57xx.o
+                0x01004a78                INT_SYS_DisableIRQGlobal
  .text.BootloaderFlash_Init
-                0x0100491c       0x2c ./Sources/Bootloader_Flash/BootloaderFlash.o
-                0x0100491c                BootloaderFlash_Init
+                0x01004a88       0x2c ./Sources/Bootloader_Flash/BootloaderFlash.o
+                0x01004a88                BootloaderFlash_Init
  .text.BootloaderFlash_Unlock
-                0x01004948       0x18 ./Sources/Bootloader_Flash/BootloaderFlash.o
-                0x01004948                BootloaderFlash_Unlock
+                0x01004ab4       0x18 ./Sources/Bootloader_Flash/BootloaderFlash.o
+                0x01004ab4                BootloaderFlash_Unlock
  .text.BootloaderFlash_Erase
-                0x01004960       0xc0 ./Sources/Bootloader_Flash/BootloaderFlash.o
-                0x01004960                BootloaderFlash_Erase
+                0x01004acc       0xc0 ./Sources/Bootloader_Flash/BootloaderFlash.o
+                0x01004acc                BootloaderFlash_Erase
  .text.BootloaderFlash_VerifyBlank
-                0x01004a20       0x1e ./Sources/Bootloader_Flash/BootloaderFlash.o
-                0x01004a20                BootloaderFlash_VerifyBlank
- *fill*         0x01004a3e        0x2 
+                0x01004b8c       0x1e ./Sources/Bootloader_Flash/BootloaderFlash.o
+                0x01004b8c                BootloaderFlash_VerifyBlank
+ *fill*         0x01004baa        0x2 
  .text.BootloaderFlash_Program
-                0x01004a40       0x4c ./Sources/Bootloader_Flash/BootloaderFlash.o
-                0x01004a40                BootloaderFlash_Program
+                0x01004bac       0x4c ./Sources/Bootloader_Flash/BootloaderFlash.o
+                0x01004bac                BootloaderFlash_Program
  .text.BootloaderFlash_ProgramVerify
-                0x01004a8c       0x4c ./Sources/Bootloader_Flash/BootloaderFlash.o
-                0x01004a8c                BootloaderFlash_ProgramVerify
+                0x01004bf8       0x4c ./Sources/Bootloader_Flash/BootloaderFlash.o
+                0x01004bf8                BootloaderFlash_ProgramVerify
+ .text.BootloaderFlash_InitCRC
+                0x01004c44       0x1e ./Sources/Bootloader_Flash/BootloaderFlash.o
+                0x01004c44                BootloaderFlash_InitCRC
+ *fill*         0x01004c62        0x2 
+ .text.BootloaderFlash_CalculateCRC32
+                0x01004c64       0x24 ./Sources/Bootloader_Flash/BootloaderFlash.o
+                0x01004c64                BootloaderFlash_CalculateCRC32
  .text.DisableFlashControllerCache
-                0x01004ad8       0x18 ./Sources/main.o
-                0x01004ad8                DisableFlashControllerCache
- .text.main     0x01004af0      0x184 ./Sources/main.o
-                0x01004af0                main
+                0x01004c88       0x18 ./Sources/main.o
+                0x01004c88                DisableFlashControllerCache
+ .text.main     0x01004ca0      0x196 ./Sources/main.o
+                0x01004ca0                main
  *(.init)
- .init          0x01004c74        0xc c:/nxp/s32ds_power_v2.1/s32ds/build_tools/powerpc-eabivle-4_9/bin/../lib/gcc/powerpc-eabivle/4.9.4/e200z4/fp/ecrti.o
-                0x01004c74                __init
- .init          0x01004c80        0x4 c:/nxp/s32ds_power_v2.1/s32ds/build_tools/powerpc-eabivle-4_9/bin/../lib/gcc/powerpc-eabivle/4.9.4/e200z4/fp/crtbegin.o
- .init          0x01004c84        0x4 c:/nxp/s32ds_power_v2.1/s32ds/build_tools/powerpc-eabivle-4_9/bin/../lib/gcc/powerpc-eabivle/4.9.4/e200z4/fp/crtend.o
- .init          0x01004c88        0xa c:/nxp/s32ds_power_v2.1/s32ds/build_tools/powerpc-eabivle-4_9/bin/../lib/gcc/powerpc-eabivle/4.9.4/e200z4/fp/ecrtn.o
+ *fill*         0x01004e36        0x2 
+ .init          0x01004e38        0xc c:/nxp/s32ds_power_v2.1/s32ds/build_tools/powerpc-eabivle-4_9/bin/../lib/gcc/powerpc-eabivle/4.9.4/e200z4/fp/ecrti.o
+                0x01004e38                __init
+ .init          0x01004e44        0x4 c:/nxp/s32ds_power_v2.1/s32ds/build_tools/powerpc-eabivle-4_9/bin/../lib/gcc/powerpc-eabivle/4.9.4/e200z4/fp/crtbegin.o
+ .init          0x01004e48        0x4 c:/nxp/s32ds_power_v2.1/s32ds/build_tools/powerpc-eabivle-4_9/bin/../lib/gcc/powerpc-eabivle/4.9.4/e200z4/fp/crtend.o
+ .init          0x01004e4c        0xa c:/nxp/s32ds_power_v2.1/s32ds/build_tools/powerpc-eabivle-4_9/bin/../lib/gcc/powerpc-eabivle/4.9.4/e200z4/fp/ecrtn.o
  *(.fini)
- *fill*         0x01004c92        0x2 
- .fini          0x01004c94        0xc c:/nxp/s32ds_power_v2.1/s32ds/build_tools/powerpc-eabivle-4_9/bin/../lib/gcc/powerpc-eabivle/4.9.4/e200z4/fp/ecrti.o
-                0x01004c94                __fini
- .fini          0x01004ca0        0x4 c:/nxp/s32ds_power_v2.1/s32ds/build_tools/powerpc-eabivle-4_9/bin/../lib/gcc/powerpc-eabivle/4.9.4/e200z4/fp/crtbegin.o
- .fini          0x01004ca4        0xa c:/nxp/s32ds_power_v2.1/s32ds/build_tools/powerpc-eabivle-4_9/bin/../lib/gcc/powerpc-eabivle/4.9.4/e200z4/fp/ecrtn.o
-                0x01004cb0                . = ALIGN (0x10)
- *fill*         0x01004cae        0x2 
+ *fill*         0x01004e56        0x2 
+ .fini          0x01004e58        0xc c:/nxp/s32ds_power_v2.1/s32ds/build_tools/powerpc-eabivle-4_9/bin/../lib/gcc/powerpc-eabivle/4.9.4/e200z4/fp/ecrti.o
+                0x01004e58                __fini
+ .fini          0x01004e64        0x4 c:/nxp/s32ds_power_v2.1/s32ds/build_tools/powerpc-eabivle-4_9/bin/../lib/gcc/powerpc-eabivle/4.9.4/e200z4/fp/crtbegin.o
+ .fini          0x01004e68        0xa c:/nxp/s32ds_power_v2.1/s32ds/build_tools/powerpc-eabivle-4_9/bin/../lib/gcc/powerpc-eabivle/4.9.4/e200z4/fp/ecrtn.o
+                0x01004e80                . = ALIGN (0x10)
+ *fill*         0x01004e72        0xe 
 
-.glink          0x01004cb0        0x0
- .glink         0x01004cb0        0x0 c:/nxp/s32ds_power_v2.1/s32ds/build_tools/powerpc-eabivle-4_9/bin/../lib/gcc/powerpc-eabivle/4.9.4/e200z4/fp/crtbegin.o
+.glink          0x01004e80        0x0
+ .glink         0x01004e80        0x0 c:/nxp/s32ds_power_v2.1/s32ds/build_tools/powerpc-eabivle-4_9/bin/../lib/gcc/powerpc-eabivle/4.9.4/e200z4/fp/crtbegin.o
 
-.sdata2         0x01004cb0        0x0
-                0x01004cb0                . = ALIGN (0x4)
-                0x01004cb0                __sdata2_start__ = .
+.sdata2         0x01004e80        0x0
+                0x01004e80                . = ALIGN (0x4)
+                0x01004e80                __sdata2_start__ = .
  *(.sdata2)
- .sdata2        0x01004cb0        0x0 c:/nxp/s32ds_power_v2.1/s32ds/build_tools/powerpc-eabivle-4_9/bin/../lib/gcc/powerpc-eabivle/4.9.4/e200z4/fp/ecrti.o
-                0x01004cb0                __SDATA2_START__
- .sdata2        0x01004cb0        0x0 c:/nxp/s32ds_power_v2.1/s32ds/build_tools/powerpc-eabivle-4_9/bin/../lib/gcc/powerpc-eabivle/4.9.4/e200z4/fp/crtbegin.o
-                0x0100ccb0                _SDA2_BASE_
+ .sdata2        0x01004e80        0x0 c:/nxp/s32ds_power_v2.1/s32ds/build_tools/powerpc-eabivle-4_9/bin/../lib/gcc/powerpc-eabivle/4.9.4/e200z4/fp/ecrti.o
+                0x01004e80                __SDATA2_START__
+ .sdata2        0x01004e80        0x0 c:/nxp/s32ds_power_v2.1/s32ds/build_tools/powerpc-eabivle-4_9/bin/../lib/gcc/powerpc-eabivle/4.9.4/e200z4/fp/crtbegin.o
+                0x0100ce80                _SDA2_BASE_
  *(.sdata2.*)
-                0x01004cb0                . = ALIGN (0x4)
-                0x01004cb0                __sdata2_end__ = .
+                0x01004e80                . = ALIGN (0x4)
+                0x01004e80                __sdata2_end__ = .
 
-.got2           0x01004cb0       0x1c
+.got2           0x01004e80       0x1c
  *(.got2*)
- .got2          0x01004cb0       0x1c c:/nxp/s32ds_power_v2.1/s32ds/build_tools/powerpc-eabivle-4_9/bin/../lib/gcc/powerpc-eabivle/4.9.4/e200z4/fp\libgcc.a(eabivle.o)
+ .got2          0x01004e80       0x1c c:/nxp/s32ds_power_v2.1/s32ds/build_tools/powerpc-eabivle-4_9/bin/../lib/gcc/powerpc-eabivle/4.9.4/e200z4/fp\libgcc.a(eabivle.o)
 
-.preinit_array  0x01004ccc        0x0
+.preinit_array  0x01004e9c        0x0
                 [!provide]                PROVIDE (__preinit_array_start, .)
  *(.preinit_array)
                 [!provide]                PROVIDE (__preinit_array_end, .)
 
-.init_array     0x01004ccc        0x0
+.init_array     0x01004e9c        0x0
                 [!provide]                PROVIDE (__init_array_start, .)
  *(SORT(.init_array.*))
  *(.init_array)
                 [!provide]                PROVIDE (__init_array_end, .)
 
-.dtors          0x01004ccc        0x8
+.dtors          0x01004e9c        0x8
  *crtbegin.o(.dtors)
- .dtors         0x01004ccc        0x4 c:/nxp/s32ds_power_v2.1/s32ds/build_tools/powerpc-eabivle-4_9/bin/../lib/gcc/powerpc-eabivle/4.9.4/e200z4/fp/crtbegin.o
+ .dtors         0x01004e9c        0x4 c:/nxp/s32ds_power_v2.1/s32ds/build_tools/powerpc-eabivle-4_9/bin/../lib/gcc/powerpc-eabivle/4.9.4/e200z4/fp/crtbegin.o
  *crtbegin?.o(.dtors)
  *(EXCLUDE_FILE(*crtend?.o *crtend.o) .dtors)
- .dtors         0x01004cd0        0x0 c:/nxp/s32ds_power_v2.1/s32ds/build_tools/powerpc-eabivle-4_9/bin/../lib/gcc/powerpc-eabivle/4.9.4/e200z4/fp/ecrti.o
-                0x01004cd0                __DTOR_LIST__
- .dtors         0x01004cd0        0x0 c:/nxp/s32ds_power_v2.1/s32ds/build_tools/powerpc-eabivle-4_9/bin/../lib/gcc/powerpc-eabivle/4.9.4/e200z4/fp/ecrtn.o
+ .dtors         0x01004ea0        0x0 c:/nxp/s32ds_power_v2.1/s32ds/build_tools/powerpc-eabivle-4_9/bin/../lib/gcc/powerpc-eabivle/4.9.4/e200z4/fp/ecrti.o
+                0x01004ea0                __DTOR_LIST__
+ .dtors         0x01004ea0        0x0 c:/nxp/s32ds_power_v2.1/s32ds/build_tools/powerpc-eabivle-4_9/bin/../lib/gcc/powerpc-eabivle/4.9.4/e200z4/fp/ecrtn.o
  *(SORT(.dtors.*))
  *(.dtors)
- .dtors         0x01004cd0        0x4 c:/nxp/s32ds_power_v2.1/s32ds/build_tools/powerpc-eabivle-4_9/bin/../lib/gcc/powerpc-eabivle/4.9.4/e200z4/fp/crtend.o
-                0x01004cd0                __DTOR_END__
+ .dtors         0x01004ea0        0x4 c:/nxp/s32ds_power_v2.1/s32ds/build_tools/powerpc-eabivle-4_9/bin/../lib/gcc/powerpc-eabivle/4.9.4/e200z4/fp/crtend.o
+                0x01004ea0                __DTOR_END__
 
-.ctors          0x01004cd4        0x8
+.ctors          0x01004ea4        0x8
  *crtbegin.o(.ctors)
- .ctors         0x01004cd4        0x4 c:/nxp/s32ds_power_v2.1/s32ds/build_tools/powerpc-eabivle-4_9/bin/../lib/gcc/powerpc-eabivle/4.9.4/e200z4/fp/crtbegin.o
+ .ctors         0x01004ea4        0x4 c:/nxp/s32ds_power_v2.1/s32ds/build_tools/powerpc-eabivle-4_9/bin/../lib/gcc/powerpc-eabivle/4.9.4/e200z4/fp/crtbegin.o
  *crtbegin?.o(.ctors)
  *(EXCLUDE_FILE(*crtend?.o *crtend.o) .ctors)
- .ctors         0x01004cd8        0x0 c:/nxp/s32ds_power_v2.1/s32ds/build_tools/powerpc-eabivle-4_9/bin/../lib/gcc/powerpc-eabivle/4.9.4/e200z4/fp/ecrti.o
-                0x01004cd8                __CTOR_LIST__
- .ctors         0x01004cd8        0x0 c:/nxp/s32ds_power_v2.1/s32ds/build_tools/powerpc-eabivle-4_9/bin/../lib/gcc/powerpc-eabivle/4.9.4/e200z4/fp/ecrtn.o
-                0x01004cd8                __CTOR_END__
+ .ctors         0x01004ea8        0x0 c:/nxp/s32ds_power_v2.1/s32ds/build_tools/powerpc-eabivle-4_9/bin/../lib/gcc/powerpc-eabivle/4.9.4/e200z4/fp/ecrti.o
+                0x01004ea8                __CTOR_LIST__
+ .ctors         0x01004ea8        0x0 c:/nxp/s32ds_power_v2.1/s32ds/build_tools/powerpc-eabivle-4_9/bin/../lib/gcc/powerpc-eabivle/4.9.4/e200z4/fp/ecrtn.o
+                0x01004ea8                __CTOR_END__
  *(SORT(.ctors.*))
  *(.ctors)
- .ctors         0x01004cd8        0x4 c:/nxp/s32ds_power_v2.1/s32ds/build_tools/powerpc-eabivle-4_9/bin/../lib/gcc/powerpc-eabivle/4.9.4/e200z4/fp/crtend.o
+ .ctors         0x01004ea8        0x4 c:/nxp/s32ds_power_v2.1/s32ds/build_tools/powerpc-eabivle-4_9/bin/../lib/gcc/powerpc-eabivle/4.9.4/e200z4/fp/crtend.o
 
-.fini_array     0x01004cdc        0x0
+.fini_array     0x01004eac        0x0
                 [!provide]                PROVIDE (__fini_array_start, .)
  *(SORT(.fini_array.*))
  *(.fini_array)
                 [!provide]                PROVIDE (__fini_array_end, .)
 
-.rodata         0x01004cdc      0x3e8
+.rodata         0x01004eac      0x3fc
  *(.rodata)
  *(.rodata.*)
  .rodata.s_vectors
-                0x01004cdc        0xc ./SDK/platform/devices/startup.o
+                0x01004eac        0xc ./SDK/platform/devices/startup.o
  .rodata.CLOCK_DRV_Init
-                0x01004ce8       0xe8 ./SDK/platform/drivers/src/clock/MPC57xx/clock_MPC57xx.o
+                0x01004eb8       0xe8 ./SDK/platform/drivers/src/clock/MPC57xx/clock_MPC57xx.o
  .rodata.clockNameMappings
-                0x01004dd0      0x10a ./SDK/platform/drivers/src/clock/MPC57xx/clock_MPC57xx.o
-                0x01004dd0                clockNameMappings
- *fill*         0x01004eda        0x2 
+                0x01004fa0      0x10a ./SDK/platform/drivers/src/clock/MPC57xx/clock_MPC57xx.o
+                0x01004fa0                clockNameMappings
+ *fill*         0x010050aa        0x2 
  .rodata.FLASH_DRV_SetLock
-                0x01004edc       0x18 ./SDK/platform/drivers/src/flash_c55/flash_c55_driver.o
+                0x010050ac       0x18 ./SDK/platform/drivers/src/flash_c55/flash_c55_driver.o
  .rodata.FLASH_DRV_GetLock
-                0x01004ef4       0x18 ./SDK/platform/drivers/src/flash_c55/flash_c55_driver.o
+                0x010050c4       0x18 ./SDK/platform/drivers/src/flash_c55/flash_c55_driver.o
  .rodata.FLASH_BLOCK_ADDR
-                0x01004f0c       0xb0 ./SDK/platform/drivers/src/flash_c55/flash_c55_driver.o
+                0x010050dc       0xb0 ./SDK/platform/drivers/src/flash_c55/flash_c55_driver.o
  .rodata.FLASH_BLOCK_MASK
-                0x01004fbc       0xb0 ./SDK/platform/drivers/src/flash_c55/flash_c55_driver.o
+                0x0100518c       0xb0 ./SDK/platform/drivers/src/flash_c55/flash_c55_driver.o
  .rodata.g_BlocksStartAddresses
-                0x0100506c       0x58 ./Sources/Bootloader_Flash/BootloaderFlash.o
+                0x0100523c       0x58 ./Sources/Bootloader_Flash/BootloaderFlash.o
+ .rodata.g_BootloaderFLashCRC_InitConfig
+                0x01005294       0x14 ./Sources/Bootloader_Flash/BootloaderFlashCRCConfig.o
+                0x01005294                g_BootloaderFLashCRC_InitConfig
 
-.sbss2          0x010050c4        0x0
- .sbss2         0x010050c4        0x0 c:/nxp/s32ds_power_v2.1/s32ds/build_tools/powerpc-eabivle-4_9/bin/../lib/gcc/powerpc-eabivle/4.9.4/e200z4/fp/ecrtn.o
+.sbss2          0x010052a8        0x0
+ .sbss2         0x010052a8        0x0 c:/nxp/s32ds_power_v2.1/s32ds/build_tools/powerpc-eabivle-4_9/bin/../lib/gcc/powerpc-eabivle/4.9.4/e200z4/fp/ecrtn.o
 
 .eh_frame_hdr
  *(.eh_frame_hdr)
 
-.eh_frame       0x010050c4        0x8
+.eh_frame       0x010052a8        0x8
  *(.eh_frame)
- .eh_frame      0x010050c4        0x0 c:/nxp/s32ds_power_v2.1/s32ds/build_tools/powerpc-eabivle-4_9/bin/../lib/gcc/powerpc-eabivle/4.9.4/e200z4/fp/ecrti.o
-                0x010050c4                __EH_FRAME_BEGIN__
- .eh_frame      0x010050c4        0x0 c:/nxp/s32ds_power_v2.1/s32ds/build_tools/powerpc-eabivle-4_9/bin/../lib/gcc/powerpc-eabivle/4.9.4/e200z4/fp/crtbegin.o
- .eh_frame      0x010050c4        0x0 c:/nxp/s32ds_power_v2.1/s32ds/build_tools/powerpc-eabivle-4_9/bin/../lib/gcc/powerpc-eabivle/4.9.4/e200z4/fp/crtbegin.o
- .eh_frame      0x010050c4        0x4 c:/nxp/s32ds_power_v2.1/s32ds/build_tools/powerpc-eabivle-4_9/bin/../lib/gcc/powerpc-eabivle/4.9.4/e200z4/fp/crtend.o
- .eh_frame      0x010050c8        0x4 c:/nxp/s32ds_power_v2.1/s32ds/build_tools/powerpc-eabivle-4_9/bin/../lib/gcc/powerpc-eabivle/4.9.4/e200z4/fp/ecrtn.o
-                0x010050c8                __EH_FRAME_END__
+ .eh_frame      0x010052a8        0x0 c:/nxp/s32ds_power_v2.1/s32ds/build_tools/powerpc-eabivle-4_9/bin/../lib/gcc/powerpc-eabivle/4.9.4/e200z4/fp/ecrti.o
+                0x010052a8                __EH_FRAME_BEGIN__
+ .eh_frame      0x010052a8        0x0 c:/nxp/s32ds_power_v2.1/s32ds/build_tools/powerpc-eabivle-4_9/bin/../lib/gcc/powerpc-eabivle/4.9.4/e200z4/fp/crtbegin.o
+ .eh_frame      0x010052a8        0x0 c:/nxp/s32ds_power_v2.1/s32ds/build_tools/powerpc-eabivle-4_9/bin/../lib/gcc/powerpc-eabivle/4.9.4/e200z4/fp/crtbegin.o
+ .eh_frame      0x010052a8        0x4 c:/nxp/s32ds_power_v2.1/s32ds/build_tools/powerpc-eabivle-4_9/bin/../lib/gcc/powerpc-eabivle/4.9.4/e200z4/fp/crtend.o
+ .eh_frame      0x010052ac        0x4 c:/nxp/s32ds_power_v2.1/s32ds/build_tools/powerpc-eabivle-4_9/bin/../lib/gcc/powerpc-eabivle/4.9.4/e200z4/fp/ecrtn.o
+                0x010052ac                __EH_FRAME_END__
 
-.init_table     0x010050cc       0x40
-                0x010050cc                . = ALIGN (0x4)
-                0x010050cc                __COPY_TABLE = .
+.init_table     0x010052b0       0x40
+                0x010052b0                . = ALIGN (0x4)
+                0x010052b0                __COPY_TABLE = .
  *(.init_table)
- .init_table    0x010050cc       0x40 ./Project_Settings/Startup_Code/startup_MPC5748G.o
+ .init_table    0x010052b0       0x40 ./Project_Settings/Startup_Code/startup_MPC5748G.o
 
-.zero_table     0x0100510c       0x14
-                0x0100510c                . = ALIGN (0x4)
-                0x0100510c                __ZERO_TABLE = .
+.zero_table     0x010052f0       0x14
+                0x010052f0                . = ALIGN (0x4)
+                0x010052f0                __ZERO_TABLE = .
  *(.zero_table)
- .zero_table    0x0100510c       0x14 ./Project_Settings/Startup_Code/startup_MPC5748G.o
-                0x01005120                __TEXT_END = .
+ .zero_table    0x010052f0       0x14 ./Project_Settings/Startup_Code/startup_MPC5748G.o
+                0x01005304                __TEXT_END = .
 
-.rela.dyn       0x01005120        0x0
- .rela.iplt     0x01005120        0x0 c:/nxp/s32ds_power_v2.1/s32ds/build_tools/powerpc-eabivle-4_9/bin/../lib/gcc/powerpc-eabivle/4.9.4/e200z4/fp/crtbegin.o
- .rela.text     0x01005120        0x0 c:/nxp/s32ds_power_v2.1/s32ds/build_tools/powerpc-eabivle-4_9/bin/../lib/gcc/powerpc-eabivle/4.9.4/e200z4/fp/crtbegin.o
+.rela.dyn       0x01005304        0x0
+ .rela.iplt     0x01005304        0x0 c:/nxp/s32ds_power_v2.1/s32ds/build_tools/powerpc-eabivle-4_9/bin/../lib/gcc/powerpc-eabivle/4.9.4/e200z4/fp/crtbegin.o
+ .rela.text     0x01005304        0x0 c:/nxp/s32ds_power_v2.1/s32ds/build_tools/powerpc-eabivle-4_9/bin/../lib/gcc/powerpc-eabivle/4.9.4/e200z4/fp/crtbegin.o
  .rela.init_table
-                0x01005120        0x0 c:/nxp/s32ds_power_v2.1/s32ds/build_tools/powerpc-eabivle-4_9/bin/../lib/gcc/powerpc-eabivle/4.9.4/e200z4/fp/crtbegin.o
+                0x01005304        0x0 c:/nxp/s32ds_power_v2.1/s32ds/build_tools/powerpc-eabivle-4_9/bin/../lib/gcc/powerpc-eabivle/4.9.4/e200z4/fp/crtbegin.o
  .rela.zero_table
-                0x01005120        0x0 c:/nxp/s32ds_power_v2.1/s32ds/build_tools/powerpc-eabivle-4_9/bin/../lib/gcc/powerpc-eabivle/4.9.4/e200z4/fp/crtbegin.o
+                0x01005304        0x0 c:/nxp/s32ds_power_v2.1/s32ds/build_tools/powerpc-eabivle-4_9/bin/../lib/gcc/powerpc-eabivle/4.9.4/e200z4/fp/crtbegin.o
  .rela.cpu0_reset_vector
-                0x01005120        0x0 c:/nxp/s32ds_power_v2.1/s32ds/build_tools/powerpc-eabivle-4_9/bin/../lib/gcc/powerpc-eabivle/4.9.4/e200z4/fp/crtbegin.o
+                0x01005304        0x0 c:/nxp/s32ds_power_v2.1/s32ds/build_tools/powerpc-eabivle-4_9/bin/../lib/gcc/powerpc-eabivle/4.9.4/e200z4/fp/crtbegin.o
  .rela.intc_vector_table
-                0x01005120        0x0 c:/nxp/s32ds_power_v2.1/s32ds/build_tools/powerpc-eabivle-4_9/bin/../lib/gcc/powerpc-eabivle/4.9.4/e200z4/fp/crtbegin.o
+                0x01005304        0x0 c:/nxp/s32ds_power_v2.1/s32ds/build_tools/powerpc-eabivle-4_9/bin/../lib/gcc/powerpc-eabivle/4.9.4/e200z4/fp/crtbegin.o
  .rela.text.init_data_bss
-                0x01005120        0x0 c:/nxp/s32ds_power_v2.1/s32ds/build_tools/powerpc-eabivle-4_9/bin/../lib/gcc/powerpc-eabivle/4.9.4/e200z4/fp/crtbegin.o
+                0x01005304        0x0 c:/nxp/s32ds_power_v2.1/s32ds/build_tools/powerpc-eabivle-4_9/bin/../lib/gcc/powerpc-eabivle/4.9.4/e200z4/fp/crtbegin.o
  .rela.text.INT_SYS_InstallHandler
-                0x01005120        0x0 c:/nxp/s32ds_power_v2.1/s32ds/build_tools/powerpc-eabivle-4_9/bin/../lib/gcc/powerpc-eabivle/4.9.4/e200z4/fp/crtbegin.o
- .rela.got2     0x01005120        0x0 c:/nxp/s32ds_power_v2.1/s32ds/build_tools/powerpc-eabivle-4_9/bin/../lib/gcc/powerpc-eabivle/4.9.4/e200z4/fp/crtbegin.o
+                0x01005304        0x0 c:/nxp/s32ds_power_v2.1/s32ds/build_tools/powerpc-eabivle-4_9/bin/../lib/gcc/powerpc-eabivle/4.9.4/e200z4/fp/crtbegin.o
+ .rela.text.BootloaderFlash_InitCRC
+                0x01005304        0x0 c:/nxp/s32ds_power_v2.1/s32ds/build_tools/powerpc-eabivle-4_9/bin/../lib/gcc/powerpc-eabivle/4.9.4/e200z4/fp/crtbegin.o
+ .rela.got2     0x01005304        0x0 c:/nxp/s32ds_power_v2.1/s32ds/build_tools/powerpc-eabivle-4_9/bin/../lib/gcc/powerpc-eabivle/4.9.4/e200z4/fp/crtbegin.o
 
 .interrupts_ram
                 0x40000000      0xc00
@@ -2064,10 +2320,10 @@ LOAD c:/nxp/s32ds_power_v2.1/s32ds/build_tools/powerpc-eabivle-4_9/bin/../lib/gc
  *(.m_interrupts_ram)
                 0x40000c00                . = (. + __RAM_VECTOR_TABLE_SIZE)
  *fill*         0x40000000      0xc00 
-                0x01005120                __CUSTOM_ROM = __TEXT_END
+                0x01005304                __CUSTOM_ROM = __TEXT_END
 
 .customSectionBlock
-                0x40000c00        0x0 load address 0x01005120
+                0x40000c00        0x0 load address 0x01005304
                 0x40000c00                . = ALIGN (0x4)
                 0x40000c00                __CUSTOM_RAM = .
                 0x40000c00                __customSectionStart = .
@@ -2076,10 +2332,10 @@ LOAD c:/nxp/s32ds_power_v2.1/s32ds/build_tools/powerpc-eabivle-4_9/bin/../lib/gc
                 0x40000c00                . = ALIGN (0x4)
                 0x40000c00                __customSection_end__ = .
                 0x40000c00                __customSectionEnd = .
-                0x01005120                __CUSTOM_END = (__CUSTOM_ROM + (__customSection_end__ - __customSection_start__))
-                0x01005120                __DATA_ROM = __CUSTOM_END
+                0x01005304                __CUSTOM_END = (__CUSTOM_ROM + (__customSection_end__ - __customSection_start__))
+                0x01005304                __DATA_ROM = __CUSTOM_END
 
-.data           0x40000c00      0x294 load address 0x01005120
+.data           0x40000c00      0x2a0 load address 0x01005304
                 0x40000c00                . = ALIGN (0x4)
                 0x40000c00                __DATA_RAM = .
                 0x40000c00                __data_start__ = .
@@ -2087,130 +2343,130 @@ LOAD c:/nxp/s32ds_power_v2.1/s32ds/build_tools/powerpc-eabivle-4_9/bin/../lib/gc
  .data          0x40000c00        0x4 c:/nxp/s32ds_power_v2.1/s32ds/build_tools/powerpc-eabivle-4_9/bin/../lib/gcc/powerpc-eabivle/4.9.4/e200z4/fp\libgcc.a(eabivle.o)
  *(.data.*)
  .data.peripheralClockMcMeConfig0
-                0x40000c04       0x48 ./Generated_Code/clockMan1.o
+                0x40000c04       0x54 ./Generated_Code/clockMan1.o
                 0x40000c04                peripheralClockMcMeConfig0
  .data.clockMan1_InitConfig0
-                0x40000c4c      0x248 ./Generated_Code/clockMan1.o
-                0x40000c4c                clockMan1_InitConfig0
-                0x40000e94                . = ALIGN (0x4)
-                0x40000e94                __data_end__ = .
-                0x010053b4                __DATA_END = (__DATA_ROM + (__data_end__ - __data_start__))
-                0x010053b4                __SDATA_ROM = __DATA_END
+                0x40000c58      0x248 ./Generated_Code/clockMan1.o
+                0x40000c58                clockMan1_InitConfig0
+                0x40000ea0                . = ALIGN (0x4)
+                0x40000ea0                __data_end__ = .
+                0x010055a4                __DATA_END = (__DATA_ROM + (__data_end__ - __data_start__))
+                0x010055a4                __SDATA_ROM = __DATA_END
 
-.jcr            0x40000e94        0x0 load address 0x010053b4
- .jcr           0x40000e94        0x0 c:/nxp/s32ds_power_v2.1/s32ds/build_tools/powerpc-eabivle-4_9/bin/../lib/gcc/powerpc-eabivle/4.9.4/e200z4/fp/crtbegin.o
+.jcr            0x40000ea0        0x0 load address 0x010055a4
+ .jcr           0x40000ea0        0x0 c:/nxp/s32ds_power_v2.1/s32ds/build_tools/powerpc-eabivle-4_9/bin/../lib/gcc/powerpc-eabivle/4.9.4/e200z4/fp/crtbegin.o
 
 .tm_clone_table
-                0x40000e94        0x0 load address 0x010053b4
+                0x40000ea0        0x0 load address 0x010055a4
  .tm_clone_table
-                0x40000e94        0x0 c:/nxp/s32ds_power_v2.1/s32ds/build_tools/powerpc-eabivle-4_9/bin/../lib/gcc/powerpc-eabivle/4.9.4/e200z4/fp/crtbegin.o
+                0x40000ea0        0x0 c:/nxp/s32ds_power_v2.1/s32ds/build_tools/powerpc-eabivle-4_9/bin/../lib/gcc/powerpc-eabivle/4.9.4/e200z4/fp/crtbegin.o
  .tm_clone_table
-                0x40000e94        0x0 c:/nxp/s32ds_power_v2.1/s32ds/build_tools/powerpc-eabivle-4_9/bin/../lib/gcc/powerpc-eabivle/4.9.4/e200z4/fp/crtend.o
+                0x40000ea0        0x0 c:/nxp/s32ds_power_v2.1/s32ds/build_tools/powerpc-eabivle-4_9/bin/../lib/gcc/powerpc-eabivle/4.9.4/e200z4/fp/crtend.o
 
-.sdata          0x40000e94        0xc load address 0x010053b4
-                0x40000e94                . = ALIGN (0x4)
-                0x40000e94                __SDATA_RAM = .
-                0x40000e94                __sdata_start__ = .
+.sdata          0x40000ea0        0xc load address 0x010055a4
+                0x40000ea0                . = ALIGN (0x4)
+                0x40000ea0                __SDATA_RAM = .
+                0x40000ea0                __sdata_start__ = .
  *(.sdata)
- .sdata         0x40000e94        0x0 c:/nxp/s32ds_power_v2.1/s32ds/build_tools/powerpc-eabivle-4_9/bin/../lib/gcc/powerpc-eabivle/4.9.4/e200z4/fp/ecrti.o
-                0x40000e94                __SDATA_START__
- .sdata         0x40000e94        0x0 c:/nxp/s32ds_power_v2.1/s32ds/build_tools/powerpc-eabivle-4_9/bin/../lib/gcc/powerpc-eabivle/4.9.4/e200z4/fp/crtbegin.o
-                0x40008e94                _SDA_BASE_
+ .sdata         0x40000ea0        0x0 c:/nxp/s32ds_power_v2.1/s32ds/build_tools/powerpc-eabivle-4_9/bin/../lib/gcc/powerpc-eabivle/4.9.4/e200z4/fp/ecrti.o
+                0x40000ea0                __SDATA_START__
+ .sdata         0x40000ea0        0x0 c:/nxp/s32ds_power_v2.1/s32ds/build_tools/powerpc-eabivle-4_9/bin/../lib/gcc/powerpc-eabivle/4.9.4/e200z4/fp/crtbegin.o
+                0x40008ea0                _SDA_BASE_
  *(.sdata.*)
  .sdata.g_clockManConfigsArr
-                0x40000e94        0x4 ./Generated_Code/clockMan1.o
-                0x40000e94                g_clockManConfigsArr
+                0x40000ea0        0x4 ./Generated_Code/clockMan1.o
+                0x40000ea0                g_clockManConfigsArr
  .sdata.g_xtal0ClkFreq
-                0x40000e98        0x4 ./SDK/platform/drivers/src/clock/MPC57xx/clock_MPC57xx.o
-                0x40000e98                g_xtal0ClkFreq
+                0x40000ea4        0x4 ./SDK/platform/drivers/src/clock/MPC57xx/clock_MPC57xx.o
+                0x40000ea4                g_xtal0ClkFreq
  .sdata.g_xtal1ClkFreq
-                0x40000e9c        0x4 ./SDK/platform/drivers/src/clock/MPC57xx/clock_MPC57xx.o
-                0x40000e9c                g_xtal1ClkFreq
-                0x40000ea0                . = ALIGN (0x4)
-                0x40000ea0                __sdata_end__ = .
-                0x010053c0                __SDATA_END = (__SDATA_ROM + (__sdata_end__ - __sdata_start__))
+                0x40000ea8        0x4 ./SDK/platform/drivers/src/clock/MPC57xx/clock_MPC57xx.o
+                0x40000ea8                g_xtal1ClkFreq
+                0x40000eac                . = ALIGN (0x4)
+                0x40000eac                __sdata_end__ = .
+                0x010055b0                __SDATA_END = (__SDATA_ROM + (__sdata_end__ - __sdata_start__))
 
-.sbss           0x40000ea0       0x44 load address 0x010053c0
-                0x40000ea0                . = ALIGN (0x4)
-                0x40000ea0                __SBSS_START = .
-                0x40000ea0                __sbss_start__ = .
+.sbss           0x40000eac       0x44 load address 0x010055b0
+                0x40000eac                . = ALIGN (0x4)
+                0x40000eac                __SBSS_START = .
+                0x40000eac                __sbss_start__ = .
  *(.sbss)
- .sbss          0x40000ea0        0x0 c:/nxp/s32ds_power_v2.1/s32ds/build_tools/powerpc-eabivle-4_9/bin/../lib/gcc/powerpc-eabivle/4.9.4/e200z4/fp/ecrtn.o
-                0x40000ea0                __SBSS_END__
+ .sbss          0x40000eac        0x0 c:/nxp/s32ds_power_v2.1/s32ds/build_tools/powerpc-eabivle-4_9/bin/../lib/gcc/powerpc-eabivle/4.9.4/e200z4/fp/ecrtn.o
+                0x40000eac                __SBSS_END__
  *(.sbss.*)
  .sbss.g_clockManCallbacksArr
-                0x40000ea0        0x4 ./Generated_Code/clockMan1.o
-                0x40000ea0                g_clockManCallbacksArr
+                0x40000eac        0x4 ./Generated_Code/clockMan1.o
+                0x40000eac                g_clockManCallbacksArr
  .sbss.g_pllPhi1ClkFreq
-                0x40000ea4        0x4 ./SDK/platform/drivers/src/clock/MPC57xx/clock_MPC57xx.o
- .sbss.g_enetRmiiClkFreq
-                0x40000ea8        0x4 ./SDK/platform/drivers/src/clock/MPC57xx/clock_MPC57xx.o
- .sbss.g_fircClkUndividedFreq
-                0x40000eac        0x4 ./SDK/platform/drivers/src/clock/MPC57xx/clock_MPC57xx.o
- .sbss.g_sircClkUndividedFreq
                 0x40000eb0        0x4 ./SDK/platform/drivers/src/clock/MPC57xx/clock_MPC57xx.o
- .sbss.g_fircClkFreq
+ .sbss.g_enetRmiiClkFreq
                 0x40000eb4        0x4 ./SDK/platform/drivers/src/clock/MPC57xx/clock_MPC57xx.o
- .sbss.g_sxoscClkFreq
+ .sbss.g_fircClkUndividedFreq
                 0x40000eb8        0x4 ./SDK/platform/drivers/src/clock/MPC57xx/clock_MPC57xx.o
- .sbss.g_pllPhi0ClkFreq
+ .sbss.g_sircClkUndividedFreq
                 0x40000ebc        0x4 ./SDK/platform/drivers/src/clock/MPC57xx/clock_MPC57xx.o
- .sbss.g_sircClkFreq
+ .sbss.g_fircClkFreq
                 0x40000ec0        0x4 ./SDK/platform/drivers/src/clock/MPC57xx/clock_MPC57xx.o
- .sbss.clockSourceFrequenciesAreCalculatedAndCached.6268
-                0x40000ec4        0x1 ./SDK/platform/drivers/src/clock/MPC57xx/clock_MPC57xx.o
- *fill*         0x40000ec5        0x3 
- .sbss.g_sxoscClkUndividedFreq
+ .sbss.g_sxoscClkFreq
+                0x40000ec4        0x4 ./SDK/platform/drivers/src/clock/MPC57xx/clock_MPC57xx.o
+ .sbss.g_pllPhi0ClkFreq
                 0x40000ec8        0x4 ./SDK/platform/drivers/src/clock/MPC57xx/clock_MPC57xx.o
- .sbss.g_fxoscClkUndividedFreq
+ .sbss.g_sircClkFreq
                 0x40000ecc        0x4 ./SDK/platform/drivers/src/clock/MPC57xx/clock_MPC57xx.o
+ .sbss.clockSourceFrequenciesAreCalculatedAndCached.6268
+                0x40000ed0        0x1 ./SDK/platform/drivers/src/clock/MPC57xx/clock_MPC57xx.o
+ *fill*         0x40000ed1        0x3 
+ .sbss.g_sxoscClkUndividedFreq
+                0x40000ed4        0x4 ./SDK/platform/drivers/src/clock/MPC57xx/clock_MPC57xx.o
+ .sbss.g_fxoscClkUndividedFreq
+                0x40000ed8        0x4 ./SDK/platform/drivers/src/clock/MPC57xx/clock_MPC57xx.o
  .sbss.g_fxoscClkFreq
-                0x40000ed0        0x4 ./SDK/platform/drivers/src/clock/MPC57xx/clock_MPC57xx.o
+                0x40000edc        0x4 ./SDK/platform/drivers/src/clock/MPC57xx/clock_MPC57xx.o
  .sbss.g_interruptDisableCount
-                0x40000ed4        0x4 ./SDK/platform/drivers/src/interrupt/interrupt_manager_MPC57xx.o
+                0x40000ee0        0x4 ./SDK/platform/drivers/src/interrupt/interrupt_manager_MPC57xx.o
  .sbss.g_BootLoaderFlashModuleInit
-                0x40000ed8        0x4 ./Sources/Bootloader_Flash/BootloaderFlash.o
+                0x40000ee4        0x4 ./Sources/Bootloader_Flash/BootloaderFlash.o
  .sbss.g_BootLoaderFlash_failedAddress
-                0x40000edc        0x4 ./Sources/Bootloader_Flash/BootloaderFlash.o
+                0x40000ee8        0x4 ./Sources/Bootloader_Flash/BootloaderFlash.o
  .sbss.exit_code
-                0x40000ee0        0x4 ./Sources/main.o
-                0x40000ee0                exit_code
-                0x40000ee4                . = ALIGN (0x4)
-                0x40000ee4                __sbss_end__ = .
-                0x40000ee4                __SBSS_END = .
+                0x40000eec        0x4 ./Sources/main.o
+                0x40000eec                exit_code
+                0x40000ef0                . = ALIGN (0x4)
+                0x40000ef0                __sbss_end__ = .
+                0x40000ef0                __SBSS_END = .
 
-.bss            0x40000ee4       0x40 load address 0x01005404
-                0x40000ee4                . = ALIGN (0x4)
-                0x40000ee4                __BSS_START = .
-                0x40000ee4                __bss_start__ = .
+.bss            0x40000ef0       0x40 load address 0x010055f4
+                0x40000ef0                . = ALIGN (0x4)
+                0x40000ef0                __BSS_START = .
+                0x40000ef0                __bss_start__ = .
  *(.bss)
- .bss           0x40000ee4       0x20 c:/nxp/s32ds_power_v2.1/s32ds/build_tools/powerpc-eabivle-4_9/bin/../lib/gcc/powerpc-eabivle/4.9.4/e200z4/fp/crtbegin.o
+ .bss           0x40000ef0       0x20 c:/nxp/s32ds_power_v2.1/s32ds/build_tools/powerpc-eabivle-4_9/bin/../lib/gcc/powerpc-eabivle/4.9.4/e200z4/fp/crtbegin.o
  *(.bss.*)
  .bss.g_clockState
-                0x40000f04       0x10 ./SDK/platform/drivers/src/clock/MPC57xx/clock_MPC57xx.o
+                0x40000f10       0x10 ./SDK/platform/drivers/src/clock/MPC57xx/clock_MPC57xx.o
  .bss.g_BootLoaderFlash_pCtxData
-                0x40000f14       0x10 ./Sources/Bootloader_Flash/BootloaderFlash.o
+                0x40000f20       0x10 ./Sources/Bootloader_Flash/BootloaderFlash.o
  *(COMMON)
-                0x40000f24                . = ALIGN (0x4)
-                0x40000f24                __bss_end__ = .
-                0x40000f24                __BSS_END = .
-                0x010053c0                __CODE_ROM = __SDATA_END
+                0x40000f30                . = ALIGN (0x4)
+                0x40000f30                __bss_end__ = .
+                0x40000f30                __BSS_END = .
+                0x010055b0                __CODE_ROM = __SDATA_END
 
-.iplt           0x40000f30        0x0 load address 0x01005450
+.iplt           0x40000f30        0x0 load address 0x01005640
  .iplt          0x40000f30        0x0 c:/nxp/s32ds_power_v2.1/s32ds/build_tools/powerpc-eabivle-4_9/bin/../lib/gcc/powerpc-eabivle/4.9.4/e200z4/fp/crtbegin.o
 
-.code           0x40000f24        0x0 load address 0x010053c0
-                0x40000f24                . = ALIGN (0x4)
-                0x40000f24                __CODE_RAM = .
-                0x40000f24                __code_start__ = .
-                0x40000f24                __code_ram_start__ = .
+.code           0x40000f30        0x0 load address 0x010055b0
+                0x40000f30                . = ALIGN (0x4)
+                0x40000f30                __CODE_RAM = .
+                0x40000f30                __code_start__ = .
+                0x40000f30                __code_ram_start__ = .
  *(.code_ram)
-                0x40000f24                . = ALIGN (0x4)
-                0x40000f24                __code_ram_end__ = .
-                0x40000f24                __code_end__ = .
-                0x010053c0                __CODE_END = (__CODE_ROM + (__code_end__ - __code_start__))
+                0x40000f30                . = ALIGN (0x4)
+                0x40000f30                __code_ram_end__ = .
+                0x40000f30                __code_end__ = .
+                0x010055b0                __CODE_END = (__CODE_ROM + (__code_end__ - __code_start__))
 
-.stack          0x40000f30     0x1000 load address 0x01005450
+.stack          0x40000f30     0x1000 load address 0x01005640
                 0x40000f30                __HEAP = .
                 [!provide]                PROVIDE (_end, .)
                 [!provide]                PROVIDE (end, .)
@@ -2245,11 +2501,14 @@ OUTPUT(TestWrapperLayer_Z4_0.elf elf32-powerpc)
  .comment       0x0000008f       0x83 ./SDK/platform/devices/MPC5748G/startup/system_MPC5748G.o
  .comment       0x0000008f       0x83 ./SDK/platform/devices/startup.o
  .comment       0x0000008f       0x83 ./SDK/platform/drivers/src/clock/MPC57xx/clock_MPC57xx.o
+ .comment       0x0000008f       0x83 ./SDK/platform/drivers/src/crc/crc_c55_hw_access.o
+ .comment       0x0000008f       0x83 ./SDK/platform/drivers/src/crc/crc_driver.o
  .comment       0x0000008f       0x83 ./SDK/platform/drivers/src/flash_c55/flash_c55_driver.o
  .comment       0x0000008f       0x83 ./SDK/platform/drivers/src/interrupt/interrupt_manager_MPC57xx.o
  .comment       0x0000008f       0x83 ./SDK/platform/drivers/src/pins/siul2/pins_siul2_driver.o
  .comment       0x0000008f       0x83 ./SDK/platform/drivers/src/pins/siul2/siul2_hw_access.o
  .comment       0x0000008f       0x83 ./Sources/Bootloader_Flash/BootloaderFlash.o
+ .comment       0x0000008f       0x83 ./Sources/Bootloader_Flash/BootloaderFlashCRCConfig.o
  .comment       0x0000008f       0x83 ./Sources/main.o
  .comment       0x0000008f       0x83 c:/nxp/s32ds_power_v2.1/s32ds/build_tools/powerpc-eabivle-4_9/bin/../lib/gcc/powerpc-eabivle/4.9.4/e200z4/fp/crtend.o
  .comment       0x0000008f        0xd c:/nxp/s32ds_power_v2.1/s32ds/build_tools/powerpc-eabivle-4_9/bin/../lib/gcc/powerpc-eabivle/4.9.4/e200z4/fp/ecrtn.o
@@ -2292,25 +2551,29 @@ OUTPUT(TestWrapperLayer_Z4_0.elf elf32-powerpc)
  .PPC.EMB.apuinfo
                 0x00000184       0x18 ./SDK/platform/drivers/src/clock/MPC57xx/clock_MPC57xx.o
  .PPC.EMB.apuinfo
-                0x0000019c       0x18 ./SDK/platform/drivers/src/flash_c55/flash_c55_driver.o
+                0x0000019c       0x18 ./SDK/platform/drivers/src/crc/crc_c55_hw_access.o
  .PPC.EMB.apuinfo
-                0x000001b4       0x18 ./SDK/platform/drivers/src/interrupt/interrupt_manager_MPC57xx.o
+                0x000001b4       0x18 ./SDK/platform/drivers/src/crc/crc_driver.o
  .PPC.EMB.apuinfo
-                0x000001cc       0x18 ./SDK/platform/drivers/src/pins/siul2/pins_siul2_driver.o
+                0x000001cc       0x18 ./SDK/platform/drivers/src/flash_c55/flash_c55_driver.o
  .PPC.EMB.apuinfo
-                0x000001e4       0x18 ./SDK/platform/drivers/src/pins/siul2/siul2_hw_access.o
+                0x000001e4       0x18 ./SDK/platform/drivers/src/interrupt/interrupt_manager_MPC57xx.o
  .PPC.EMB.apuinfo
-                0x000001fc       0x18 ./Sources/Bootloader_Flash/BootloaderFlash.o
+                0x000001fc       0x18 ./SDK/platform/drivers/src/pins/siul2/pins_siul2_driver.o
  .PPC.EMB.apuinfo
-                0x00000214       0x18 ./Sources/main.o
+                0x00000214       0x18 ./SDK/platform/drivers/src/pins/siul2/siul2_hw_access.o
  .PPC.EMB.apuinfo
-                0x0000022c       0x18 c:/nxp/s32ds_power_v2.1/s32ds/build_tools/powerpc-eabivle-4_9/bin/../lib/gcc/powerpc-eabivle/4.9.4/e200z4/fp\libgcc.a(eabivle.o)
+                0x0000022c       0x18 ./Sources/Bootloader_Flash/BootloaderFlash.o
  .PPC.EMB.apuinfo
-                0x00000244       0x18 c:/nxp/s32ds_power_v2.1/s32ds/build_tools/powerpc-eabivle-4_9/bin/../lib/gcc/powerpc-eabivle/4.9.4/e200z4/fp/crtend.o
+                0x00000244       0x18 ./Sources/main.o
  .PPC.EMB.apuinfo
-                0x0000025c       0x18 c:/nxp/s32ds_power_v2.1/s32ds/build_tools/powerpc-eabivle-4_9/bin/../lib/gcc/powerpc-eabivle/4.9.4/e200z4/fp/ecrtn.o
+                0x0000025c       0x18 c:/nxp/s32ds_power_v2.1/s32ds/build_tools/powerpc-eabivle-4_9/bin/../lib/gcc/powerpc-eabivle/4.9.4/e200z4/fp\libgcc.a(eabivle.o)
+ .PPC.EMB.apuinfo
+                0x00000274       0x18 c:/nxp/s32ds_power_v2.1/s32ds/build_tools/powerpc-eabivle-4_9/bin/../lib/gcc/powerpc-eabivle/4.9.4/e200z4/fp/crtend.o
+ .PPC.EMB.apuinfo
+                0x0000028c       0x18 c:/nxp/s32ds_power_v2.1/s32ds/build_tools/powerpc-eabivle-4_9/bin/../lib/gcc/powerpc-eabivle/4.9.4/e200z4/fp/ecrtn.o
 
-.debug_info     0x00000000    0x1683e
+.debug_info     0x00000000    0x17f13
  .debug_info    0x00000000      0x54c ./FreeMaster_MPC57xxx/src_common/freemaster_appcmd.o
  .debug_info    0x0000054c       0xec ./FreeMaster_MPC57xxx/src_common/freemaster_lin.o
  .debug_info    0x00000638     0x1bba ./FreeMaster_MPC57xxx/src_common/freemaster_pipes.o
@@ -2327,14 +2590,17 @@ OUTPUT(TestWrapperLayer_Z4_0.elf elf32-powerpc)
  .debug_info    0x00006597     0x16b3 ./SDK/platform/devices/MPC5748G/startup/system_MPC5748G.o
  .debug_info    0x00007c4a      0x397 ./SDK/platform/devices/startup.o
  .debug_info    0x00007fe1     0x6686 ./SDK/platform/drivers/src/clock/MPC57xx/clock_MPC57xx.o
- .debug_info    0x0000e667     0x1901 ./SDK/platform/drivers/src/flash_c55/flash_c55_driver.o
- .debug_info    0x0000ff68     0x159a ./SDK/platform/drivers/src/interrupt/interrupt_manager_MPC57xx.o
- .debug_info    0x00011502     0x148b ./SDK/platform/drivers/src/pins/siul2/pins_siul2_driver.o
- .debug_info    0x0001298d      0x8b2 ./SDK/platform/drivers/src/pins/siul2/siul2_hw_access.o
- .debug_info    0x0001323f      0xa29 ./Sources/Bootloader_Flash/BootloaderFlash.o
- .debug_info    0x00013c68     0x2bd6 ./Sources/main.o
+ .debug_info    0x0000e667      0x6af ./SDK/platform/drivers/src/crc/crc_c55_hw_access.o
+ .debug_info    0x0000ed16      0xc8f ./SDK/platform/drivers/src/crc/crc_driver.o
+ .debug_info    0x0000f9a5     0x1901 ./SDK/platform/drivers/src/flash_c55/flash_c55_driver.o
+ .debug_info    0x000112a6     0x159a ./SDK/platform/drivers/src/interrupt/interrupt_manager_MPC57xx.o
+ .debug_info    0x00012840     0x148b ./SDK/platform/drivers/src/pins/siul2/pins_siul2_driver.o
+ .debug_info    0x00013ccb      0x8b2 ./SDK/platform/drivers/src/pins/siul2/siul2_hw_access.o
+ .debug_info    0x0001457d      0xc2a ./Sources/Bootloader_Flash/BootloaderFlash.o
+ .debug_info    0x000151a7      0x139 ./Sources/Bootloader_Flash/BootloaderFlashCRCConfig.o
+ .debug_info    0x000152e0     0x2c33 ./Sources/main.o
 
-.debug_abbrev   0x00000000     0x23f1
+.debug_abbrev   0x00000000     0x29b1
  .debug_abbrev  0x00000000      0x1b0 ./FreeMaster_MPC57xxx/src_common/freemaster_appcmd.o
  .debug_abbrev  0x000001b0       0x8a ./FreeMaster_MPC57xxx/src_common/freemaster_lin.o
  .debug_abbrev  0x0000023a      0x36c ./FreeMaster_MPC57xxx/src_common/freemaster_pipes.o
@@ -2351,14 +2617,17 @@ OUTPUT(TestWrapperLayer_Z4_0.elf elf32-powerpc)
  .debug_abbrev  0x00000f87      0x155 ./SDK/platform/devices/MPC5748G/startup/system_MPC5748G.o
  .debug_abbrev  0x000010dc      0x133 ./SDK/platform/devices/startup.o
  .debug_abbrev  0x0000120f      0x3b4 ./SDK/platform/drivers/src/clock/MPC57xx/clock_MPC57xx.o
- .debug_abbrev  0x000015c3      0x2d1 ./SDK/platform/drivers/src/flash_c55/flash_c55_driver.o
- .debug_abbrev  0x00001894      0x250 ./SDK/platform/drivers/src/interrupt/interrupt_manager_MPC57xx.o
- .debug_abbrev  0x00001ae4      0x2eb ./SDK/platform/drivers/src/pins/siul2/pins_siul2_driver.o
- .debug_abbrev  0x00001dcf      0x1c2 ./SDK/platform/drivers/src/pins/siul2/siul2_hw_access.o
- .debug_abbrev  0x00001f91      0x1cc ./Sources/Bootloader_Flash/BootloaderFlash.o
- .debug_abbrev  0x0000215d      0x294 ./Sources/main.o
+ .debug_abbrev  0x000015c3      0x214 ./SDK/platform/drivers/src/crc/crc_c55_hw_access.o
+ .debug_abbrev  0x000017d7      0x2d7 ./SDK/platform/drivers/src/crc/crc_driver.o
+ .debug_abbrev  0x00001aae      0x2d1 ./SDK/platform/drivers/src/flash_c55/flash_c55_driver.o
+ .debug_abbrev  0x00001d7f      0x250 ./SDK/platform/drivers/src/interrupt/interrupt_manager_MPC57xx.o
+ .debug_abbrev  0x00001fcf      0x2eb ./SDK/platform/drivers/src/pins/siul2/pins_siul2_driver.o
+ .debug_abbrev  0x000022ba      0x1c2 ./SDK/platform/drivers/src/pins/siul2/siul2_hw_access.o
+ .debug_abbrev  0x0000247c      0x221 ./Sources/Bootloader_Flash/BootloaderFlash.o
+ .debug_abbrev  0x0000269d       0x80 ./Sources/Bootloader_Flash/BootloaderFlashCRCConfig.o
+ .debug_abbrev  0x0000271d      0x294 ./Sources/main.o
 
-.debug_loc      0x00000000     0xa7d6
+.debug_loc      0x00000000     0xb1a7
  .debug_loc     0x00000000      0x5bf ./FreeMaster_MPC57xxx/src_common/freemaster_appcmd.o
  .debug_loc     0x000005bf       0x42 ./FreeMaster_MPC57xxx/src_common/freemaster_lin.o
  .debug_loc     0x00000601     0x1d7c ./FreeMaster_MPC57xxx/src_common/freemaster_pipes.o
@@ -2371,14 +2640,16 @@ OUTPUT(TestWrapperLayer_Z4_0.elf elf32-powerpc)
  .debug_loc     0x00003a63      0x1c0 ./SDK/platform/devices/MPC5748G/startup/system_MPC5748G.o
  .debug_loc     0x00003c23      0x181 ./SDK/platform/devices/startup.o
  .debug_loc     0x00003da4     0x39a1 ./SDK/platform/drivers/src/clock/MPC57xx/clock_MPC57xx.o
- .debug_loc     0x00007745     0x1e5a ./SDK/platform/drivers/src/flash_c55/flash_c55_driver.o
- .debug_loc     0x0000959f      0x559 ./SDK/platform/drivers/src/interrupt/interrupt_manager_MPC57xx.o
- .debug_loc     0x00009af8      0x4cb ./SDK/platform/drivers/src/pins/siul2/pins_siul2_driver.o
- .debug_loc     0x00009fc3      0x320 ./SDK/platform/drivers/src/pins/siul2/siul2_hw_access.o
- .debug_loc     0x0000a2e3      0x396 ./Sources/Bootloader_Flash/BootloaderFlash.o
- .debug_loc     0x0000a679      0x15d ./Sources/main.o
+ .debug_loc     0x00007745      0x39a ./SDK/platform/drivers/src/crc/crc_c55_hw_access.o
+ .debug_loc     0x00007adf      0x569 ./SDK/platform/drivers/src/crc/crc_driver.o
+ .debug_loc     0x00008048     0x1e5a ./SDK/platform/drivers/src/flash_c55/flash_c55_driver.o
+ .debug_loc     0x00009ea2      0x559 ./SDK/platform/drivers/src/interrupt/interrupt_manager_MPC57xx.o
+ .debug_loc     0x0000a3fb      0x4cb ./SDK/platform/drivers/src/pins/siul2/pins_siul2_driver.o
+ .debug_loc     0x0000a8c6      0x320 ./SDK/platform/drivers/src/pins/siul2/siul2_hw_access.o
+ .debug_loc     0x0000abe6      0x464 ./Sources/Bootloader_Flash/BootloaderFlash.o
+ .debug_loc     0x0000b04a      0x15d ./Sources/main.o
 
-.debug_aranges  0x00000000      0x740
+.debug_aranges  0x00000000      0x808
  .debug_aranges
                 0x00000000       0x68 ./FreeMaster_MPC57xxx/src_common/freemaster_appcmd.o
  .debug_aranges
@@ -2412,19 +2683,25 @@ OUTPUT(TestWrapperLayer_Z4_0.elf elf32-powerpc)
  .debug_aranges
                 0x00000438       0x78 ./SDK/platform/drivers/src/clock/MPC57xx/clock_MPC57xx.o
  .debug_aranges
-                0x000004b0       0xc8 ./SDK/platform/drivers/src/flash_c55/flash_c55_driver.o
+                0x000004b0       0x38 ./SDK/platform/drivers/src/crc/crc_c55_hw_access.o
  .debug_aranges
-                0x00000578       0x80 ./SDK/platform/drivers/src/interrupt/interrupt_manager_MPC57xx.o
+                0x000004e8       0x68 ./SDK/platform/drivers/src/crc/crc_driver.o
  .debug_aranges
-                0x000005f8       0xa0 ./SDK/platform/drivers/src/pins/siul2/pins_siul2_driver.o
+                0x00000550       0xc8 ./SDK/platform/drivers/src/flash_c55/flash_c55_driver.o
  .debug_aranges
-                0x00000698       0x28 ./SDK/platform/drivers/src/pins/siul2/siul2_hw_access.o
+                0x00000618       0x80 ./SDK/platform/drivers/src/interrupt/interrupt_manager_MPC57xx.o
  .debug_aranges
-                0x000006c0       0x50 ./Sources/Bootloader_Flash/BootloaderFlash.o
+                0x00000698       0xa0 ./SDK/platform/drivers/src/pins/siul2/pins_siul2_driver.o
  .debug_aranges
-                0x00000710       0x30 ./Sources/main.o
+                0x00000738       0x28 ./SDK/platform/drivers/src/pins/siul2/siul2_hw_access.o
+ .debug_aranges
+                0x00000760       0x60 ./Sources/Bootloader_Flash/BootloaderFlash.o
+ .debug_aranges
+                0x000007c0       0x18 ./Sources/Bootloader_Flash/BootloaderFlashCRCConfig.o
+ .debug_aranges
+                0x000007d8       0x30 ./Sources/main.o
 
-.debug_ranges   0x00000000      0x890
+.debug_ranges   0x00000000      0x938
  .debug_ranges  0x00000000       0x58 ./FreeMaster_MPC57xxx/src_common/freemaster_appcmd.o
  .debug_ranges  0x00000058       0x18 ./FreeMaster_MPC57xxx/src_common/freemaster_lin.o
  .debug_ranges  0x00000070      0x208 ./FreeMaster_MPC57xxx/src_common/freemaster_pipes.o
@@ -2438,14 +2715,16 @@ OUTPUT(TestWrapperLayer_Z4_0.elf elf32-powerpc)
  .debug_ranges  0x00000430       0x20 ./SDK/platform/devices/MPC5748G/startup/system_MPC5748G.o
  .debug_ranges  0x00000450       0x10 ./SDK/platform/devices/startup.o
  .debug_ranges  0x00000460      0x1e8 ./SDK/platform/drivers/src/clock/MPC57xx/clock_MPC57xx.o
- .debug_ranges  0x00000648       0xb8 ./SDK/platform/drivers/src/flash_c55/flash_c55_driver.o
- .debug_ranges  0x00000700       0x70 ./SDK/platform/drivers/src/interrupt/interrupt_manager_MPC57xx.o
- .debug_ranges  0x00000770       0x90 ./SDK/platform/drivers/src/pins/siul2/pins_siul2_driver.o
- .debug_ranges  0x00000800       0x30 ./SDK/platform/drivers/src/pins/siul2/siul2_hw_access.o
- .debug_ranges  0x00000830       0x40 ./Sources/Bootloader_Flash/BootloaderFlash.o
- .debug_ranges  0x00000870       0x20 ./Sources/main.o
+ .debug_ranges  0x00000648       0x28 ./SDK/platform/drivers/src/crc/crc_c55_hw_access.o
+ .debug_ranges  0x00000670       0x70 ./SDK/platform/drivers/src/crc/crc_driver.o
+ .debug_ranges  0x000006e0       0xb8 ./SDK/platform/drivers/src/flash_c55/flash_c55_driver.o
+ .debug_ranges  0x00000798       0x70 ./SDK/platform/drivers/src/interrupt/interrupt_manager_MPC57xx.o
+ .debug_ranges  0x00000808       0x90 ./SDK/platform/drivers/src/pins/siul2/pins_siul2_driver.o
+ .debug_ranges  0x00000898       0x30 ./SDK/platform/drivers/src/pins/siul2/siul2_hw_access.o
+ .debug_ranges  0x000008c8       0x50 ./Sources/Bootloader_Flash/BootloaderFlash.o
+ .debug_ranges  0x00000918       0x20 ./Sources/main.o
 
-.debug_macro    0x00000000    0x2ac1e
+.debug_macro    0x00000000    0x2b01f
  .debug_macro   0x00000000       0x86 ./FreeMaster_MPC57xxx/src_common/freemaster_appcmd.o
  .debug_macro   0x00000086      0x61c ./FreeMaster_MPC57xxx/src_common/freemaster_appcmd.o
  .debug_macro   0x000006a2       0x52 ./FreeMaster_MPC57xxx/src_common/freemaster_appcmd.o
@@ -2474,29 +2753,32 @@ OUTPUT(TestWrapperLayer_Z4_0.elf elf32-powerpc)
  .debug_macro   0x0000181f       0x98 ./FreeMaster_MPC57xxx/src_common/freemaster_serial.o
  .debug_macro   0x000018b7       0x86 ./FreeMaster_MPC57xxx/src_common/freemaster_tsa.o
  .debug_macro   0x0000193d       0x81 ./FreeMaster_MPC57xxx/src_platforms/MPC57xx/freemaster_MPC57xx.o
- .debug_macro   0x000019be      0x1a7 ./Generated_Code/clockMan1.o
- .debug_macro   0x00001b65       0x1c ./Generated_Code/clockMan1.o
- .debug_macro   0x00001b81    0x27e8c ./Generated_Code/clockMan1.o
- .debug_macro   0x00029a0d       0x10 ./Generated_Code/clockMan1.o
- .debug_macro   0x00029a1d      0x10a ./SDK/platform/devices/MPC5748G/startup/system_MPC5748G.o
- .debug_macro   0x00029b27       0x22 ./SDK/platform/devices/MPC5748G/startup/system_MPC5748G.o
- .debug_macro   0x00029b49      0x13b ./SDK/platform/devices/startup.o
- .debug_macro   0x00029c84       0x58 ./SDK/platform/devices/startup.o
- .debug_macro   0x00029cdc      0x186 ./SDK/platform/drivers/src/clock/MPC57xx/clock_MPC57xx.o
- .debug_macro   0x00029e62       0x28 ./SDK/platform/drivers/src/clock/MPC57xx/clock_MPC57xx.o
- .debug_macro   0x00029e8a      0x14c ./SDK/platform/drivers/src/flash_c55/flash_c55_driver.o
- .debug_macro   0x00029fd6      0x1af ./SDK/platform/drivers/src/flash_c55/flash_c55_driver.o
- .debug_macro   0x0002a185      0x2c8 ./SDK/platform/drivers/src/flash_c55/flash_c55_driver.o
- .debug_macro   0x0002a44d      0x159 ./SDK/platform/drivers/src/interrupt/interrupt_manager_MPC57xx.o
- .debug_macro   0x0002a5a6      0x162 ./SDK/platform/drivers/src/pins/siul2/pins_siul2_driver.o
- .debug_macro   0x0002a708       0x10 ./SDK/platform/drivers/src/pins/siul2/pins_siul2_driver.o
- .debug_macro   0x0002a718      0x14e ./SDK/platform/drivers/src/pins/siul2/siul2_hw_access.o
- .debug_macro   0x0002a866      0x152 ./Sources/Bootloader_Flash/BootloaderFlash.o
- .debug_macro   0x0002a9b8       0x40 ./Sources/Bootloader_Flash/BootloaderFlash.o
- .debug_macro   0x0002a9f8      0x1e0 ./Sources/main.o
- .debug_macro   0x0002abd8       0x46 ./Sources/main.o
+ .debug_macro   0x000019be      0x1c5 ./Generated_Code/clockMan1.o
+ .debug_macro   0x00001b83       0x1c ./Generated_Code/clockMan1.o
+ .debug_macro   0x00001b9f    0x27e8c ./Generated_Code/clockMan1.o
+ .debug_macro   0x00029a2b       0x10 ./Generated_Code/clockMan1.o
+ .debug_macro   0x00029a3b      0x10a ./SDK/platform/devices/MPC5748G/startup/system_MPC5748G.o
+ .debug_macro   0x00029b45       0x22 ./SDK/platform/devices/MPC5748G/startup/system_MPC5748G.o
+ .debug_macro   0x00029b67      0x13b ./SDK/platform/devices/startup.o
+ .debug_macro   0x00029ca2       0x58 ./SDK/platform/devices/startup.o
+ .debug_macro   0x00029cfa      0x186 ./SDK/platform/drivers/src/clock/MPC57xx/clock_MPC57xx.o
+ .debug_macro   0x00029e80       0x28 ./SDK/platform/drivers/src/clock/MPC57xx/clock_MPC57xx.o
+ .debug_macro   0x00029ea8      0x14f ./SDK/platform/drivers/src/crc/crc_c55_hw_access.o
+ .debug_macro   0x00029ff7      0x1af ./SDK/platform/drivers/src/crc/crc_c55_hw_access.o
+ .debug_macro   0x0002a1a6      0x14f ./SDK/platform/drivers/src/crc/crc_driver.o
+ .debug_macro   0x0002a2f5      0x14c ./SDK/platform/drivers/src/flash_c55/flash_c55_driver.o
+ .debug_macro   0x0002a441      0x2c8 ./SDK/platform/drivers/src/flash_c55/flash_c55_driver.o
+ .debug_macro   0x0002a709      0x159 ./SDK/platform/drivers/src/interrupt/interrupt_manager_MPC57xx.o
+ .debug_macro   0x0002a862      0x162 ./SDK/platform/drivers/src/pins/siul2/pins_siul2_driver.o
+ .debug_macro   0x0002a9c4       0x10 ./SDK/platform/drivers/src/pins/siul2/pins_siul2_driver.o
+ .debug_macro   0x0002a9d4      0x14e ./SDK/platform/drivers/src/pins/siul2/siul2_hw_access.o
+ .debug_macro   0x0002ab22      0x15c ./Sources/Bootloader_Flash/BootloaderFlash.o
+ .debug_macro   0x0002ac7e       0x34 ./Sources/Bootloader_Flash/BootloaderFlash.o
+ .debug_macro   0x0002acb2      0x140 ./Sources/Bootloader_Flash/BootloaderFlashCRCConfig.o
+ .debug_macro   0x0002adf2      0x1f3 ./Sources/main.o
+ .debug_macro   0x0002afe5       0x3a ./Sources/main.o
 
-.debug_line     0x00000000     0x6899
+.debug_line     0x00000000     0x7572
  .debug_line    0x00000000      0x377 ./FreeMaster_MPC57xxx/src_common/freemaster_appcmd.o
  .debug_line    0x00000377      0x280 ./FreeMaster_MPC57xxx/src_common/freemaster_lin.o
  .debug_line    0x000005f7      0x94b ./FreeMaster_MPC57xxx/src_common/freemaster_pipes.o
@@ -2506,21 +2788,24 @@ OUTPUT(TestWrapperLayer_Z4_0.elf elf32-powerpc)
  .debug_line    0x00001a20      0x3a4 ./FreeMaster_MPC57xxx/src_common/freemaster_serial.o
  .debug_line    0x00001dc4      0x280 ./FreeMaster_MPC57xxx/src_common/freemaster_tsa.o
  .debug_line    0x00002044      0x2af ./FreeMaster_MPC57xxx/src_platforms/MPC57xx/freemaster_MPC57xx.o
- .debug_line    0x000022f3      0x60f ./Generated_Code/clockMan1.o
- .debug_line    0x00002902      0x160 ./Project_Settings/Startup_Code/core0_intc_sw_handlers.o
- .debug_line    0x00002a62       0x73 ./Project_Settings/Startup_Code/interrupt_vectors.o
- .debug_line    0x00002ad5       0xd4 ./Project_Settings/Startup_Code/startup_MPC5748G.o
- .debug_line    0x00002ba9      0x3e7 ./SDK/platform/devices/MPC5748G/startup/system_MPC5748G.o
- .debug_line    0x00002f90      0x35f ./SDK/platform/devices/startup.o
- .debug_line    0x000032ef      0xdd5 ./SDK/platform/drivers/src/clock/MPC57xx/clock_MPC57xx.o
- .debug_line    0x000040c4      0xb02 ./SDK/platform/drivers/src/flash_c55/flash_c55_driver.o
- .debug_line    0x00004bc6      0x58a ./SDK/platform/drivers/src/interrupt/interrupt_manager_MPC57xx.o
- .debug_line    0x00005150      0x6a3 ./SDK/platform/drivers/src/pins/siul2/pins_siul2_driver.o
- .debug_line    0x000057f3      0x46f ./SDK/platform/drivers/src/pins/siul2/siul2_hw_access.o
- .debug_line    0x00005c62      0x517 ./Sources/Bootloader_Flash/BootloaderFlash.o
- .debug_line    0x00006179      0x720 ./Sources/main.o
+ .debug_line    0x000022f3      0x5a4 ./Generated_Code/clockMan1.o
+ .debug_line    0x00002897      0x160 ./Project_Settings/Startup_Code/core0_intc_sw_handlers.o
+ .debug_line    0x000029f7       0x73 ./Project_Settings/Startup_Code/interrupt_vectors.o
+ .debug_line    0x00002a6a       0xd4 ./Project_Settings/Startup_Code/startup_MPC5748G.o
+ .debug_line    0x00002b3e      0x3e7 ./SDK/platform/devices/MPC5748G/startup/system_MPC5748G.o
+ .debug_line    0x00002f25      0x35f ./SDK/platform/devices/startup.o
+ .debug_line    0x00003284      0xdd5 ./SDK/platform/drivers/src/clock/MPC57xx/clock_MPC57xx.o
+ .debug_line    0x00004059      0x4ae ./SDK/platform/drivers/src/crc/crc_c55_hw_access.o
+ .debug_line    0x00004507      0x540 ./SDK/platform/drivers/src/crc/crc_driver.o
+ .debug_line    0x00004a47      0xb02 ./SDK/platform/drivers/src/flash_c55/flash_c55_driver.o
+ .debug_line    0x00005549      0x58a ./SDK/platform/drivers/src/interrupt/interrupt_manager_MPC57xx.o
+ .debug_line    0x00005ad3      0x6a3 ./SDK/platform/drivers/src/pins/siul2/pins_siul2_driver.o
+ .debug_line    0x00006176      0x46f ./SDK/platform/drivers/src/pins/siul2/siul2_hw_access.o
+ .debug_line    0x000065e5      0x500 ./Sources/Bootloader_Flash/BootloaderFlash.o
+ .debug_line    0x00006ae5      0x3d6 ./Sources/Bootloader_Flash/BootloaderFlashCRCConfig.o
+ .debug_line    0x00006ebb      0x6b7 ./Sources/main.o
 
-.debug_str      0x00000000   0x1148a9
+.debug_str      0x00000000   0x114d23
  .debug_str     0x00000000     0x6d46 ./FreeMaster_MPC57xxx/src_common/freemaster_appcmd.o
                                0x6daa (size before relaxing)
  .debug_str     0x00006d46       0xb0 ./FreeMaster_MPC57xxx/src_common/freemaster_lin.o
@@ -2539,28 +2824,34 @@ OUTPUT(TestWrapperLayer_Z4_0.elf elf32-powerpc)
                                0x6b39 (size before relaxing)
  .debug_str     0x00008cbd       0xbd ./FreeMaster_MPC57xxx/src_platforms/MPC57xx/freemaster_MPC57xx.o
                                0x624e (size before relaxing)
- .debug_str     0x00008d7a   0x107376 ./Generated_Code/clockMan1.o
-                             0x10c8fa (size before relaxing)
- .debug_str     0x001100f0      0x425 ./SDK/platform/devices/MPC5748G/startup/system_MPC5748G.o
+ .debug_str     0x00008d7a   0x10739b ./Generated_Code/clockMan1.o
+                             0x10c91f (size before relaxing)
+ .debug_str     0x00110115      0x425 ./SDK/platform/devices/MPC5748G/startup/system_MPC5748G.o
                              0x107da7 (size before relaxing)
- .debug_str     0x00110515      0x38c ./SDK/platform/devices/startup.o
+ .debug_str     0x0011053a      0x38c ./SDK/platform/devices/startup.o
                              0x105ea0 (size before relaxing)
- .debug_str     0x001108a1     0x13ce ./SDK/platform/drivers/src/clock/MPC57xx/clock_MPC57xx.o
+ .debug_str     0x001108c6     0x13ce ./SDK/platform/drivers/src/clock/MPC57xx/clock_MPC57xx.o
                              0x10bcf3 (size before relaxing)
- .debug_str     0x00111c6f     0x1854 ./SDK/platform/drivers/src/flash_c55/flash_c55_driver.o
+ .debug_str     0x00111c94      0x225 ./SDK/platform/drivers/src/crc/crc_c55_hw_access.o
+                             0x105cf1 (size before relaxing)
+ .debug_str     0x00111eb9      0x1c2 ./SDK/platform/drivers/src/crc/crc_driver.o
+                             0x10674c (size before relaxing)
+ .debug_str     0x0011207b     0x184f ./SDK/platform/drivers/src/flash_c55/flash_c55_driver.o
                              0x107e0a (size before relaxing)
- .debug_str     0x001134c3      0x3eb ./SDK/platform/drivers/src/interrupt/interrupt_manager_MPC57xx.o
+ .debug_str     0x001138ca      0x3eb ./SDK/platform/drivers/src/interrupt/interrupt_manager_MPC57xx.o
                              0x107eda (size before relaxing)
- .debug_str     0x001138ae      0xb0c ./SDK/platform/drivers/src/pins/siul2/pins_siul2_driver.o
+ .debug_str     0x00113cb5      0xb0c ./SDK/platform/drivers/src/pins/siul2/pins_siul2_driver.o
                              0x106fcf (size before relaxing)
- .debug_str     0x001143ba       0x66 ./SDK/platform/drivers/src/pins/siul2/siul2_hw_access.o
+ .debug_str     0x001147c1       0x66 ./SDK/platform/drivers/src/pins/siul2/siul2_hw_access.o
                              0x1063ea (size before relaxing)
- .debug_str     0x00114420      0x323 ./Sources/Bootloader_Flash/BootloaderFlash.o
-                             0x106bf0 (size before relaxing)
- .debug_str     0x00114743      0x166 ./Sources/main.o
-                             0x10cc59 (size before relaxing)
+ .debug_str     0x00114827      0x34f ./Sources/Bootloader_Flash/BootloaderFlash.o
+                             0x106d56 (size before relaxing)
+ .debug_str     0x00114b76       0x37 ./Sources/Bootloader_Flash/BootloaderFlashCRCConfig.o
+                             0x105bce (size before relaxing)
+ .debug_str     0x00114bad      0x176 ./Sources/main.o
+                             0x10cc86 (size before relaxing)
 
-.debug_frame    0x00000000     0x1100
+.debug_frame    0x00000000     0x12dc
  .debug_frame   0x00000000      0x128 ./FreeMaster_MPC57xxx/src_common/freemaster_appcmd.o
  .debug_frame   0x00000128       0x30 ./FreeMaster_MPC57xxx/src_common/freemaster_lin.o
  .debug_frame   0x00000158      0x364 ./FreeMaster_MPC57xxx/src_common/freemaster_pipes.o
@@ -2573,9 +2864,11 @@ OUTPUT(TestWrapperLayer_Z4_0.elf elf32-powerpc)
  .debug_frame   0x00000950       0x40 ./SDK/platform/devices/MPC5748G/startup/system_MPC5748G.o
  .debug_frame   0x00000990       0x2c ./SDK/platform/devices/startup.o
  .debug_frame   0x000009bc      0x17c ./SDK/platform/drivers/src/clock/MPC57xx/clock_MPC57xx.o
- .debug_frame   0x00000b38      0x224 ./SDK/platform/drivers/src/flash_c55/flash_c55_driver.o
- .debug_frame   0x00000d5c       0xe0 ./SDK/platform/drivers/src/interrupt/interrupt_manager_MPC57xx.o
- .debug_frame   0x00000e3c      0x148 ./SDK/platform/drivers/src/pins/siul2/pins_siul2_driver.o
- .debug_frame   0x00000f84       0x30 ./SDK/platform/drivers/src/pins/siul2/siul2_hw_access.o
- .debug_frame   0x00000fb4       0xf8 ./Sources/Bootloader_Flash/BootloaderFlash.o
- .debug_frame   0x000010ac       0x54 ./Sources/main.o
+ .debug_frame   0x00000b38       0x60 ./SDK/platform/drivers/src/crc/crc_c55_hw_access.o
+ .debug_frame   0x00000b98      0x13c ./SDK/platform/drivers/src/crc/crc_driver.o
+ .debug_frame   0x00000cd4      0x224 ./SDK/platform/drivers/src/flash_c55/flash_c55_driver.o
+ .debug_frame   0x00000ef8       0xe0 ./SDK/platform/drivers/src/interrupt/interrupt_manager_MPC57xx.o
+ .debug_frame   0x00000fd8      0x148 ./SDK/platform/drivers/src/pins/siul2/pins_siul2_driver.o
+ .debug_frame   0x00001120       0x30 ./SDK/platform/drivers/src/pins/siul2/siul2_hw_access.o
+ .debug_frame   0x00001150      0x138 ./Sources/Bootloader_Flash/BootloaderFlash.o
+ .debug_frame   0x00001288       0x54 ./Sources/main.o

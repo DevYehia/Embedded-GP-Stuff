@@ -381,6 +381,6 @@ uint32_t BootloaderFlash_CalculateCRC32(uint32_t a_dest, uint32_t a_size){
 	}*/
 	resultCRC=CRC_DRV_GetCrcResult(BOOTLOADERFLASH_CRC_INSTANCE);
 
-	return (resultCRC);
+	return (resultCRC^0xFFFFFFFF);
 }
 /*******************************************************************************/

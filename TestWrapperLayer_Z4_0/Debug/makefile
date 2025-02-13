@@ -13,6 +13,7 @@ RM := rm -rf
 -include SDK/platform/drivers/src/pins/siul2/subdir.mk
 -include SDK/platform/drivers/src/interrupt/subdir.mk
 -include SDK/platform/drivers/src/flash_c55/subdir.mk
+-include SDK/platform/drivers/src/crc/subdir.mk
 -include SDK/platform/drivers/src/clock/MPC57xx/subdir.mk
 -include SDK/platform/devices/MPC5748G/startup/subdir.mk
 -include SDK/platform/devices/subdir.mk

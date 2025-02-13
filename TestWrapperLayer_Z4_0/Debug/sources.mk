@@ -30,6 +30,7 @@ Project_Settings/Startup_Code \
 SDK/platform/devices/MPC5748G/startup \
 SDK/platform/devices \
 SDK/platform/drivers/src/clock/MPC57xx \
+SDK/platform/drivers/src/crc \
 SDK/platform/drivers/src/flash_c55 \
 SDK/platform/drivers/src/interrupt \
 SDK/platform/drivers/src/pins/siul2 \
