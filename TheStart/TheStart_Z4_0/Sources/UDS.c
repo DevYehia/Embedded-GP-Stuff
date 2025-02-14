@@ -165,61 +165,65 @@ void UDS_Request_Download(){
     volatile uint8_t memory_length = 0;
     volatile uint8_t memory_address_size = 0;
     status_t status = 0;
-
-    if (requestFrame.dataSize < 3) {
-        REQ_Download_Abort();
-        UDS_Create_neg_response(WRONG_MSG_LEN_OR_FORMAT, READY);  
-        return; 
-    }
-    
-    memory_length = requestFrame.dataBuffer[2]>>4; /* Defines number of bytes of MEMORY LENGTH parameter */
-    memory_address_size = requestFrame.dataBuffer[2] & 0x0F; /* Defines number of bytes of START MEMORY ADDRESS parameter*/
-    
-    if (memory_length < 1 || memory_length > ECU_ADDRESS_LENGTH || memory_address_size < 1 || memory_address_size > 4) {
-        REQ_Download_Abort();
-        UDS_Create_neg_response(WRONG_MSG_LEN_OR_FORMAT, READY);  
-        return; 
-    }
-    
-    uint8_t expected_length = 3 + memory_length + memory_address_size;
-    if (requestFrame.dataSize != expected_length) { 
-        REQ_Download_Abort();
-        UDS_Create_neg_response(WRONG_MSG_LEN_OR_FORMAT, READY);  
-        return; 
-    }
-
-    BL_data.mem_start_address = 0;
-    BL_data.total_size = 0; /* specifies the total size of the data that will be transferred during the subsequent (multiple) transfer data services */
-
-    for(uint8_t i=3; i<3+memory_address_size ;i++){
-        BL_data.mem_start_address <<= 8;
-        BL_data.mem_start_address |= requestFrame.dataBuffer[i];
-    }
-    for(uint8_t i=3+memory_length; i<7+memory_length ;i++){
-        BL_data.total_size <<= 8;
-        BL_data.total_size |= requestFrame.dataBuffer[i];
-    }
-    remaining_Data = BL_data.total_size;
-    
-//    status = BL_RequestDownloadHandler();
-    status = STATUS_SUCCESS;
-    if(status == STATUS_ERROR){
-        REQ_Download_Abort();
-        UDS_Create_neg_response(REQ_OUT_OF_RANGE,READY); /* Do memory adressing range check .. if invalid NRC: REQ_OUT_OF_RANGE */
-        return;
+    if(!(prev_SID == PROGRAMMING_SESSION || prev_SID == REQUEST_TRANSFER_EXIT)){
+                /* -ve response 0x70 */
+                UDS_Create_neg_response(UPLOAD_DOWNLOAD_NOT_ACCEPTED, READY);
+                return;
     }else{
-        REQ_Download_Abort();
-        UDS_Create_pos_response(NOTREADY);        /* isReady parameter is set to 0 */
-        responseFrame.dataBuffer[1] = 0x20;       /* MaxNumberBlockLength = 2 bytes, followed by reserved 4 bits = 0 */ 
+        if (requestFrame.dataSize < 3) {
+            REQ_Download_Abort();
+            UDS_Create_neg_response(WRONG_MSG_LEN_OR_FORMAT, READY);  
+            return; 
+        }
         
-        //test with vlaue = 5
-//        BL_Max_N_Block(&MaxNumberBlockLength);
-        responseFrame.dataBuffer[2] = (uint8_t)(MaxNumberBlockLength>>8); /* 1st byte */
-        responseFrame.dataBuffer[3] = (uint8_t)(MaxNumberBlockLength);    /* 2nd byte  e.g: 0x0FFA = 4090 ... max size in bytes (including SID) to be transmitted using Transfer Data service */
-        responseFrame.dataSize = 4;
-        responseFrame.ready = READY;
-        /*  convey the MaxNumberBlockLength for each TransferData request to the client. This length encompasses the service identifier
-                and data parameters within the TransferData request message. */
+        memory_length = requestFrame.dataBuffer[2]>>4; /* Defines number of bytes of MEMORY LENGTH parameter */
+        memory_address_size = requestFrame.dataBuffer[2] & 0x0F; /* Defines number of bytes of START MEMORY ADDRESS parameter*/
+        
+        if (memory_length < 1 || memory_length > ECU_ADDRESS_LENGTH || memory_address_size < 1 || memory_address_size > 4) {
+            REQ_Download_Abort();
+            UDS_Create_neg_response(WRONG_MSG_LEN_OR_FORMAT, READY);  
+            return; 
+        }
+        
+        uint8_t expected_length = 3 + memory_length + memory_address_size;
+        if (requestFrame.dataSize != expected_length) { 
+            REQ_Download_Abort();
+            UDS_Create_neg_response(WRONG_MSG_LEN_OR_FORMAT, READY);  
+            return; 
+        }
+
+        BL_data.mem_start_address = 0;
+        BL_data.total_size = 0; /* specifies the total size of the data that will be transferred during the subsequent (multiple) transfer data services */
+
+        for(uint8_t i=3; i<3+memory_address_size ;i++){
+            BL_data.mem_start_address <<= 8;
+            BL_data.mem_start_address |= requestFrame.dataBuffer[i];
+        }
+        for(uint8_t i=3+memory_length; i<7+memory_length ;i++){
+            BL_data.total_size <<= 8;
+            BL_data.total_size |= requestFrame.dataBuffer[i];
+        }
+        remaining_Data = BL_data.total_size;
+        
+        status = BL_RequestDownloadHandler();
+        if(status == STATUS_ERROR){
+            REQ_Download_Abort();
+            UDS_Create_neg_response(REQ_OUT_OF_RANGE,READY); /* Do memory adressing range check .. if invalid NRC: REQ_OUT_OF_RANGE */
+            return;
+        }else{
+            REQ_Download_Abort();
+            UDS_Create_pos_response(NOTREADY);        /* isReady parameter is set to 0 */
+            responseFrame.dataBuffer[1] = 0x20;       /* MaxNumberBlockLength = 2 bytes, followed by reserved 4 bits = 0 */ 
+            
+            //test with vlaue = 5
+            BL_Max_N_Block(&MaxNumberBlockLength);
+            responseFrame.dataBuffer[2] = (uint8_t)(MaxNumberBlockLength>>8); /* 1st byte */
+            responseFrame.dataBuffer[3] = (uint8_t)(MaxNumberBlockLength);    /* 2nd byte  e.g: 0x0FFA = 4090 ... max size in bytes (including SID) to be transmitted using Transfer Data service */
+            responseFrame.dataSize = 4;
+            responseFrame.ready = READY;
+            /*  convey the MaxNumberBlockLength for each TransferData request to the client. This length encompasses the service identifier
+                    and data parameters within the TransferData request message. */
+        }
     }
 }
 
