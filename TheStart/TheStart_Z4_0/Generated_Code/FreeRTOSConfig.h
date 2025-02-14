@@ -7,7 +7,7 @@
 **     Version     : Component SDK_S32_PA_11, Driver 01.00, CPU db: 3.00.000
 **     Repository  : SDK_S32_PA_11
 **     Compiler    : GNU C Compiler
-**     Date/Time   : 2025-02-04, 14:07, # CodeGen: 10
+**     Date/Time   : 2025-02-13, 19:58, # CodeGen: 13
 **     Contents    :
 **         xCoRoutineCreate               - BaseType_t xCoRoutineCreate(crCOROUTINE_CODE pxCoRoutineCode,UBaseType_t...
 **         crDELAY                        - void crDELAY(CoRoutineHandle_t xHandle ,TickType_t xTicksToDelay);
@@ -190,7 +190,7 @@
 /* Memory allocation related definitions. */
 #define configSUPPORT_STATIC_ALLOCATION          0
 #define configSUPPORT_DYNAMIC_ALLOCATION         1
-#define configTOTAL_HEAP_SIZE                    ( ( size_t ) 32192 )
+#define configTOTAL_HEAP_SIZE                    ( ( size_t ) 30576 )
 #define configAPPLICATION_ALLOCATED_HEAP         0
 
 /* Hook function related definitions. */

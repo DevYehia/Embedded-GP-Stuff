@@ -1,9 +1,14 @@
 #include "UDS.h"
 
-UDS_SID SID = 0;
-UDS_SID prev_SID = 0;
+#define UDS_APP
 
-DIAGNOSTIC_SESSION_SUBFUNC currentSession = DEFAULT_SESSION;
+UDS_SID SID = REQUEST_DOWNLOAD;
+UDS_SID prev_SID = ROUTINE_CONTROL;
+
+DIAGNOSTIC_SESSION_SUBFUNC currentSession = PROGRAMMING_SESSION;
+
+/********************** Note: *************/
+/* all variables initialization has changed for testing */
 
 //UDS Buffers
 dataFrame requestFrame  = {0, NULL, 0};
@@ -11,7 +16,7 @@ dataFrame responseFrame = {0, NULL, 0};
 
 uint8_t seq_number = 1;
 uint16_t remaining_Data = 0;
-uint32_t MaxNumberBlockLength = 0;  /* max size in bytes (including SID) to be transmitted in every Transfer Data service */
+uint32_t MaxNumberBlockLength = 50;  /* max size in bytes (including SID) to be transmitted in every Transfer Data service */
 
 BL_Data BL_data = {0,0,0,NULL,0,0,NULL};   /* Shared struct with BL */
 
@@ -196,7 +201,8 @@ void UDS_Request_Download(){
     }
     remaining_Data = BL_data.total_size;
     
-    status = BL_RequestDownloadHandler();
+//    status = BL_RequestDownloadHandler();
+    status = STATUS_SUCCESS;
     if(status == STATUS_ERROR){
         REQ_Download_Abort();
         UDS_Create_neg_response(REQ_OUT_OF_RANGE,READY); /* Do memory adressing range check .. if invalid NRC: REQ_OUT_OF_RANGE */
@@ -207,7 +213,7 @@ void UDS_Request_Download(){
         responseFrame.dataBuffer[1] = 0x20;       /* MaxNumberBlockLength = 2 bytes, followed by reserved 4 bits = 0 */ 
         
         //test with vlaue = 5
-        BL_Max_N_Block(&MaxNumberBlockLength);
+//        BL_Max_N_Block(&MaxNumberBlockLength);
         responseFrame.dataBuffer[2] = (uint8_t)(MaxNumberBlockLength>>8); /* 1st byte */
         responseFrame.dataBuffer[3] = (uint8_t)(MaxNumberBlockLength);    /* 2nd byte  e.g: 0x0FFA = 4090 ... max size in bytes (including SID) to be transmitted using Transfer Data service */
         responseFrame.dataSize = 4;
@@ -240,8 +246,8 @@ void UDS_Transfer_Data(){
             remaining_Data--;
         }
         
-        status = BL_ProgramHandler();
-        
+//        status = BL_ProgramHandler();
+        status = STATUS_SUCCESS;
         if(status == STATUS_ERROR){    
             Transfer_Data_Abort();
 
@@ -425,7 +431,8 @@ void UDS_Routine_Control(){
 }
 
 void UDS_Check_Memory(status_t *status){
-    *status = BL_Check_Memory();
+//    *status = BL_Check_Memory();
+	*status = STATUS_SUCCESS;
     if(*status == STATUS_ERROR){    
         UDS_Create_neg_response(GENERAL_PROGRAMMING_FAILURE,READY);
         return;
@@ -440,7 +447,8 @@ void UDS_Check_Memory(status_t *status){
 }
 
 void UDS_Erase_Memory(status_t *status){
-    *status = BL_Erase_Memory();
+//    *status = BL_Erase_Memory();
+    *status = STATUS_SUCCESS;
     if(*status == STATUS_ERROR){    
         UDS_Create_neg_response(CRC_ERROR,READY);
         return;
@@ -456,43 +464,38 @@ void UDS_Erase_Memory(status_t *status){
 
 
 void UDS_Init(){
-
+	currentSession = PROGRAMMING_SESSION;
 
 }
 
 /* Don't forget NRC = 0x78 ... P2 Star*/
 
-void UDS_Receive(void *params){
-    uint8_t *data = params ;
+void UDS_Receive(void){
     prev_SID = SID;
-    SID = data[SID_POS];
-    int data1 = data[1];
-	while(1){
+    SID = requestFrame.dataBuffer[SID_POS];
+    int data1 = requestFrame.dataBuffer[1];
+//	while(1){
 
-		if(requestFrame.ready == NOTREADY){
-			vTaskDelay(pdMS_TO_TICKS(5));
-			continue;
+	if(requestFrame.ready == READY){
+		reset_dataframe(&responseFrame);
+		if(SID == DIAGNOSTIC_SESSION_CONTROL){
+			UDS_Session_Control();
+		}
+		if(SID == REQUEST_DOWNLOAD && currentSession == PROGRAMMING_SESSION && (prev_SID == PROGRAMMING_SESSION || prev_SID == REQUEST_TRANSFER_EXIT)){
+			UDS_Request_Download();
 		}else{
-            reset_dataframe(&responseFrame);
-            if(SID == DIAGNOSTIC_SESSION_CONTROL){
-	    	    UDS_Session_Control();
-            }
-            if(SID == REQUEST_DOWNLOAD && currentSession == PROGRAMMING_SESSION && (prev_SID == PROGRAMMING_SESSION || prev_SID == REQUEST_TRANSFER_EXIT)){
-                UDS_Request_Download();
-            }else{
-                /* -ve response 0x70 */
-                UDS_Create_neg_response(UPLOAD_DOWNLOAD_NOT_ACCEPTED, READY);
-                return;
-            }
-            if(SID == ROUTINE_CONTROL && currentSession == PROGRAMMING_SESSION){
-                UDS_Routine_Control();
-            }
-            if(SID == TRANSFER_DATA && currentSession == PROGRAMMING_SESSION){
-                UDS_Transfer_Data();
-            }
-            if(SID == REQUEST_TRANSFER_EXIT && currentSession == PROGRAMMING_SESSION){
-                UDS_Request_Transfer_Exit();
-            }
-        }
-    }
+			/* -ve response 0x70 */
+			UDS_Create_neg_response(UPLOAD_DOWNLOAD_NOT_ACCEPTED, READY);
+			return;
+		}
+		if(SID == ROUTINE_CONTROL && currentSession == PROGRAMMING_SESSION){
+			UDS_Routine_Control();
+		}
+		if(SID == TRANSFER_DATA && currentSession == PROGRAMMING_SESSION){
+			UDS_Transfer_Data();
+		}
+		if(SID == REQUEST_TRANSFER_EXIT && currentSession == PROGRAMMING_SESSION){
+			UDS_Request_Transfer_Exit();
+		}
+	}
 }

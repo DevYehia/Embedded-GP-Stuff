@@ -114,7 +114,7 @@ typedef struct BootLoader_Data{
 */
 
 
-void UDS_Receive(void* params);
+void UDS_Receive(void);
 void UDS_Init();
 
 

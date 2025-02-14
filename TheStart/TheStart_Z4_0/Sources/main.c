@@ -44,6 +44,7 @@
 #include "Cpu.h"
 #include "UDS.h"
 #include "CanTP.h"
+#include "FreeRTOS.h"
 
   volatile int exit_code = 0;
 /* User includes (#include below this line is not maintained by Processor Expert) */
@@ -56,6 +57,7 @@
 */
 
 uint8_t sendConsec = 0;
+uint8_t send7mada = 0;
 
 void UDS_StubTask(void* params){
     can_buff_config_t buffConf = {false, false, 0xAA, CAN_MSG_ID_STD, false};
@@ -63,46 +65,92 @@ void UDS_StubTask(void* params){
     
     // PROG SESSION
     //                      status, msgID     FType-data size,     SID ,    Subfun ID,  parameters,  pad,                         Nbytes = 8
-    can_message_t message = {0,      0x3, {   0x02,                0x10,    0x02,                    0xAA,0xAA,0xAA,0xAA,0xAA},   8};
-    CAN_SendBlocking(&can_pal1_instance, 1, &message, 2000);
-    vTaskDelay(pdMS_TO_TICKS( 20 ));
-    //REQ DOWNLOAD
-    // mem address(start address) = 3 bytes .. mem size = 1 byte
-    can_message_t message1 = {0, 0x3, {0x04,0x34,0x00,0x31,0x12,0x34,0x56,0x10}, 8};
-    CAN_SendBlocking(&can_pal1_instance, 1, &message1, 2000);
-    vTaskDelay(pdMS_TO_TICKS( 20 ));
-    //ERASE memory
-    can_message_t message2 = {0, 0x3, {0x05,0x31,0x01,0xff,0x00,0x00,0xAA,0xAA}, 8};
-    CAN_SendBlocking(&can_pal1_instance, 1, &message2, 2000);
-    vTaskDelay(pdMS_TO_TICKS( 20 ));
-    //Stop erase memory
-    can_message_t message3 = {0, 0x3, {0x05,0x31,0x02,0xff,0x00,0x00,0xAA,0xAA}, 8};
-    CAN_SendBlocking(&can_pal1_instance, 1, &message3, 2000);
-    vTaskDelay(pdMS_TO_TICKS( 20 ));
-    //TRANSFER DATA                             seq_n=1
-    can_message_t message4 = {0, 0x3, {0x07,0x36,0x01,0x44,0x44,0x44,0x44,0x44}, 8};
-    CAN_SendBlocking(&can_pal1_instance, 1, &message4, 2000);
-    vTaskDelay(pdMS_TO_TICKS( 20 ));
-    //TRANSFER DATA 2                           seq_n=2
-    can_message_t message5 = {0, 0x3, {0x07,0x36,0x02,0x55,0x66,0x77,0x88,0x99}, 8};
-    CAN_SendBlocking(&can_pal1_instance, 1, &message5, 2000);
-    vTaskDelay(pdMS_TO_TICKS( 20 ));
-    // START check memory
-    can_message_t message6 = {0, 0x3, {0x05,0x31,0x01,0xfe,0x00,0x00,0xAA,0xAA}, 8};
-    CAN_SendBlocking(&can_pal1_instance, 1, &message6, 2000);
-    vTaskDelay(pdMS_TO_TICKS( 20 ));
-    // STOP check memory
-    can_message_t message7 = {0, 0x3, {0x05,0x31,0x02,0xfe,0x00,0x34,0x56,0x58}, 8};
-    CAN_SendBlocking(&can_pal1_instance, 1, &message7, 2000);
-    vTaskDelay(pdMS_TO_TICKS( 20 ));
-    //Req Transfer Exit
-    can_message_t message8 = {0, 0x3, {0x01,0x37,0xAA,0xAA,0xAA,0xAA,0xAA,0xAA}, 8};
-    CAN_SendBlocking(&can_pal1_instance, 1, &message8, 2000);
-    vTaskDelay(pdMS_TO_TICKS( 20 ));
-    //ECU Reset (Hard Reset)
-    can_message_t message9 = {0, 0x3, {0x02,0x11,0x01,0xAA,0xAA,0xAA,0xAA,0xAA}, 8};
-    CAN_SendBlocking(&can_pal1_instance, 1, &message9, 2000);
-    vTaskDelay(pdMS_TO_TICKS( 20 ));
+    while(1){
+    	switch(send7mada){
+    	case 1: ;
+			can_message_t message = {0,      0x33, {   0x02,                0x10,    0x02,                    0xAA,0xAA,0xAA,0xAA,0xAA},   8};
+			CAN_Send(&can_pal1_instance, 1, &message);
+			vTaskDelay(pdMS_TO_TICKS( 20 ));
+			break;
+
+    	case 2: ;
+			//REQ DOWNLOAD
+			// mem address(start address) = 3 bytes .. mem size = 1 byte
+			can_message_t message1 = {0, 0x33, {0x04,0x34,0x00,0x31,0x12,0x34,0x56,0x10}, 8};
+			CAN_Send(&can_pal1_instance, 1, &message1);
+			vTaskDelay(pdMS_TO_TICKS( 20 ));
+			break;
+
+    	case 3: ;
+			//ERASE memory
+			can_message_t message2 = {0, 0x33, {0x05,0x31,0x01,0xff,0x00,0x00,0xAA,0xAA}, 8};
+			CAN_Send(&can_pal1_instance, 1, &message2);
+			vTaskDelay(pdMS_TO_TICKS( 20 ));
+			break;
+
+    	case 4: ;
+			//Stop erase memory
+			can_message_t message3 = {0, 0x33, {0x05,0x31,0x02,0xff,0x00,0x00,0xAA,0xAA}, 8};
+			CAN_Send(&can_pal1_instance, 1, &message3);
+			vTaskDelay(pdMS_TO_TICKS( 20 ));
+			break;
+
+    	case 5: ;
+			//TRANSFER DATA                             seq_n=1
+			can_message_t message4 = {0, 0x33, {0x07,0x36,0x01,0x44,0x44,0x44,0x44,0x44}, 8};
+			CAN_Send(&can_pal1_instance, 1, &message4);
+			vTaskDelay(pdMS_TO_TICKS( 20 ));
+			break;
+
+    	case 6: ;
+			//TRANSFER DATA 2                           seq_n=2
+			can_message_t message5 = {0, 0x33, {0x07,0x36,0x02,0x55,0x66,0x77,0x88,0x99}, 8};
+			CAN_Send(&can_pal1_instance, 1, &message5);
+			vTaskDelay(pdMS_TO_TICKS( 20 ));
+			break;
+
+    	case 7: ;
+			// START check memory
+			can_message_t message6 = {0, 0x33, {0x05,0x31,0x01,0xfe,0x00,0x00,0xAA,0xAA}, 8};
+			CAN_Send(&can_pal1_instance, 1, &message6);
+			vTaskDelay(pdMS_TO_TICKS( 20 ));
+			break;
+    	case 8: ;
+			// STOP check memory
+			can_message_t message7 = {0, 0x33, {0x05,0x31,0x02,0xfe,0x00,0x34,0x56,0x58}, 8};
+			CAN_Send(&can_pal1_instance, 1, &message7);
+			vTaskDelay(pdMS_TO_TICKS( 20 ));
+			break;
+
+    	case 9: ;
+			//Req Transfer Exit
+			can_message_t message8 = {0, 0x33, {0x01,0x37,0xAA,0xAA,0xAA,0xAA,0xAA,0xAA}, 8};
+			CAN_Send(&can_pal1_instance, 1, &message8);
+			vTaskDelay(pdMS_TO_TICKS( 20 ));
+			break;
+
+    	case 10: ;
+			//ECU Reset (Hard Reset)
+			can_message_t message9 = {0, 0x33, {0x02,0x11,0x01,0xAA,0xAA,0xAA,0xAA,0xAA}, 8};
+			CAN_Send(&can_pal1_instance, 1, &message9);
+			vTaskDelay(pdMS_TO_TICKS( 20 ));
+			break;
+    	}
+    }
+}
+
+void sendFromUDS2(void * pv){
+	while(1){
+		sendFromUDS(pv);
+		vTaskDelay(pdMS_TO_TICKS( 10 ));
+	}
+}
+void recieve2(void * pv){
+	while(1){
+		recieve(pv);
+		UDS_Receive();
+		vTaskDelay(pdMS_TO_TICKS( 10 ));
+	}
 }
 
 void loopBackTask(void* params){
@@ -127,6 +175,16 @@ void loopBackTask(void* params){
 	while(1);
 }
 
+void DisableResetEscalation (void){
+	/*Reset Escalation Registers*/
+	uint8_t * const FRETRegister = (uint8_t *)0xFFFA8604;
+	uint8_t * const DRETRegister = (uint8_t *)0xFFFA8608;
+
+	/*Clearing those registers; see datasheet p2809, 2810*/
+	*FRETRegister = 0U;
+	*DRETRegister = 0U;
+}
+
 extern dataFrame requestFrame;
 extern dataFrame responseFrame;
 
@@ -140,18 +198,18 @@ int main(void)
   #endif
   /*** End of Processor Expert internal initialization.                    ***/
 
-
+    DisableResetEscalation();
     /* Initialize clocks */
-    CLOCK_SYS_Init(g_clockManConfigsArr,   CLOCK_MANAGER_CONFIG_CNT,
-  		 g_clockManCallbacksArr, CLOCK_MANAGER_CALLBACK_CNT);
-    CLOCK_SYS_UpdateConfiguration(0U, CLOCK_MANAGER_POLICY_AGREEMENT);
+//    CLOCK_SYS_Init(g_clockManConfigsArr,   CLOCK_MANAGER_CONFIG_CNT,
+//  		 g_clockManCallbacksArr, CLOCK_MANAGER_CALLBACK_CNT);
+//    CLOCK_SYS_UpdateConfiguration(0U, CLOCK_MANAGER_POLICY_AGREEMENT);
 
 
   /* Write your code here */
   /* For example: for(;;) { } */
     CLOCK_DRV_Init(&clockMan1_InitConfig0);
     //UDS_Init(&can_pal1_instance, &can_pal1_Config0);
-    CAN_Init(&can_pal1_instance, &can_pal1_Config0);
+    Can_init(&can_pal1_instance, &can_pal1_Config0);
 //    Can_init(&can_pal1_instance, &can_pal1_Config0);
     CanTP_init(&responseFrame, &requestFrame);
     UDS_Init();
@@ -160,37 +218,37 @@ int main(void)
         "UDS_send example",
 		configMINIMAL_STACK_SIZE,
         (void *) 0,
-        2,
+        5,
         NULL);
 
-    // xTaskCreate(loopBackTask,
-    //     "green",
-		// configMINIMAL_STACK_SIZE,
-    //     (void *) 0,
-    //     1,
-    //     NULL);
+//     xTaskCreate(loopBackTask,
+//         "green",
+//		 configMINIMAL_STACK_SIZE,
+//         (void *) 0,
+//         5,
+//         NULL);
 
-    xTaskCreate(recieve,
+    xTaskCreate(recieve2,
         "TpReceieve",
 		configMINIMAL_STACK_SIZE,
         (void *) 0,
-        2,
+        6,
         NULL);
 
-    xTaskCreate(sendFromUDS,
+    xTaskCreate(sendFromUDS2,
         "TPSend",
 		configMINIMAL_STACK_SIZE,
         (void *) 0,
-        2,
+        6,
         NULL);
 
-    xTaskCreate(UDS_Receive,
-    		"UDSReceive",
-    		configMINIMAL_STACK_SIZE,
-        (void *) 0,
-        2,
-        NULL
-    		);
+//    xTaskCreate(UDS_Receive,
+//    		"UDSReceive",
+//    		configMINIMAL_STACK_SIZE,
+//        (void *) 0,
+//        2,
+//        NULL
+//    		);
 
     vTaskStartScheduler();
 

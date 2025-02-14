@@ -50,10 +50,10 @@ void send_single_frame(uint8_t *payload,uint32_t buffIdx){
 	can_message_t message;
 	message.id = 0x33;      //set later with tooling for HMI or application
 	message.length = 8;
-	message.data[0] = (0x0F<<4) & sendingUDS->dataSize;
+	message.data[0] = 0x0F & sendingUDS->dataSize;
     for(int i = 1;i<sendingUDS->dataSize;i++)
     {
-        message.data[i] = payload[i];
+        message.data[i] = payload[i-1];
     }
     for(int i = sendingUDS->dataSize;i<8;i++)
     {
@@ -99,11 +99,11 @@ void interrupt_callback(uint32_t instance, can_event_t eventType, uint32_t buffI
         //     canTp.dataBuffer[i] = recvMessage.data[i];
         // }
 	}
-    // else if(eventType == CAN_EVENT_TX_COMPLETE){
-    //     if(currState == handleFlowCtl){
-    //         currState();
-    //     }
-    // }
+    else if(eventType == CAN_EVENT_TX_COMPLETE){
+        if(currState == handleFlowCtl){
+            currState();
+        }
+    }
 }
 
 
@@ -112,14 +112,14 @@ void interrupt_callback(uint32_t instance, can_event_t eventType, uint32_t buffI
 
 void sendFromUDS(void * pv)
 {
-    while (1)
-    {
+//    while (1)
+//    {
         if(sendingUDS->ready == 1)
         {
             send_single_frame(sendingUDS->dataBuffer,TX_BUFF_NUM);
         }
-        vTaskDelay(pdMS_TO_TICKS(10));
-    }
+//        vTaskDelay(pdMS_TO_TICKS(10));
+//    }
     
 }
 
@@ -127,8 +127,8 @@ void sendFromUDS(void * pv)
 void recieve(void * pv)
 {
     
-    while (1)
-    {
+//    while (1)
+//    {
         if(ready == 1)
         {
             timeout = 0;
@@ -148,7 +148,7 @@ void recieve(void * pv)
         }
             ready = 0;
         }
-        vTaskDelay(pdMS_TO_TICKS( 10 ));
+//        vTaskDelay(pdMS_TO_TICKS( 10 ));
         //delay here 10ms
         if(timerStarted == 1)
         {
@@ -158,7 +158,7 @@ void recieve(void * pv)
                 timeOutHandle();
             }
         }
-    }
+//    }
 }
 
 void handleConsecutiveFrame(){
@@ -297,7 +297,7 @@ void Can_init(can_instance_t* can_pal_instance, can_user_config_t* can_pal_Confi
     CAN_Init(can_pal_instance, can_pal_Config);
     CAN_InstallEventCallback(can_pal_instance, interrupt_callback, NULL);
     can_buff_config_t buffConf = {false, false, 0xAA, CAN_MSG_ID_STD, false};
-    CAN_ConfigRxBuff(&can_pal1_instance, RX_BUFF_NUM, &buffConf, 0x3);
+    CAN_ConfigRxBuff(&can_pal1_instance, RX_BUFF_NUM, &buffConf, 0x33);
     CAN_Receive(&can_pal1_instance, RX_BUFF_NUM, &recvMessage);
 }
 
