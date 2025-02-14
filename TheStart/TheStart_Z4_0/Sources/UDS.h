@@ -17,9 +17,19 @@
 #define DATA_START_POS 4
 #define getSID(buffer) (buffer[SID_POS])
 
+//Session Control Macros
+#define SESSION_CTRL_MIN_SIZE  2
+
+//ECU Reset Macros
+#define ECU_RESET_MIN_SIZE 2
+
+
 #define ROUTINE_CTRL_SIZE 5
 
+//make bootloader define the max block size
+#ifndef MAX_BLOCK_NUMBER
 #define MAX_BLOCK_NUMBER 100
+#endif
 
 #define READY 1
 #define NOTREADY 0
@@ -116,10 +126,20 @@ typedef struct BootLoader_Data{
 } BL_Req_Download_Data;
 */
 
+typedef struct BL_Functions{
+    status_t (*BL_RequestDownloadHandler)(void);
+    void (*BL_Max_N_Block) (uint32_t *);
+    status_t (*BL_TransferDataHandler)(void);
+    status_t (*BL_Check_Memory)(void);
+    status_t (*BL_Erase_Memory)(void);
+}BL_Functions;
+
 
 void UDS_Receive(void);
-void UDS_Init();
 
+#ifdef UDS_BOOTLOADER
+void UDS_Init(BL_Functions*);
+#endif
 
 //Handle Session Control
 void UDS_Session_Control();
@@ -136,6 +156,7 @@ void UDS_Request_Transfer_Exit();
 void UDS_Routine_Control();
 void UDS_Check_Memory(status_t *status);
 void UDS_Erase_Memory(status_t *status);
+
 
 /************RESPONSE APIs*************/
 void UDS_Create_pos_response(uint8_t isReady);

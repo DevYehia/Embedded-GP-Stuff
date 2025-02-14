@@ -20,6 +20,8 @@ uint32_t MaxNumberBlockLength = 7;  /* max size in bytes (including SID and seq 
 
 BL_Data BL_data = {0,0,0,0,0,0,{0},{0}};   /* Shared struct with BL */
 
+BL_Functions* BL_Callbacks;
+
 static void reset_dataframe(dataFrame *frame) {
     frame->ready = 0;
     memset(frame->dataBuffer, 0, MAX_BUFF_SIZE);
@@ -104,11 +106,21 @@ void UDS_Create_neg_response(NRC neg_code, uint8_t isReady){
 }
 
 void UDS_Session_Control(){
+
+    //check data size
+    if(requestFrame.dataSize < SESSION_CTRL_MIN_SIZE){
+        UDS_Create_neg_response(WRONG_MSG_LEN_OR_FORMAT, READY);
+        return;
+    }
+
+    //get session and check if session is supported
     DIAGNOSTIC_SESSION_SUBFUNC requested_session = requestFrame.dataBuffer[SUB_BYTE_POS];
     if(requested_session != DEFAULT_SESSION && requested_session != PROGRAMMING_SESSION){
         UDS_Create_neg_response(SUB_FUNC_NOT_SUPPORTED, READY);
         return;
     }
+
+    //reset if programming session is needed in application
     else{
 
         if(requested_session == PROGRAMMING_SESSION && currentSession == DEFAULT_SESSION){
@@ -117,13 +129,43 @@ void UDS_Session_Control(){
             //taskYIELD();
             //TODO wait for sending response
             /* Set flag ... to be in flash/eeprom */
-            #ifdef UDS_APP
+            #ifndef UDS_BOOTLOADER
                 SOFT_RESET();
             #endif
+
         }
         
         UDS_Create_pos_response(READY);
     }
+}
+
+void UDS_ECU_Reset(){
+    uint8_t* payload = requestFrame.dataBuffer;
+    ECU_RESET_SUBFUNC requested_reset = payload[SID_POS];
+
+    //check message length
+    if(requestFrame.dataSize < ECU_RESET_MIN_SIZE){
+        UDS_Create_neg_response(WRONG_MSG_LEN_OR_FORMAT, READY);
+        return;        
+    }
+
+    //check if reset is supported
+    if(requested_reset != SOFT_RESET && requested_reset != HARD_RESET){
+        UDS_Create_neg_response(SUB_FUNC_NOT_SUPPORTED, READY);
+        return;        
+    }
+    //respond
+    UDS_Create_pos_response(READY);
+    
+    //TODO wait for response to be sent
+
+    if(requested_reset == HARD_RESET){
+        HARD_RESET();
+    }
+    else if(requested_reset == SOFT_RESET){
+        SOFT_RESET();
+    }
+
 }
 
 void UDS_Read_by_ID(){
@@ -305,22 +347,7 @@ void UDS_Request_Transfer_Exit(){
     }
 }
 
-void UDS_ECU_Reset(){
-    uint8_t* payload = requestFrame.dataBuffer;
-    ECU_RESET_SUBFUNC requested_reset = payload[SID_POS];
 
-    //respond
-    UDS_Create_pos_response(READY);
-    //send_single_frame(response);
-
-    if(requested_reset == HARD_RESET){
-        //hard reset code
-    }
-    else if(requested_reset == SOFT_RESET){
-        //soft reset code
-    }
-
-}
 
 void UDS_Routine_Control(){
     if(requestFrame.dataSize < ROUTINE_CTRL_SIZE){
@@ -475,8 +502,9 @@ void UDS_Erase_Memory(status_t *status){
 }
 
 
-void UDS_Init(){
-	currentSession = PROGRAMMING_SESSION;
+void UDS_Init(BL_Functions* BL_Funcs){
+    BL_Callbacks = BL_Funcs;
+	//currentSession = PROGRAMMING_SESSION;
 
 }
 
@@ -493,18 +521,33 @@ void UDS_Receive(void){
 		if(SID == DIAGNOSTIC_SESSION_CONTROL){
 			UDS_Session_Control();
 		}
-		if(SID == REQUEST_DOWNLOAD && currentSession == PROGRAMMING_SESSION && (prev_SID == DIAGNOSTIC_SESSION_CONTROL || prev_SID == REQUEST_TRANSFER_EXIT)){
+        else if(SID == ECU_RESET){
+            UDS_ECU_Reset();
+        }
+        else if(SID == READ_DATA_BY_ID){
+            UDS_Read_by_ID();
+        }
+        else if(SID == WRITE_DATA_BY_ID){
+            UDS_Write_by_ID();
+        }
+        #ifdef UDS_BOOTLOADER
+		else if(SID == REQUEST_DOWNLOAD && currentSession == PROGRAMMING_SESSION){
 			UDS_Request_Download();
 		}
-		if(SID == ROUTINE_CONTROL && currentSession == PROGRAMMING_SESSION){
+		else if(SID == ROUTINE_CONTROL && currentSession == PROGRAMMING_SESSION){
 			UDS_Routine_Control();
 		}
-		if(SID == TRANSFER_DATA && currentSession == PROGRAMMING_SESSION){
+		else if(SID == TRANSFER_DATA && currentSession == PROGRAMMING_SESSION){
 			UDS_Transfer_Data();
 		}
-		if(SID == REQUEST_TRANSFER_EXIT && currentSession == PROGRAMMING_SESSION){
+		else if(SID == REQUEST_TRANSFER_EXIT && currentSession == PROGRAMMING_SESSION){
 			UDS_Request_Transfer_Exit();
 		}
+        #endif
+        else{
+            UDS_Create_neg_response(SERVICE_NOT_SUPPORTED, READY);
+        }
+
         reset_dataframe(&requestFrame);
 	}
 }
