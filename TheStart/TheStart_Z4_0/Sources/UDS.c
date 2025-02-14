@@ -6,8 +6,8 @@ UDS_SID prev_SID = 0;
 DIAGNOSTIC_SESSION_SUBFUNC currentSession = DEFAULT_SESSION;
 
 //UDS Buffers
-dataFrame requestFrame;
-dataFrame responseFrame;
+dataFrame requestFrame  = {0, NULL, 0};
+dataFrame responseFrame = {0, NULL, 0};
 
 uint8_t seq_number = 1;
 uint16_t remaining_Data = 0;
