@@ -19,6 +19,8 @@
 
 #define ROUTINE_CTRL_SIZE 5
 
+#define MAX_BLOCK_NUMBER 100
+
 #define READY 1
 #define NOTREADY 0
 
@@ -97,11 +99,12 @@ typedef struct BL_Data{
     uint32_t CRC_Field;
     uint32_t mem_start_address;
     uint32_t total_size; /* Total size of data to be received 0 ~ X*/
-    uint8_t *data;
     /* UDS_Routine_Control */
+    uint8_t data_block_size;
     uint8_t app_id;
     uint8_t N_paramteres;
     uint8_t parameters[20]; 
+    uint8_t data[MAX_BLOCK_NUMBER];
 } BL_Data;
 
 /* 
@@ -131,8 +134,8 @@ void UDS_Request_Download();
 void UDS_Transfer_Data();
 void UDS_Request_Transfer_Exit();
 void UDS_Routine_Control();
-void UDS_Check_Memory();
-void UDS_Erase_Memory();
+void UDS_Check_Memory(status_t *status);
+void UDS_Erase_Memory(status_t *status);
 
 /************RESPONSE APIs*************/
 void UDS_Create_pos_response(uint8_t isReady);

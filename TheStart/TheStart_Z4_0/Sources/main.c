@@ -76,7 +76,7 @@ void UDS_StubTask(void* params){
     	case 2: ;
 			//REQ DOWNLOAD
 			// mem address(start address) = 3 bytes .. mem size = 1 byte
-			can_message_t message1 = {0, 0x33, {0x04,0x34,0x00,0x31,0x12,0x34,0x56,0x10}, 8};
+			can_message_t message1 = {0, 0x33, {0x07,0x34,0x00,0x31,0x12,0x34,0x56,0x10}, 8};
 			CAN_Send(&can_pal1_instance, 1, &message1);
 			vTaskDelay(pdMS_TO_TICKS( 20 ));
 			break;

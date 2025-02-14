@@ -117,7 +117,9 @@ void sendFromUDS(void * pv)
         if(sendingUDS->ready == 1)
         {
             send_single_frame(sendingUDS->dataBuffer,TX_BUFF_NUM);
+            sendingUDS->ready = 0;
         }
+
 //        vTaskDelay(pdMS_TO_TICKS(10));
 //    }
     
