@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<project>
+	<configuration id="com.freescale.s32ds.cross.gnu.e200.exe.debug.2047577174" name="Debug_FLASH">
+		<extension point="org.eclipse.cdt.core.LanguageSettingsProvider">
+			<provider id="com.freescale.s32ds.cross.gnu.CrossGCCBuiltinSpecsDetector"/>
+		</extension>
+	</configuration>
+	<configuration id="com.freescale.s32ds.cross.gnu.e200.exe.Debug_RAM" name="Debug_RAM">
+		<extension point="org.eclipse.cdt.core.LanguageSettingsProvider">
+			<provider id="com.freescale.s32ds.cross.gnu.CrossGCCBuiltinSpecsDetector"/>
+		</extension>
+	</configuration>
+	<configuration id="com.freescale.s32ds.cross.gnu.e200.exe.debug.1448048755" name="Debug">
+		<extension point="org.eclipse.cdt.core.LanguageSettingsProvider">
+			<provider id="com.freescale.s32ds.cross.gnu.CrossGCCBuiltinSpecsDetector"/>
+		</extension>
+	</configuration>
+</project>

@@ -1,0 +1,11 @@
+19:39:48 **** Incremental Build of configuration Debug for project tesetReset_Z4_0 ****
+make -j4 all 
+Invoking: Standard S32DS Print Size
+powerpc-eabivle-size --format=berkeley tesetReset_Z4_0.elf
+   text	   data	    bss	    dec	    hex	filename
+   5460	     56	   7204	  12720	   31b0	tesetReset_Z4_0.elf
+Finished building: tesetReset_Z4_0.siz
+ 
+
+19:39:50 Build Finished (took 1s.657ms)
+

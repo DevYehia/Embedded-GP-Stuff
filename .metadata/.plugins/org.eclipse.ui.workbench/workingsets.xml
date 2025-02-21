@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<workingSetManager>
+<workingSet editPageId="org.eclipse.ui.resourceWorkingSetPage" factoryID="org.eclipse.ui.internal.WorkingSetFactory" id="1739578586730_1" label="Bootmanager" name="Bootmanager">
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/Bootmanager_Z4_0" type="4"/>
+</workingSet>
+<workingSet editPageId="org.eclipse.ui.resourceWorkingSetPage" factoryID="org.eclipse.ui.internal.WorkingSetFactory" id="1739583221527_2" label="Application" name="Application">
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/Application_Z4_0" type="4"/>
+</workingSet>
+<workingSet editPageId="org.eclipse.ui.resourceWorkingSetPage" factoryID="org.eclipse.ui.internal.WorkingSetFactory" id="1739807056621_4" label="tesetReset" name="tesetReset">
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/tesetReset_Z4_0" type="4"/>
+</workingSet>
+<workingSet editPageId="org.eclipse.ui.resourceWorkingSetPage" factoryID="org.eclipse.ui.internal.WorkingSetFactory" id="1739971162887_4" label="Bootloader" name="Bootloader">
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/Bootloader_Z4_0" type="4"/>
+</workingSet>
+<workingSet aggregate="true" factoryID="org.eclipse.ui.internal.WorkingSetFactory" id="1739575396105_0" label="Window Working Set" name="Aggregate for window 1739575396105"/>
+</workingSetManager>

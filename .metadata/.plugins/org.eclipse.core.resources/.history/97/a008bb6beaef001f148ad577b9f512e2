@@ -1,0 +1,126 @@
+#include "Bootloader.h"
+
+/* Global pointer to BL_Data received from UDS */
+static BL_Data *g_BLData = NULL;
+
+
+extern BL_Data* UDS_BL_Receive(void);
+
+
+
+volatile uint32_t calculatedCRC32;
+
+volatile uint32_t pflash_pfcr1, pflash_pfcr2;
+
+status_t returnStatus;
+
+static BL_Functions g_UDSBootloaderHandler = {.BL_TransferDataHandler = NULL,
+		.BL_Check_Memory = NULL,
+		.BL_Erase_Memory = NULL};
+
+
+status_t Bootloader_Init(BL_Functions *a_pBLHandlersConfig)
+{
+	if (a_pBLHandlersConfig != NULL){
+		g_UDSBootloaderHandler = *a_pBLHandlersConfig;
+	}
+	else{
+		return STATUS_ERROR;
+	}
+	DisableFlashControllerCache(FLASH_PFCR1, FLASH_FMC_BFEN_MASK, &pflash_pfcr1); //should call the function directly without any parameters
+	DisableFlashControllerCache(FLASH_PFCR2, FLASH_FMC_BFEN_MASK, &pflash_pfcr2);
+
+	/* Receive BL_Data from UDS and store it globally */
+	g_BLData = UDS_BL_Receive();
+	if (g_BLData == NULL)
+	{
+		return STATUS_ERROR;
+	}
+
+	/* Initialize the flash module */
+	return BootloaderFlash_Init();
+}
+
+status_t Bootloader_Erase_Memory(void)
+{
+	if (g_BLData == NULL)
+	{
+		return STATUS_ERROR;
+	}
+
+	returnStatus = BootloaderFlash_Unlock();
+	if (returnStatus != STATUS_SUCCESS){
+		return returnStatus;
+	}
+
+	/* Use UDS data: mem_start_address and total_size to erase flash */
+	returnStatus =  BootloaderFlash_Erase(g_BLData->mem_start_address, g_BLData->total_size);
+
+	if (returnStatus != STATUS_SUCCESS){
+		return returnStatus;
+	}
+
+	return BootloaderFlash_VerifyBlank(g_BLData->mem_start_address, g_BLData->total_size);
+}
+
+status_t Bootloader_Program(void)
+{
+	if (g_BLData == NULL)
+	{
+		return STATUS_ERROR;
+	}
+int const size = sizeof(g_BLData->data)/sizeof(g_BLData->data[0]);
+
+    uint32_t programData[size/4] = (uint32_t) g_BLData->data;
+
+	returnStatus = BootloaderFlash_Program(g_BLData->mem_start_address, g_BLData->total_size, programData);
+
+	if (returnStatus != STATUS_SUCCESS)
+	{
+		return returnStatus;
+	}
+	returnStatus = BootloaderFlash_ProgramVerify(g_BLData->mem_start_address, g_BLData->total_size, programData);
+	while (returnStatus == STATUS_FLASH_INPROGRESS){
+		returnStatus = BootloaderFlash_ProgramVerify(g_BLData->mem_start_address, g_BLData->total_size, programData);
+	}
+	return returnStatus;
+}
+
+status_t Bootloader_CheckMemory(void)
+{
+	if (g_BLData == NULL)
+	{
+		return STATUS_ERROR;
+	}
+
+	BootloaderFlash_InitCRC();
+	/* Compute the CRC32 over the flash area specified by mem_start_address and total_size */
+	uint32_t computed_crc = BootloaderFlash_CalculateCRC32(g_BLData->mem_start_address, g_BLData->total_size);
+
+	/* Restore flash controller cache */
+	RestoreFlashControllerCache(FLASH_PFCR1, pflash_pfcr1);
+	RestoreFlashControllerCache(FLASH_PFCR2, pflash_pfcr2);
+
+	/* Compare the computed CRC with the expected CRC provided in the BL_Data structure */
+	if (computed_crc == g_BLData->CRC_Field)
+	{
+		return STATUS_SUCCESS;
+	}
+	else
+	{
+		return STATUS_ERROR;
+	}
+}
+
+///* Define the array of handler function pointers.
+// * Order in the array is important and should match the service IDs used in UDS.
+// * For example:
+// *   index 0 -> Erase
+// *   index 1 -> Program
+// *   index 2 -> Memory Check
+// */
+//BootloaderHandler_t g_BootloaderHandlers[] = {
+//	Bootloader_Erase_Memory,
+//    Bootloader_Program,
+//	Bootloader_CheckMemory
+//};

@@ -1,0 +1,100 @@
+23:20:38 **** Incremental Build of configuration Debug for project Bootloader_Z4_0 ****
+make -j4 all 
+Building file: ../Sources/main.c
+Invoking: Standard S32DS C Compiler
+powerpc-eabivle-gcc "@Sources/Bootloader.args" -MMD -MP -MF"Sources/main.d" -MT"Sources/main.o" -o "Sources/main.o" "../Sources/main.c"
+In file included from ../Sources/main.c:3:0:
+../Sources/UDS.h:125:30: warning: "/*" within comment [-Wcomment]
+         uint32_t total_size; /* Total size of data to be received 0 ~ X
+ ^
+../Sources/UDS.h:126:40: warning: "/*" within comment [-Wcomment]
+         uint16_t MaxNumberBlockLength; /* Max size to be received with each Transfer Data service request 0 ~ 4095 
+ ^
+In file included from ../Sources/main.c:5:0:
+../Sources/Bootloader.h:11:0: warning: "MAX_BLOCK_NUMBER" redefined
+ #define MAX_BLOCK_NUMBER    4095U
+ ^
+In file included from ../Sources/main.c:3:0:
+../Sources/UDS.h:33:0: note: this is the location of the previous definition
+ #define MAX_BLOCK_NUMBER 100
+ ^
+../Sources/main.c: In function 'UDS_StubTask':
+../Sources/main.c:36:3: warning: implicit declaration of function 'vTaskDelay' [-Wimplicit-function-declaration]
+   vTaskDelay(pdMS_TO_TICKS( 20 ));
+   ^
+../Sources/main.c: In function 'main':
+../Sources/main.c:233:11: warning: passing argument 1 of 'Can_init' discards 'const' qualifier from pointer target type
+  Can_init(&can_pal1_instance, &can_pal1_Config0);
+           ^
+In file included from ../Sources/main.c:2:0:
+../Sources/CanTP.h:50:6: note: expected 'struct can_instance_t *' but argument is of type 'const struct can_instance_t *'
+ void Can_init(can_instance_t* can_pal_instance, can_user_config_t* can_pal_Config);
+      ^
+../Sources/main.c:233:31: warning: passing argument 2 of 'Can_init' discards 'const' qualifier from pointer target type
+  Can_init(&can_pal1_instance, &can_pal1_Config0);
+                               ^
+In file included from ../Sources/main.c:2:0:
+../Sources/CanTP.h:50:6: note: expected 'struct can_user_config_t *' but argument is of type 'const struct can_user_config_t *'
+ void Can_init(can_instance_t* can_pal_instance, can_user_config_t* can_pal_Config);
+      ^
+../Sources/main.c:254:2: warning: implicit declaration of function 'xTaskCreate' [-Wimplicit-function-declaration]
+  xTaskCreate(UDS_StubTask,
+  ^
+../Sources/main.c:276:2: warning: implicit declaration of function 'vTaskStartScheduler' [-Wimplicit-function-declaration]
+  vTaskStartScheduler();
+  ^
+Finished building: ../Sources/main.c
+ 
+Building target: Bootloader_Z4_0.elf
+Invoking: Standard S32DS C Linker
+powerpc-eabivle-gcc -o "Bootloader_Z4_0.elf" "@Bootloader_Z4_0.args"    
+Finished building target: Bootloader_Z4_0.elf
+ 
+Invoking: Standard S32DS Create Flash Image
+powerpc-eabivle-objcopy -O srec Bootloader_Z4_0.elf  "Bootloader_Z4_0.srec"
+Invoking: Standard S32DS Print Size
+powerpc-eabivle-size --format=sysv Bootloader_Z4_0.elf
+Bootloader_Z4_0.elf  :
+section                     size         addr
+.rchw                          4     16400384
+.cpu0_reset_vector             4     16400400
+.startup                     360     18874368
+.core_exceptions_table       180     18878464
+.intc_vector_table          3020     18882560
+.text                      32832     18885584
+.sdata2                        8     18918416
+.got2                         28     18918424
+.dtors                         8     18918452
+.ctors                         8     18918460
+.noinit                        4   1074003968
+.rodata                     1756     18918468
+.eh_frame_hdr                 20     18920224
+.eh_frame                    132     18920244
+.init_table                   64     18920376
+.zero_table                   20     18920440
+.interrupts_ram             3072   1073741824
+.customSectionBlock            0   1073744896
+.data                        804   1073744896
+.sdata                        48   1073745700
+.sbss                        232   1073745748
+.bss                       33776   1073745980
+.code                          0   1073779756
+.stack                      4096   1073779760
+.comment                     156            0
+.PPC.EMB.apuinfo              28            0
+.debug_info               223451            0
+.debug_abbrev              21873            0
+.debug_aranges              5640            0
+.debug_macro              181620            0
+.debug_line                72764            0
+.debug_str               1172759            0
+.debug_ranges               5984            0
+.debug_loc                 99549            0
+.debug_frame               17152            0
+Total                    1881452
+
+
+Finished building: Bootloader_Z4_0.siz
+Finished building: Bootloader_Z4_0.srec
+ 
+ 

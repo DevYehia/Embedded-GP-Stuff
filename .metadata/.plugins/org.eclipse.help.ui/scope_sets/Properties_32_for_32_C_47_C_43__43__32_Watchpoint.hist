@@ -1,0 +1,4 @@
+#Tue Feb 18 14:50:50 EET 2025
+__DEFAULT__=false
+org.eclipse.help.ui.localSearch.master=true
+expression=Properties for C/C++ Watchpoint

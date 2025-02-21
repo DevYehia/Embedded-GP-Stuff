@@ -1,0 +1,49 @@
+19:39:22 **** Incremental Build of configuration Debug for project Application_Z4_0 ****
+make -j4 all 
+Invoking: Standard S32DS Print Size
+powerpc-eabivle-size --format=sysv Application_Z4_0.elf
+Application_Z4_0.elf  :
+section                     size         addr
+.rchw                          4     16384000
+.cpu0_reset_vector             4     16384016
+.startup                     360     20971520
+.core_exceptions_table       180     20975616
+.intc_vector_table          3020     20979712
+.text                      27120     20982736
+.sdata2                        8     21009856
+.got2                         28     21009864
+.dtors                         8     21009892
+.ctors                         8     21009900
+.noinit                        4   1074003968
+.rodata                     1244     21009908
+.eh_frame_hdr                 20     21011152
+.eh_frame                    132     21011172
+.init_table                   64     21011304
+.zero_table                   20     21011368
+.interrupts_ram             3072   1073741824
+.customSectionBlock            0   1073744896
+.data                        780   1073744896
+.sdata                        32   1073745676
+.sbss                        200   1073745708
+.bss                       33164   1073745908
+.code                          0   1073779072
+.stack                      4096   1073779072
+.comment                     156            0
+.PPC.EMB.apuinfo              28            0
+.debug_info               202955            0
+.debug_abbrev              18804            0
+.debug_aranges              5080            0
+.debug_macro              178632            0
+.debug_line                63296            0
+.debug_str               1163701            0
+.debug_ranges               5504            0
+.debug_loc                 87678            0
+.debug_frame               15720            0
+Total                    1815122
+
+
+Finished building: Application_Z4_0.siz
+ 
+
+19:39:39 Build Finished (took 17s.125ms)
+

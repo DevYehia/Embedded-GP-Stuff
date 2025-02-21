@@ -1,0 +1,91 @@
+#ifndef BOOTLOADER_H_
+#define BOOTLOADER_H_
+
+#include "can_pal1.h"
+#include <stdint.h>
+#include "status.h"
+#include "Bootloader_Flash/BootloaderFlash.h"  /* Lower-level flash operations */
+
+//#ifndef MAX_BLOCK_NUMBER
+#define MAX_BLOCK_NUMBER    4095U
+//#endif
+
+/**
+ * @brief Structure that is received from UDS.
+ */
+typedef struct BL_Data {
+    uint32_t CRC_Field;         /**< CRC field from UDS */
+    uint32_t mem_start_address; /**< Flash memory start address (from UDS) */
+    uint32_t total_size;        /**< Total size of data to be received */
+    uint8_t  data_block_size;   /**< Data block size */
+    uint8_t  app_id;            /**< Application ID */
+    uint8_t  N_paramteres;      /**< Number of parameters */
+    uint8_t  parameters[20];    /**< Parameters array */
+    uint8_t  data[MAX_BLOCK_NUMBER]; /**< Data block */
+} BL_Data;
+
+status_t ret;
+
+
+/* Platform Flash */
+#define FLASH_FMC                       PFLASH_BASE
+#define FLASH_PFCR1                     0x000000000U
+#define FLASH_PFCR2                     0x000000004U
+#define FLASH_FMC_BFEN_MASK             0x000000001U
+
+
+extern BL_Functions g_UDSBootloaderHandlers;
+
+/**
+ * @brief Bootloader handler function type.
+ *
+ * These functions do not receive parameters because they rely on the
+ * global UDS data received during initialization.
+ */
+typedef status_t (*BootloaderHandler_t)(void);
+
+/**
+ * @brief Initializes the bootloader module.
+ *
+ * This function calls the external UDS receive routine to obtain a pointer
+ * to a BL_Data structure and then initializes the flash module.
+ *
+ * @return status_t Operation status.
+ */
+status_t Bootloader_Init(void);
+
+/**
+ * @brief Erase handler.
+ *
+ * Uses the global UDS data to determine the flash start address and size to erase.
+ *
+ * @return status_t Operation status.
+ */
+status_t Bootloader_Erase_Memory(void);
+
+/**
+ * @brief Program handler.
+ *
+ * Uses the global UDS data to program flash. (A dummy source address is used here.)
+ *
+ * @return status_t Operation status.
+ */
+status_t Bootloader_Program(void);
+
+/**
+ * @brief Memory check handler.
+ *
+ * Computes a CRC32 on the specified flash area using the global UDS data.
+ *
+ * @return status_t Operation status.
+ */
+status_t  Bootloader_CheckMemory(void);
+
+/**
+ * @brief Array of pointers to bootloader handler functions.
+ *
+ * The ordering in the array should match the services requested via UDS.
+ */
+extern BootloaderHandler_t g_BootloaderHandlers[];
+
+#endif /* BOOTLOADER_H_ */

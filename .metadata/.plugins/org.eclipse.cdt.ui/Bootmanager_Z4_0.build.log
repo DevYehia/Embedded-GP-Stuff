@@ -1,0 +1,47 @@
+19:39:46 **** Incremental Build of configuration Debug for project Bootmanager_Z4_0 ****
+make -j4 all 
+Invoking: Standard S32DS Print Size
+powerpc-eabivle-size --format=sysv Bootmanager_Z4_0.elf
+Bootmanager_Z4_0.elf  :
+section                     size         addr
+.rchw                          4     16351232
+.cpu0_reset_vector             4     16351248
+.startup                     360     16777216
+.core_exceptions_table       180     16781312
+.intc_vector_table          3020     16785408
+.text                       1824     16788432
+.sdata2                        0     16790256
+.got2                         28     16790256
+.dtors                         8     16790284
+.ctors                         8     16790292
+.rodata                       12     16790300
+.eh_frame                      8     16790312
+.init_table                   64     16790320
+.zero_table                   20     16790384
+.interrupts_ram             3072   1073741824
+.customSectionBlock            0   1073744896
+.data                          4   1073744896
+.sdata                         0   1073744900
+.sbss                          4   1073744900
+.bss                          32   1073744904
+.code                          0   1073744936
+.stack                      4096   1073744944
+.comment                     156            0
+.PPC.EMB.apuinfo              28            0
+.debug_line                 8628            0
+.debug_info                42830            0
+.debug_abbrev               2629            0
+.debug_aranges               504            0
+.debug_ranges                736            0
+.debug_loc                 17032            0
+.debug_macro                2319            0
+.debug_str               1098273            0
+.debug_frame                 884            0
+Total                    1186767
+
+
+Finished building: Bootmanager_Z4_0.siz
+ 
+
+19:39:48 Build Finished (took 1s.610ms)
+

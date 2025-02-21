@@ -1,0 +1,98 @@
+02:45:35 **** Incremental Build of configuration Debug_FLASH for project Application ****
+make -j4 all 
+Building file: ../Sources/UDS.c
+Invoking: Standard S32DS C Compiler
+powerpc-eabivle-gcc "@Sources/Bootloader.args" -MMD -MP -MF"Sources/UDS.d" -MT"Sources/UDS.o" -o "Sources/UDS.o" "../Sources/UDS.c"
+In file included from ../Sources/UDS.c:1:0:
+../Sources/UDS.h:123:30: warning: "/*" within comment [-Wcomment]
+         uint32_t total_size; /* Total size of data to be received 0 ~ X
+ ^
+../Sources/UDS.h:124:40: warning: "/*" within comment [-Wcomment]
+         uint16_t MaxNumberBlockLength; /* Max size to be received with each Transfer Data service request 0 ~ 4095 
+ ^
+../Sources/UDS.c:16:1: warning: missing braces around initializer [-Wmissing-braces]
+ dataFrame requestFrame  = {0, NULL, 0};
+ ^
+../Sources/UDS.c:16:1: warning: (near initialization for 'requestFrame.dataBuffer') [-Wmissing-braces]
+../Sources/UDS.c:17:1: warning: missing braces around initializer [-Wmissing-braces]
+ dataFrame responseFrame = {0, NULL, 0};
+ ^
+../Sources/UDS.c:17:1: warning: (near initialization for 'responseFrame.dataBuffer') [-Wmissing-braces]
+../Sources/UDS.c: In function 'reset_dataframe':
+../Sources/UDS.c:29:2: warning: implicit declaration of function 'memset' [-Wimplicit-function-declaration]
+  memset(frame->dataBuffer, 0, MAX_BUFF_SIZE);
+  ^
+../Sources/UDS.c:29:2: warning: incompatible implicit declaration of built-in function 'memset'
+../Sources/UDS.c: In function 'UDS_Read_by_ID':
+../Sources/UDS.c:193:2: warning: statement with no effect [-Wunused-value]
+  responseFrame.dataBuffer[DATA_START_POS]; //TODO Replace with actual identifier
+  ^
+../Sources/UDS.c:191:10: warning: unused variable 'data' [-Wunused-variable]
+  uint8_t data = get_data_by_ID(requested_ID);
+          ^
+../Sources/UDS.c: In function 'UDS_Request_Download':
+../Sources/UDS.c:224:16: warning: comparison between 'UDS_SID' and 'enum DIAGNOSTIC_SESSION_SUBFUNC' [-Wenum-compare]
+  if(!(prev_SID == PROGRAMMING_SESSION || prev_SID == REQUEST_TRANSFER_EXIT)){
+                ^
+../Sources/UDS.c: In function 'UDS_Receive':
+../Sources/UDS.c:526:7: warning: unused variable 'data1' [-Wunused-variable]
+   int data1 = requestFrame.dataBuffer[1];
+       ^
+Finished building: ../Sources/UDS.c
+ 
+Building target: Application.elf
+Invoking: Standard S32DS C Linker
+powerpc-eabivle-gcc -o "Application.elf" "@Application.args"    
+Finished building target: Application.elf
+ 
+Invoking: Standard S32DS Create Flash Image
+powerpc-eabivle-objcopy -O srec Application.elf  "Application.srec"
+Invoking: Standard S32DS Print Size
+powerpc-eabivle-size --format=sysv Application.elf
+Application.elf  :
+section                     size         addr
+.rchw                          4     16384000
+.cpu0_reset_vector             4     16384016
+.startup                     360    335544320
+.core_exceptions_table       180    335548416
+.intc_vector_table          3020    335552512
+.text                      29312    335555536
+.sdata2                        8    335584848
+.got2                         28    335584856
+.dtors                         8    335584884
+.ctors                         8    335584892
+.noinit                        4   1074003968
+.rodata                     1276    335584900
+.eh_frame_hdr                 20    335586176
+.eh_frame                    132    335586196
+.init_table                   64    335586328
+.zero_table                   20    335586392
+.interrupts_ram             3072   1073741824
+.customSectionBlock            0   1073744896
+.data                        780   1073744896
+.sdata                        24   1073745676
+.sbss                        208   1073745700
+.bss                       33168   1073745908
+.code                          0   1073779076
+.stack                      4096   1073779088
+.comment                     156            0
+.PPC.EMB.apuinfo              28            0
+.debug_info               224136            0
+.debug_abbrev              19603            0
+.debug_aranges              5288            0
+.debug_macro              178949            0
+.debug_line                70523            0
+.debug_str               1168587            0
+.debug_ranges               6032            0
+.debug_loc                119968            0
+.debug_frame               16472            0
+Total                    1885538
+
+
+Finished building: Application.siz
+Finished building: Application.srec
+ 
+ 
+
+02:45:56 Build Finished (took 21s.298ms)
+

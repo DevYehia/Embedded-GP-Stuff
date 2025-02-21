@@ -1,0 +1,15 @@
+[create_PE_project]
+
+PREFERRED_REPOSITORY=SDK_S32_PA_11
+CPUs=#DEF-LIST-CPUS-FOR-MASTER-MCU-NAME:MPC5748G
+
+%createProjectItem(Component,MPC5748G_324=MPC5748G_324)
+%createProjectItem(Component,PinSettings)
+%createProjectItem(Component,clock_manager)
+%createProjectItem(Component,interrupt_manager)
+
+%set @_CPU_@CPUCore Value Z4_0
+%set @_ProjectOptions_@SdkSourceFilesDirectory Value ${ProcessorExpert_loc}/../../S32DS/software/S32_SDK_S32PA_RTM_3.0.0
+%- Linked 0 | Standalone 1
+%set @_ProjectOptions_@StaticFilesGenerationMode Index 1
+[_end_]

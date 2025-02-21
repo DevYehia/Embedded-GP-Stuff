@@ -1,0 +1,11 @@
+eclipse.preferences.version=1
+environment/project/com.freescale.s32ds.cross.gnu.e200.exe.debug.25006168/PATH/delimiter=;
+environment/project/com.freescale.s32ds.cross.gnu.e200.exe.debug.25006168/PATH/operation=prepend
+environment/project/com.freescale.s32ds.cross.gnu.e200.exe.debug.25006168/PATH/value=
+environment/project/com.freescale.s32ds.cross.gnu.e200.exe.debug.25006168/append=true
+environment/project/com.freescale.s32ds.cross.gnu.e200.exe.debug.25006168/appendContributed=true
+environment/project/com.freescale.s32ds.cross.gnu.e200.exe.release.1742280027/PATH/delimiter=;
+environment/project/com.freescale.s32ds.cross.gnu.e200.exe.release.1742280027/PATH/operation=prepend
+environment/project/com.freescale.s32ds.cross.gnu.e200.exe.release.1742280027/PATH/value=
+environment/project/com.freescale.s32ds.cross.gnu.e200.exe.release.1742280027/append=true
+environment/project/com.freescale.s32ds.cross.gnu.e200.exe.release.1742280027/appendContributed=true
