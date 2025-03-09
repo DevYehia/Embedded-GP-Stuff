@@ -34,7 +34,7 @@ Generated_Code/clockMan1.o: ../Generated_Code/clockMan1.c \
  C:/NXP/S32DS_Power_v2.1/S32DS/software/S32_SDK_S32PA_RTM_3.0.0/platform/drivers/inc/edma_driver.h \
  C:/Users/sdvpth/Desktop/SafetyECU/Workspaces/Milestone1/Bootloader/Bootloader_Z4_0/SDK/rtos/osif/osif.h \
  C:/Users/sdvpth/Desktop/SafetyECU/Workspaces/Milestone1/Bootloader/Bootloader_Z4_0/SDK/rtos/FreeRTOS_PA/Source/include/FreeRTOS.h \
- C:/Users/sdvpth/Desktop/SafetyECU/Workspaces/Milestone1/Bootloader/Bootloader_Z4_0/SDK/rtos/FreeRTOS_PA/Source/portable/GCC/PowerPC/FreeRTOSConfig.h \
+ C:/Users/sdvpth/Desktop/SafetyECU/Workspaces/Milestone1/Bootloader/Bootloader_Z4_0/Generated_Code/FreeRTOSConfig.h \
  C:/Users/sdvpth/Desktop/SafetyECU/Workspaces/Milestone1/Bootloader/Bootloader_Z4_0/SDK/rtos/FreeRTOS_PA/Source/include/projdefs.h \
  C:/Users/sdvpth/Desktop/SafetyECU/Workspaces/Milestone1/Bootloader/Bootloader_Z4_0/SDK/rtos/FreeRTOS_PA/Source/include/portable.h \
  C:/Users/sdvpth/Desktop/SafetyECU/Workspaces/Milestone1/Bootloader/Bootloader_Z4_0/SDK/rtos/FreeRTOS_PA/Source/include/deprecated_definitions.h \
@@ -127,7 +127,7 @@ C:/Users/sdvpth/Desktop/SafetyECU/Workspaces/Milestone1/Bootloader/Bootloader_Z4
 
 C:/Users/sdvpth/Desktop/SafetyECU/Workspaces/Milestone1/Bootloader/Bootloader_Z4_0/SDK/rtos/FreeRTOS_PA/Source/include/FreeRTOS.h:
 
-C:/Users/sdvpth/Desktop/SafetyECU/Workspaces/Milestone1/Bootloader/Bootloader_Z4_0/SDK/rtos/FreeRTOS_PA/Source/portable/GCC/PowerPC/FreeRTOSConfig.h:
+C:/Users/sdvpth/Desktop/SafetyECU/Workspaces/Milestone1/Bootloader/Bootloader_Z4_0/Generated_Code/FreeRTOSConfig.h:
 
 C:/Users/sdvpth/Desktop/SafetyECU/Workspaces/Milestone1/Bootloader/Bootloader_Z4_0/SDK/rtos/FreeRTOS_PA/Source/include/projdefs.h:
 

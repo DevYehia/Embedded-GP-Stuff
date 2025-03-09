@@ -70,7 +70,7 @@ Discarded input sections
  .debug_macro   0x00000000       0x16 ./Generated_Code/Cpu.o
  .debug_macro   0x00000000       0x16 ./Generated_Code/Cpu.o
  .debug_macro   0x00000000       0x10 ./Generated_Code/Cpu.o
- .debug_line    0x00000000      0x56e ./Generated_Code/Cpu.o
+ .debug_line    0x00000000      0x616 ./Generated_Code/Cpu.o
  .debug_str     0x00000000   0x106c50 ./Generated_Code/Cpu.o
  .comment       0x00000000       0x83 ./Generated_Code/Cpu.o
  .group         0x00000000        0x8 ./Generated_Code/clockMan1.o
@@ -137,7 +137,7 @@ Discarded input sections
  .debug_macro   0x00000000       0x16 ./Generated_Code/clockMan1.o
  .debug_macro   0x00000000       0x16 ./Generated_Code/clockMan1.o
  .debug_macro   0x00000000       0x10 ./Generated_Code/clockMan1.o
- .debug_line    0x00000000      0x574 ./Generated_Code/clockMan1.o
+ .debug_line    0x00000000      0x61c ./Generated_Code/clockMan1.o
  .debug_str     0x00000000   0x10c786 ./Generated_Code/clockMan1.o
  .comment       0x00000000       0x83 ./Generated_Code/clockMan1.o
  .group         0x00000000        0x8 ./Generated_Code/pin_mux.o
@@ -190,7 +190,7 @@ Discarded input sections
  .debug_macro   0x00000000       0x16 ./Generated_Code/pin_mux.o
  .debug_macro   0x00000000       0x16 ./Generated_Code/pin_mux.o
  .debug_macro   0x00000000       0x16 ./Generated_Code/pin_mux.o
- .debug_line    0x00000000      0x446 ./Generated_Code/pin_mux.o
+ .debug_line    0x00000000      0x4be ./Generated_Code/pin_mux.o
  .debug_str     0x00000000   0x105ac6 ./Generated_Code/pin_mux.o
  .comment       0x00000000       0x83 ./Generated_Code/pin_mux.o
  .data          0x00000000        0x0 ./Project_Settings/Startup_Code/core0_intc_sw_handlers.o
@@ -1432,17 +1432,17 @@ OUTPUT(tesetReset_Z4_0.elf elf32-powerpc)
  .PPC.EMB.apuinfo
                 0x00000154       0x18 c:/nxp/s32ds_power_v2.1/s32ds/build_tools/powerpc-eabivle-4_9/bin/../lib/gcc/powerpc-eabivle/4.9.4/e200z4/fp/ecrtn.o
 
-.debug_line     0x00000000     0x2cb4
+.debug_line     0x00000000     0x2f54
  .debug_line    0x00000000      0x160 ./Project_Settings/Startup_Code/core0_intc_sw_handlers.o
  .debug_line    0x00000160       0x73 ./Project_Settings/Startup_Code/interrupt_vectors.o
  .debug_line    0x000001d3       0xd3 ./Project_Settings/Startup_Code/startup_MPC5748G.o
- .debug_line    0x000002a6      0x3ae ./SDK/platform/devices/MPC5748G/startup/system_MPC5748G.o
- .debug_line    0x00000654      0x34c ./SDK/platform/devices/startup.o
- .debug_line    0x000009a0      0xd76 ./SDK/platform/drivers/src/clock/MPC57xx/clock_MPC57xx.o
- .debug_line    0x00001716      0x53e ./SDK/platform/drivers/src/interrupt/interrupt_manager_MPC57xx.o
- .debug_line    0x00001c54      0x644 ./SDK/platform/drivers/src/pins/siul2/pins_siul2_driver.o
- .debug_line    0x00002298      0x436 ./SDK/platform/drivers/src/pins/siul2/siul2_hw_access.o
- .debug_line    0x000026ce      0x5e6 ./Sources/main.o
+ .debug_line    0x000002a6      0x3f6 ./SDK/platform/devices/MPC5748G/startup/system_MPC5748G.o
+ .debug_line    0x0000069c      0x364 ./SDK/platform/devices/startup.o
+ .debug_line    0x00000a00      0xdee ./SDK/platform/drivers/src/clock/MPC57xx/clock_MPC57xx.o
+ .debug_line    0x000017ee      0x59e ./SDK/platform/drivers/src/interrupt/interrupt_manager_MPC57xx.o
+ .debug_line    0x00001d8c      0x6bc ./SDK/platform/drivers/src/pins/siul2/pins_siul2_driver.o
+ .debug_line    0x00002448      0x47e ./SDK/platform/drivers/src/pins/siul2/siul2_hw_access.o
+ .debug_line    0x000028c6      0x68e ./Sources/main.o
 
 .debug_info     0x00000000     0xc662
  .debug_info    0x00000000       0xb9 ./Project_Settings/Startup_Code/core0_intc_sw_handlers.o

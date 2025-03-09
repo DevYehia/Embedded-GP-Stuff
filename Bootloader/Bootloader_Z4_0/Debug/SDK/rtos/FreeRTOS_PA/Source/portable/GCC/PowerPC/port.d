@@ -19,7 +19,7 @@ SDK/rtos/FreeRTOS_PA/Source/portable/GCC/PowerPC/port.o: \
  C:/NXP/S32DS_Power_v2.1/S32DS/build_tools/e200_ewl2/EWL_C/include/stdint.h \
  C:/NXP/S32DS_Power_v2.1/S32DS/build_tools/e200_ewl2/EWL_C/include/cstdint \
  C:/NXP/S32DS_Power_v2.1/S32DS/build_tools/e200_ewl2/EWL_C/include/limits_api.h \
- C:/Users/sdvpth/Desktop/SafetyECU/Workspaces/Milestone1/Bootloader/Bootloader_Z4_0/SDK/rtos/FreeRTOS_PA/Source/portable/GCC/PowerPC/FreeRTOSConfig.h \
+ C:/Users/sdvpth/Desktop/SafetyECU/Workspaces/Milestone1/Bootloader/Bootloader_Z4_0/Generated_Code/FreeRTOSConfig.h \
  C:/Users/sdvpth/Desktop/SafetyECU/Workspaces/Milestone1/Bootloader/Bootloader_Z4_0/SDK/rtos/FreeRTOS_PA/Source/include/projdefs.h \
  C:/Users/sdvpth/Desktop/SafetyECU/Workspaces/Milestone1/Bootloader/Bootloader_Z4_0/SDK/rtos/FreeRTOS_PA/Source/include/portable.h \
  C:/Users/sdvpth/Desktop/SafetyECU/Workspaces/Milestone1/Bootloader/Bootloader_Z4_0/SDK/rtos/FreeRTOS_PA/Source/include/deprecated_definitions.h \
@@ -72,7 +72,7 @@ C:/NXP/S32DS_Power_v2.1/S32DS/build_tools/e200_ewl2/EWL_C/include/cstdint:
 
 C:/NXP/S32DS_Power_v2.1/S32DS/build_tools/e200_ewl2/EWL_C/include/limits_api.h:
 
-C:/Users/sdvpth/Desktop/SafetyECU/Workspaces/Milestone1/Bootloader/Bootloader_Z4_0/SDK/rtos/FreeRTOS_PA/Source/portable/GCC/PowerPC/FreeRTOSConfig.h:
+C:/Users/sdvpth/Desktop/SafetyECU/Workspaces/Milestone1/Bootloader/Bootloader_Z4_0/Generated_Code/FreeRTOSConfig.h:
 
 C:/Users/sdvpth/Desktop/SafetyECU/Workspaces/Milestone1/Bootloader/Bootloader_Z4_0/SDK/rtos/FreeRTOS_PA/Source/include/projdefs.h:
 

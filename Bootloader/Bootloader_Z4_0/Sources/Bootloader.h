@@ -4,71 +4,62 @@
 #include "can_pal1.h"
 #include <stdint.h>
 #include "status.h"
-#include "Bootloader_Flash/BootloaderFlash.h"  /* Lower-level flash operations */
+#include "Bootloader_Flash/BootloaderFlash.h" /* Lower-level flash operations */
 #include "UDS.h"
 
-//#ifndef MAX_BLOCK_NUMBER
-#define MAX_BLOCK_NUMBER    4095U
-//#endif
+/* Maximum block number for data transfer operations (UDS limit) */
+#define MAX_BLOCK_NUMBER 4095U
 
-/* Platform Flash */
-#define FLASH_FMC                       PFLASH_BASE
-#define FLASH_PFCR1                     0x000000000U
-#define FLASH_PFCR2                     0x000000004U
-#define FLASH_FMC_BFEN_MASK             0x000000001U
-
-
+/* Platform-specific flash definitions */
+#define FLASH_FMC PFLASH_BASE
+#define FLASH_PFCR1 0x000000000U
+#define FLASH_PFCR2 0x000000004U
+#define FLASH_FMC_BFEN_MASK 0x000000001U
 
 /**
- * @brief Bootloader handler function type.
+ * @brief Initialize the bootloader module.
  *
- * These functions do not receive parameters because they rely on the
- * global UDS data received during initialization.
- */
-typedef status_t (*BootloaderHandler_t)(void);
-
-/**
- * @brief Initializes the bootloader module.
+ * This function initializes the bootloader by:
+ *   - Validating and storing the provided function handlers.
+ *   - Disabling flash controller caches.
+ *   - Retrieving bootloader data via UDS.
+ *   - Initializing the lower-level flash module.
  *
- * This function calls the external UDS receive routine to obtain a pointer
- * to a BL_Data structure and then initializes the flash module.
- *
- * @return status_t Operation status.
+ * @param a_pBLHandlersConfig Pointer to the structure containing application-specific bootloader function handlers.
+ * @return status_t STATUS_SUCCESS if initialization is successful; otherwise, an error status.
  */
 status_t Bootloader_Init(BL_Functions *a_pBLHandlersConfig);
 
 /**
- * @brief Erase handler.
+ * @brief Erase flash memory.
  *
- * Uses the global UDS data to determine the flash start address and size to erase.
+ * This function performs the following steps:
+ *   - Unlocks flash memory.
+ *   - Erases the flash area specified in the global UDS bootloader data.
+ *   - Verifies that the erased area is blank.
  *
- * @return status_t Operation status.
+ * @return status_t STATUS_SUCCESS if the memory is successfully erased and verified; otherwise, an error status.
  */
 status_t Bootloader_Erase_Memory(void);
 
 /**
- * @brief Program handler.
+ * @brief Program flash memory.
  *
- * Uses the global UDS data to program flash. (A dummy source address is used here.)
+ * This function programs flash memory based on the global UDS bootloader data and then
+ * verifies that the programming operation is complete.
  *
- * @return status_t Operation status.
+ * @return status_t STATUS_SUCCESS if programming and verification are successful; otherwise, an error status.
  */
 status_t Bootloader_Program(void);
 
 /**
- * @brief Memory check handler.
+ * @brief Verify programmed flash memory.
  *
- * Computes a CRC32 on the specified flash area using the global UDS data.
+ * This function computes a CRC32 over the programmed flash area and compares it with the expected
+ * value provided in the global UDS bootloader data.
  *
- * @return status_t Operation status.
+ * @return status_t STATUS_SUCCESS if the CRC check is successful; otherwise, an error status.
  */
-status_t  Bootloader_CheckMemory(void);
-
-/**
- * @brief Array of pointers to bootloader handler functions.
- *
- * The ordering in the array should match the services requested via UDS.
- */
-extern BootloaderHandler_t g_BootloaderHandlers[];
+status_t Bootloader_CheckMemory(void);
 
 #endif /* BOOTLOADER_H_ */

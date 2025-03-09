@@ -1,4 +1,4 @@
-19:39:46 **** Incremental Build of configuration Debug for project Bootmanager_Z4_0 ****
+05:18:38 **** Incremental Build of configuration Debug for project Bootmanager_Z4_0 ****
 make -j4 all 
 Invoking: Standard S32DS Print Size
 powerpc-eabivle-size --format=sysv Bootmanager_Z4_0.elf
@@ -43,5 +43,5 @@ Total                    1186767
 Finished building: Bootmanager_Z4_0.siz
  
 
-19:39:48 Build Finished (took 1s.610ms)
+05:18:40 Build Finished (took 1s.610ms)
 

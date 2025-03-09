@@ -1,18 +1,75 @@
-23:20:38 **** Incremental Build of configuration Debug for project Bootloader_Z4_0 ****
+14:57:01 **** Incremental Build of configuration Debug for project Bootloader_Z4_0 ****
 make -j4 all 
+Building file: ../Sources/Bootloader.c
 Building file: ../Sources/main.c
 Invoking: Standard S32DS C Compiler
+powerpc-eabivle-gcc "@Sources/Bootloader.args" -MMD -MP -MF"Sources/Bootloader.d" -MT"Sources/Bootloader.o" -o "Sources/Bootloader.o" "../Sources/Bootloader.c"
+Invoking: Standard S32DS C Compiler
 powerpc-eabivle-gcc "@Sources/Bootloader.args" -MMD -MP -MF"Sources/main.d" -MT"Sources/main.o" -o "Sources/main.o" "../Sources/main.c"
-In file included from ../Sources/main.c:3:0:
-../Sources/UDS.h:125:30: warning: "/*" within comment [-Wcomment]
+In file included from ../Sources/Bootloader.h:8:0,
+                 from ../Sources/Bootloader.c:1:
+../Sources/UDS.h:129:30: warning: "/*" within comment [-Wcomment]
          uint32_t total_size; /* Total size of data to be received 0 ~ X
  ^
-../Sources/UDS.h:126:40: warning: "/*" within comment [-Wcomment]
+../Sources/UDS.h:130:40: warning: "/*" within comment [-Wcomment]
+         uint16_t MaxNumberBlockLength; /* Max size to be received with each Transfer Data service request 0 ~ 4095 
+ ^
+In file included from ../Sources/Bootloader.c:1:0:
+../Sources/Bootloader.h:11:0: warning: "MAX_BLOCK_NUMBER" redefined
+ #define MAX_BLOCK_NUMBER 4095U
+ ^
+In file included from ../Sources/Bootloader.h:8:0,
+                 from ../Sources/Bootloader.c:1:
+../Sources/UDS.h:33:0: note: this is the location of the previous definition
+ #define MAX_BLOCK_NUMBER 100
+ ^
+../Sources/Bootloader.c: In function 'Bootloader_Init':
+../Sources/Bootloader.c:38:2: warning: implicit declaration of function 'DisableFlashControllerCache' [-Wimplicit-function-declaration]
+  DisableFlashControllerCache(FLASH_PFCR1, FLASH_FMC_BFEN_MASK, &pflash_pfcr1);
+  ^
+../Sources/Bootloader.c:49:2: warning: implicit declaration of function 'BootloaderFlash_Init' [-Wimplicit-function-declaration]
+  return BootloaderFlash_Init();
+  ^
+../Sources/Bootloader.c: In function 'Bootloader_Erase_Memory':
+../Sources/Bootloader.c:61:2: warning: implicit declaration of function 'BootloaderFlash_Unlock' [-Wimplicit-function-declaration]
+  returnStatus = BootloaderFlash_Unlock();
+  ^
+../Sources/Bootloader.c:68:2: warning: implicit declaration of function 'BootloaderFlash_Erase' [-Wimplicit-function-declaration]
+  returnStatus = BootloaderFlash_Erase(g_BLData->mem_start_address, g_BLData->total_size);
+  ^
+../Sources/Bootloader.c:75:2: warning: implicit declaration of function 'BootloaderFlash_VerifyBlank' [-Wimplicit-function-declaration]
+  return BootloaderFlash_VerifyBlank(g_BLData->mem_start_address, g_BLData->total_size);
+  ^
+../Sources/Bootloader.c: In function 'Bootloader_Program':
+../Sources/Bootloader.c:87:26: warning: initialization from incompatible pointer type
+  uint32_t *programData = g_BLData->data;
+                          ^
+../Sources/Bootloader.c:90:2: warning: implicit declaration of function 'BootloaderFlash_Program' [-Wimplicit-function-declaration]
+  returnStatus = BootloaderFlash_Program(g_BLData->mem_start_address, g_BLData->total_size, programData);
+  ^
+../Sources/Bootloader.c:97:2: warning: implicit declaration of function 'BootloaderFlash_ProgramVerify' [-Wimplicit-function-declaration]
+  returnStatus = BootloaderFlash_ProgramVerify(g_BLData->mem_start_address, g_BLData->total_size, programData);
+  ^
+../Sources/Bootloader.c: In function 'Bootloader_CheckMemory':
+../Sources/Bootloader.c:115:2: warning: implicit declaration of function 'BootloaderFlash_InitCRC' [-Wimplicit-function-declaration]
+  BootloaderFlash_InitCRC();
+  ^
+../Sources/Bootloader.c:118:2: warning: implicit declaration of function 'BootloaderFlash_CalculateCRC32' [-Wimplicit-function-declaration]
+  uint32_t computed_crc = BootloaderFlash_CalculateCRC32(g_BLData->mem_start_address, g_BLData->total_size);
+  ^
+../Sources/Bootloader.c:121:2: warning: implicit declaration of function 'RestoreFlashControllerCache' [-Wimplicit-function-declaration]
+  RestoreFlashControllerCache(FLASH_PFCR1, pflash_pfcr1);
+  ^
+In file included from ../Sources/main.c:3:0:
+../Sources/UDS.h:129:30: warning: "/*" within comment [-Wcomment]
+         uint32_t total_size; /* Total size of data to be received 0 ~ X
+ ^
+../Sources/UDS.h:130:40: warning: "/*" within comment [-Wcomment]
          uint16_t MaxNumberBlockLength; /* Max size to be received with each Transfer Data service request 0 ~ 4095 
  ^
 In file included from ../Sources/main.c:5:0:
 ../Sources/Bootloader.h:11:0: warning: "MAX_BLOCK_NUMBER" redefined
- #define MAX_BLOCK_NUMBER    4095U
+ #define MAX_BLOCK_NUMBER 4095U
  ^
 In file included from ../Sources/main.c:3:0:
 ../Sources/UDS.h:33:0: note: this is the location of the previous definition
@@ -23,27 +80,29 @@ In file included from ../Sources/main.c:3:0:
    vTaskDelay(pdMS_TO_TICKS( 20 ));
    ^
 ../Sources/main.c: In function 'main':
-../Sources/main.c:233:11: warning: passing argument 1 of 'Can_init' discards 'const' qualifier from pointer target type
+../Sources/main.c:235:11: warning: passing argument 1 of 'Can_init' discards 'const' qualifier from pointer target type
   Can_init(&can_pal1_instance, &can_pal1_Config0);
            ^
 In file included from ../Sources/main.c:2:0:
 ../Sources/CanTP.h:50:6: note: expected 'struct can_instance_t *' but argument is of type 'const struct can_instance_t *'
  void Can_init(can_instance_t* can_pal_instance, can_user_config_t* can_pal_Config);
       ^
-../Sources/main.c:233:31: warning: passing argument 2 of 'Can_init' discards 'const' qualifier from pointer target type
+../Sources/main.c:235:31: warning: passing argument 2 of 'Can_init' discards 'const' qualifier from pointer target type
   Can_init(&can_pal1_instance, &can_pal1_Config0);
                                ^
 In file included from ../Sources/main.c:2:0:
 ../Sources/CanTP.h:50:6: note: expected 'struct can_user_config_t *' but argument is of type 'const struct can_user_config_t *'
  void Can_init(can_instance_t* can_pal_instance, can_user_config_t* can_pal_Config);
       ^
-../Sources/main.c:254:2: warning: implicit declaration of function 'xTaskCreate' [-Wimplicit-function-declaration]
+../Sources/main.c:256:2: warning: implicit declaration of function 'xTaskCreate' [-Wimplicit-function-declaration]
   xTaskCreate(UDS_StubTask,
   ^
-../Sources/main.c:276:2: warning: implicit declaration of function 'vTaskStartScheduler' [-Wimplicit-function-declaration]
+../Sources/main.c:278:2: warning: implicit declaration of function 'vTaskStartScheduler' [-Wimplicit-function-declaration]
   vTaskStartScheduler();
   ^
+Finished building: ../Sources/Bootloader.c
 Finished building: ../Sources/main.c
+ 
  
 Building target: Bootloader_Z4_0.elf
 Invoking: Standard S32DS C Linker
@@ -61,37 +120,37 @@ section                     size         addr
 .startup                     360     18874368
 .core_exceptions_table       180     18878464
 .intc_vector_table          3020     18882560
-.text                      32832     18885584
-.sdata2                        8     18918416
-.got2                         28     18918424
-.dtors                         8     18918452
-.ctors                         8     18918460
+.text                      33152     18885584
+.sdata2                        8     18918736
+.got2                         28     18918744
+.dtors                         8     18918772
+.ctors                         8     18918780
 .noinit                        4   1074003968
-.rodata                     1756     18918468
-.eh_frame_hdr                 20     18920224
-.eh_frame                    132     18920244
-.init_table                   64     18920376
-.zero_table                   20     18920440
+.rodata                     1756     18918788
+.eh_frame_hdr                 20     18920544
+.eh_frame                    132     18920564
+.init_table                   64     18920696
+.zero_table                   20     18920760
 .interrupts_ram             3072   1073741824
 .customSectionBlock            0   1073744896
 .data                        804   1073744896
 .sdata                        48   1073745700
 .sbss                        232   1073745748
-.bss                       33776   1073745980
-.code                          0   1073779756
-.stack                      4096   1073779760
+.bss                       33788   1073745980
+.code                          0   1073779768
+.stack                      4096   1073779776
 .comment                     156            0
 .PPC.EMB.apuinfo              28            0
-.debug_info               223451            0
-.debug_abbrev              21873            0
+.debug_info               223664            0
+.debug_abbrev              21856            0
 .debug_aranges              5640            0
 .debug_macro              181620            0
-.debug_line                72764            0
-.debug_str               1172759            0
+.debug_line                74170            0
+.debug_str               1172760            0
 .debug_ranges               5984            0
-.debug_loc                 99549            0
-.debug_frame               17152            0
-Total                    1881452
+.debug_loc                 99701            0
+.debug_frame               17160            0
+Total                    1883547
 
 
 Finished building: Bootloader_Z4_0.siz
@@ -99,5 +158,5 @@ Finished building: Bootloader_Z4_0.srec
  
  
 
-23:20:59 Build Finished (took 21s.609ms)
+14:57:24 Build Finished (took 22s.375ms)
 

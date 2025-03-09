@@ -191,7 +191,7 @@ volatile int a= 1;
 int main(void)
 {
 	//volatile int a= 1;
-	//while(a);
+	while(a);
 
 //	__asm__("e_lis %r12,0x00F9");
 //	__asm__("e_or2i %r12,0x8010");

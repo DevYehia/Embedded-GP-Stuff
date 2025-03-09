@@ -65,7 +65,7 @@ typedef enum UDS_SID {
 
 typedef enum ROUTINE_CTRL_ROUTINE_ID {
     ERASE_MEMORY                =       0Xff00,
-    CHECK_MEMORY                =       0Xfe00
+    CHECK_MEMORY                =       0Xff01
 } ROUTINE_IDENTIFIER;
 
 typedef enum RoutineControlType {
@@ -109,14 +109,18 @@ typedef enum NRC{
 typedef struct BL_Data{
     /* Data Size */
     uint32_t CRC_Field;
+    uint32_t CRC_algo;
     uint32_t mem_start_address;
     uint32_t total_size; /* Total size of data to be received 0 ~ X*/
+    uint32_t ers_mem_start_address;
+    uint32_t ers_total_size; /* Total size of data to be received 0 ~ X*/
     /* UDS_Routine_Control */
     uint16_t data_block_size;
     uint8_t app_id;
     uint8_t N_paramteres;
     uint8_t parameters[20]; 
     uint8_t data[MAX_BLOCK_NUMBER];
+
 } BL_Data;
 
 /* 

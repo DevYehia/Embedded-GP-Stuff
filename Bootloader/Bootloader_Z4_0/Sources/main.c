@@ -206,9 +206,11 @@ BL_Functions a_BLHandlersConfig = {.BL_TransferDataHandler = Bootloader_Program,
 		.BL_Check_Memory = Bootloader_CheckMemory,
 		.BL_Erase_Memory = Bootloader_Erase_Memory};
 
+// volatile int a = 1;
 int main(void)
 {
 
+//	while (a);
 
 
 	/* Write your local variable definition here */

@@ -1899,7 +1899,7 @@ Discarded input sections
  .debug_macro   0x00000000       0xb5 ./SDK/rtos/FreeRTOS_PA/Source/croutine.o
  .debug_macro   0x00000000       0x8c ./SDK/rtos/FreeRTOS_PA/Source/croutine.o
  .debug_macro   0x00000000       0x43 ./SDK/rtos/FreeRTOS_PA/Source/croutine.o
- .debug_line    0x00000000      0x390 ./SDK/rtos/FreeRTOS_PA/Source/croutine.o
+ .debug_line    0x00000000      0x3f2 ./SDK/rtos/FreeRTOS_PA/Source/croutine.o
  .debug_str     0x00000000     0x7f62 ./SDK/rtos/FreeRTOS_PA/Source/croutine.o
  .comment       0x00000000       0x83 ./SDK/rtos/FreeRTOS_PA/Source/croutine.o
  .group         0x00000000        0x8 ./SDK/rtos/FreeRTOS_PA/Source/event_groups.o
@@ -2389,7 +2389,7 @@ Discarded input sections
  .debug_macro   0x00000000       0x8c ./SDK/rtos/FreeRTOS_PA/Source/timers.o
  .debug_macro   0x00000000       0x86 ./SDK/rtos/FreeRTOS_PA/Source/timers.o
  .debug_macro   0x00000000       0x91 ./SDK/rtos/FreeRTOS_PA/Source/timers.o
- .debug_line    0x00000000      0x3b9 ./SDK/rtos/FreeRTOS_PA/Source/timers.o
+ .debug_line    0x00000000      0x41b ./SDK/rtos/FreeRTOS_PA/Source/timers.o
  .debug_str     0x00000000     0x892f ./SDK/rtos/FreeRTOS_PA/Source/timers.o
  .comment       0x00000000       0x83 ./SDK/rtos/FreeRTOS_PA/Source/timers.o
  .group         0x00000000        0x8 ./SDK/rtos/FreeRTOS_PA/Source/portable/GCC/PowerPC/port.o
@@ -2680,8 +2680,6 @@ Discarded input sections
  .text          0x00000000        0x0 ./Sources/Bootloader.o
  .data          0x00000000        0x0 ./Sources/Bootloader.o
  .bss           0x00000000        0x0 ./Sources/Bootloader.o
- .sbss.calculatedCRC32
-                0x00000000        0x4 ./Sources/Bootloader.o
  .debug_macro   0x00000000      0x622 ./Sources/Bootloader.o
  .debug_macro   0x00000000       0x52 ./Sources/Bootloader.o
  .debug_macro   0x00000000       0xa0 ./Sources/Bootloader.o
@@ -3545,7 +3543,7 @@ LOAD c:/nxp/s32ds_power_v2.1/s32ds/build_tools/powerpc-eabivle-4_9/bin/../lib/gc
                 0x00000c00                __RAM_VECTOR_TABLE_SIZE = 0xc00
                 0x01202c00                __VECTOR_TABLE_COPY_END = (__VECTOR_TABLE + __RAM_VECTOR_TABLE_SIZE)
 
-.text           0x01202bd0     0x8040
+.text           0x01202bd0     0x8180
  *(.text.startup)
  *(.text)
  .text          0x01202bd0      0x16c c:/nxp/s32ds_power_v2.1/s32ds/build_tools/powerpc-eabivle-4_9/bin/../lib/gcc/powerpc-eabivle/4.9.4/e200z4/fp/crtbegin.o
@@ -4523,243 +4521,243 @@ LOAD c:/nxp/s32ds_power_v2.1/s32ds/build_tools/powerpc-eabivle-4_9/bin/../lib/gc
                 0x012092b4       0x18 ./SDK/rtos/osif/osif_freertos.o
                 0x012092b4                OSIF_SemaDestroy
  .text.Bootloader_Init
-                0x012092cc       0x5e ./Sources/Bootloader.o
+                0x012092cc       0x88 ./Sources/Bootloader.o
                 0x012092cc                Bootloader_Init
- *fill*         0x0120932a        0x2 
  .text.Bootloader_Erase_Memory
-                0x0120932c       0x4c ./Sources/Bootloader.o
-                0x0120932c                Bootloader_Erase_Memory
+                0x01209354       0x4c ./Sources/Bootloader.o
+                0x01209354                Bootloader_Erase_Memory
  .text.Bootloader_Program
-                0x01209378       0x6c ./Sources/Bootloader.o
-                0x01209378                Bootloader_Program
+                0x012093a0       0x6c ./Sources/Bootloader.o
+                0x012093a0                Bootloader_Program
  .text.Bootloader_CheckMemory
-                0x012093e4       0x60 ./Sources/Bootloader.o
-                0x012093e4                Bootloader_CheckMemory
+                0x0120940c       0x60 ./Sources/Bootloader.o
+                0x0120940c                Bootloader_CheckMemory
  .text.handleFlowCtl
-                0x01209444        0xe ./Sources/CanTP.o
-                0x01209444                handleFlowCtl
- *fill*         0x01209452        0x2 
+                0x0120946c        0xe ./Sources/CanTP.o
+                0x0120946c                handleFlowCtl
+ *fill*         0x0120947a        0x2 
  .text.interrupt_callback
-                0x01209454       0x4e ./Sources/CanTP.o
-                0x01209454                interrupt_callback
- *fill*         0x012094a2        0x2 
+                0x0120947c       0x4e ./Sources/CanTP.o
+                0x0120947c                interrupt_callback
+ *fill*         0x012094ca        0x2 
  .text.send_flow_control
-                0x012094a4       0x70 ./Sources/CanTP.o
-                0x012094a4                send_flow_control
+                0x012094cc       0x70 ./Sources/CanTP.o
+                0x012094cc                send_flow_control
  .text.handleSingleFrame
-                0x01209514       0x44 ./Sources/CanTP.o
-                0x01209514                handleSingleFrame
+                0x0120953c       0x44 ./Sources/CanTP.o
+                0x0120953c                handleSingleFrame
  .text.timeOutHandle
-                0x01209558       0x68 ./Sources/CanTP.o
-                0x01209558                timeOutHandle
- .text.recieve  0x012095c0       0x80 ./Sources/CanTP.o
-                0x012095c0                recieve
+                0x01209580       0x68 ./Sources/CanTP.o
+                0x01209580                timeOutHandle
+ .text.recieve  0x012095e8       0x80 ./Sources/CanTP.o
+                0x012095e8                recieve
  .text.readCanTPPayload
-                0x01209640       0x52 ./Sources/CanTP.o
-                0x01209640                readCanTPPayload
- *fill*         0x01209692        0x2 
+                0x01209668       0x52 ./Sources/CanTP.o
+                0x01209668                readCanTPPayload
+ *fill*         0x012096ba        0x2 
  .text.handleConsecutiveFrame
-                0x01209694      0x11a ./Sources/CanTP.o
-                0x01209694                handleConsecutiveFrame
- *fill*         0x012097ae        0x2 
+                0x012096bc      0x11a ./Sources/CanTP.o
+                0x012096bc                handleConsecutiveFrame
+ *fill*         0x012097d6        0x2 
  .text.handleFirstFrame
-                0x012097b0       0x5e ./Sources/CanTP.o
-                0x012097b0                handleFirstFrame
- *fill*         0x0120980e        0x2 
+                0x012097d8       0x5e ./Sources/CanTP.o
+                0x012097d8                handleFirstFrame
+ *fill*         0x01209836        0x2 
  .text.CanTP_init
-                0x01209810       0x16 ./Sources/CanTP.o
-                0x01209810                CanTP_init
- *fill*         0x01209826        0x2 
+                0x01209838       0x16 ./Sources/CanTP.o
+                0x01209838                CanTP_init
+ *fill*         0x0120984e        0x2 
  .text.Can_init
-                0x01209828       0x64 ./Sources/CanTP.o
-                0x01209828                Can_init
+                0x01209850       0x64 ./Sources/CanTP.o
+                0x01209850                Can_init
  .text.Do_Reset
-                0x0120988c       0x2c ./Sources/ResetWrapper.o
-                0x0120988c                Do_Reset
+                0x012098b4       0x2c ./Sources/ResetWrapper.o
+                0x012098b4                Do_Reset
  .text.REQ_Download_Abort
-                0x012098b8       0x16 ./Sources/UDS.o
- *fill*         0x012098ce        0x2 
+                0x012098e0       0x16 ./Sources/UDS.o
+ *fill*         0x012098f6        0x2 
  .text.Transfer_Data_Abort
-                0x012098d0       0x1a ./Sources/UDS.o
- *fill*         0x012098ea        0x2 
+                0x012098f8       0x1a ./Sources/UDS.o
+ *fill*         0x01209912        0x2 
  .text.Finished_Routine_CTR
-                0x012098ec       0x1c ./Sources/UDS.o
-                0x012098ec                Finished_Routine_CTR
+                0x01209914       0x1c ./Sources/UDS.o
+                0x01209914                Finished_Routine_CTR
  .text.UDS_Create_pos_response
-                0x01209908       0x28 ./Sources/UDS.o
-                0x01209908                UDS_Create_pos_response
+                0x01209930       0x28 ./Sources/UDS.o
+                0x01209930                UDS_Create_pos_response
  .text.UDS_Create_neg_response
-                0x01209930       0x24 ./Sources/UDS.o
-                0x01209930                UDS_Create_neg_response
+                0x01209958       0x24 ./Sources/UDS.o
+                0x01209958                UDS_Create_neg_response
  .text.UDS_Session_Control
-                0x01209954       0x70 ./Sources/UDS.o
-                0x01209954                UDS_Session_Control
+                0x0120997c       0x70 ./Sources/UDS.o
+                0x0120997c                UDS_Session_Control
  .text.UDS_ECU_Reset
-                0x012099c4       0x64 ./Sources/UDS.o
-                0x012099c4                UDS_ECU_Reset
+                0x012099ec       0x64 ./Sources/UDS.o
+                0x012099ec                UDS_ECU_Reset
  .text.UDS_Read_by_ID
-                0x01209a28       0x6a ./Sources/UDS.o
-                0x01209a28                UDS_Read_by_ID
- *fill*         0x01209a92        0x2 
+                0x01209a50       0x6a ./Sources/UDS.o
+                0x01209a50                UDS_Read_by_ID
+ *fill*         0x01209aba        0x2 
  .text.UDS_Write_by_ID
-                0x01209a94       0x66 ./Sources/UDS.o
-                0x01209a94                UDS_Write_by_ID
- *fill*         0x01209afa        0x2 
+                0x01209abc       0x66 ./Sources/UDS.o
+                0x01209abc                UDS_Write_by_ID
+ *fill*         0x01209b22        0x2 
  .text.UDS_Request_Download
-                0x01209afc      0x180 ./Sources/UDS.o
-                0x01209afc                UDS_Request_Download
+                0x01209b24      0x180 ./Sources/UDS.o
+                0x01209b24                UDS_Request_Download
  .text.UDS_Transfer_Data
-                0x01209c7c      0x13e ./Sources/UDS.o
-                0x01209c7c                UDS_Transfer_Data
- *fill*         0x01209dba        0x2 
+                0x01209ca4      0x13e ./Sources/UDS.o
+                0x01209ca4                UDS_Transfer_Data
+ *fill*         0x01209de2        0x2 
  .text.UDS_Request_Transfer_Exit
-                0x01209dbc       0x62 ./Sources/UDS.o
-                0x01209dbc                UDS_Request_Transfer_Exit
- *fill*         0x01209e1e        0x2 
+                0x01209de4       0x62 ./Sources/UDS.o
+                0x01209de4                UDS_Request_Transfer_Exit
+ *fill*         0x01209e46        0x2 
  .text.UDS_Check_Memory
-                0x01209e20       0x7a ./Sources/UDS.o
-                0x01209e20                UDS_Check_Memory
- *fill*         0x01209e9a        0x2 
+                0x01209e48       0xa8 ./Sources/UDS.o
+                0x01209e48                UDS_Check_Memory
  .text.UDS_Erase_Memory
-                0x01209e9c       0x7c ./Sources/UDS.o
-                0x01209e9c                UDS_Erase_Memory
+                0x01209ef0       0xa6 ./Sources/UDS.o
+                0x01209ef0                UDS_Erase_Memory
+ *fill*         0x01209f96        0x2 
  .text.UDS_Routine_Control
-                0x01209f18      0x26c ./Sources/UDS.o
-                0x01209f18                UDS_Routine_Control
+                0x01209f98      0x32a ./Sources/UDS.o
+                0x01209f98                UDS_Routine_Control
+ *fill*         0x0120a2c2        0x2 
  .text.UDS_Init
-                0x0120a184       0x36 ./Sources/UDS.o
-                0x0120a184                UDS_Init
- *fill*         0x0120a1ba        0x2 
+                0x0120a2c4       0x36 ./Sources/UDS.o
+                0x0120a2c4                UDS_Init
+ *fill*         0x0120a2fa        0x2 
  .text.UDS_Receive
-                0x0120a1bc      0x104 ./Sources/UDS.o
-                0x0120a1bc                UDS_Receive
+                0x0120a2fc      0x104 ./Sources/UDS.o
+                0x0120a2fc                UDS_Receive
  .text.UDS_BL_Receive
-                0x0120a2c0        0xa ./Sources/UDS.o
-                0x0120a2c0                UDS_BL_Receive
- *fill*         0x0120a2ca        0x2 
+                0x0120a400        0xa ./Sources/UDS.o
+                0x0120a400                UDS_BL_Receive
+ *fill*         0x0120a40a        0x2 
  .text.UDS_StubTask
-                0x0120a2cc      0x4ce ./Sources/main.o
-                0x0120a2cc                UDS_StubTask
- *fill*         0x0120a79a        0x2 
+                0x0120a40c      0x4ce ./Sources/main.o
+                0x0120a40c                UDS_StubTask
+ *fill*         0x0120a8da        0x2 
  .text.recieve2
-                0x0120a79c       0x20 ./Sources/main.o
-                0x0120a79c                recieve2
- .text.main     0x0120a7bc      0x104 ./Sources/main.o
-                0x0120a7bc                main
+                0x0120a8dc       0x20 ./Sources/main.o
+                0x0120a8dc                recieve2
+ .text.main     0x0120a8fc      0x104 ./Sources/main.o
+                0x0120a8fc                main
  .text.BootloaderFlash_Init
-                0x0120a8c0       0x2c ./Sources/Bootloader_Flash/BootloaderFlash.o
-                0x0120a8c0                BootloaderFlash_Init
+                0x0120aa00       0x2c ./Sources/Bootloader_Flash/BootloaderFlash.o
+                0x0120aa00                BootloaderFlash_Init
  .text.BootloaderFlash_Unlock
-                0x0120a8ec       0x18 ./Sources/Bootloader_Flash/BootloaderFlash.o
-                0x0120a8ec                BootloaderFlash_Unlock
+                0x0120aa2c       0x18 ./Sources/Bootloader_Flash/BootloaderFlash.o
+                0x0120aa2c                BootloaderFlash_Unlock
  .text.BootloaderFlash_Erase
-                0x0120a904       0xbc ./Sources/Bootloader_Flash/BootloaderFlash.o
-                0x0120a904                BootloaderFlash_Erase
+                0x0120aa44       0xbc ./Sources/Bootloader_Flash/BootloaderFlash.o
+                0x0120aa44                BootloaderFlash_Erase
  .text.BootloaderFlash_VerifyBlank
-                0x0120a9c0       0x1e ./Sources/Bootloader_Flash/BootloaderFlash.o
-                0x0120a9c0                BootloaderFlash_VerifyBlank
- *fill*         0x0120a9de        0x2 
+                0x0120ab00       0x1e ./Sources/Bootloader_Flash/BootloaderFlash.o
+                0x0120ab00                BootloaderFlash_VerifyBlank
+ *fill*         0x0120ab1e        0x2 
  .text.BootloaderFlash_Program
-                0x0120a9e0       0x4c ./Sources/Bootloader_Flash/BootloaderFlash.o
-                0x0120a9e0                BootloaderFlash_Program
+                0x0120ab20       0x4c ./Sources/Bootloader_Flash/BootloaderFlash.o
+                0x0120ab20                BootloaderFlash_Program
  .text.BootloaderFlash_ProgramVerify
-                0x0120aa2c       0x4c ./Sources/Bootloader_Flash/BootloaderFlash.o
-                0x0120aa2c                BootloaderFlash_ProgramVerify
+                0x0120ab6c       0x4c ./Sources/Bootloader_Flash/BootloaderFlash.o
+                0x0120ab6c                BootloaderFlash_ProgramVerify
  .text.BootloaderFlash_InitCRC
-                0x0120aa78       0x1e ./Sources/Bootloader_Flash/BootloaderFlash.o
-                0x0120aa78                BootloaderFlash_InitCRC
- *fill*         0x0120aa96        0x2 
+                0x0120abb8       0x1e ./Sources/Bootloader_Flash/BootloaderFlash.o
+                0x0120abb8                BootloaderFlash_InitCRC
+ *fill*         0x0120abd6        0x2 
  .text.BootloaderFlash_CalculateCRC32
-                0x0120aa98       0x24 ./Sources/Bootloader_Flash/BootloaderFlash.o
-                0x0120aa98                BootloaderFlash_CalculateCRC32
+                0x0120abd8       0x24 ./Sources/Bootloader_Flash/BootloaderFlash.o
+                0x0120abd8                BootloaderFlash_CalculateCRC32
  .text.DisableFlashControllerCache
-                0x0120aabc       0x18 ./Sources/Bootloader_Flash/BootloaderFlash.o
-                0x0120aabc                DisableFlashControllerCache
+                0x0120abfc       0x18 ./Sources/Bootloader_Flash/BootloaderFlash.o
+                0x0120abfc                DisableFlashControllerCache
  .text.RestoreFlashControllerCache
-                0x0120aad4        0xa ./Sources/Bootloader_Flash/BootloaderFlash.o
-                0x0120aad4                RestoreFlashControllerCache
- .text.memcpy   0x0120aade       0x3c C:/NXP/S32DS_Power_v2.1/S32DS/build_tools/e200_ewl2/lib/e200z4/fp\libc99.a(memcpy.o)
-                0x0120aade                memcpy
- .text.memset   0x0120ab1a       0x1a C:/NXP/S32DS_Power_v2.1/S32DS/build_tools/e200_ewl2/lib/e200z4/fp\libc99.a(memset.o)
-                0x0120ab1a                memset
+                0x0120ac14        0xa ./Sources/Bootloader_Flash/BootloaderFlash.o
+                0x0120ac14                RestoreFlashControllerCache
+ .text.memcpy   0x0120ac1e       0x3c C:/NXP/S32DS_Power_v2.1/S32DS/build_tools/e200_ewl2/lib/e200z4/fp\libc99.a(memcpy.o)
+                0x0120ac1e                memcpy
+ .text.memset   0x0120ac5a       0x1a C:/NXP/S32DS_Power_v2.1/S32DS/build_tools/e200_ewl2/lib/e200z4/fp\libc99.a(memset.o)
+                0x0120ac5a                memset
  .text.__fill_mem
-                0x0120ab34       0xa0 C:/NXP/S32DS_Power_v2.1/S32DS/build_tools/e200_ewl2/lib/e200z4/fp\libc99.a(__filll_mem.o)
-                0x0120ab34                __fill_mem
+                0x0120ac74       0xa0 C:/NXP/S32DS_Power_v2.1/S32DS/build_tools/e200_ewl2/lib/e200z4/fp\libc99.a(__filll_mem.o)
+                0x0120ac74                __fill_mem
  *(.init)
- .init          0x0120abd4        0xc c:/nxp/s32ds_power_v2.1/s32ds/build_tools/powerpc-eabivle-4_9/bin/../lib/gcc/powerpc-eabivle/4.9.4/e200z4/fp/ecrti.o
-                0x0120abd4                __init
- .init          0x0120abe0        0x4 c:/nxp/s32ds_power_v2.1/s32ds/build_tools/powerpc-eabivle-4_9/bin/../lib/gcc/powerpc-eabivle/4.9.4/e200z4/fp/crtbegin.o
- .init          0x0120abe4        0x4 c:/nxp/s32ds_power_v2.1/s32ds/build_tools/powerpc-eabivle-4_9/bin/../lib/gcc/powerpc-eabivle/4.9.4/e200z4/fp/crtend.o
- .init          0x0120abe8        0xa c:/nxp/s32ds_power_v2.1/s32ds/build_tools/powerpc-eabivle-4_9/bin/../lib/gcc/powerpc-eabivle/4.9.4/e200z4/fp/ecrtn.o
+ .init          0x0120ad14        0xc c:/nxp/s32ds_power_v2.1/s32ds/build_tools/powerpc-eabivle-4_9/bin/../lib/gcc/powerpc-eabivle/4.9.4/e200z4/fp/ecrti.o
+                0x0120ad14                __init
+ .init          0x0120ad20        0x4 c:/nxp/s32ds_power_v2.1/s32ds/build_tools/powerpc-eabivle-4_9/bin/../lib/gcc/powerpc-eabivle/4.9.4/e200z4/fp/crtbegin.o
+ .init          0x0120ad24        0x4 c:/nxp/s32ds_power_v2.1/s32ds/build_tools/powerpc-eabivle-4_9/bin/../lib/gcc/powerpc-eabivle/4.9.4/e200z4/fp/crtend.o
+ .init          0x0120ad28        0xa c:/nxp/s32ds_power_v2.1/s32ds/build_tools/powerpc-eabivle-4_9/bin/../lib/gcc/powerpc-eabivle/4.9.4/e200z4/fp/ecrtn.o
  *(.fini)
- *fill*         0x0120abf2        0x2 
- .fini          0x0120abf4        0xc c:/nxp/s32ds_power_v2.1/s32ds/build_tools/powerpc-eabivle-4_9/bin/../lib/gcc/powerpc-eabivle/4.9.4/e200z4/fp/ecrti.o
-                0x0120abf4                __fini
- .fini          0x0120ac00        0x4 c:/nxp/s32ds_power_v2.1/s32ds/build_tools/powerpc-eabivle-4_9/bin/../lib/gcc/powerpc-eabivle/4.9.4/e200z4/fp/crtbegin.o
- .fini          0x0120ac04        0xa c:/nxp/s32ds_power_v2.1/s32ds/build_tools/powerpc-eabivle-4_9/bin/../lib/gcc/powerpc-eabivle/4.9.4/e200z4/fp/ecrtn.o
-                0x0120ac10                . = ALIGN (0x10)
- *fill*         0x0120ac0e        0x2 
+ *fill*         0x0120ad32        0x2 
+ .fini          0x0120ad34        0xc c:/nxp/s32ds_power_v2.1/s32ds/build_tools/powerpc-eabivle-4_9/bin/../lib/gcc/powerpc-eabivle/4.9.4/e200z4/fp/ecrti.o
+                0x0120ad34                __fini
+ .fini          0x0120ad40        0x4 c:/nxp/s32ds_power_v2.1/s32ds/build_tools/powerpc-eabivle-4_9/bin/../lib/gcc/powerpc-eabivle/4.9.4/e200z4/fp/crtbegin.o
+ .fini          0x0120ad44        0xa c:/nxp/s32ds_power_v2.1/s32ds/build_tools/powerpc-eabivle-4_9/bin/../lib/gcc/powerpc-eabivle/4.9.4/e200z4/fp/ecrtn.o
+                0x0120ad50                . = ALIGN (0x10)
+ *fill*         0x0120ad4e        0x2 
 
-.glink          0x0120ac10        0x0
- .glink         0x0120ac10        0x0 c:/nxp/s32ds_power_v2.1/s32ds/build_tools/powerpc-eabivle-4_9/bin/../lib/gcc/powerpc-eabivle/4.9.4/e200z4/fp/crtbegin.o
+.glink          0x0120ad50        0x0
+ .glink         0x0120ad50        0x0 c:/nxp/s32ds_power_v2.1/s32ds/build_tools/powerpc-eabivle-4_9/bin/../lib/gcc/powerpc-eabivle/4.9.4/e200z4/fp/crtbegin.o
 
-.sdata2         0x0120ac10        0x8
-                0x0120ac10                . = ALIGN (0x4)
-                0x0120ac10                __sdata2_start__ = .
+.sdata2         0x0120ad50        0x8
+                0x0120ad50                . = ALIGN (0x4)
+                0x0120ad50                __sdata2_start__ = .
  *(.sdata2)
- .sdata2        0x0120ac10        0x0 c:/nxp/s32ds_power_v2.1/s32ds/build_tools/powerpc-eabivle-4_9/bin/../lib/gcc/powerpc-eabivle/4.9.4/e200z4/fp/ecrti.o
-                0x0120ac10                __SDATA2_START__
- .sdata2        0x0120ac10        0x0 c:/nxp/s32ds_power_v2.1/s32ds/build_tools/powerpc-eabivle-4_9/bin/../lib/gcc/powerpc-eabivle/4.9.4/e200z4/fp/crtbegin.o
-                0x01212c10                _SDA2_BASE_
+ .sdata2        0x0120ad50        0x0 c:/nxp/s32ds_power_v2.1/s32ds/build_tools/powerpc-eabivle-4_9/bin/../lib/gcc/powerpc-eabivle/4.9.4/e200z4/fp/ecrti.o
+                0x0120ad50                __SDATA2_START__
+ .sdata2        0x0120ad50        0x0 c:/nxp/s32ds_power_v2.1/s32ds/build_tools/powerpc-eabivle-4_9/bin/../lib/gcc/powerpc-eabivle/4.9.4/e200z4/fp/crtbegin.o
+                0x01212d50                _SDA2_BASE_
  *(.sdata2.*)
  .sdata2.can_pal1_instance
-                0x0120ac10        0x8 ./Generated_Code/can_pal1.o
-                0x0120ac10                can_pal1_instance
-                0x0120ac18                . = ALIGN (0x4)
-                0x0120ac18                __sdata2_end__ = .
+                0x0120ad50        0x8 ./Generated_Code/can_pal1.o
+                0x0120ad50                can_pal1_instance
+                0x0120ad58                . = ALIGN (0x4)
+                0x0120ad58                __sdata2_end__ = .
 
-.got2           0x0120ac18       0x1c
+.got2           0x0120ad58       0x1c
  *(.got2*)
- .got2          0x0120ac18       0x1c c:/nxp/s32ds_power_v2.1/s32ds/build_tools/powerpc-eabivle-4_9/bin/../lib/gcc/powerpc-eabivle/4.9.4/e200z4/fp\libgcc.a(eabivle.o)
+ .got2          0x0120ad58       0x1c c:/nxp/s32ds_power_v2.1/s32ds/build_tools/powerpc-eabivle-4_9/bin/../lib/gcc/powerpc-eabivle/4.9.4/e200z4/fp\libgcc.a(eabivle.o)
 
-.preinit_array  0x0120ac34        0x0
+.preinit_array  0x0120ad74        0x0
                 [!provide]                PROVIDE (__preinit_array_start, .)
  *(.preinit_array)
                 [!provide]                PROVIDE (__preinit_array_end, .)
 
-.init_array     0x0120ac34        0x0
+.init_array     0x0120ad74        0x0
                 [!provide]                PROVIDE (__init_array_start, .)
  *(SORT(.init_array.*))
  *(.init_array)
                 [!provide]                PROVIDE (__init_array_end, .)
 
-.dtors          0x0120ac34        0x8
+.dtors          0x0120ad74        0x8
  *crtbegin.o(.dtors)
- .dtors         0x0120ac34        0x4 c:/nxp/s32ds_power_v2.1/s32ds/build_tools/powerpc-eabivle-4_9/bin/../lib/gcc/powerpc-eabivle/4.9.4/e200z4/fp/crtbegin.o
+ .dtors         0x0120ad74        0x4 c:/nxp/s32ds_power_v2.1/s32ds/build_tools/powerpc-eabivle-4_9/bin/../lib/gcc/powerpc-eabivle/4.9.4/e200z4/fp/crtbegin.o
  *crtbegin?.o(.dtors)
  *(EXCLUDE_FILE(*crtend?.o *crtend.o) .dtors)
- .dtors         0x0120ac38        0x0 c:/nxp/s32ds_power_v2.1/s32ds/build_tools/powerpc-eabivle-4_9/bin/../lib/gcc/powerpc-eabivle/4.9.4/e200z4/fp/ecrti.o
-                0x0120ac38                __DTOR_LIST__
- .dtors         0x0120ac38        0x0 c:/nxp/s32ds_power_v2.1/s32ds/build_tools/powerpc-eabivle-4_9/bin/../lib/gcc/powerpc-eabivle/4.9.4/e200z4/fp/ecrtn.o
+ .dtors         0x0120ad78        0x0 c:/nxp/s32ds_power_v2.1/s32ds/build_tools/powerpc-eabivle-4_9/bin/../lib/gcc/powerpc-eabivle/4.9.4/e200z4/fp/ecrti.o
+                0x0120ad78                __DTOR_LIST__
+ .dtors         0x0120ad78        0x0 c:/nxp/s32ds_power_v2.1/s32ds/build_tools/powerpc-eabivle-4_9/bin/../lib/gcc/powerpc-eabivle/4.9.4/e200z4/fp/ecrtn.o
  *(SORT(.dtors.*))
  *(.dtors)
- .dtors         0x0120ac38        0x4 c:/nxp/s32ds_power_v2.1/s32ds/build_tools/powerpc-eabivle-4_9/bin/../lib/gcc/powerpc-eabivle/4.9.4/e200z4/fp/crtend.o
-                0x0120ac38                __DTOR_END__
+ .dtors         0x0120ad78        0x4 c:/nxp/s32ds_power_v2.1/s32ds/build_tools/powerpc-eabivle-4_9/bin/../lib/gcc/powerpc-eabivle/4.9.4/e200z4/fp/crtend.o
+                0x0120ad78                __DTOR_END__
 
-.ctors          0x0120ac3c        0x8
+.ctors          0x0120ad7c        0x8
  *crtbegin.o(.ctors)
- .ctors         0x0120ac3c        0x4 c:/nxp/s32ds_power_v2.1/s32ds/build_tools/powerpc-eabivle-4_9/bin/../lib/gcc/powerpc-eabivle/4.9.4/e200z4/fp/crtbegin.o
+ .ctors         0x0120ad7c        0x4 c:/nxp/s32ds_power_v2.1/s32ds/build_tools/powerpc-eabivle-4_9/bin/../lib/gcc/powerpc-eabivle/4.9.4/e200z4/fp/crtbegin.o
  *crtbegin?.o(.ctors)
  *(EXCLUDE_FILE(*crtend?.o *crtend.o) .ctors)
- .ctors         0x0120ac40        0x0 c:/nxp/s32ds_power_v2.1/s32ds/build_tools/powerpc-eabivle-4_9/bin/../lib/gcc/powerpc-eabivle/4.9.4/e200z4/fp/ecrti.o
-                0x0120ac40                __CTOR_LIST__
- .ctors         0x0120ac40        0x0 c:/nxp/s32ds_power_v2.1/s32ds/build_tools/powerpc-eabivle-4_9/bin/../lib/gcc/powerpc-eabivle/4.9.4/e200z4/fp/ecrtn.o
-                0x0120ac40                __CTOR_END__
+ .ctors         0x0120ad80        0x0 c:/nxp/s32ds_power_v2.1/s32ds/build_tools/powerpc-eabivle-4_9/bin/../lib/gcc/powerpc-eabivle/4.9.4/e200z4/fp/ecrti.o
+                0x0120ad80                __CTOR_LIST__
+ .ctors         0x0120ad80        0x0 c:/nxp/s32ds_power_v2.1/s32ds/build_tools/powerpc-eabivle-4_9/bin/../lib/gcc/powerpc-eabivle/4.9.4/e200z4/fp/ecrtn.o
+                0x0120ad80                __CTOR_END__
  *(SORT(.ctors.*))
  *(.ctors)
- .ctors         0x0120ac40        0x4 c:/nxp/s32ds_power_v2.1/s32ds/build_tools/powerpc-eabivle-4_9/bin/../lib/gcc/powerpc-eabivle/4.9.4/e200z4/fp/crtend.o
+ .ctors         0x0120ad80        0x4 c:/nxp/s32ds_power_v2.1/s32ds/build_tools/powerpc-eabivle-4_9/bin/../lib/gcc/powerpc-eabivle/4.9.4/e200z4/fp/crtend.o
 
-.fini_array     0x0120ac44        0x0
+.fini_array     0x0120ad84        0x0
                 [!provide]                PROVIDE (__fini_array_start, .)
  *(SORT(.fini_array.*))
  *(.fini_array)
@@ -4773,120 +4771,120 @@ LOAD c:/nxp/s32ds_power_v2.1/s32ds/build_tools/powerpc-eabivle-4_9/bin/../lib/gc
  *(.noinit.*)
                 0x40040004                __noinit_end__ = .
 
-.rodata         0x0120ac44      0x6dc
+.rodata         0x0120ad84      0x6dc
  *(.rodata)
- .rodata        0x0120ac44       0x10 ./SDK/platform/drivers/src/flexcan/flexcan_driver.o
+ .rodata        0x0120ad84       0x10 ./SDK/platform/drivers/src/flexcan/flexcan_driver.o
  *(.rodata.*)
  .rodata.can_pal1_Config0
-                0x0120ac54       0x44 ./Generated_Code/can_pal1.o
-                0x0120ac54                can_pal1_Config0
+                0x0120ad94       0x44 ./Generated_Code/can_pal1.o
+                0x0120ad94                can_pal1_Config0
  .rodata.s_vectors
-                0x0120ac98        0xc ./SDK/platform/devices/startup.o
+                0x0120add8        0xc ./SDK/platform/devices/startup.o
  .rodata.CLOCK_DRV_Init
-                0x0120aca4       0xe8 ./SDK/platform/drivers/src/clock/MPC57xx/clock_MPC57xx.o
+                0x0120ade4       0xe8 ./SDK/platform/drivers/src/clock/MPC57xx/clock_MPC57xx.o
  .rodata.clockNameMappings
-                0x0120ad8c      0x10a ./SDK/platform/drivers/src/clock/MPC57xx/clock_MPC57xx.o
-                0x0120ad8c                clockNameMappings
- *fill*         0x0120ae96        0x2 
+                0x0120aecc      0x10a ./SDK/platform/drivers/src/clock/MPC57xx/clock_MPC57xx.o
+                0x0120aecc                clockNameMappings
+ *fill*         0x0120afd6        0x2 
  .rodata.EDMA_DRV_ConfigSingleBlockTransfer
-                0x0120ae98       0x10 ./SDK/platform/drivers/src/edma/edma_driver.o
+                0x0120afd8       0x10 ./SDK/platform/drivers/src/edma/edma_driver.o
  .rodata.FLASH_DRV_SetLock
-                0x0120aea8       0x18 ./SDK/platform/drivers/src/flash_c55/flash_c55_driver.o
+                0x0120afe8       0x18 ./SDK/platform/drivers/src/flash_c55/flash_c55_driver.o
  .rodata.FLASH_DRV_GetLock
-                0x0120aec0       0x18 ./SDK/platform/drivers/src/flash_c55/flash_c55_driver.o
+                0x0120b000       0x18 ./SDK/platform/drivers/src/flash_c55/flash_c55_driver.o
  .rodata.FLASH_BLOCK_ADDR
-                0x0120aed8       0xb0 ./SDK/platform/drivers/src/flash_c55/flash_c55_driver.o
+                0x0120b018       0xb0 ./SDK/platform/drivers/src/flash_c55/flash_c55_driver.o
  .rodata.FLASH_BLOCK_MASK
-                0x0120af88       0xb0 ./SDK/platform/drivers/src/flash_c55/flash_c55_driver.o
+                0x0120b0c8       0xb0 ./SDK/platform/drivers/src/flash_c55/flash_c55_driver.o
  .rodata.g_flexcanBusOffIrqId
-                0x0120b038       0x20 ./SDK/platform/drivers/src/flexcan/flexcan_driver.o
- .rodata.g_flexcanErrorIrqId
-                0x0120b058       0x20 ./SDK/platform/drivers/src/flexcan/flexcan_driver.o
- .rodata.g_flexcanOredMessageBufferIrqId
-                0x0120b078       0xe0 ./SDK/platform/drivers/src/flexcan/flexcan_driver.o
- .rodata.g_flexcanBase
-                0x0120b158       0x20 ./SDK/platform/drivers/src/flexcan/flexcan_driver.o
- .rodata.g_flexcanWakeUpIrqId
                 0x0120b178       0x20 ./SDK/platform/drivers/src/flexcan/flexcan_driver.o
+ .rodata.g_flexcanErrorIrqId
+                0x0120b198       0x20 ./SDK/platform/drivers/src/flexcan/flexcan_driver.o
+ .rodata.g_flexcanOredMessageBufferIrqId
+                0x0120b1b8       0xe0 ./SDK/platform/drivers/src/flexcan/flexcan_driver.o
+ .rodata.g_flexcanBase
+                0x0120b298       0x20 ./SDK/platform/drivers/src/flexcan/flexcan_driver.o
+ .rodata.g_flexcanWakeUpIrqId
+                0x0120b2b8       0x20 ./SDK/platform/drivers/src/flexcan/flexcan_driver.o
  .rodata.FLEXCAN_ComputePayloadSize
-                0x0120b198       0x1c ./SDK/platform/drivers/src/flexcan/flexcan_hw_access.o
+                0x0120b2d8       0x1c ./SDK/platform/drivers/src/flexcan/flexcan_hw_access.o
  .rodata.FLEXCAN_SetRxFifoFilter
-                0x0120b1b4       0x10 ./SDK/platform/drivers/src/flexcan/flexcan_hw_access.o
+                0x0120b2f4       0x10 ./SDK/platform/drivers/src/flexcan/flexcan_hw_access.o
  .rodata.FLEXCAN_SetOperationMode
-                0x0120b1c4       0x14 ./SDK/platform/drivers/src/flexcan/flexcan_hw_access.o
+                0x0120b304       0x14 ./SDK/platform/drivers/src/flexcan/flexcan_hw_access.o
  .rodata.payload_code.5741
-                0x0120b1d8       0x41 ./SDK/platform/drivers/src/flexcan/flexcan_hw_access.o
- *fill*         0x0120b219        0x3 
+                0x0120b318       0x41 ./SDK/platform/drivers/src/flexcan/flexcan_hw_access.o
+ *fill*         0x0120b359        0x3 
  .rodata.flexcanBase.5760
-                0x0120b21c       0x20 ./SDK/platform/drivers/src/flexcan/flexcan_hw_access.o
+                0x0120b35c       0x20 ./SDK/platform/drivers/src/flexcan/flexcan_hw_access.o
  .rodata.maxMbNum.5761
-                0x0120b23c       0x20 ./SDK/platform/drivers/src/flexcan/flexcan_hw_access.o
+                0x0120b37c       0x20 ./SDK/platform/drivers/src/flexcan/flexcan_hw_access.o
  .rodata.str1.4
-                0x0120b25c        0x5 ./SDK/rtos/FreeRTOS_PA/Source/tasks.o
- *fill*         0x0120b261        0x3 
+                0x0120b39c        0x5 ./SDK/rtos/FreeRTOS_PA/Source/tasks.o
+ *fill*         0x0120b3a1        0x3 
  .rodata.UDS_StubTask
-                0x0120b264       0x30 ./Sources/main.o
+                0x0120b3a4       0x30 ./Sources/main.o
  .rodata.str1.4
-                0x0120b294       0x20 ./Sources/main.o
+                0x0120b3d4       0x20 ./Sources/main.o
                                  0x1f (size before relaxing)
  .rodata.g_BlocksStartAddresses
-                0x0120b2b4       0x58 ./Sources/Bootloader_Flash/BootloaderFlash.o
+                0x0120b3f4       0x58 ./Sources/Bootloader_Flash/BootloaderFlash.o
  .rodata.g_BootloaderFLashCRC_InitConfig
-                0x0120b30c       0x14 ./Sources/Bootloader_Flash/BootloaderFlashCRCConfig.o
-                0x0120b30c                g_BootloaderFLashCRC_InitConfig
+                0x0120b44c       0x14 ./Sources/Bootloader_Flash/BootloaderFlashCRCConfig.o
+                0x0120b44c                g_BootloaderFLashCRC_InitConfig
 
-.sbss2          0x0120b320        0x0
- .sbss2         0x0120b320        0x0 c:/nxp/s32ds_power_v2.1/s32ds/build_tools/powerpc-eabivle-4_9/bin/../lib/gcc/powerpc-eabivle/4.9.4/e200z4/fp/ecrtn.o
+.sbss2          0x0120b460        0x0
+ .sbss2         0x0120b460        0x0 c:/nxp/s32ds_power_v2.1/s32ds/build_tools/powerpc-eabivle-4_9/bin/../lib/gcc/powerpc-eabivle/4.9.4/e200z4/fp/ecrtn.o
 
-.eh_frame_hdr   0x0120b320       0x14
+.eh_frame_hdr   0x0120b460       0x14
  *(.eh_frame_hdr)
- .eh_frame_hdr  0x0120b320       0x14 c:/nxp/s32ds_power_v2.1/s32ds/build_tools/powerpc-eabivle-4_9/bin/../lib/gcc/powerpc-eabivle/4.9.4/e200z4/fp\libgcc.a(_udivdi3.o)
-                0x0120b320                __GNU_EH_FRAME_HDR
+ .eh_frame_hdr  0x0120b460       0x14 c:/nxp/s32ds_power_v2.1/s32ds/build_tools/powerpc-eabivle-4_9/bin/../lib/gcc/powerpc-eabivle/4.9.4/e200z4/fp\libgcc.a(_udivdi3.o)
+                0x0120b460                __GNU_EH_FRAME_HDR
 
-.eh_frame       0x0120b334       0x84
+.eh_frame       0x0120b474       0x84
  *(.eh_frame)
- .eh_frame      0x0120b334        0x0 c:/nxp/s32ds_power_v2.1/s32ds/build_tools/powerpc-eabivle-4_9/bin/../lib/gcc/powerpc-eabivle/4.9.4/e200z4/fp/ecrti.o
-                0x0120b334                __EH_FRAME_BEGIN__
- .eh_frame      0x0120b334        0x0 c:/nxp/s32ds_power_v2.1/s32ds/build_tools/powerpc-eabivle-4_9/bin/../lib/gcc/powerpc-eabivle/4.9.4/e200z4/fp/crtbegin.o
- .eh_frame      0x0120b334        0x0 c:/nxp/s32ds_power_v2.1/s32ds/build_tools/powerpc-eabivle-4_9/bin/../lib/gcc/powerpc-eabivle/4.9.4/e200z4/fp/crtbegin.o
- .eh_frame      0x0120b334        0x0 c:/nxp/s32ds_power_v2.1/s32ds/build_tools/powerpc-eabivle-4_9/bin/../lib/gcc/powerpc-eabivle/4.9.4/e200z4/fp\libgcc.a(_udivdi3.o)
+ .eh_frame      0x0120b474        0x0 c:/nxp/s32ds_power_v2.1/s32ds/build_tools/powerpc-eabivle-4_9/bin/../lib/gcc/powerpc-eabivle/4.9.4/e200z4/fp/ecrti.o
+                0x0120b474                __EH_FRAME_BEGIN__
+ .eh_frame      0x0120b474        0x0 c:/nxp/s32ds_power_v2.1/s32ds/build_tools/powerpc-eabivle-4_9/bin/../lib/gcc/powerpc-eabivle/4.9.4/e200z4/fp/crtbegin.o
+ .eh_frame      0x0120b474        0x0 c:/nxp/s32ds_power_v2.1/s32ds/build_tools/powerpc-eabivle-4_9/bin/../lib/gcc/powerpc-eabivle/4.9.4/e200z4/fp/crtbegin.o
+ .eh_frame      0x0120b474        0x0 c:/nxp/s32ds_power_v2.1/s32ds/build_tools/powerpc-eabivle-4_9/bin/../lib/gcc/powerpc-eabivle/4.9.4/e200z4/fp\libgcc.a(_udivdi3.o)
                                  0x48 (size before relaxing)
- .eh_frame      0x0120b334       0x7c c:/nxp/s32ds_power_v2.1/s32ds/build_tools/powerpc-eabivle-4_9/bin/../lib/gcc/powerpc-eabivle/4.9.4/e200z4/fp\libgcc.a(e200crtresxgpr.o)
- .eh_frame      0x0120b3b0        0x4 c:/nxp/s32ds_power_v2.1/s32ds/build_tools/powerpc-eabivle-4_9/bin/../lib/gcc/powerpc-eabivle/4.9.4/e200z4/fp/crtend.o
- .eh_frame      0x0120b3b4        0x4 c:/nxp/s32ds_power_v2.1/s32ds/build_tools/powerpc-eabivle-4_9/bin/../lib/gcc/powerpc-eabivle/4.9.4/e200z4/fp/ecrtn.o
-                0x0120b3b4                __EH_FRAME_END__
+ .eh_frame      0x0120b474       0x7c c:/nxp/s32ds_power_v2.1/s32ds/build_tools/powerpc-eabivle-4_9/bin/../lib/gcc/powerpc-eabivle/4.9.4/e200z4/fp\libgcc.a(e200crtresxgpr.o)
+ .eh_frame      0x0120b4f0        0x4 c:/nxp/s32ds_power_v2.1/s32ds/build_tools/powerpc-eabivle-4_9/bin/../lib/gcc/powerpc-eabivle/4.9.4/e200z4/fp/crtend.o
+ .eh_frame      0x0120b4f4        0x4 c:/nxp/s32ds_power_v2.1/s32ds/build_tools/powerpc-eabivle-4_9/bin/../lib/gcc/powerpc-eabivle/4.9.4/e200z4/fp/ecrtn.o
+                0x0120b4f4                __EH_FRAME_END__
 
-.init_table     0x0120b3b8       0x40
-                0x0120b3b8                . = ALIGN (0x4)
-                0x0120b3b8                __COPY_TABLE = .
+.init_table     0x0120b4f8       0x40
+                0x0120b4f8                . = ALIGN (0x4)
+                0x0120b4f8                __COPY_TABLE = .
  *(.init_table)
- .init_table    0x0120b3b8       0x40 ./Project_Settings/Startup_Code/startup_MPC5748G.o
+ .init_table    0x0120b4f8       0x40 ./Project_Settings/Startup_Code/startup_MPC5748G.o
 
-.zero_table     0x0120b3f8       0x14
-                0x0120b3f8                . = ALIGN (0x4)
-                0x0120b3f8                __ZERO_TABLE = .
+.zero_table     0x0120b538       0x14
+                0x0120b538                . = ALIGN (0x4)
+                0x0120b538                __ZERO_TABLE = .
  *(.zero_table)
- .zero_table    0x0120b3f8       0x14 ./Project_Settings/Startup_Code/startup_MPC5748G.o
-                0x0120b40c                __TEXT_END = .
+ .zero_table    0x0120b538       0x14 ./Project_Settings/Startup_Code/startup_MPC5748G.o
+                0x0120b54c                __TEXT_END = .
 
-.rela.dyn       0x0120b40c        0x0
- .rela.iplt     0x0120b40c        0x0 c:/nxp/s32ds_power_v2.1/s32ds/build_tools/powerpc-eabivle-4_9/bin/../lib/gcc/powerpc-eabivle/4.9.4/e200z4/fp/crtbegin.o
- .rela.text     0x0120b40c        0x0 c:/nxp/s32ds_power_v2.1/s32ds/build_tools/powerpc-eabivle-4_9/bin/../lib/gcc/powerpc-eabivle/4.9.4/e200z4/fp/crtbegin.o
+.rela.dyn       0x0120b54c        0x0
+ .rela.iplt     0x0120b54c        0x0 c:/nxp/s32ds_power_v2.1/s32ds/build_tools/powerpc-eabivle-4_9/bin/../lib/gcc/powerpc-eabivle/4.9.4/e200z4/fp/crtbegin.o
+ .rela.text     0x0120b54c        0x0 c:/nxp/s32ds_power_v2.1/s32ds/build_tools/powerpc-eabivle-4_9/bin/../lib/gcc/powerpc-eabivle/4.9.4/e200z4/fp/crtbegin.o
  .rela.init_table
-                0x0120b40c        0x0 c:/nxp/s32ds_power_v2.1/s32ds/build_tools/powerpc-eabivle-4_9/bin/../lib/gcc/powerpc-eabivle/4.9.4/e200z4/fp/crtbegin.o
+                0x0120b54c        0x0 c:/nxp/s32ds_power_v2.1/s32ds/build_tools/powerpc-eabivle-4_9/bin/../lib/gcc/powerpc-eabivle/4.9.4/e200z4/fp/crtbegin.o
  .rela.zero_table
-                0x0120b40c        0x0 c:/nxp/s32ds_power_v2.1/s32ds/build_tools/powerpc-eabivle-4_9/bin/../lib/gcc/powerpc-eabivle/4.9.4/e200z4/fp/crtbegin.o
+                0x0120b54c        0x0 c:/nxp/s32ds_power_v2.1/s32ds/build_tools/powerpc-eabivle-4_9/bin/../lib/gcc/powerpc-eabivle/4.9.4/e200z4/fp/crtbegin.o
  .rela.cpu0_reset_vector
-                0x0120b40c        0x0 c:/nxp/s32ds_power_v2.1/s32ds/build_tools/powerpc-eabivle-4_9/bin/../lib/gcc/powerpc-eabivle/4.9.4/e200z4/fp/crtbegin.o
+                0x0120b54c        0x0 c:/nxp/s32ds_power_v2.1/s32ds/build_tools/powerpc-eabivle-4_9/bin/../lib/gcc/powerpc-eabivle/4.9.4/e200z4/fp/crtbegin.o
  .rela.intc_vector_table
-                0x0120b40c        0x0 c:/nxp/s32ds_power_v2.1/s32ds/build_tools/powerpc-eabivle-4_9/bin/../lib/gcc/powerpc-eabivle/4.9.4/e200z4/fp/crtbegin.o
+                0x0120b54c        0x0 c:/nxp/s32ds_power_v2.1/s32ds/build_tools/powerpc-eabivle-4_9/bin/../lib/gcc/powerpc-eabivle/4.9.4/e200z4/fp/crtbegin.o
  .rela.text.init_data_bss
-                0x0120b40c        0x0 c:/nxp/s32ds_power_v2.1/s32ds/build_tools/powerpc-eabivle-4_9/bin/../lib/gcc/powerpc-eabivle/4.9.4/e200z4/fp/crtbegin.o
+                0x0120b54c        0x0 c:/nxp/s32ds_power_v2.1/s32ds/build_tools/powerpc-eabivle-4_9/bin/../lib/gcc/powerpc-eabivle/4.9.4/e200z4/fp/crtbegin.o
  .rela.text.INT_SYS_InstallHandler
-                0x0120b40c        0x0 c:/nxp/s32ds_power_v2.1/s32ds/build_tools/powerpc-eabivle-4_9/bin/../lib/gcc/powerpc-eabivle/4.9.4/e200z4/fp/crtbegin.o
+                0x0120b54c        0x0 c:/nxp/s32ds_power_v2.1/s32ds/build_tools/powerpc-eabivle-4_9/bin/../lib/gcc/powerpc-eabivle/4.9.4/e200z4/fp/crtbegin.o
  .rela.text.BootloaderFlash_InitCRC
-                0x0120b40c        0x0 c:/nxp/s32ds_power_v2.1/s32ds/build_tools/powerpc-eabivle-4_9/bin/../lib/gcc/powerpc-eabivle/4.9.4/e200z4/fp/crtbegin.o
- .rela.got2     0x0120b40c        0x0 c:/nxp/s32ds_power_v2.1/s32ds/build_tools/powerpc-eabivle-4_9/bin/../lib/gcc/powerpc-eabivle/4.9.4/e200z4/fp/crtbegin.o
+                0x0120b54c        0x0 c:/nxp/s32ds_power_v2.1/s32ds/build_tools/powerpc-eabivle-4_9/bin/../lib/gcc/powerpc-eabivle/4.9.4/e200z4/fp/crtbegin.o
+ .rela.got2     0x0120b54c        0x0 c:/nxp/s32ds_power_v2.1/s32ds/build_tools/powerpc-eabivle-4_9/bin/../lib/gcc/powerpc-eabivle/4.9.4/e200z4/fp/crtbegin.o
 
 .interrupts_ram
                 0x40000000      0xc00
@@ -4894,10 +4892,10 @@ LOAD c:/nxp/s32ds_power_v2.1/s32ds/build_tools/powerpc-eabivle-4_9/bin/../lib/gc
  *(.m_interrupts_ram)
                 0x40000c00                . = (. + __RAM_VECTOR_TABLE_SIZE)
  *fill*         0x40000000      0xc00 
-                0x0120b40c                __CUSTOM_ROM = __TEXT_END
+                0x0120b54c                __CUSTOM_ROM = __TEXT_END
 
 .customSectionBlock
-                0x40000c00        0x0 load address 0x0120b40c
+                0x40000c00        0x0 load address 0x0120b54c
                 0x40000c00                . = ALIGN (0x4)
                 0x40000c00                __CUSTOM_RAM = .
                 0x40000c00                __customSectionStart = .
@@ -4906,10 +4904,10 @@ LOAD c:/nxp/s32ds_power_v2.1/s32ds/build_tools/powerpc-eabivle-4_9/bin/../lib/gc
                 0x40000c00                . = ALIGN (0x4)
                 0x40000c00                __customSection_end__ = .
                 0x40000c00                __customSectionEnd = .
-                0x0120b40c                __CUSTOM_END = (__CUSTOM_ROM + (__customSection_end__ - __customSection_start__))
-                0x0120b40c                __DATA_ROM = __CUSTOM_END
+                0x0120b54c                __CUSTOM_END = (__CUSTOM_ROM + (__customSection_end__ - __customSection_start__))
+                0x0120b54c                __DATA_ROM = __CUSTOM_END
 
-.data           0x40000c00      0x324 load address 0x0120b40c
+.data           0x40000c00      0x324 load address 0x0120b54c
                 0x40000c00                . = ALIGN (0x4)
                 0x40000c00                __DATA_RAM = .
                 0x40000c00                __data_start__ = .
@@ -4927,20 +4925,20 @@ LOAD c:/nxp/s32ds_power_v2.1/s32ds/build_tools/powerpc-eabivle-4_9/bin/../lib/gc
                 0x40000f18                a_BLHandlersConfig
                 0x40000f24                . = ALIGN (0x4)
                 0x40000f24                __data_end__ = .
-                0x0120b730                __DATA_END = (__DATA_ROM + (__data_end__ - __data_start__))
-                0x0120b730                __SDATA_ROM = __DATA_END
+                0x0120b870                __DATA_END = (__DATA_ROM + (__data_end__ - __data_start__))
+                0x0120b870                __SDATA_ROM = __DATA_END
 
-.jcr            0x40000f24        0x0 load address 0x0120b730
+.jcr            0x40000f24        0x0 load address 0x0120b870
  .jcr           0x40000f24        0x0 c:/nxp/s32ds_power_v2.1/s32ds/build_tools/powerpc-eabivle-4_9/bin/../lib/gcc/powerpc-eabivle/4.9.4/e200z4/fp/crtbegin.o
 
 .tm_clone_table
-                0x40000f24        0x0 load address 0x0120b730
+                0x40000f24        0x0 load address 0x0120b870
  .tm_clone_table
                 0x40000f24        0x0 c:/nxp/s32ds_power_v2.1/s32ds/build_tools/powerpc-eabivle-4_9/bin/../lib/gcc/powerpc-eabivle/4.9.4/e200z4/fp/crtbegin.o
  .tm_clone_table
                 0x40000f24        0x0 c:/nxp/s32ds_power_v2.1/s32ds/build_tools/powerpc-eabivle-4_9/bin/../lib/gcc/powerpc-eabivle/4.9.4/e200z4/fp/crtend.o
 
-.sdata          0x40000f24       0x30 load address 0x0120b730
+.sdata          0x40000f24       0x30 load address 0x0120b870
                 0x40000f24                . = ALIGN (0x4)
                 0x40000f24                __SDATA_RAM = .
                 0x40000f24                __sdata_start__ = .
@@ -4972,7 +4970,7 @@ LOAD c:/nxp/s32ds_power_v2.1/s32ds/build_tools/powerpc-eabivle-4_9/bin/../lib/gc
  .sdata.MaxNumberBlockLength
                 0x40000f40        0x4 ./Sources/UDS.o
                 0x40000f40                MaxNumberBlockLength
- .sdata.prev_ctrl_type.6986
+ .sdata.prev_ctrl_type.6989
                 0x40000f44        0x4 ./Sources/UDS.o
  .sdata.seq_number
                 0x40000f48        0x1 ./Sources/UDS.o
@@ -4988,9 +4986,9 @@ LOAD c:/nxp/s32ds_power_v2.1/s32ds/build_tools/powerpc-eabivle-4_9/bin/../lib/gc
                 0x40000f54                . = ALIGN (0x4)
  *fill*         0x40000f52        0x2 
                 0x40000f54                __sdata_end__ = .
-                0x0120b760                __SDATA_END = (__SDATA_ROM + (__sdata_end__ - __sdata_start__))
+                0x0120b8a0                __SDATA_END = (__SDATA_ROM + (__sdata_end__ - __sdata_start__))
 
-.sbss           0x40000f54       0xe8 load address 0x0120b760
+.sbss           0x40000f54       0xe8 load address 0x0120b8a0
                 0x40000f54                . = ALIGN (0x4)
                 0x40000f54                __SBSS_START = .
                 0x40000f54                __sbss_start__ = .
@@ -5079,13 +5077,10 @@ LOAD c:/nxp/s32ds_power_v2.1/s32ds/build_tools/powerpc-eabivle-4_9/bin/../lib/gc
  .sbss.xEnd     0x40000ff0        0x8 ./SDK/rtos/FreeRTOS_PA/Source/portable/MemMang/heap_2.o
  .sbss.returnStatus
                 0x40000ff8        0x4 ./Sources/Bootloader.o
-                0x40000ff8                returnStatus
  .sbss.pflash_pfcr1
                 0x40000ffc        0x4 ./Sources/Bootloader.o
-                0x40000ffc                pflash_pfcr1
  .sbss.pflash_pfcr2
                 0x40001000        0x4 ./Sources/Bootloader.o
-                0x40001000                pflash_pfcr2
  .sbss.g_BLData
                 0x40001004        0x4 ./Sources/Bootloader.o
  .sbss.curr_buff_idx
@@ -5139,7 +5134,7 @@ LOAD c:/nxp/s32ds_power_v2.1/s32ds/build_tools/powerpc-eabivle-4_9/bin/../lib/gc
                 0x4000103c                __sbss_end__ = .
                 0x4000103c                __SBSS_END = .
 
-.bss            0x4000103c     0x83f0 load address 0x0120b848
+.bss            0x4000103c     0x83fc load address 0x0120b988
                 0x4000103c                . = ALIGN (0x4)
                 0x4000103c                __BSS_START = .
                 0x4000103c                __bss_start__ = .
@@ -5175,50 +5170,50 @@ LOAD c:/nxp/s32ds_power_v2.1/s32ds/build_tools/powerpc-eabivle-4_9/bin/../lib/gc
  .bss.requestFrame
                 0x40008f70      0x194 ./Sources/UDS.o
                 0x40008f70                requestFrame
- .bss.BL_data   0x40009104       0x88 ./Sources/UDS.o
+ .bss.BL_data   0x40009104       0x94 ./Sources/UDS.o
                 0x40009104                BL_data
  .bss.responseFrame
-                0x4000918c      0x194 ./Sources/UDS.o
-                0x4000918c                responseFrame
- .bss.buffer    0x40009320       0xfc ./Sources/main.o
-                0x40009320                buffer
+                0x40009198      0x194 ./Sources/UDS.o
+                0x40009198                responseFrame
+ .bss.buffer    0x4000932c       0xfc ./Sources/main.o
+                0x4000932c                buffer
  .bss.g_BootLoaderFlash_pCtxData
-                0x4000941c       0x10 ./Sources/Bootloader_Flash/BootloaderFlash.o
+                0x40009428       0x10 ./Sources/Bootloader_Flash/BootloaderFlash.o
  *(COMMON)
-                0x4000942c                . = ALIGN (0x4)
-                0x4000942c                __bss_end__ = .
-                0x4000942c                __BSS_END = .
-                0x0120b760                __CODE_ROM = __SDATA_END
+                0x40009438                . = ALIGN (0x4)
+                0x40009438                __bss_end__ = .
+                0x40009438                __BSS_END = .
+                0x0120b8a0                __CODE_ROM = __SDATA_END
 
-.iplt           0x40009430        0x0 load address 0x01213c40
- .iplt          0x40009430        0x0 c:/nxp/s32ds_power_v2.1/s32ds/build_tools/powerpc-eabivle-4_9/bin/../lib/gcc/powerpc-eabivle/4.9.4/e200z4/fp/crtbegin.o
+.iplt           0x40009440        0x0 load address 0x01213d90
+ .iplt          0x40009440        0x0 c:/nxp/s32ds_power_v2.1/s32ds/build_tools/powerpc-eabivle-4_9/bin/../lib/gcc/powerpc-eabivle/4.9.4/e200z4/fp/crtbegin.o
 
-.code           0x4000942c        0x0 load address 0x0120b760
-                0x4000942c                . = ALIGN (0x4)
-                0x4000942c                __CODE_RAM = .
-                0x4000942c                __code_start__ = .
-                0x4000942c                __code_ram_start__ = .
+.code           0x40009438        0x0 load address 0x0120b8a0
+                0x40009438                . = ALIGN (0x4)
+                0x40009438                __CODE_RAM = .
+                0x40009438                __code_start__ = .
+                0x40009438                __code_ram_start__ = .
  *(.code_ram)
-                0x4000942c                . = ALIGN (0x4)
-                0x4000942c                __code_ram_end__ = .
-                0x4000942c                __code_end__ = .
-                0x0120b760                __CODE_END = (__CODE_ROM + (__code_end__ - __code_start__))
+                0x40009438                . = ALIGN (0x4)
+                0x40009438                __code_ram_end__ = .
+                0x40009438                __code_end__ = .
+                0x0120b8a0                __CODE_END = (__CODE_ROM + (__code_end__ - __code_start__))
 
-.stack          0x40009430     0x1000 load address 0x01213c40
-                0x40009430                __HEAP = .
+.stack          0x40009440     0x1000 load address 0x01213d90
+                0x40009440                __HEAP = .
                 [!provide]                PROVIDE (_end, .)
                 [!provide]                PROVIDE (end, .)
-                0x40009430                . = (. + __HEAP_SIZE)
-                0x40009430                __HEAP_END = .
-                0x40009430                _stack_end = .
-                0x4000a430                . = (. + __STACK_SIZE)
- *fill*         0x40009430     0x1000 
-                0x4000a430                . = ALIGN (0x4)
-                0x4000a430                _stack_addr = .
-                0x4000a430                __SP_INIT = .
+                0x40009440                . = (. + __HEAP_SIZE)
+                0x40009440                __HEAP_END = .
+                0x40009440                _stack_end = .
+                0x4000a440                . = (. + __STACK_SIZE)
+ *fill*         0x40009440     0x1000 
+                0x4000a440                . = ALIGN (0x4)
+                0x4000a440                _stack_addr = .
+                0x4000a440                __SP_INIT = .
                 0x00040000                __SRAM_SIZE = SRAM_SIZE
                 0x40000000                __SRAM_BASE_ADDR = SRAM_BASE_ADDR
-                0x000083f0                __BSS_SIZE = (__BSS_END - __BSS_START)
+                0x000083fc                __BSS_SIZE = (__BSS_END - __BSS_START)
 OUTPUT(Bootloader_Z4_0.elf elf32-powerpc)
 
 .comment        0x00000000       0x9c
@@ -5369,7 +5364,7 @@ OUTPUT(Bootloader_Z4_0.elf elf32-powerpc)
  .PPC.EMB.apuinfo
                 0x0000046c       0x18 c:/nxp/s32ds_power_v2.1/s32ds/build_tools/powerpc-eabivle-4_9/bin/../lib/gcc/powerpc-eabivle/4.9.4/e200z4/fp/ecrtn.o
 
-.debug_info     0x00000000    0x368db
+.debug_info     0x00000000    0x369b0
  .debug_info    0x00000000      0xefc ./Generated_Code/can_pal1.o
  .debug_info    0x00000efc     0x2849 ./Generated_Code/clockMan1.o
  .debug_info    0x00003745       0xb9 ./Project_Settings/Startup_Code/core0_intc_sw_handlers.o
@@ -5403,19 +5398,19 @@ OUTPUT(Bootloader_Z4_0.elf elf32-powerpc)
  .debug_info    0x0002b248      0xf8c ./SDK/rtos/FreeRTOS_PA/Source/portable/GCC/PowerPC/porttimer.o
  .debug_info    0x0002c1d4      0x320 ./SDK/rtos/FreeRTOS_PA/Source/portable/MemMang/heap_2.o
  .debug_info    0x0002c4f4      0xadf ./SDK/rtos/osif/osif_freertos.o
- .debug_info    0x0002cfd3     0x1425 ./Sources/Bootloader.o
- .debug_info    0x0002e3f8     0x1ab8 ./Sources/CanTP.o
- .debug_info    0x0002feb0      0x38c ./Sources/ResetWrapper.o
- .debug_info    0x0003023c     0x1dd2 ./Sources/UDS.o
- .debug_info    0x0003200e     0x3676 ./Sources/main.o
- .debug_info    0x00035684      0xca0 ./Sources/Bootloader_Flash/BootloaderFlash.o
- .debug_info    0x00036324      0x139 ./Sources/Bootloader_Flash/BootloaderFlashCRCConfig.o
- .debug_info    0x0003645d      0x12e C:/NXP/S32DS_Power_v2.1/S32DS/build_tools/e200_ewl2/lib/e200z4/fp\libc99.a(memcpy.o)
- .debug_info    0x0003658b      0x125 C:/NXP/S32DS_Power_v2.1/S32DS/build_tools/e200_ewl2/lib/e200z4/fp\libc99.a(memset.o)
- .debug_info    0x000366b0       0xf0 C:/NXP/S32DS_Power_v2.1/S32DS/build_tools/e200_ewl2/lib/e200z4/fp\libc99.a(strlen.o)
- .debug_info    0x000367a0      0x13b C:/NXP/S32DS_Power_v2.1/S32DS/build_tools/e200_ewl2/lib/e200z4/fp\libc99.a(__filll_mem.o)
+ .debug_info    0x0002cfd3     0x1438 ./Sources/Bootloader.o
+ .debug_info    0x0002e40b     0x1ab8 ./Sources/CanTP.o
+ .debug_info    0x0002fec3      0x38c ./Sources/ResetWrapper.o
+ .debug_info    0x0003024f     0x1e92 ./Sources/UDS.o
+ .debug_info    0x000320e1     0x3678 ./Sources/main.o
+ .debug_info    0x00035759      0xca0 ./Sources/Bootloader_Flash/BootloaderFlash.o
+ .debug_info    0x000363f9      0x139 ./Sources/Bootloader_Flash/BootloaderFlashCRCConfig.o
+ .debug_info    0x00036532      0x12e C:/NXP/S32DS_Power_v2.1/S32DS/build_tools/e200_ewl2/lib/e200z4/fp\libc99.a(memcpy.o)
+ .debug_info    0x00036660      0x125 C:/NXP/S32DS_Power_v2.1/S32DS/build_tools/e200_ewl2/lib/e200z4/fp\libc99.a(memset.o)
+ .debug_info    0x00036785       0xf0 C:/NXP/S32DS_Power_v2.1/S32DS/build_tools/e200_ewl2/lib/e200z4/fp\libc99.a(strlen.o)
+ .debug_info    0x00036875      0x13b C:/NXP/S32DS_Power_v2.1/S32DS/build_tools/e200_ewl2/lib/e200z4/fp\libc99.a(__filll_mem.o)
 
-.debug_abbrev   0x00000000     0x5571
+.debug_abbrev   0x00000000     0x5560
  .debug_abbrev  0x00000000       0x87 ./Generated_Code/can_pal1.o
  .debug_abbrev  0x00000087      0x126 ./Generated_Code/clockMan1.o
  .debug_abbrev  0x000001ad       0x14 ./Project_Settings/Startup_Code/core0_intc_sw_handlers.o
@@ -5449,17 +5444,17 @@ OUTPUT(Bootloader_Z4_0.elf elf32-powerpc)
  .debug_abbrev  0x00003edc      0x17a ./SDK/rtos/FreeRTOS_PA/Source/portable/GCC/PowerPC/porttimer.o
  .debug_abbrev  0x00004056      0x1be ./SDK/rtos/FreeRTOS_PA/Source/portable/MemMang/heap_2.o
  .debug_abbrev  0x00004214      0x251 ./SDK/rtos/osif/osif_freertos.o
- .debug_abbrev  0x00004465      0x15e ./Sources/Bootloader.o
- .debug_abbrev  0x000045c3      0x329 ./Sources/CanTP.o
- .debug_abbrev  0x000048ec       0xf3 ./Sources/ResetWrapper.o
- .debug_abbrev  0x000049df      0x38a ./Sources/UDS.o
- .debug_abbrev  0x00004d69      0x310 ./Sources/main.o
- .debug_abbrev  0x00005079      0x23b ./Sources/Bootloader_Flash/BootloaderFlash.o
- .debug_abbrev  0x000052b4       0x80 ./Sources/Bootloader_Flash/BootloaderFlashCRCConfig.o
- .debug_abbrev  0x00005334       0xa5 C:/NXP/S32DS_Power_v2.1/S32DS/build_tools/e200_ewl2/lib/e200z4/fp\libc99.a(memcpy.o)
- .debug_abbrev  0x000053d9       0x98 C:/NXP/S32DS_Power_v2.1/S32DS/build_tools/e200_ewl2/lib/e200z4/fp\libc99.a(memset.o)
- .debug_abbrev  0x00005471       0x81 C:/NXP/S32DS_Power_v2.1/S32DS/build_tools/e200_ewl2/lib/e200z4/fp\libc99.a(strlen.o)
- .debug_abbrev  0x000054f2       0x7f C:/NXP/S32DS_Power_v2.1/S32DS/build_tools/e200_ewl2/lib/e200z4/fp\libc99.a(__filll_mem.o)
+ .debug_abbrev  0x00004465      0x14d ./Sources/Bootloader.o
+ .debug_abbrev  0x000045b2      0x329 ./Sources/CanTP.o
+ .debug_abbrev  0x000048db       0xf3 ./Sources/ResetWrapper.o
+ .debug_abbrev  0x000049ce      0x38a ./Sources/UDS.o
+ .debug_abbrev  0x00004d58      0x310 ./Sources/main.o
+ .debug_abbrev  0x00005068      0x23b ./Sources/Bootloader_Flash/BootloaderFlash.o
+ .debug_abbrev  0x000052a3       0x80 ./Sources/Bootloader_Flash/BootloaderFlashCRCConfig.o
+ .debug_abbrev  0x00005323       0xa5 C:/NXP/S32DS_Power_v2.1/S32DS/build_tools/e200_ewl2/lib/e200z4/fp\libc99.a(memcpy.o)
+ .debug_abbrev  0x000053c8       0x98 C:/NXP/S32DS_Power_v2.1/S32DS/build_tools/e200_ewl2/lib/e200z4/fp\libc99.a(memset.o)
+ .debug_abbrev  0x00005460       0x81 C:/NXP/S32DS_Power_v2.1/S32DS/build_tools/e200_ewl2/lib/e200z4/fp\libc99.a(strlen.o)
+ .debug_abbrev  0x000054e1       0x7f C:/NXP/S32DS_Power_v2.1/S32DS/build_tools/e200_ewl2/lib/e200z4/fp\libc99.a(__filll_mem.o)
 
 .debug_aranges  0x00000000     0x1608
  .debug_aranges
@@ -5614,7 +5609,7 @@ OUTPUT(Bootloader_Z4_0.elf elf32-powerpc)
  .debug_macro   0x0002c3e8       0x4c ./Sources/Bootloader_Flash/BootloaderFlash.o
  .debug_macro   0x0002c434      0x140 ./Sources/Bootloader_Flash/BootloaderFlashCRCConfig.o
 
-.debug_line     0x00000000    0x11c3c
+.debug_line     0x00000000    0x121ba
  .debug_line    0x00000000      0x919 ./Generated_Code/can_pal1.o
  .debug_line    0x00000919      0x91a ./Generated_Code/clockMan1.o
  .debug_line    0x00001233      0x160 ./Project_Settings/Startup_Code/core0_intc_sw_handlers.o
@@ -5629,38 +5624,38 @@ OUTPUT(Bootloader_Z4_0.elf elf32-powerpc)
  .debug_line    0x00003bea      0x821 ./SDK/platform/drivers/src/edma/edma_hw_access.o
  .debug_line    0x0000440b      0x64b ./SDK/platform/drivers/src/edma/edma_irq.o
  .debug_line    0x00004a56      0xab6 ./SDK/platform/drivers/src/flash_c55/flash_c55_driver.o
- .debug_line    0x0000550c     0x11a4 ./SDK/platform/drivers/src/flexcan/flexcan_driver.o
- .debug_line    0x000066b0      0xb74 ./SDK/platform/drivers/src/flexcan/flexcan_hw_access.o
- .debug_line    0x00007224      0x845 ./SDK/platform/drivers/src/flexcan/flexcan_irq.o
- .debug_line    0x00007a69      0x53e ./SDK/platform/drivers/src/interrupt/interrupt_manager_MPC57xx.o
- .debug_line    0x00007fa7      0x644 ./SDK/platform/drivers/src/pins/siul2/pins_siul2_driver.o
- .debug_line    0x000085eb      0x436 ./SDK/platform/drivers/src/pins/siul2/siul2_hw_access.o
- .debug_line    0x00008a21      0x6b1 ./SDK/platform/drivers/src/pit/pit_driver.o
- .debug_line    0x000090d2      0x3bf ./SDK/platform/drivers/src/pit/pit_hw_access.o
- .debug_line    0x00009491      0x9c3 ./SDK/platform/pal/src/can/can_pal.o
- .debug_line    0x00009e54      0x64f ./SDK/rtos/FreeRTOS_PA/Source/event_groups.o
- .debug_line    0x0000a4a3      0x414 ./SDK/rtos/FreeRTOS_PA/Source/list.o
- .debug_line    0x0000a8b7      0xcbe ./SDK/rtos/FreeRTOS_PA/Source/queue.o
- .debug_line    0x0000b575      0x943 ./SDK/rtos/FreeRTOS_PA/Source/stream_buffer.o
- .debug_line    0x0000beb8      0xf9d ./SDK/rtos/FreeRTOS_PA/Source/tasks.o
- .debug_line    0x0000ce55      0x4aa ./SDK/rtos/FreeRTOS_PA/Source/portable/GCC/PowerPC/port.o
- .debug_line    0x0000d2ff       0xcc ./SDK/rtos/FreeRTOS_PA/Source/portable/GCC/PowerPC/portasm.o
- .debug_line    0x0000d3cb      0x415 ./SDK/rtos/FreeRTOS_PA/Source/portable/GCC/PowerPC/porttimer.o
- .debug_line    0x0000d7e0      0x45b ./SDK/rtos/FreeRTOS_PA/Source/portable/MemMang/heap_2.o
- .debug_line    0x0000dc3b      0x627 ./SDK/rtos/osif/osif_freertos.o
- .debug_line    0x0000e262      0x9e8 ./Sources/Bootloader.o
- .debug_line    0x0000ec4a      0xb11 ./Sources/CanTP.o
- .debug_line    0x0000f75b      0x221 ./Sources/ResetWrapper.o
- .debug_line    0x0000f97c      0xc56 ./Sources/UDS.o
- .debug_line    0x000105d2      0xad3 ./Sources/main.o
- .debug_line    0x000110a5      0x523 ./Sources/Bootloader_Flash/BootloaderFlash.o
- .debug_line    0x000115c8      0x3d6 ./Sources/Bootloader_Flash/BootloaderFlashCRCConfig.o
- .debug_line    0x0001199e       0x94 C:/NXP/S32DS_Power_v2.1/S32DS/build_tools/e200_ewl2/lib/e200z4/fp\libc99.a(memcpy.o)
- .debug_line    0x00011a32       0x9e C:/NXP/S32DS_Power_v2.1/S32DS/build_tools/e200_ewl2/lib/e200z4/fp\libc99.a(memset.o)
- .debug_line    0x00011ad0       0x88 C:/NXP/S32DS_Power_v2.1/S32DS/build_tools/e200_ewl2/lib/e200z4/fp\libc99.a(strlen.o)
- .debug_line    0x00011b58       0xe4 C:/NXP/S32DS_Power_v2.1/S32DS/build_tools/e200_ewl2/lib/e200z4/fp\libc99.a(__filll_mem.o)
+ .debug_line    0x0000550c     0x1206 ./SDK/platform/drivers/src/flexcan/flexcan_driver.o
+ .debug_line    0x00006712      0xbd6 ./SDK/platform/drivers/src/flexcan/flexcan_hw_access.o
+ .debug_line    0x000072e8      0x845 ./SDK/platform/drivers/src/flexcan/flexcan_irq.o
+ .debug_line    0x00007b2d      0x53e ./SDK/platform/drivers/src/interrupt/interrupt_manager_MPC57xx.o
+ .debug_line    0x0000806b      0x644 ./SDK/platform/drivers/src/pins/siul2/pins_siul2_driver.o
+ .debug_line    0x000086af      0x436 ./SDK/platform/drivers/src/pins/siul2/siul2_hw_access.o
+ .debug_line    0x00008ae5      0x6b1 ./SDK/platform/drivers/src/pit/pit_driver.o
+ .debug_line    0x00009196      0x3bf ./SDK/platform/drivers/src/pit/pit_hw_access.o
+ .debug_line    0x00009555      0x9c3 ./SDK/platform/pal/src/can/can_pal.o
+ .debug_line    0x00009f18      0x6b1 ./SDK/rtos/FreeRTOS_PA/Source/event_groups.o
+ .debug_line    0x0000a5c9      0x476 ./SDK/rtos/FreeRTOS_PA/Source/list.o
+ .debug_line    0x0000aa3f      0xd20 ./SDK/rtos/FreeRTOS_PA/Source/queue.o
+ .debug_line    0x0000b75f      0x9a5 ./SDK/rtos/FreeRTOS_PA/Source/stream_buffer.o
+ .debug_line    0x0000c104      0xfff ./SDK/rtos/FreeRTOS_PA/Source/tasks.o
+ .debug_line    0x0000d103      0x50c ./SDK/rtos/FreeRTOS_PA/Source/portable/GCC/PowerPC/port.o
+ .debug_line    0x0000d60f       0xcc ./SDK/rtos/FreeRTOS_PA/Source/portable/GCC/PowerPC/portasm.o
+ .debug_line    0x0000d6db      0x415 ./SDK/rtos/FreeRTOS_PA/Source/portable/GCC/PowerPC/porttimer.o
+ .debug_line    0x0000daf0      0x4bd ./SDK/rtos/FreeRTOS_PA/Source/portable/MemMang/heap_2.o
+ .debug_line    0x0000dfad      0x689 ./SDK/rtos/osif/osif_freertos.o
+ .debug_line    0x0000e636      0xa9f ./Sources/Bootloader.o
+ .debug_line    0x0000f0d5      0xb11 ./Sources/CanTP.o
+ .debug_line    0x0000fbe6      0x221 ./Sources/ResetWrapper.o
+ .debug_line    0x0000fe07      0xca1 ./Sources/UDS.o
+ .debug_line    0x00010aa8      0xb7b ./Sources/main.o
+ .debug_line    0x00011623      0x523 ./Sources/Bootloader_Flash/BootloaderFlash.o
+ .debug_line    0x00011b46      0x3d6 ./Sources/Bootloader_Flash/BootloaderFlashCRCConfig.o
+ .debug_line    0x00011f1c       0x94 C:/NXP/S32DS_Power_v2.1/S32DS/build_tools/e200_ewl2/lib/e200z4/fp\libc99.a(memcpy.o)
+ .debug_line    0x00011fb0       0x9e C:/NXP/S32DS_Power_v2.1/S32DS/build_tools/e200_ewl2/lib/e200z4/fp\libc99.a(memset.o)
+ .debug_line    0x0001204e       0x88 C:/NXP/S32DS_Power_v2.1/S32DS/build_tools/e200_ewl2/lib/e200z4/fp\libc99.a(strlen.o)
+ .debug_line    0x000120d6       0xe4 C:/NXP/S32DS_Power_v2.1/S32DS/build_tools/e200_ewl2/lib/e200z4/fp\libc99.a(__filll_mem.o)
 
-.debug_str      0x00000000   0x11e517
+.debug_str      0x00000000   0x11e518
  .debug_str     0x00000000   0x10aa3e ./Generated_Code/can_pal1.o
                              0x10d067 (size before relaxing)
  .debug_str     0x0010aa3e     0x3a92 ./Generated_Code/clockMan1.o
@@ -5719,27 +5714,27 @@ OUTPUT(Bootloader_Z4_0.elf elf32-powerpc)
                                0x7dff (size before relaxing)
  .debug_str     0x0011cfe5      0x193 ./SDK/rtos/osif/osif_freertos.o
                              0x10b30f (size before relaxing)
- .debug_str     0x0011d178      0x508 ./Sources/Bootloader.o
-                             0x10dcb2 (size before relaxing)
- .debug_str     0x0011d680      0x266 ./Sources/CanTP.o
+ .debug_str     0x0011d178      0x509 ./Sources/Bootloader.o
+                             0x10dcd0 (size before relaxing)
+ .debug_str     0x0011d681      0x266 ./Sources/CanTP.o
                              0x10dd8a (size before relaxing)
- .debug_str     0x0011d8e6       0x4b ./Sources/ResetWrapper.o
+ .debug_str     0x0011d8e7       0x4b ./Sources/ResetWrapper.o
                               0xfc0ca (size before relaxing)
- .debug_str     0x0011d931      0x589 ./Sources/UDS.o
-                             0x10e014 (size before relaxing)
- .debug_str     0x0011deba      0x16f ./Sources/main.o
+ .debug_str     0x0011d932      0x589 ./Sources/UDS.o
+                             0x10e042 (size before relaxing)
+ .debug_str     0x0011debb      0x16f ./Sources/main.o
                              0x11117b (size before relaxing)
- .debug_str     0x0011e029      0x2a2 ./Sources/Bootloader_Flash/BootloaderFlash.o
+ .debug_str     0x0011e02a      0x2a2 ./Sources/Bootloader_Flash/BootloaderFlash.o
                              0x106e49 (size before relaxing)
- .debug_str     0x0011e2cb       0x37 ./Sources/Bootloader_Flash/BootloaderFlashCRCConfig.o
+ .debug_str     0x0011e2cc       0x37 ./Sources/Bootloader_Flash/BootloaderFlashCRCConfig.o
                              0x105be7 (size before relaxing)
- .debug_str     0x0011e302      0x1b8 C:/NXP/S32DS_Power_v2.1/S32DS/build_tools/e200_ewl2/lib/e200z4/fp\libc99.a(memcpy.o)
+ .debug_str     0x0011e303      0x1b8 C:/NXP/S32DS_Power_v2.1/S32DS/build_tools/e200_ewl2/lib/e200z4/fp\libc99.a(memcpy.o)
                                 0x263 (size before relaxing)
- .debug_str     0x0011e4ba       0x26 C:/NXP/S32DS_Power_v2.1/S32DS/build_tools/e200_ewl2/lib/e200z4/fp\libc99.a(memset.o)
+ .debug_str     0x0011e4bb       0x26 C:/NXP/S32DS_Power_v2.1/S32DS/build_tools/e200_ewl2/lib/e200z4/fp\libc99.a(memset.o)
                                 0x276 (size before relaxing)
- .debug_str     0x0011e4e0       0x1d C:/NXP/S32DS_Power_v2.1/S32DS/build_tools/e200_ewl2/lib/e200z4/fp\libc99.a(strlen.o)
+ .debug_str     0x0011e4e1       0x1d C:/NXP/S32DS_Power_v2.1/S32DS/build_tools/e200_ewl2/lib/e200z4/fp\libc99.a(strlen.o)
                                 0x26b (size before relaxing)
- .debug_str     0x0011e4fd       0x1a C:/NXP/S32DS_Power_v2.1/S32DS/build_tools/e200_ewl2/lib/e200z4/fp\libc99.a(__filll_mem.o)
+ .debug_str     0x0011e4fe       0x1a C:/NXP/S32DS_Power_v2.1/S32DS/build_tools/e200_ewl2/lib/e200z4/fp\libc99.a(__filll_mem.o)
                                 0x27d (size before relaxing)
 
 .debug_ranges   0x00000000     0x1760
@@ -5782,7 +5777,7 @@ OUTPUT(Bootloader_Z4_0.elf elf32-powerpc)
  .debug_ranges  0x00001740       0x10 C:/NXP/S32DS_Power_v2.1/S32DS/build_tools/e200_ewl2/lib/e200z4/fp\libc99.a(strlen.o)
  .debug_ranges  0x00001750       0x10 C:/NXP/S32DS_Power_v2.1/S32DS/build_tools/e200_ewl2/lib/e200z4/fp\libc99.a(__filll_mem.o)
 
-.debug_loc      0x00000000    0x184dd
+.debug_loc      0x00000000    0x18575
  .debug_loc     0x00000000      0x1c0 ./SDK/platform/devices/MPC5748G/startup/system_MPC5748G.o
  .debug_loc     0x000001c0      0x181 ./SDK/platform/devices/startup.o
  .debug_loc     0x00000341     0x39a1 ./SDK/platform/drivers/src/clock/MPC57xx/clock_MPC57xx.o
@@ -5809,18 +5804,18 @@ OUTPUT(Bootloader_Z4_0.elf elf32-powerpc)
  .debug_loc     0x000163ef       0x58 ./SDK/rtos/FreeRTOS_PA/Source/portable/GCC/PowerPC/porttimer.o
  .debug_loc     0x00016447      0x1f7 ./SDK/rtos/FreeRTOS_PA/Source/portable/MemMang/heap_2.o
  .debug_loc     0x0001663e      0x53d ./SDK/rtos/osif/osif_freertos.o
- .debug_loc     0x00016b7b       0x52 ./Sources/Bootloader.o
- .debug_loc     0x00016bcd      0x58c ./Sources/CanTP.o
- .debug_loc     0x00017159       0x21 ./Sources/ResetWrapper.o
- .debug_loc     0x0001717a      0x8da ./Sources/UDS.o
- .debug_loc     0x00017a54      0x153 ./Sources/main.o
- .debug_loc     0x00017ba7      0x485 ./Sources/Bootloader_Flash/BootloaderFlash.o
- .debug_loc     0x0001802c      0x189 C:/NXP/S32DS_Power_v2.1/S32DS/build_tools/e200_ewl2/lib/e200z4/fp\libc99.a(memcpy.o)
- .debug_loc     0x000181b5       0x60 C:/NXP/S32DS_Power_v2.1/S32DS/build_tools/e200_ewl2/lib/e200z4/fp\libc99.a(memset.o)
- .debug_loc     0x00018215       0x41 C:/NXP/S32DS_Power_v2.1/S32DS/build_tools/e200_ewl2/lib/e200z4/fp\libc99.a(strlen.o)
- .debug_loc     0x00018256      0x287 C:/NXP/S32DS_Power_v2.1/S32DS/build_tools/e200_ewl2/lib/e200z4/fp\libc99.a(__filll_mem.o)
+ .debug_loc     0x00016b7b       0xa2 ./Sources/Bootloader.o
+ .debug_loc     0x00016c1d      0x58c ./Sources/CanTP.o
+ .debug_loc     0x000171a9       0x21 ./Sources/ResetWrapper.o
+ .debug_loc     0x000171ca      0x922 ./Sources/UDS.o
+ .debug_loc     0x00017aec      0x153 ./Sources/main.o
+ .debug_loc     0x00017c3f      0x485 ./Sources/Bootloader_Flash/BootloaderFlash.o
+ .debug_loc     0x000180c4      0x189 C:/NXP/S32DS_Power_v2.1/S32DS/build_tools/e200_ewl2/lib/e200z4/fp\libc99.a(memcpy.o)
+ .debug_loc     0x0001824d       0x60 C:/NXP/S32DS_Power_v2.1/S32DS/build_tools/e200_ewl2/lib/e200z4/fp\libc99.a(memset.o)
+ .debug_loc     0x000182ad       0x41 C:/NXP/S32DS_Power_v2.1/S32DS/build_tools/e200_ewl2/lib/e200z4/fp\libc99.a(strlen.o)
+ .debug_loc     0x000182ee      0x287 C:/NXP/S32DS_Power_v2.1/S32DS/build_tools/e200_ewl2/lib/e200z4/fp\libc99.a(__filll_mem.o)
 
-.debug_frame    0x00000000     0x4300
+.debug_frame    0x00000000     0x4308
  .debug_frame   0x00000000       0x40 ./SDK/platform/devices/MPC5748G/startup/system_MPC5748G.o
  .debug_frame   0x00000040       0x2c ./SDK/platform/devices/startup.o
  .debug_frame   0x0000006c      0x17c ./SDK/platform/drivers/src/clock/MPC57xx/clock_MPC57xx.o
@@ -5851,10 +5846,10 @@ OUTPUT(Bootloader_Z4_0.elf elf32-powerpc)
  .debug_frame   0x00003c14       0x90 ./Sources/Bootloader.o
  .debug_frame   0x00003ca4      0x1a0 ./Sources/CanTP.o
  .debug_frame   0x00003e44       0x20 ./Sources/ResetWrapper.o
- .debug_frame   0x00003e64      0x1e8 ./Sources/UDS.o
- .debug_frame   0x0000404c       0xcc ./Sources/main.o
- .debug_frame   0x00004118      0x158 ./Sources/Bootloader_Flash/BootloaderFlash.o
- .debug_frame   0x00004270       0x20 C:/NXP/S32DS_Power_v2.1/S32DS/build_tools/e200_ewl2/lib/e200z4/fp\libc99.a(memcpy.o)
- .debug_frame   0x00004290       0x30 C:/NXP/S32DS_Power_v2.1/S32DS/build_tools/e200_ewl2/lib/e200z4/fp\libc99.a(memset.o)
- .debug_frame   0x000042c0       0x20 C:/NXP/S32DS_Power_v2.1/S32DS/build_tools/e200_ewl2/lib/e200z4/fp\libc99.a(strlen.o)
- .debug_frame   0x000042e0       0x20 C:/NXP/S32DS_Power_v2.1/S32DS/build_tools/e200_ewl2/lib/e200z4/fp\libc99.a(__filll_mem.o)
+ .debug_frame   0x00003e64      0x1f0 ./Sources/UDS.o
+ .debug_frame   0x00004054       0xcc ./Sources/main.o
+ .debug_frame   0x00004120      0x158 ./Sources/Bootloader_Flash/BootloaderFlash.o
+ .debug_frame   0x00004278       0x20 C:/NXP/S32DS_Power_v2.1/S32DS/build_tools/e200_ewl2/lib/e200z4/fp\libc99.a(memcpy.o)
+ .debug_frame   0x00004298       0x30 C:/NXP/S32DS_Power_v2.1/S32DS/build_tools/e200_ewl2/lib/e200z4/fp\libc99.a(memset.o)
+ .debug_frame   0x000042c8       0x20 C:/NXP/S32DS_Power_v2.1/S32DS/build_tools/e200_ewl2/lib/e200z4/fp\libc99.a(strlen.o)
+ .debug_frame   0x000042e8       0x20 C:/NXP/S32DS_Power_v2.1/S32DS/build_tools/e200_ewl2/lib/e200z4/fp\libc99.a(__filll_mem.o)

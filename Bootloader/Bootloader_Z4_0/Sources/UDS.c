@@ -382,26 +382,47 @@ void UDS_Routine_Control(){
 	uint16_t routine_id = 0;
 	status_t status = 0;
 	static RoutineControlType prev_ctrl_type = STOP_ROUTINE;
+	volatile uint8_t NBytesDataLength = 0;
+	volatile uint8_t memory_address_size = 0;
 
 	if(requestFrame.dataBuffer[1] == START_ROUTINE){
 
 		routine_id = (requestFrame.dataBuffer[2] << 8) | requestFrame.dataBuffer[3];
-		BL_data.N_paramteres = requestFrame.dataBuffer[4];
-		expected_size = 5 + BL_data.N_paramteres;
 
 		if(routine_id == ERASE_MEMORY){
 			status = STATUS_BUSY;
-			if (BL_data.N_paramteres > 0) {
-				if (requestFrame.dataSize != expected_size) {  // Ensure full parameters are received
-					/* -ve response */
-					UDS_Create_neg_response(WRONG_MSG_LEN_OR_FORMAT,READY);
+				if (requestFrame.dataSize < 3) {
+					REQ_Download_Abort();
+					UDS_Create_neg_response(WRONG_MSG_LEN_OR_FORMAT, READY);
 					return;
 				}
-			}
+		
+				NBytesDataLength = requestFrame.dataBuffer[4]>>4; /* Defines number of bytes of MEMORY LENGTH parameter */
+				memory_address_size = requestFrame.dataBuffer[4] & 0x0F; /* Defines number of bytes of START MEMORY ADDRESS parameter*/
+		
+				if (memory_address_size < 1 || memory_address_size > ECU_ADDRESS_LENGTH || NBytesDataLength < 1 || NBytesDataLength > 4) {
+					UDS_Create_neg_response(WRONG_MSG_LEN_OR_FORMAT, READY);
+					return;
+				}
+		
+				uint8_t expected_length = 5 + NBytesDataLength + memory_address_size;
+				if (requestFrame.dataSize != expected_length) {
+					UDS_Create_neg_response(WRONG_MSG_LEN_OR_FORMAT, READY);
+					return;
+				}
+		
+				BL_data.ers_mem_start_address = 0;
+				BL_data.ers_total_size = 0; /* specifies the total size of the data that will be transferred during the subsequent (multiple) transfer data services */
+		
+				for(uint8_t i=5; i<5+memory_address_size ;i++){
+					BL_data.ers_mem_start_address <<= 8;
+					BL_data.ers_mem_start_address |= requestFrame.dataBuffer[i];
+				}
+				for(uint8_t i=5+memory_address_size; i<expected_length ;i++){
+					BL_data.ers_total_size <<= 8;
+					BL_data.ers_total_size |= requestFrame.dataBuffer[i];
+				}
 
-			for(uint8_t i = 0; i<BL_data.N_paramteres; i++){
-				BL_data.parameters[i] = requestFrame.dataBuffer[ROUTINE_CTRL_SIZE+i];
-			}
 			UDS_Erase_Memory(&status); /* pass needed parameters */
 
 		}else if(routine_id == CHECK_MEMORY){
@@ -416,6 +437,7 @@ void UDS_Routine_Control(){
 				UDS_Create_neg_response(WRONG_MSG_LEN_OR_FORMAT,READY);
 				return;
 			}
+			BL_data.CRC_algo = requestFrame.dataBuffer[ROUTINE_CTRL_SIZE - 1];
 			for(uint8_t i = 0; i<32; i++){
 				BL_data.CRC_Field <<= 8;
 				BL_data.CRC_Field |= requestFrame.dataBuffer[ROUTINE_CTRL_SIZE + i];
@@ -501,14 +523,21 @@ void UDS_Check_Memory(status_t *status){
 	// END OF TESTING CODE
 	*status = BL_Callbacks->BL_Check_Memory();
 	if(*status == STATUS_ERROR){
-		UDS_Create_neg_response(GENERAL_PROGRAMMING_FAILURE,READY);
+		responseFrame.dataBuffer[0] = 0x7F;
+		for(uint8_t i=1 ; i < 4; i++){
+			responseFrame.dataBuffer[i] = requestFrame.dataBuffer[i];
+		}
+		responseFrame.dataBuffer[4] = GENERAL_PROGRAMMING_FAILURE;
+		responseFrame.ready = READY;
+		Finished_Routine_CTR();
 		return;
 	}else{
 		UDS_Create_pos_response(NOTREADY);
-		for(uint8_t i=1 ; i < 3; i++){
+		for(uint8_t i=1 ; i < 4; i++){
 			responseFrame.dataBuffer[i] = requestFrame.dataBuffer[i];
 		}
-		responseFrame.dataSize = 4;
+		responseFrame.dataBuffer[4] = 0x00;
+		responseFrame.dataSize = 5;
 		responseFrame.ready = READY;
 		Finished_Routine_CTR();
 	}
@@ -526,15 +555,22 @@ void UDS_Erase_Memory(status_t *status){
 	*status = BL_Callbacks->BL_Erase_Memory();
 
 	if(*status == STATUS_ERROR){
-		UDS_Create_neg_response(CRC_ERROR,READY);
+		responseFrame.dataBuffer[0] = 0x7F;
+		for(uint8_t i=1 ; i < 4; i++){
+			responseFrame.dataBuffer[i] = requestFrame.dataBuffer[i];
+		}
+		responseFrame.dataBuffer[4] = CRC_ERROR;
+		responseFrame.ready = READY;
+		
 		Finished_Routine_CTR();
 		return;
 	}else{
 		UDS_Create_pos_response(NOTREADY);
-		for(uint8_t i=1 ; i < 3; i++){
+		for(uint8_t i=1 ; i < 4; i++){
 			responseFrame.dataBuffer[i] = requestFrame.dataBuffer[i+1];
 		}
-		responseFrame.dataSize = 4;
+		responseFrame.dataBuffer[4] = 0x00;
+		responseFrame.dataSize = 5;
 		responseFrame.ready = READY;
 		Finished_Routine_CTR();
 	}
