@@ -230,6 +230,7 @@ int main(void)
 	CLOCK_SYS_Init(g_clockManConfigsArr,   CLOCK_MANAGER_CONFIG_CNT,
 			g_clockManCallbacksArr, CLOCK_MANAGER_CALLBACK_CNT);
 	CLOCK_SYS_UpdateConfiguration(0U, CLOCK_MANAGER_POLICY_AGREEMENT);
+	PINS_DRV_Init(NUM_OF_CONFIGURED_PINS, g_pin_mux_InitConfigArr);
 
 	//Init CAN Stack
 	Can_init(&can_pal1_instance, &can_pal1_Config0);
@@ -252,13 +253,14 @@ int main(void)
 	UDS_Init(&a_BLHandlersConfig);
 
 	Bootloader_Init(& a_BLHandlersConfig);
+	
 
-	xTaskCreate(UDS_StubTask,
-			"UDS_send example",
-			configMINIMAL_STACK_SIZE,
-			(void *) 0,
-			5,
-			NULL);
+	// xTaskCreate(UDS_StubTask,
+	// 		"UDS_send example",
+	// 		configMINIMAL_STACK_SIZE,
+	// 		(void *) 0,
+	// 		5,
+	// 		NULL);
 
 
     xTaskCreate(recieve2,
@@ -268,12 +270,12 @@ int main(void)
         6,
         NULL);
 
-	//    xTaskCreate(sendFromUDS2,
-	//        "TPSend",
-	//		configMINIMAL_STACK_SIZE,
-	//        (void *) 0,
-	//        6,
-	//        NULL);
+	   xTaskCreate(sendFromUDS2,
+	       "TPSend",
+			configMINIMAL_STACK_SIZE,
+	       (void *) 0,
+	       6,
+	       NULL);
 
 	vTaskStartScheduler();
 

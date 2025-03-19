@@ -218,18 +218,20 @@ int main(void)
 //   CLOCK_DRV_Init(&clockMan1_InitConfig0);
 //   while(*((volatile uint32_t*) 0xffec0000) == 0);
     //UDS_Init(&can_pal1_instance, &can_pal1_Config0);
+	PINS_DRV_Init(NUM_OF_CONFIGURED_PINS, g_pin_mux_InitConfigArr);
 
     Can_init(&can_pal1_instance, &can_pal1_Config0);
 //    Can_init(&can_pal1_instance, &can_pal1_Config0);
     CanTP_init(&responseFrame, &requestFrame);
+	
 //    UDS_Init();
     
-    xTaskCreate(UDS_StubTask,
-        "UDS_send example",
-		configMINIMAL_STACK_SIZE,
-        (void *) 0,
-        5,
-        NULL);
+    // xTaskCreate(UDS_StubTask,
+    //     "UDS_send example",
+	// 	configMINIMAL_STACK_SIZE,
+    //     (void *) 0,
+    //     5,
+    //     NULL);
 
 //     xTaskCreate(loopBackTask,
 //         "green",
@@ -245,12 +247,12 @@ int main(void)
         6,
         NULL);
 
-//    xTaskCreate(sendFromUDS2,
-//        "TPSend",
-//		configMINIMAL_STACK_SIZE,
-//        (void *) 0,
-//        6,
-//        NULL);
+   xTaskCreate(sendFromUDS2,
+       "TPSend",
+		configMINIMAL_STACK_SIZE,
+       (void *) 0,
+       6,
+       NULL);
 
 //    xTaskCreate(UDS_Receive,
 //    		"UDSReceive",
