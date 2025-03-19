@@ -60,6 +60,7 @@ void send_single_frame(uint8_t *payload,uint32_t buffIdx){
         message.data[i] = 0xAA;
     }
     CAN_Send(can_instance,buffIdx,&message);
+    sendingUDS->ready=0;
 }
 
 CANTP_Frame_Types get_type(can_message_t message)
@@ -301,5 +302,6 @@ void Can_init(can_instance_t* can_pal_instance, can_user_config_t* can_pal_Confi
     can_buff_config_t buffConf = {false, false, 0xAA, CAN_MSG_ID_STD, false};
     CAN_ConfigRxBuff(&can_pal1_instance, RX_BUFF_NUM, &buffConf, 0x55);
     CAN_Receive(&can_pal1_instance, RX_BUFF_NUM, &recvMessage);
+    CAN_ConfigTxBuff(&can_pal1_instance, 1, &buffConf);
 }
 
