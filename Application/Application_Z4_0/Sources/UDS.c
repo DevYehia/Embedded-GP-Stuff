@@ -132,11 +132,18 @@ void UDS_Session_Control(){
 			//TODO wait for sending response
 			initVAR = 0xFFFFAAAA;
 
-
+			UDS_Create_pos_response(NOTREADY);
+			responseFrame.dataBuffer[2] = 0x23;
+			responseFrame.dataBuffer[3] = 0x23;
+			responseFrame.dataBuffer[4] = 0x23;
+			responseFrame.dataBuffer[5] = 0x23;
+			responseFrame.dataSize = 6;
+			responseFrame.ready = READY;
 			/* Set flag ... to be in flash/eeprom */
 //#ifndef UDS_BOOTLOADER
 			//SOFT_RESET();
 			//HARD_RESET();
+			vTaskDelay(pdMS_TO_TICKS( 20 ));
 			CAN_Deinit(&can_pal1_instance);
 			PIT_DRV_Deinit(INST_PIT1);
 				__asm__("e_lis %r12,0x00F9");
@@ -148,7 +155,13 @@ void UDS_Session_Control(){
 
 		}
 
-		UDS_Create_pos_response(READY);
+		UDS_Create_pos_response(NOTREADY);
+		responseFrame.dataBuffer[2] = 0x23;
+		responseFrame.dataBuffer[3] = 0x23;
+		responseFrame.dataBuffer[4] = 0x23;
+		responseFrame.dataBuffer[5] = 0x23;
+		responseFrame.dataSize = 6;
+		responseFrame.ready = READY;
 	}
 }
 

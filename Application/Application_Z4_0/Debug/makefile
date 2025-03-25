@@ -48,7 +48,7 @@ Application_Z4_0.siz \
 all: Application_Z4_0.elf secondary-outputs
 
 # Tool invocations
-Application_Z4_0.elf: $(OBJS) C:/Users/sdvpth/Desktop/SafetyECU/Workspaces/Milestone1/Application/Application_Z4_0/Project_Settings/Linker_Files/linker_flash.ld $(OSPT) $(USER_OBJS)
+Application_Z4_0.elf: $(OBJS) C:/Users/user/Desktop/nxp_board_code/Application/Application_Z4_0/Project_Settings/Linker_Files/linker_flash.ld $(OSPT) $(USER_OBJS)
 	@echo 'Building target: $@'
 	@echo 'Invoking: Standard S32DS C Linker'
 	powerpc-eabivle-gcc -o "Application_Z4_0.elf" "@Application_Z4_0.args"  $(USER_OBJS) $(LIBS) $(OSPT)

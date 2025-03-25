@@ -39,7 +39,7 @@ Bootmanager_Z4_0.siz \
 all: Bootmanager_Z4_0.elf secondary-outputs
 
 # Tool invocations
-Bootmanager_Z4_0.elf: $(OBJS) C:/Users/sdvpth/Desktop/SafetyECU/Workspaces/Milestone1/Bootmanager/Bootmanager_Z4_0/Project_Settings/Linker_Files/linker_flash.ld $(OSPT) $(USER_OBJS)
+Bootmanager_Z4_0.elf: $(OBJS) D:/ASU/graduationProject/embeddedwork/Embedded-GP-Stuff/Bootmanager/Bootmanager_Z4_0/Project_Settings/Linker_Files/linker_flash.ld $(OSPT) $(USER_OBJS)
 	@echo 'Building target: $@'
 	@echo 'Invoking: Standard S32DS C Linker'
 	powerpc-eabivle-gcc -o "Bootmanager_Z4_0.elf" "@Bootmanager_Z4_0.args"  $(USER_OBJS) $(LIBS) $(OSPT)

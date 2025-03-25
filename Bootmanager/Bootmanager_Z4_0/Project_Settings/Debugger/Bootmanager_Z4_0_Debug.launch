@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <launchConfiguration type="com.pemicro.debug.gdbjtag.ppc.launchConfigurationType">
 <listAttribute key="com.pemicro.debug.gdbjtag.ppc.ELVES">
-<listEntry value="C:\Users\sdvpth\Desktop\SafetyECU\Workspaces\Milestone1\Application\Application_Z4_0\Debug\Application_Z4_0.elf"/>
-<listEntry value="C:\Users\sdvpth\Desktop\SafetyECU\Workspaces\Milestone1\Bootloader\Bootloader_Z4_0\Debug\Bootloader_Z4_0.elf"/>
+<listEntry value="C:\Users\user\Desktop\nxp_board_code\Application\Application_Z4_0\Debug\Application_Z4_0.elf"/>
+<listEntry value="C:\Users\user\Desktop\nxp_board_code\Bootloader\Bootloader_Z4_0\Debug\Bootloader_Z4_0.elf"/>
 </listAttribute>
 <intAttribute key="com.pemicro.debug.gdbjtag.ppc.NUMBER_ELVES" value="2"/>
 <stringAttribute key="com.pemicro.debug.gdbjtag.ppc.PE.DEVICE_NAME" value="MPC5748G"/>
@@ -80,7 +80,7 @@
 <stringAttribute key="com.pemicro.debug.gdbjtag.ppc.ml.SHIFT_FREQ" value="5000"/>
 <booleanAttribute key="com.pemicro.debug.gdbjtag.ppc.ml.SPECIFY_IP" value="false"/>
 <booleanAttribute key="com.pemicro.debug.gdbjtag.ppc.ml.SPECIFY_NETWORK_CARD" value="false"/>
-<stringAttribute key="com.pemicro.debug.gdbjtag.ppc.otherRunCommands" value="set architecture powerpc:vle&#13;&#10;add-symbol-file &quot;C://Users//sdvpth//Desktop//SafetyECU//Workspaces//Milestone1//Bootloader//Bootloader_Z4_0//Debug//Bootloader_Z4_0.elf&quot; 0x01202BD0&#13;&#10;add-symbol-file &quot;C://Users//sdvpth//Desktop//SafetyECU//Workspaces//Milestone1//Application//Application_Z4_0//Debug//Application_Z4_0.elf&quot; 0x1402BD0&#13;&#10;"/>
+<stringAttribute key="com.pemicro.debug.gdbjtag.ppc.otherRunCommands" value="set architecture powerpc:vle&#13;&#10;add-symbol-file &quot;C://Users//user//Desktop//nxp_board_code//Bootloader//Bootloader_Z4_0//Debug//Bootloader_Z4_0.elf&quot; 0x01202BD0&#13;&#10;add-symbol-file &quot;C://Users//user//Desktop//nxp_board_code//Application//Application_Z4_0//Debug//Application_Z4_0.elf&quot; 0x1402BD0&#13;&#10;"/>
 <booleanAttribute key="com.pemicro.debug.gdbjtag.ppc.preserveMemory0" value="true"/>
 <booleanAttribute key="com.pemicro.debug.gdbjtag.ppc.preserveMemory1" value="false"/>
 <booleanAttribute key="com.pemicro.debug.gdbjtag.ppc.preserveMemory2" value="false"/>
@@ -92,7 +92,7 @@
 <stringAttribute key="com.pemicro.debug.gdbjtag.ppc.preserveMemoryTo2" value="3"/>
 <stringAttribute key="com.pemicro.debug.gdbjtag.ppc.sda.CYCLONE_IP" value=""/>
 <booleanAttribute key="com.pemicro.debug.gdbjtag.ppc.sda.DO_RESET_DELAY" value="false"/>
-<intAttribute key="com.pemicro.debug.gdbjtag.ppc.sda.INTERFACE_PORT" value="-1"/>
+<intAttribute key="com.pemicro.debug.gdbjtag.ppc.sda.INTERFACE_PORT" value="0"/>
 <stringAttribute key="com.pemicro.debug.gdbjtag.ppc.sda.INTERFACE_PORT_STRING" value="USB1"/>
 <stringAttribute key="com.pemicro.debug.gdbjtag.ppc.sda.NETWORK_CARD_IP" value=""/>
 <stringAttribute key="com.pemicro.debug.gdbjtag.ppc.sda.POWER_DOWN_DELAY" value=""/>
@@ -176,5 +176,5 @@
 <stringAttribute key="org.eclipse.debug.core.source_locator_memento" value="&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot; standalone=&quot;no&quot;?&gt;&#13;&#10;&lt;sourceLookupDirector&gt;&#13;&#10;&lt;sourceContainers duplicates=&quot;false&quot;&gt;&#13;&#10;&lt;container memento=&quot;&amp;lt;?xml version=&amp;quot;1.0&amp;quot; encoding=&amp;quot;UTF-8&amp;quot; standalone=&amp;quot;no&amp;quot;?&amp;gt;&amp;#13;&amp;#10;&amp;lt;mapping backend_enabled=&amp;quot;true&amp;quot; name=&amp;quot;EWL&amp;quot;&amp;gt;&amp;#13;&amp;#10;&amp;lt;mapEntry memento=&amp;quot;&amp;amp;lt;?xml version=&amp;amp;quot;1.0&amp;amp;quot; encoding=&amp;amp;quot;UTF-8&amp;amp;quot; standalone=&amp;amp;quot;no&amp;amp;quot;?&amp;amp;gt;&amp;amp;#13;&amp;amp;#10;&amp;amp;lt;mapEntry backendPath=&amp;amp;quot;e200_ewl2&amp;amp;quot; localPath=&amp;amp;quot;C:\NXP\S32DS_Power_v2.1\S32DS\build_tools\e200_ewl2&amp;amp;quot;/&amp;amp;gt;&amp;amp;#13;&amp;amp;#10;&amp;quot;/&amp;gt;&amp;#13;&amp;#10;&amp;lt;/mapping&amp;gt;&amp;#13;&amp;#10;&quot; typeId=&quot;org.eclipse.cdt.debug.core.containerType.mapping&quot;/&gt;&#13;&#10;&lt;container memento=&quot;&amp;lt;?xml version=&amp;quot;1.0&amp;quot; encoding=&amp;quot;UTF-8&amp;quot; standalone=&amp;quot;no&amp;quot;?&amp;gt;&amp;#13;&amp;#10;&amp;lt;default/&amp;gt;&amp;#13;&amp;#10;&quot; typeId=&quot;org.eclipse.debug.core.containerType.default&quot;/&gt;&#13;&#10;&lt;/sourceContainers&gt;&#13;&#10;&lt;/sourceLookupDirector&gt;&#13;&#10;"/>
 <stringAttribute key="org.eclipse.dsf.launch.MEMORY_BLOCKS" value="&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot; standalone=&quot;no&quot;?&gt;&#13;&#10;&lt;memoryBlockExpressionList context=&quot;reserved-for-future-use&quot;/&gt;&#13;&#10;"/>
 <stringAttribute key="process_factory_id" value="org.eclipse.cdt.dsf.gdb.GdbProcessFactory"/>
-<stringAttribute key="saved_expressions&lt;seperator&gt;Unknown" value="0x40001bf0,0x10040000,0x40050000,0x1200000,0x1600000,0x1500000,0x153FFFF,0xf98010,0x40040000,0x1000000,0x1400000,0x1180000,0x0x40040000,0x400400000,0x4004000"/>
+<stringAttribute key="saved_expressions&lt;seperator&gt;Unknown" value="0x40050000,0x1200000,0x1600000,0x1500000,0x153FFFF,0xf98010,0x40040000,0x1000000,0x1400000,0x1180000,0x0x40040000,0x400400000,0x4004000,0x01000000,0x02000000"/>
 </launchConfiguration>

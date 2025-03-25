@@ -51,7 +51,7 @@ Bootloader_Z4_0.siz \
 all: Bootloader_Z4_0.elf secondary-outputs
 
 # Tool invocations
-Bootloader_Z4_0.elf: $(OBJS) C:/Users/sdvpth/Desktop/SafetyECU/Workspaces/Milestone1/Bootloader/Bootloader_Z4_0/Project_Settings/Linker_Files/linker_flash.ld $(OSPT) $(USER_OBJS)
+Bootloader_Z4_0.elf: $(OBJS) C:/Users/user/Desktop/nxp_board_code/Bootloader/Bootloader_Z4_0/Project_Settings/Linker_Files/linker_flash.ld $(OSPT) $(USER_OBJS)
 	@echo 'Building target: $@'
 	@echo 'Invoking: Standard S32DS C Linker'
 	powerpc-eabivle-gcc -o "Bootloader_Z4_0.elf" "@Bootloader_Z4_0.args"  $(USER_OBJS) $(LIBS) $(OSPT)

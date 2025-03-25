@@ -1,7 +1,7 @@
 #ifndef FRAME_TYPES_H
 #define FRAME_TYPES_H
 
-#define MAX_BUFF_SIZE 400
+#define MAX_BUFF_SIZE 4096
 
 
 #include "can_pal1.h"

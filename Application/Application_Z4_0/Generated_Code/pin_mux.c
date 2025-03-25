@@ -7,7 +7,7 @@
 **     Version     : Component 1.2.0, Driver 1.4, CPU db: 3.00.000
 **     Repository  : SDK_S32_PA_11
 **     Compiler    : GNU C Compiler
-**     Date/Time   : 2025-02-15, 03:34, # CodeGen: 0
+**     Date/Time   : 2025-03-19, 16:53, # CodeGen: 19
 **     Abstract    :
 **
 **
@@ -72,7 +72,51 @@
  *
  */
 
-/*! @brief No pin was configured different with reset value */
+/*! @brief Array of pin configuration structures */
+pin_settings_config_t g_pin_mux_InitConfigArr[NUM_OF_CONFIGURED_PINS] =
+{
+    {
+        .base              = SIUL2,
+        .pinPortIdx        = 16u,
+        .mux               = PORT_MUX_ALT1,
+        .outputBuffer      = PORT_OUTPUT_BUFFER_ENABLED,
+        .openDrain         = PORT_OPEN_DRAIN_DISABLED,
+        .slewRateCtrlSel   = HALF_STRENGTH_WITH_SLEWRATE_CONTROL,
+        .hysteresisSelect  = PORT_HYSTERESYS_DISABLED,
+        .safeMode          = PORT_SAFE_MODE_DISABLED,
+        .analogPadCtrlSel  = PORT_ANALOG_PAD_CONTROL_DISABLED,
+        .inputBuffer       = PORT_INPUT_BUFFER_DISABLED,
+        .pullConfig        = PORT_INTERNAL_PULL_NOT_ENABLED,
+        .gpioBase          = PTB,
+    },
+    {
+        .base              = SIUL2,
+        .pinPortIdx        = 17u,
+        .mux               = PORT_MUX_AS_GPIO,
+        .outputBuffer      = PORT_OUTPUT_BUFFER_DISABLED,
+        .openDrain         = PORT_OPEN_DRAIN_DISABLED,
+        .slewRateCtrlSel   = HALF_STRENGTH_WITH_SLEWRATE_CONTROL,
+        .hysteresisSelect  = PORT_HYSTERESYS_DISABLED,
+        .safeMode          = PORT_SAFE_MODE_DISABLED,
+        .analogPadCtrlSel  = PORT_ANALOG_PAD_CONTROL_DISABLED,
+        .inputBuffer       = PORT_INPUT_BUFFER_ENABLED,
+        .pullConfig        = PORT_INTERNAL_PULL_NOT_ENABLED,
+        .gpioBase          = PTB,
+        .intConfig         =
+        {
+            .intEdgeSel    = SIUL2_INT_DISABLE
+        },
+        .inputMux[0]       = PORT_INPUT_MUX_ALT2,
+        .inputMuxReg[0]    = 188,
+        .inputMux[1]       = PORT_INPUT_MUX_NO_INIT,
+        .inputMux[2]       = PORT_INPUT_MUX_NO_INIT,
+        .inputMux[3]       = PORT_INPUT_MUX_NO_INIT,
+        .inputMux[4]       = PORT_INPUT_MUX_NO_INIT,
+        .inputMux[5]       = PORT_INPUT_MUX_NO_INIT,
+        .inputMux[6]       = PORT_INPUT_MUX_NO_INIT,
+        .inputMux[7]       = PORT_INPUT_MUX_NO_INIT,
+    },
+};
 
 /* END pin_mux. */
 /*!

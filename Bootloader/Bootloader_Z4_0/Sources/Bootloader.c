@@ -65,14 +65,14 @@ status_t Bootloader_Erase_Memory(void)
 	}
 
 	/* Erase flash memory starting at the specified address for the given size */
-	returnStatus = BootloaderFlash_Erase(g_BLData->mem_start_address, g_BLData->total_size);
+	returnStatus = BootloaderFlash_Erase(g_BLData->ers_mem_start_address, g_BLData->ers_total_size);
 	if (returnStatus != STATUS_SUCCESS)
 	{
 		return returnStatus;
 	}
 
 	/* Verify that the erased flash memory is blank */
-	return BootloaderFlash_VerifyBlank(g_BLData->mem_start_address, g_BLData->total_size);
+	return BootloaderFlash_VerifyBlank(g_BLData->ers_mem_start_address, g_BLData->ers_total_size);
 }
 
 status_t Bootloader_Program(void)

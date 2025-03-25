@@ -1,6 +1,6 @@
 #include "UDS.h"
 
-#define UDS_APP
+#define UDS_BOOTLOADER
 
 UDS_SID SID = PROGRAMMING_SESSION;
 UDS_SID prev_SID = ROUTINE_CONTROL;
@@ -150,7 +150,13 @@ void UDS_Session_Control(){
 
 		}
 
-		UDS_Create_pos_response(READY);
+		UDS_Create_pos_response(NOTREADY);
+		responseFrame.dataBuffer[2] = 0x23;
+		responseFrame.dataBuffer[3] = 0x23;
+		responseFrame.dataBuffer[4] = 0x23;
+		responseFrame.dataBuffer[5] = 0x23;
+		responseFrame.dataSize = 6;
+		responseFrame.ready = READY;
 	}
 }
 
@@ -173,6 +179,14 @@ void UDS_ECU_Reset(){
 	UDS_Create_pos_response(READY);
 
 	//TODO wait for response to be sent
+	CAN_Deinit(&can_pal1_instance);
+	PIT_DRV_Deinit(INST_PIT1);
+		__asm__("e_lis %r12,0x00F9");
+		__asm__("e_or2i %r12,0x8010");
+		__asm__("e_lwz %r0,0(%r12) ");
+		__asm__("mtlr %r0");
+		__asm__("se_blrl");
+
 
 	if(requested_reset == HARD_RESET){
 		HARD_RESET();
@@ -233,7 +247,7 @@ void UDS_Request_Download(){
 	volatile uint8_t NBytesDataLength = 0;
 	volatile uint8_t memory_address_size = 0;
 	status_t status = 0;
-	if(!(prev_SID == PROGRAMMING_SESSION || prev_SID == REQUEST_TRANSFER_EXIT)){
+	if(!(currentSession == PROGRAMMING_SESSION || prev_SID == ROUTINE_CONTROL || prev_SID == REQUEST_TRANSFER_EXIT)){
 		/* -ve response 0x70 */
 		UDS_Create_neg_response(UPLOAD_DOWNLOAD_NOT_ACCEPTED, READY);
 		return;
@@ -279,7 +293,7 @@ void UDS_Request_Download(){
 			UDS_Create_neg_response(REQ_OUT_OF_RANGE,READY); /* Do memory adressing range check .. if invalid NRC: REQ_OUT_OF_RANGE */
 			return;
 		}else{
-			REQ_Download_Abort();
+			//REQ_Download_Abort();
 			UDS_Create_pos_response(NOTREADY);        /* isReady parameter is set to 0 */
 			responseFrame.dataBuffer[1] = 0x20;       /* MaxNumberBlockLength = 2 bytes, followed by reserved 4 bits = 0 */
 
@@ -337,11 +351,13 @@ void UDS_Transfer_Data(){
 			UDS_Create_neg_response(GENERAL_PROGRAMMING_FAILURE, READY); /* Data couldn't be written */
 			return;
 		}else{
-			seq_number++; /* Update sequence number */
+
 			/* +ve Response */
 			UDS_Create_pos_response(NOTREADY);
 			responseFrame.dataBuffer[1] = seq_number;
 			responseFrame.dataSize = 2;
+
+			seq_number++; /* Update sequence number */
 			responseFrame.ready = READY;
 			// call CAN_TP send?
 		}
@@ -389,6 +405,9 @@ void UDS_Routine_Control(){
 
 		routine_id = (requestFrame.dataBuffer[2] << 8) | requestFrame.dataBuffer[3];
 
+		BL_data.N_paramteres = requestFrame.dataBuffer[4];
+	    expected_size = 7 + BL_data.N_paramteres;
+
 		if(routine_id == ERASE_MEMORY){
 			status = STATUS_BUSY;
 				if (requestFrame.dataSize < 3) {
@@ -424,11 +443,16 @@ void UDS_Routine_Control(){
 				}
 
 			UDS_Erase_Memory(&status); /* pass needed parameters */
-
+			UDS_Create_pos_response(NOTREADY);
+			responseFrame.dataBuffer[2] = requestFrame.dataBuffer[2];
+			responseFrame.dataBuffer[3] = requestFrame.dataBuffer[3];
+			responseFrame.dataBuffer[4] = 0;
+			responseFrame.dataSize = 5;
+			responseFrame.ready = 1;
 		}else if(routine_id == CHECK_MEMORY){
 			status = STATUS_BUSY;
 
-			if (BL_data.N_paramteres != 32) {
+			if (BL_data.N_paramteres != 0x02) {
 				/* -ve response */
 				UDS_Create_neg_response(WRONG_MSG_LEN_OR_FORMAT,READY);
 				return;
@@ -438,7 +462,7 @@ void UDS_Routine_Control(){
 				return;
 			}
 			BL_data.CRC_algo = requestFrame.dataBuffer[ROUTINE_CTRL_SIZE - 1];
-			for(uint8_t i = 0; i<32; i++){
+			for(uint8_t i = 0; i<4; i++){
 				BL_data.CRC_Field <<= 8;
 				BL_data.CRC_Field |= requestFrame.dataBuffer[ROUTINE_CTRL_SIZE + i];
 			}

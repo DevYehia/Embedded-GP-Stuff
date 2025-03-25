@@ -1,7 +1,7 @@
 -c
--I"C:/Users/sdvpth/Desktop/SafetyECU/Workspaces/Milestone1/Application/Application_Z4_0/include"
--I"C:/NXP/S32DS_Power_v2.1/S32DS/build_tools/e200_ewl2/EWL_C/include"
--I"C:/NXP/S32DS_Power_v2.1/S32DS/build_tools/e200_ewl2/EWL_C/include/pa"
+-I"C:/Users/user/Desktop/nxp_board_code/Application/Application_Z4_0/include"
+-I"D:/S32/S32DS/build_tools/e200_ewl2/EWL_C/include"
+-I"D:/S32/S32DS/build_tools/e200_ewl2/EWL_C/include/pa"
 -x assembler-with-cpp
 -DTURN_ON_CPU0
 -DSEMIHOSTING
@@ -13,4 +13,4 @@
 -mbig
 -mvle
 -mregnames
---sysroot="C:/NXP/S32DS_Power_v2.1/S32DS/build_tools/e200_ewl2"
+--sysroot="D:/S32/S32DS/build_tools/e200_ewl2"

@@ -7,7 +7,7 @@
 **     Version     : Component 1.2.0, Driver 1.4, CPU db: 3.00.000
 **     Repository  : SDK_S32_PA_11
 **     Compiler    : GNU C Compiler
-**     Date/Time   : 2025-02-19, 15:20, # CodeGen: 0
+**     Date/Time   : 2025-03-19, 16:57, # CodeGen: 16
 **     Abstract    :
 **
 **     Settings    :
@@ -128,9 +128,9 @@
 **              Peripheral Type CAN                        : 
 **                Custom name                              : CAN_0
 **                CAN_0                                    : 
-**                  Receiver Input                         : <Automatic>
+**                  Receiver Input                         : PB[1]
 **                  CAN_0: Receiver Input                  : <Automatic>
-**                  Transmitter Output                     : <Automatic>
+**                  Transmitter Output                     : PB[0]
 **                Custom name                              : CAN_1
 **                CAN_1                                    : 
 **                  Receiver Input                         : <Automatic>
@@ -4950,7 +4950,11 @@
 #include "pins_driver.h"
 
 
-/*! @brief No pin was configured different with reset value */
+/*! @brief User number of configured pins */
+#define NUM_OF_CONFIGURED_PINS 2
+
+/*! @brief User configuration structure */
+extern pin_settings_config_t g_pin_mux_InitConfigArr[NUM_OF_CONFIGURED_PINS];
 
 /* END pin_mux. */
 #endif /* #ifndef pin_mux_H */

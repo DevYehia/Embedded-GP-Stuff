@@ -7,7 +7,7 @@
 **     Version     : Component SDK_S32_PA_11, Driver 01.00, CPU db: 3.00.000
 **     Repository  : SDK_S32_PA_11
 **     Compiler    : GNU C Compiler
-**     Date/Time   : 2025-02-17, 01:35, # CodeGen: 10
+**     Date/Time   : 2025-03-19, 16:53, # CodeGen: 19
 **
 **     Copyright 1997 - 2015 Freescale Semiconductor, Inc. 
 **     Copyright 2016-2017 NXP 
@@ -66,7 +66,7 @@ const can_instance_t can_pal1_instance = {CAN_INST_TYPE_FLEXCAN, 0U};
 const can_user_config_t can_pal1_Config0 = {
     .txBuffNum = 16UL,
     .rxBuffNum = 16UL,
-    .mode = CAN_LOOPBACK_MODE,
+    .mode = CAN_NORMAL_MODE,
     .peClkSrc = CAN_CLK_SOURCE_OSC,
     .enableFD = false,
     .payloadSize = CAN_PAYLOAD_SIZE_8,

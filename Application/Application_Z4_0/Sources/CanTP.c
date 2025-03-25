@@ -20,6 +20,8 @@ uint8_t timerStarted = 0;
 
 dataFrame* sendingUDS;
 
+can_buff_config_t buffConf = {false, false, 0xAA, CAN_MSG_ID_STD, false};
+
 can_message_t recvMessage;
 void (* currState) ();
 // void (* UDS_Callback)();
@@ -51,16 +53,19 @@ void send_single_frame(uint8_t *payload,uint32_t buffIdx){
 	message.id = 0x33;      //set later with tooling for HMI or application
 	message.length = 8;
 	message.data[0] = 0x0F & sendingUDS->dataSize;
-    for(int i = 1;i<sendingUDS->dataSize;i++)
+    for(int i = 1;i<sendingUDS->dataSize + 1;i++)
     {
         message.data[i] = payload[i-1];
     }
-    for(int i = sendingUDS->dataSize;i<8;i++)
+    for(int i = sendingUDS->dataSize + 1;i<8;i++)
     {
         message.data[i] = 0xAA;
     }
-    CAN_Send(can_instance,buffIdx,&message);
-    sendingUDS->ready=0;
+
+    //can_buff_config_t buffConf = {false, false, 0xAA, CAN_MSG_ID_STD, false};
+    CAN_ConfigTxBuff(&can_pal1_instance, 1, &buffConf);
+    CAN_Send(&can_pal1_instance,buffIdx,&message);
+    sendingUDS->ready = 0;
 }
 
 CANTP_Frame_Types get_type(can_message_t message)
@@ -176,8 +181,7 @@ void handleConsecutiveFrame(){
          else if((prevblock + 1 ) != (recvMessage.data[0] & 0X0F) )
          {
             dataSize = 0;
-            currState = handleFirstFrame;
-            curr_buff_idx = 0;
+            resetCanTP();
             UDSFrame->ready = 0;
             for(int i = 0; i<MAX_TP_SIZE;i++)
             {
@@ -202,26 +206,29 @@ void handleConsecutiveFrame(){
     if(curr_buff_idx > UDSFrame->dataSize)
     {
             dataSize = 0;
-            currState = handleFirstFrame;
-            curr_buff_idx = 0;
+
+            resetCanTP();
             UDSFrame->ready = 0;
             for(int i = 0; i<MAX_TP_SIZE;i++)
             {
             UDSFrame->dataBuffer[i] = 0;
             }
-            timeout = 0;
-            timerStarted = 0;
             send_flow_control('E',TX_BUFF_NUM);
     }
     if(dataSize == 0)
     {
-        currState = handleFirstFrame;
-        curr_buff_idx = 0;
+    	resetCanTP();
         UDSFrame->ready = 1;
-        timerStarted = 0;
-        timeout = 0;
     }
     CAN_Receive(&can_pal1_instance, RX_BUFF_NUM, &recvMessage);
+}
+
+void resetCanTP(){
+    currState = handleFirstFrame;
+    curr_buff_idx = 0;
+    timerStarted = 0;
+    timeout = 0;
+    prevblock = 0;
 }
 
 void handleSingleFrame(){
@@ -259,18 +266,15 @@ void handleFirstFrame(){
 void timeOutHandle()
 {
             dataSize = 0;
-            currState = handleFirstFrame;
-            curr_buff_idx = 0;
+            resetCanTP();
             UDSFrame->ready = 0;
             UDSFrame->dataSize = 0;
             for(int i = 0; i<MAX_TP_SIZE;i++)
             {
             UDSFrame->dataBuffer[i] = 0;
             }
-            timerStarted = 0;
-            timeout = 0;
             send_flow_control('E',TX_BUFF_NUM);
-            
+
 
 }
 
@@ -297,11 +301,12 @@ void CanTP_init(dataFrame* sendingBuffer, dataFrame* recieveBuffer)
 void Can_init(can_instance_t* can_pal_instance, can_user_config_t* can_pal_Config)
 {
     can_instance = can_pal_instance;
-    CAN_Init(can_pal_instance, can_pal_Config);
-    CAN_InstallEventCallback(can_pal_instance, interrupt_callback, NULL);
-    can_buff_config_t buffConf = {false, false, 0xAA, CAN_MSG_ID_STD, false};
+    CAN_Init(&can_pal1_instance, &can_pal1_Config0);
+    CAN_InstallEventCallback(&can_pal1_instance, interrupt_callback, NULL);
+    //can_buff_config_t buffConf = {false, false, 0xAA, CAN_MSG_ID_STD, false};
     CAN_ConfigRxBuff(&can_pal1_instance, RX_BUFF_NUM, &buffConf, 0x55);
     CAN_Receive(&can_pal1_instance, RX_BUFF_NUM, &recvMessage);
     CAN_ConfigTxBuff(&can_pal1_instance, 1, &buffConf);
+
 }
 

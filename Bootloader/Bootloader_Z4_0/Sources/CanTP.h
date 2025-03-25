@@ -8,7 +8,7 @@
 #define TX_BUFF_NUM 1
 #define RX_BUFF_NUM 0
 
-#define MAX_TP_SIZE 400
+#define MAX_TP_SIZE 4096
 
 #define consecutiveFrameSize 7
 #define firstFrameSize 6
@@ -48,5 +48,9 @@ void sendFromUDS(void * pv);
 void recieve(void * pv);
 void timeOutHandle();
 void Can_init(can_instance_t* can_pal_instance, can_user_config_t* can_pal_Config);
+
+void resetCanTP();
+
+
 
 #endif
