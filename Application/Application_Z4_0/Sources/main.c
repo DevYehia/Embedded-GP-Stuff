@@ -175,6 +175,12 @@ void loopBackTask(void* params){
 	while(1);
 }
 
+
+void testSendConsec(){
+	uint8_t payload[] = {1,2,3,4,5,6,7,8,9,0xA,0xB,0xC,0xD,0xE};
+	send_consecutive_frame(payload, 1);
+}
+
 void DisableResetEscalation (void){
 	/*Reset Escalation Registers*/
 	uint8_t * const FRETRegister = (uint8_t *)0xFFFA8604;
@@ -223,6 +229,8 @@ int main(void)
     Can_init(&can_pal1_instance, &can_pal1_Config0);
 //    Can_init(&can_pal1_instance, &can_pal1_Config0);
     CanTP_init(&responseFrame, &requestFrame);
+
+
 	
 //    UDS_Init();
     
@@ -233,13 +241,14 @@ int main(void)
     //     5,
     //     NULL);
 
-//     xTaskCreate(loopBackTask,
-//         "green",
-//		 configMINIMAL_STACK_SIZE,
-//         (void *) 0,
-//         5,
-//         NULL);
-//
+     xTaskCreate(testSendConsec,
+         "green",
+		 configMINIMAL_STACK_SIZE,
+         (void *) 0,
+         5,
+         NULL);
+
+
     xTaskCreate(recieve2,
         "TpReceieve",
 		configMINIMAL_STACK_SIZE,
@@ -247,12 +256,14 @@ int main(void)
         6,
         NULL);
 
+    /*
    xTaskCreate(sendFromUDS2,
        "TPSend",
 		configMINIMAL_STACK_SIZE,
        (void *) 0,
        6,
        NULL);
+       */
 
 //    xTaskCreate(UDS_Receive,
 //    		"UDSReceive",

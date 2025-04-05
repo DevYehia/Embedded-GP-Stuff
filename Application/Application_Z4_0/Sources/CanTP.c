@@ -138,7 +138,8 @@ uint8_t get_payload_size(uint8_t *payload){
 
 void interrupt_callback(uint32_t instance, can_event_t eventType, uint32_t buffIdx, void *driverState){
     if(eventType == CAN_EVENT_RX_COMPLETE){
-             ready = 1;
+    	ready = 1;
+        CAN_Receive(&can_pal1_instance, RX_BUFF_NUM, &recvMessage);
         // if(get_type(recvMessage) == SINGLE){
         // 	handleSingleFrame();
         // }
@@ -280,7 +281,6 @@ void handleConsecutiveFrame(){
     	resetCanTP();
         UDSFrame->ready = 1;
     }
-    CAN_Receive(&can_pal1_instance, RX_BUFF_NUM, &recvMessage);
 }
 
 void resetCanTP(){
@@ -300,12 +300,10 @@ void handleSingleFrame(){
 	}
     //UDS_Callback(payload);
     UDSFrame->ready = 1;
-	CAN_Receive(&can_pal1_instance, RX_BUFF_NUM, &recvMessage);
 
 }
 
 void handleFlowCtl(){
-    CAN_Receive(&can_pal1_instance, RX_BUFF_NUM, &recvMessage);
     currState = handleConsecutiveFrame;
 }
 
