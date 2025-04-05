@@ -18,8 +18,8 @@
         <Line>Generated_Code\FreeRTOSConfig.h</Line>
         <Line>Generated_Code\can_pal_cfg.h</Line>
       </GenExtraFiles>
-      <XtraAge0>1518706822</XtraAge0>
-      <XtraAge1>1518706822</XtraAge1>
+      <XtraAge0>1518708552</XtraAge0>
+      <XtraAge1>1518708265</XtraAge1>
       <GenExtraFileType1>4</GenExtraFileType1>
       <GenExtraFileType0>4</GenExtraFileType0>
       <GenLinkedFiles lines_count="0" />
@@ -779,8 +779,8 @@
     <GenComponentVersion>01.197</GenComponentVersion>
     <GenDriverVersion>01.00</GenDriverVersion>
     <GenEventModule>Events</GenEventModule>
-    <HeaderAge>1518706822</HeaderAge>
-    <CodeAge>1518706822</CodeAge>
+    <HeaderAge>1518708265</HeaderAge>
+    <CodeAge>1518708265</CodeAge>
     <AsemblAge>-1</AsemblAge>
     <GenNumMethods>3</GenNumMethods>
     <SystemInit>true</SystemInit>
@@ -827,8 +827,8 @@
     <GenComponentVersion>1.2.0</GenComponentVersion>
     <GenDriverVersion>1.4</GenDriverVersion>
     <GenEventModule />
-    <HeaderAge>1518706822</HeaderAge>
-    <CodeAge>1518706822</CodeAge>
+    <HeaderAge>1518708265</HeaderAge>
+    <CodeAge>1518708265</CodeAge>
     <AsemblAge>-1</AsemblAge>
     <GenNumMethods>17</GenNumMethods>
     <PINS_DRV_Init>true</PINS_DRV_Init>
@@ -866,8 +866,8 @@
     <GenComponentVersion>SDK_S32_PA_11</GenComponentVersion>
     <GenDriverVersion>01.00</GenDriverVersion>
     <GenEventModule />
-    <HeaderAge>1518706822</HeaderAge>
-    <CodeAge>1518706822</CodeAge>
+    <HeaderAge>1518708265</HeaderAge>
+    <CodeAge>1518708265</CodeAge>
     <AsemblAge>-1</AsemblAge>
     <GenNumMethods>2</GenNumMethods>
     <CLOCK_DRV_Init>true</CLOCK_DRV_Init>
@@ -928,8 +928,8 @@
     <GenComponentVersion>SDK_S32_PA_11</GenComponentVersion>
     <GenDriverVersion>01.00</GenDriverVersion>
     <GenEventModule />
-    <HeaderAge>1518706822</HeaderAge>
-    <CodeAge>1518706822</CodeAge>
+    <HeaderAge>1518708265</HeaderAge>
+    <CodeAge>1518708265</CodeAge>
     <AsemblAge>-1</AsemblAge>
     <GenNumMethods>32</GenNumMethods>
     <EDMA_DRV_Init>true</EDMA_DRV_Init>
@@ -1180,8 +1180,8 @@
     <GenComponentVersion>SDK_S32_PA_11</GenComponentVersion>
     <GenDriverVersion>01.00</GenDriverVersion>
     <GenEventModule />
-    <HeaderAge>1518706822</HeaderAge>
-    <CodeAge>1518706822</CodeAge>
+    <HeaderAge>1518708265</HeaderAge>
+    <CodeAge>1518708265</CodeAge>
     <AsemblAge>-1</AsemblAge>
     <GenNumMethods>16</GenNumMethods>
     <CAN_Init>true</CAN_Init>
@@ -1216,8 +1216,8 @@
     <GenComponentVersion>SDK_S32_PA_11</GenComponentVersion>
     <GenDriverVersion>01.00</GenDriverVersion>
     <GenEventModule />
-    <HeaderAge>1518706822</HeaderAge>
-    <CodeAge>1518706822</CodeAge>
+    <HeaderAge>1518708265</HeaderAge>
+    <CodeAge>1518708265</CodeAge>
     <AsemblAge>-1</AsemblAge>
     <GenNumMethods>19</GenNumMethods>
     <PIT_DRV_GetDefaultConfig>true</PIT_DRV_GetDefaultConfig>
