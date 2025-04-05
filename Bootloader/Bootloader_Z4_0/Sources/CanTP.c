@@ -21,7 +21,7 @@ uint8_t timerStarted = 0;
 dataFrame* sendingUDS;
 
 can_buff_config_t buffConf = {false, false, 0xAA, CAN_MSG_ID_STD, false};
-
+xSemaphoreHandle xBinarySemaphore;
 can_message_t recvMessage;
 void (* currState) ();
 // void (* UDS_Callback)();
@@ -66,6 +66,43 @@ void send_single_frame(uint8_t *payload,uint32_t buffIdx){
     CAN_ConfigTxBuff(&can_pal1_instance, 1, &buffConf);
     CAN_Send(&can_pal1_instance,buffIdx,&message);
     sendingUDS->ready = 0;
+}
+
+void send_consecutive_frame(uint8_t *payload,uint32_t buffIdx)
+{
+    can_message_t message;
+	message.id = 0x33;      //set later with tooling for HMI or application
+	message.length = 8;
+    uint8_t seq_n = 1;
+    int32_t size = sendingUDS->dataSize;
+
+    message.data[0] = 0x10 | sendingUDS->dataSize >>8;
+    message.data[1] = sendingUDS->dataSize;
+    message.data[2] = payload[0];
+    message.data[3] = payload[1];
+    message.data[4] = payload[2];
+    message.data[5] = payload[3];
+    message.data[6] = payload[4];
+    message.data[7] = payload[5];
+
+    size = sendingUDS->dataSize - 6;
+    CAN_Send(&can_pal1_instance, 1, &message);
+
+    xSemaphoreTake(xBinarySemaphore,portMAX_DELAY);
+
+    int i = 6;
+    while(size>0)
+    {
+        message.data[0] = 0x20 + seq_n;
+        seq_n = (seq_n + 1) % 16;
+        for(int j = 0 ; j <7 ; j++){
+            message.data[j+1]= payload[i+j];
+        }
+        CAN_Send(&can_pal1_instance, 1, &message);
+        size = size - 7;
+        i = i+7;
+        vTaskDelay(pdMS_TO_TICKS( 20 ));
+    }
 }
 
 CANTP_Frame_Types get_type(can_message_t message)
@@ -120,11 +157,19 @@ void sendFromUDS(void * pv)
 {
 //    while (1)
 //    {
-        if(sendingUDS->ready == 1)
+    if(sendingUDS->ready == 1)
+    {
+        if(sendingUDS->dataSize<8)
         {
-            send_single_frame(sendingUDS->dataBuffer,TX_BUFF_NUM);
+        send_single_frame(sendingUDS->dataBuffer,TX_BUFF_NUM);
+        sendingUDS->ready = 0;
+        }
+        if(sendingUDS->dataSize>=8)
+        {
+            send_consecutive_frame(sendingUDS->dataBuffer,TX_BUFF_NUM);
             sendingUDS->ready = 0;
         }
+    }
 
 //        vTaskDelay(pdMS_TO_TICKS(10));
 //    }
@@ -152,7 +197,14 @@ void recieve(void * pv)
         }
         else if (get_type(recvMessage) == FLOW)
         {
-
+            if(recvMessage.data[0] == 0x30)
+            {
+                xSemaphoreGive(xBinarySemaphore);
+            }
+            if(recvMessage.data[0] == 0x32)
+            {
+                
+            }
         }
             ready = 0;
         }
@@ -295,6 +347,7 @@ void CanTP_init(dataFrame* sendingBuffer, dataFrame* recieveBuffer)
     sendingUDS = sendingBuffer;
     UDSFrame = recieveBuffer;
     currState = handleFirstFrame;
+    xBinarySemaphore = xSemaphoreCreateBinary();
 
 }
 

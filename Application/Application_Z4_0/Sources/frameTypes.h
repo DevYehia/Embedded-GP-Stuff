@@ -11,7 +11,7 @@ typedef struct dataFrame
 {
     uint8_t ready;
     uint8_t dataBuffer[MAX_BUFF_SIZE];
-    uint8_t dataSize;
+    uint16_t dataSize;
 } dataFrame;
 
 
