@@ -1,4 +1,4 @@
-*/Debug
-*/Generated_Code
-*/*.g_c
-*/*.g_x
+**/Debug
+**/Generated_Code
+**/*.g_c
+**/*.g_x
