@@ -105,6 +105,13 @@ void send_consecutive_frame(uint8_t *payload,uint32_t buffIdx)
         for(int j = 0 ; j < frame_message_size ; j++){
             message.data[j+1]= payload[i+j];
         }
+        if(size<7)
+        {
+            for(int i = sendingUDS->dataSize + 1;i<8;i++)
+                {
+                    message.data[i] = 0xAA;
+                }
+        }
         
         CAN_Send(&can_pal1_instance, 1, &message);
         size = size - 7;

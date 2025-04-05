@@ -95,9 +95,23 @@ void send_consecutive_frame(uint8_t *payload,uint32_t buffIdx)
     {
         message.data[0] = 0x20 + seq_n;
         seq_n = (seq_n + 1) % 16;
-        for(int j = 0 ; j <7 ; j++){
+        int frame_message_size = 7;
+        // int frame_message_size = size < 7 ? size : 7;
+        if(size < 7){
+            frame_message_size = size;
+            message.length = size + 1;
+        }
+        for(int j = 0 ; j < frame_message_size ; j++){
             message.data[j+1]= payload[i+j];
         }
+        if(size<7)
+        {
+            for(int i = sendingUDS->dataSize + 1;i<8;i++)
+                {
+                    message.data[i] = 0xAA;
+                }
+        }
+        
         CAN_Send(&can_pal1_instance, 1, &message);
         size = size - 7;
         i = i+7;
@@ -131,6 +145,7 @@ uint8_t get_payload_size(uint8_t *payload){
 void interrupt_callback(uint32_t instance, can_event_t eventType, uint32_t buffIdx, void *driverState){
     if(eventType == CAN_EVENT_RX_COMPLETE){
              ready = 1;
+             CAN_Receive(&can_pal1_instance, RX_BUFF_NUM, &recvMessage);
         // if(get_type(recvMessage) == SINGLE){
         // 	handleSingleFrame();
         // }
@@ -272,7 +287,7 @@ void handleConsecutiveFrame(){
     	resetCanTP();
         UDSFrame->ready = 1;
     }
-    CAN_Receive(&can_pal1_instance, RX_BUFF_NUM, &recvMessage);
+    //CAN_Receive(&can_pal1_instance, RX_BUFF_NUM, &recvMessage);
 }
 
 void resetCanTP(){
@@ -292,12 +307,12 @@ void handleSingleFrame(){
 	}
     //UDS_Callback(payload);
     UDSFrame->ready = 1;
-	CAN_Receive(&can_pal1_instance, RX_BUFF_NUM, &recvMessage);
+	//CAN_Receive(&can_pal1_instance, RX_BUFF_NUM, &recvMessage);
 
 }
 
 void handleFlowCtl(){
-    CAN_Receive(&can_pal1_instance, RX_BUFF_NUM, &recvMessage);
+    //CAN_Receive(&can_pal1_instance, RX_BUFF_NUM, &recvMessage);
     currState = handleConsecutiveFrame;
 }
 
