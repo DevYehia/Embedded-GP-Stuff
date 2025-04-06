@@ -99,7 +99,7 @@ void send_consecutive_frame(uint8_t *payload,uint32_t buffIdx)
         // int frame_message_size = size < 7 ? size : 7;
         if(size < 7){
             frame_message_size = size;
-            message.length = size + 1;
+
         }
         for(int j = 0 ; j < frame_message_size ; j++){
             message.data[j+1]= payload[i+j];

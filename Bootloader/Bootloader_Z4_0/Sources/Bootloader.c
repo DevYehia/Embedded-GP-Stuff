@@ -111,11 +111,13 @@ status_t Bootloader_CheckMemory(void)
 		return STATUS_ERROR;
 	}
 
+	uint32_t prev_start_address = g_BLData->mem_start_address - g_BLData->total_size;
+
 	/* Initialize CRC calculation module */
 	BootloaderFlash_InitCRC();
 
 	/* Compute CRC32 over the flash memory area defined by UDS bootloader data */
-	uint32_t computed_crc = BootloaderFlash_CalculateCRC32(g_BLData->mem_start_address, g_BLData->total_size);
+	uint32_t computed_crc = BootloaderFlash_CalculateCRC32(prev_start_address, g_BLData->total_size);
 
 	/* Restore flash controller cache settings after flash operations */
 	RestoreFlashControllerCache(FLASH_PFCR1, pflash_pfcr1);

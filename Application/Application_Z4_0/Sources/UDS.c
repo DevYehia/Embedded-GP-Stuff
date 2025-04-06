@@ -82,9 +82,6 @@ static uint8_t get_data_by_ID(DID ID){
 
 static void write_data_by_ID(DID ID, uint8_t data){
 	switch (ID){
-	case CURR_SESSION_ID:
-		currentSession = data;
-		break;
 
 	default:
 		break;
@@ -125,13 +122,7 @@ void UDS_Session_Control(){
 	//reset if programming session is needed in application
 	else{
 
-		if(requested_session == PROGRAMMING_SESSION && currentSession == DEFAULT_SESSION){
-
-			currentSession = requested_session;
-			//taskYIELD();
-			//TODO wait for sending response
-			initVAR = 0xFFFFAAAA;
-
+		//respond
 			UDS_Create_pos_response(NOTREADY);
 			responseFrame.dataBuffer[2] = 0x23;
 			responseFrame.dataBuffer[3] = 0x23;
@@ -139,6 +130,13 @@ void UDS_Session_Control(){
 			responseFrame.dataBuffer[5] = 0x23;
 			responseFrame.dataSize = 6;
 			responseFrame.ready = READY;
+		if(requested_session == PROGRAMMING_SESSION && currentSession == DEFAULT_SESSION){
+
+			currentSession = requested_session;
+			//taskYIELD();
+			//TODO wait for sending response
+			initVAR = 0xFFFFAAAA;
+
 			/* Set flag ... to be in flash/eeprom */
 //#ifndef UDS_BOOTLOADER
 			//SOFT_RESET();
@@ -155,13 +153,7 @@ void UDS_Session_Control(){
 
 		}
 
-		UDS_Create_pos_response(NOTREADY);
-		responseFrame.dataBuffer[2] = 0x23;
-		responseFrame.dataBuffer[3] = 0x23;
-		responseFrame.dataBuffer[4] = 0x23;
-		responseFrame.dataBuffer[5] = 0x23;
-		responseFrame.dataSize = 6;
-		responseFrame.ready = READY;
+
 	}
 }
 
@@ -182,7 +174,7 @@ void UDS_ECU_Reset(){
 	}
 	//respond
 	UDS_Create_pos_response(READY);
-
+	vTaskDelay(pdMS_TO_TICKS( 20 ));
 	//TODO wait for response to be sent
 
 	if(requested_reset == HARD_RESET){
@@ -418,7 +410,7 @@ void UDS_Routine_Control(){
 				UDS_Create_neg_response(WRONG_MSG_LEN_OR_FORMAT,READY);
 				return;
 			}
-			for(uint8_t i = 0; i<32; i++){
+			for(uint8_t i = 0; i < 4; i++){
 				BL_data.CRC_Field <<= 8;
 				BL_data.CRC_Field |= requestFrame.dataBuffer[ROUTINE_CTRL_SIZE + i];
 			}

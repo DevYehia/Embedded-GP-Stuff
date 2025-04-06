@@ -84,9 +84,6 @@ static uint8_t get_data_by_ID(DID ID){
 
 static void write_data_by_ID(DID ID, uint8_t data){
 	switch (ID){
-	case CURR_SESSION_ID:
-		currentSession = data;
-		break;
 
 	default:
 		break;
