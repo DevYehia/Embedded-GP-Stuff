@@ -65,7 +65,8 @@ typedef enum UDS_SID {
 
 typedef enum ROUTINE_CTRL_ROUTINE_ID {
     ERASE_MEMORY                =       0Xff00,
-    CHECK_MEMORY                =       0Xff01
+    CHECK_MEMORY                =       0Xff01,
+    FINALIZE_PROGRAMMING        =       0Xff02
 } ROUTINE_IDENTIFIER;
 
 typedef enum RoutineControlType {
