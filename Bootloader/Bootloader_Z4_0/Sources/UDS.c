@@ -403,10 +403,11 @@ void UDS_Routine_Control(){
 		routine_id = (requestFrame.dataBuffer[2] << 8) | requestFrame.dataBuffer[3];
 
 		BL_data.N_paramteres = requestFrame.dataBuffer[4];
-	    expected_size = 7 + BL_data.N_paramteres;
+
 
 		if(routine_id == ERASE_MEMORY){
 			status = STATUS_BUSY;
+			expected_size = 7 + BL_data.N_paramteres;
 				if (requestFrame.dataSize < 3) {
 					REQ_Download_Abort();
 					UDS_Create_neg_response(WRONG_MSG_LEN_OR_FORMAT, READY);
@@ -448,8 +449,8 @@ void UDS_Routine_Control(){
 			responseFrame.ready = 1;
 		}else if(routine_id == CHECK_MEMORY){
 			status = STATUS_BUSY;
-
-			if (BL_data.N_paramteres != 0x02) {
+			expected_size = 5 + BL_data.N_paramteres;
+			if (BL_data.N_paramteres != 0x04 || BL_data.N_paramteres != 0x02 || BL_data.N_paramteres != 0x01) {
 				/* -ve response */
 				UDS_Create_neg_response(WRONG_MSG_LEN_OR_FORMAT,READY);
 				return;
@@ -457,13 +458,12 @@ void UDS_Routine_Control(){
 				// Ensure full parameters are received
 				UDS_Create_neg_response(WRONG_MSG_LEN_OR_FORMAT,READY);
 				return;
+			}else{
+				for(uint8_t i = 0; i<BL_data.N_paramteres; i++){
+					BL_data.CRC_Field <<= 8;
+					BL_data.CRC_Field |= requestFrame.dataBuffer[5 + 1 + i];
+				}
 			}
-			BL_data.CRC_algo = requestFrame.dataBuffer[ROUTINE_CTRL_SIZE - 1];
-			for(uint8_t i = 0; i<4; i++){
-				BL_data.CRC_Field <<= 8;
-				BL_data.CRC_Field |= requestFrame.dataBuffer[ROUTINE_CTRL_SIZE + i];
-			}
-
 			UDS_Check_Memory(&status); /* pass needed parameters */
 		}else{      /* -ve response Invalid subfunction routine */
 			UDS_Create_neg_response(SUB_FUNC_NOT_SUPPORTED,READY);
