@@ -401,9 +401,7 @@ void UDS_Routine_Control(){
 	if(requestFrame.dataBuffer[1] == START_ROUTINE){
 
 		routine_id = (requestFrame.dataBuffer[2] << 8) | requestFrame.dataBuffer[3];
-
 		BL_data.N_paramteres = requestFrame.dataBuffer[4];
-
 
 		if(routine_id == ERASE_MEMORY){
 			status = STATUS_BUSY;
@@ -446,7 +444,7 @@ void UDS_Routine_Control(){
 			responseFrame.dataBuffer[3] = requestFrame.dataBuffer[3];
 			responseFrame.dataBuffer[4] = 0;
 			responseFrame.dataSize = 5;
-			responseFrame.ready = 1;
+			responseFrame.ready = READY;
 		}else if(routine_id == CHECK_MEMORY){
 			status = STATUS_BUSY;
 			expected_size = 5 + BL_data.N_paramteres;
@@ -465,6 +463,13 @@ void UDS_Routine_Control(){
 				}
 			}
 			UDS_Check_Memory(&status); /* pass needed parameters */
+		}else if(routine_id == FINALIZE_PROGRAMMING){
+			UDS_Create_pos_response(NOTREADY);
+			responseFrame.dataBuffer[2] = requestFrame.dataBuffer[2];
+			responseFrame.dataBuffer[3] = requestFrame.dataBuffer[3];
+			responseFrame.dataBuffer[4] = 0;
+			responseFrame.dataSize = 5;
+			responseFrame.ready = READY;
 		}else{      /* -ve response Invalid subfunction routine */
 			UDS_Create_neg_response(SUB_FUNC_NOT_SUPPORTED,READY);
 
