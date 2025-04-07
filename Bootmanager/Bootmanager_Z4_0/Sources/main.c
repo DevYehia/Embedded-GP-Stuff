@@ -18,6 +18,7 @@ void DisableResetEscalation (void){
 	*DRETRegister = 0U;
 }
 
+
 int main(void) {
 
 	//volatile uint32_t test = 1;

@@ -159,7 +159,7 @@ void UDS_Session_Control(){
 
 void UDS_ECU_Reset(){
 	uint8_t* payload = requestFrame.dataBuffer;
-	ECU_RESET_SUBFUNC requested_reset = payload[SID_POS];
+	ECU_RESET_SUBFUNC requested_reset = payload[SUB_BYTE_POS];
 
 	//check message length
 	if(requestFrame.dataSize < ECU_RESET_MIN_SIZE){
@@ -174,6 +174,7 @@ void UDS_ECU_Reset(){
 	}
 	//respond
 	UDS_Create_pos_response(READY);
+	vTaskDelay(pdMS_TO_TICKS( 20 ));
 
 	//TODO wait for response to be sent
 	CAN_Deinit(&can_pal1_instance);
@@ -447,8 +448,8 @@ void UDS_Routine_Control(){
 			responseFrame.ready = READY;
 		}else if(routine_id == CHECK_MEMORY){
 			status = STATUS_BUSY;
-			expected_size = 5 + BL_data.N_paramteres;
-			if (BL_data.N_paramteres != 0x04 || BL_data.N_paramteres != 0x02 || BL_data.N_paramteres != 0x01) {
+			expected_size = 5 + BL_data.N_paramteres*2;
+			if (BL_data.N_paramteres != 0x04 && BL_data.N_paramteres != 0x02 && BL_data.N_paramteres != 0x01) {
 				/* -ve response */
 				UDS_Create_neg_response(WRONG_MSG_LEN_OR_FORMAT,READY);
 				return;
@@ -457,9 +458,9 @@ void UDS_Routine_Control(){
 				UDS_Create_neg_response(WRONG_MSG_LEN_OR_FORMAT,READY);
 				return;
 			}else{
-				for(uint8_t i = 0; i<BL_data.N_paramteres; i++){
+				for(uint8_t i = 0; i<BL_data.N_paramteres*2; i++){
 					BL_data.CRC_Field <<= 8;
-					BL_data.CRC_Field |= requestFrame.dataBuffer[5 + 1 + i];
+					BL_data.CRC_Field |= requestFrame.dataBuffer[5 + i];
 				}
 			}
 			UDS_Check_Memory(&status); /* pass needed parameters */

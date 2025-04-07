@@ -232,6 +232,7 @@ int main(void)
 	CLOCK_SYS_UpdateConfiguration(0U, CLOCK_MANAGER_POLICY_AGREEMENT);
 	PINS_DRV_Init(NUM_OF_CONFIGURED_PINS, g_pin_mux_InitConfigArr);
 
+
 	//Init CAN Stack
 	Can_init(&can_pal1_instance, &can_pal1_Config0);
 

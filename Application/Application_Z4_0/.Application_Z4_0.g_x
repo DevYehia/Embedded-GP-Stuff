@@ -49,27 +49,27 @@
       <File Name="Documentation/Application_Z4_0.txt" FileDate="2025-03-20, 16:42:00" FileAge="1742481720754" FileType="3072" />
       <File Name="SDK/rtos/osif/osif_freertos.c" FileDate="2025-03-20, 16:42:00" FileAge="1742481720816" FileType="1048576" CompNumb="8" />
       <File Name="SDK/platform/devices/devassert.h" FileDate="2025-03-20, 16:42:00" FileAge="1742481720780" FileType="1048576" CompNumb="1" />
-      <File Name="Generated_Code/can_pal_cfg.h" FileDate="2025-04-05, 20:49:19" FileAge="1743878959331" FileType="45637" CompNumb="1" />
-      <File Name="Generated_Code/pin_mux.h" FileDate="2025-04-05, 20:49:19" FileAge="1743878959375" FileType="45637" CompNumb="2" />
+      <File Name="Generated_Code/can_pal_cfg.h" FileDate="2025-04-05, 21:04:17" FileAge="1743879857607" FileType="45637" CompNumb="1" />
+      <File Name="Generated_Code/pin_mux.h" FileDate="2025-04-05, 21:04:17" FileAge="1743879857651" FileType="45637" CompNumb="2" />
       <File Name="SDK/platform/pal/inc/can_pal_mapping.h" FileDate="2025-03-20, 16:42:00" FileAge="1742481720796" FileType="1048576" CompNumb="0" />
       <File Name="SDK/platform/devices/MPC5748G/include/MPC5748G_features.h" FileDate="2025-03-20, 16:42:00" FileAge="1742481720778" FileType="1048576" CompNumb="1" />
-      <File Name="Generated_Code/pin_mux.c" FileDate="2025-04-05, 20:49:19" FileAge="1743878959371" FileType="45637" CompNumb="2" />
+      <File Name="Generated_Code/pin_mux.c" FileDate="2025-04-05, 21:04:17" FileAge="1743879857647" FileType="45637" CompNumb="2" />
       <File Name="SDK/rtos/FreeRTOS_PA/Source/include/list.h" FileDate="2025-03-20, 16:42:00" FileAge="1742481720801" FileType="1048576" CompNumb="9" />
       <File Name="SDK/platform/pal/inc/can_pal.h" FileDate="2025-03-20, 16:42:00" FileAge="1742481720796" FileType="1048576" CompNumb="0" />
       <File Name="SDK/platform/devices/startup.h" FileDate="2025-03-20, 16:42:00" FileAge="1742481720781" FileType="1048576" CompNumb="1" />
-      <File Name="Sources/main.c" FileDate="2025-04-05, 20:24:15" FileAge="1743877455522" FileType="128" />
+      <File Name="Sources/main.c" FileDate="2025-04-06, 22:45:26" FileAge="1743972326490" FileType="128" />
       <File Name="SDK/platform/devices/MPC5748G/startup/system_MPC5748G.h" FileDate="2025-03-20, 16:42:00" FileAge="1742481720778" FileType="1048576" CompNumb="1" />
       <File Name="SDK/rtos/FreeRTOS_PA/Source/portable/MemMang/heap_2.c" FileDate="2025-03-20, 16:42:00" FileAge="1742481720812" FileType="1048576" CompNumb="9" />
       <File Name="SDK/rtos/FreeRTOS_PA/Source/include/portable.h" FileDate="2025-03-20, 16:42:00" FileAge="1742481720802" FileType="1048576" CompNumb="9" />
-      <File Name="SDK/platform/drivers/src/clock/MPC57xx/mc_me_hw_access.h" FileDate="2025-03-20, 16:42:00" FileAge="1742481720788" FileType="1048576" CompNumb="3" />
       <File Name="SDK/platform/drivers/inc/interrupt_manager.h" FileDate="2025-03-20, 16:42:00" FileAge="1742481720784" FileType="1048576" CompNumb="4" />
       <File Name="SDK/platform/devices/startup.c" FileDate="2025-03-20, 16:42:00" FileAge="1742481720781" FileType="1048576" CompNumb="1" />
+      <File Name="SDK/platform/drivers/src/clock/MPC57xx/mc_me_hw_access.h" FileDate="2025-03-20, 16:42:00" FileAge="1742481720788" FileType="1048576" CompNumb="3" />
       <File Name="SDK/rtos/FreeRTOS_PA/Source/include/task.h" FileDate="2025-03-20, 16:42:00" FileAge="1742481720806" FileType="1048576" CompNumb="9" />
       <File Name="SDK/platform/devices/MPC5748G/startup/system_MPC5748G.c" FileDate="2025-03-20, 16:42:00" FileAge="1742481720778" FileType="1048576" CompNumb="1" />
-      <File Name="Project_Settings/Linker_Files/linker_ram.ld" FileDate="2025-03-20, 16:42:00" FileAge="1742481720768" FileType="1048576" CompNumb="1" />
       <File Name="SDK/rtos/FreeRTOS_PA/Source/include/semphr.h" FileDate="2025-03-20, 16:42:00" FileAge="1742481720804" FileType="1048576" CompNumb="9" />
-      <File Name="SDK/rtos/FreeRTOS_PA/Source/include/queue.h" FileDate="2025-03-20, 16:42:00" FileAge="1742481720804" FileType="1048576" CompNumb="9" />
+      <File Name="Project_Settings/Linker_Files/linker_ram.ld" FileDate="2025-03-20, 16:42:00" FileAge="1742481720768" FileType="1048576" CompNumb="1" />
       <File Name="SDK/rtos/FreeRTOS_PA/Source/queue.c" FileDate="2025-03-20, 16:42:00" FileAge="1742481720812" FileType="1048576" CompNumb="9" />
+      <File Name="SDK/rtos/FreeRTOS_PA/Source/include/queue.h" FileDate="2025-03-20, 16:42:00" FileAge="1742481720804" FileType="1048576" CompNumb="9" />
       <File Name="SDK/platform/drivers/inc/edma_driver.h" FileDate="2025-03-20, 16:42:00" FileAge="1742481720782" FileType="1048576" CompNumb="6" />
       <File Name="SDK/platform/drivers/src/pins/siul2/siul2_hw_access.h" FileDate="2025-03-20, 16:42:00" FileAge="1742481720795" FileType="1048576" CompNumb="2" />
       <File Name="SDK/platform/drivers/src/flexcan/flexcan_driver.c" FileDate="2025-03-20, 16:42:00" FileAge="1742481720791" FileType="1048576" CompNumb="1" />
@@ -89,50 +89,50 @@
       <File Name="SDK/platform/drivers/inc/pit_driver.h" FileDate="2025-03-20, 16:42:00" FileAge="1742481720784" FileType="1048576" CompNumb="12" />
       <File Name="SDK/rtos/FreeRTOS_PA/Source/include/deprecated_definitions.h" FileDate="2025-03-20, 16:42:00" FileAge="1742481720801" FileType="1048576" CompNumb="9" />
       <File Name="SDK/platform/drivers/src/clock/MPC57xx/cgm_hw_access.h" FileDate="2025-03-20, 16:42:00" FileAge="1742481720786" FileType="1048576" CompNumb="3" />
-      <File Name="Generated_Code/dmaController1.h" FileDate="2025-04-05, 20:49:19" FileAge="1743878959361" FileType="45637" CompNumb="6" />
+      <File Name="Generated_Code/dmaController1.h" FileDate="2025-04-05, 21:04:17" FileAge="1743879857638" FileType="45637" CompNumb="6" />
       <File Name="SDK/rtos/FreeRTOS_PA/Source/include/message_buffer.h" FileDate="2025-03-20, 16:42:00" FileAge="1742481720802" FileType="1048576" CompNumb="9" />
-      <File Name="Generated_Code/pit1.h" FileDate="2025-04-05, 20:49:19" FileAge="1743878959345" FileType="45637" CompNumb="12" />
+      <File Name="Generated_Code/pit1.h" FileDate="2025-04-05, 21:04:17" FileAge="1743879857624" FileType="45637" CompNumb="12" />
       <File Name="SDK/platform/drivers/inc/flexcan_driver.h" FileDate="2025-03-20, 16:42:00" FileAge="1742481720783" FileType="1048576" CompNumb="1" />
-      <File Name="Generated_Code/can_pal1.h" FileDate="2025-04-05, 20:49:19" FileAge="1743878959353" FileType="45637" CompNumb="10" />
+      <File Name="Generated_Code/can_pal1.h" FileDate="2025-04-05, 21:04:17" FileAge="1743879857629" FileType="45637" CompNumb="10" />
       <File Name="SDK/platform/devices/callbacks.h" FileDate="2025-03-20, 16:42:00" FileAge="1742481720778" FileType="1048576" CompNumb="1" />
-      <File Name="Generated_Code/dmaController1.c" FileDate="2025-04-05, 20:49:19" FileAge="1743878959358" FileType="45637" CompNumb="6" />
+      <File Name="Generated_Code/dmaController1.c" FileDate="2025-04-05, 21:04:17" FileAge="1743879857635" FileType="45637" CompNumb="6" />
       <File Name="SDK/rtos/FreeRTOS_PA/Source/portable/GCC/PowerPC/portasm.s" FileDate="2025-03-20, 16:42:00" FileAge="1742481720809" FileType="1048576" CompNumb="9" />
-      <File Name="Generated_Code/pit1.c" FileDate="2025-04-05, 20:49:19" FileAge="1743878959342" FileType="45637" CompNumb="12" />
-      <File Name="Generated_Code/can_pal1.c" FileDate="2025-04-05, 20:49:19" FileAge="1743878959348" FileType="45637" CompNumb="10" />
+      <File Name="Generated_Code/pit1.c" FileDate="2025-04-05, 21:04:17" FileAge="1743879857620" FileType="45637" CompNumb="12" />
+      <File Name="Generated_Code/can_pal1.c" FileDate="2025-04-05, 21:04:17" FileAge="1743879857626" FileType="45637" CompNumb="10" />
       <File Name="SDK/rtos/FreeRTOS_PA/Source/portable/GCC/PowerPC/cpu_defines.h" FileDate="2025-03-20, 16:42:00" FileAge="1742481720809" FileType="1048576" CompNumb="9" />
       <File Name="SDK/rtos/FreeRTOS_PA/Source/include/event_groups.h" FileDate="2025-03-20, 16:42:00" FileAge="1742481720801" FileType="1048576" CompNumb="9" />
       <File Name="Generated_Code/FreeRTOS.c" FileDate="1970-01-01, 01:59:59" FileAge="-1" FileType="45637" CompNumb="9" />
       <File Name="SDK/platform/drivers/src/edma/edma_irq.h" FileDate="2025-03-20, 16:42:00" FileAge="1742481720790" FileType="1048576" CompNumb="6" />
       <File Name="SDK/rtos/FreeRTOS_PA/Source/include/stack_macros.h" FileDate="2025-03-20, 16:42:00" FileAge="1742481720804" FileType="1048576" CompNumb="9" />
-      <File Name="Generated_Code/Cpu.h" FileDate="2025-04-05, 20:49:19" FileAge="1743878959337" FileType="45637" CompNumb="1" />
+      <File Name="Generated_Code/Cpu.h" FileDate="2025-04-05, 21:04:17" FileAge="1743879857616" FileType="45637" CompNumb="1" />
       <File Name="SDK/platform/drivers/src/edma/edma_irq.c" FileDate="2025-03-20, 16:42:00" FileAge="1742481720790" FileType="1048576" CompNumb="6" />
       <File Name="SDK/rtos/FreeRTOS_PA/Source/portable/GCC/PowerPC/portmacro.h" FileDate="2025-03-20, 16:42:00" FileAge="1742481720811" FileType="1048576" CompNumb="9" />
       <File Name="SDK/rtos/FreeRTOS_PA/Source/croutine.c" FileDate="2025-03-20, 16:42:00" FileAge="1742481720798" FileType="1048576" CompNumb="9" />
-      <File Name="Generated_Code/Cpu.c" FileDate="2025-04-05, 20:49:19" FileAge="1743878959334" FileType="45637" CompNumb="1" />
       <File Name="SDK/rtos/FreeRTOS_PA/Source/stream_buffer.c" FileDate="2025-03-20, 16:42:00" FileAge="1742481720812" FileType="1048576" CompNumb="9" />
+      <File Name="Generated_Code/Cpu.c" FileDate="2025-04-05, 21:04:17" FileAge="1743879857611" FileType="45637" CompNumb="1" />
       <File Name="SDK/platform/devices/MPC5748G/include/MPC5748G.h" FileDate="2025-03-20, 16:42:00" FileAge="1742481720777" FileType="1048576" CompNumb="1" />
       <File Name="SDK/platform/drivers/src/pins/siul2/pins_siul2_driver.h" FileDate="2025-03-20, 16:42:00" FileAge="1742481720794" FileType="1048576" CompNumb="2" />
       <File Name="SDK/platform/drivers/src/edma/edma_hw_access.h" FileDate="2025-03-20, 16:42:00" FileAge="1742481720789" FileType="1048576" CompNumb="6" />
-      <File Name="SDK/platform/drivers/src/flexcan/flexcan_irq.h" FileDate="2025-03-20, 16:42:00" FileAge="1742481720793" FileType="1048576" CompNumb="1" />
       <File Name="SDK/platform/drivers/src/pins/siul2/pins_siul2_driver.c" FileDate="2025-03-20, 16:42:00" FileAge="1742481720794" FileType="1048576" CompNumb="2" />
+      <File Name="SDK/platform/drivers/src/flexcan/flexcan_irq.h" FileDate="2025-03-20, 16:42:00" FileAge="1742481720793" FileType="1048576" CompNumb="1" />
       <File Name="SDK/platform/drivers/src/clock/MPC57xx/cmu_hw_access.h" FileDate="2025-03-20, 16:42:00" FileAge="1742481720787" FileType="1048576" CompNumb="3" />
       <File Name="SDK/rtos/FreeRTOS_PA/Source/include/mpu_prototypes.h" FileDate="2025-03-20, 16:42:00" FileAge="1742481720802" FileType="1048576" CompNumb="9" />
+      <File Name="Generated_Code/clockMan1.h" FileDate="2025-04-05, 21:04:17" FileAge="1743879857643" FileType="45637" CompNumb="3" />
       <File Name="SDK/platform/drivers/src/edma/edma_hw_access.c" FileDate="2025-03-20, 16:42:00" FileAge="1742481720789" FileType="1048576" CompNumb="6" />
-      <File Name="Generated_Code/clockMan1.h" FileDate="2025-04-05, 20:49:19" FileAge="1743878959368" FileType="45637" CompNumb="3" />
-      <File Name="Project_Settings/Startup_Code/startup_MPC5748G.S" FileDate="2025-03-20, 16:42:00" FileAge="1742481720771" FileType="1048576" CompNumb="1" />
-      <File Name="SDK/platform/drivers/src/flexcan/flexcan_irq.c" FileDate="2025-03-20, 16:42:00" FileAge="1742481720792" FileType="1048576" CompNumb="1" />
       <File Name="SDK/platform/drivers/inc/clock_manager.h" FileDate="2025-03-20, 16:42:00" FileAge="1742481720782" FileType="1048576" CompNumb="3" />
+      <File Name="SDK/platform/drivers/src/flexcan/flexcan_irq.c" FileDate="2025-03-20, 16:42:00" FileAge="1742481720792" FileType="1048576" CompNumb="1" />
+      <File Name="Project_Settings/Startup_Code/startup_MPC5748G.S" FileDate="2025-03-20, 16:42:00" FileAge="1742481720771" FileType="1048576" CompNumb="1" />
       <File Name="SDK/rtos/FreeRTOS_PA/Source/list.c" FileDate="2025-03-20, 16:42:00" FileAge="1742481720807" FileType="1048576" CompNumb="9" />
       <File Name="SDK/rtos/FreeRTOS_PA/Source/include/mpu_wrappers.h" FileDate="2025-03-20, 16:42:00" FileAge="1742481720802" FileType="1048576" CompNumb="9" />
-      <File Name="Generated_Code/clockMan1.c" FileDate="2025-04-05, 20:49:19" FileAge="1743878959364" FileType="45637" CompNumb="3" />
+      <File Name="Generated_Code/clockMan1.c" FileDate="2025-04-05, 21:04:17" FileAge="1743879857640" FileType="45637" CompNumb="3" />
+      <File Name="Generated_Code/FreeRTOSConfig.h" FileDate="2025-04-07, 00:21:58" FileAge="1743978118933" FileType="45637" CompNumb="9" />
       <File Name="Project_Settings/Linker_Files/linker_flash.ld" FileDate="2025-03-20, 16:42:00" FileAge="1742481720768" FileType="1048576" CompNumb="1" />
-      <File Name="Generated_Code/FreeRTOSConfig.h" FileDate="2025-04-05, 20:58:16" FileAge="1743879496677" FileType="45637" CompNumb="9" />
       <File Name="SDK/rtos/FreeRTOS_PA/Source/include/FreeRTOS.h" FileDate="2025-03-20, 16:42:00" FileAge="1742481720799" FileType="1048576" CompNumb="9" />
       <File Name="SDK/platform/devices/common/s32_core_e200.h" FileDate="2025-03-20, 16:42:00" FileAge="1742481720780" FileType="1048576" CompNumb="1" />
       <File Name="SDK/rtos/FreeRTOS_PA/Source/event_groups.c" FileDate="2025-03-20, 16:42:00" FileAge="1742481720798" FileType="1048576" CompNumb="9" />
-      <File Name="SDK/rtos/FreeRTOS_PA/Source/include/croutine.h" FileDate="2025-03-20, 16:42:00" FileAge="1742481720799" FileType="1048576" CompNumb="9" />
-      <File Name="SDK/platform/drivers/src/clock/MPC57xx/cgmcs_hw_access.h" FileDate="2025-03-20, 16:42:00" FileAge="1742481720786" FileType="1048576" CompNumb="3" />
       <File Name="SDK/platform/drivers/inc/pins_driver.h" FileDate="2025-03-20, 16:42:00" FileAge="1742481720784" FileType="1048576" CompNumb="2" />
+      <File Name="SDK/platform/drivers/src/clock/MPC57xx/cgmcs_hw_access.h" FileDate="2025-03-20, 16:42:00" FileAge="1742481720786" FileType="1048576" CompNumb="3" />
+      <File Name="SDK/rtos/FreeRTOS_PA/Source/include/croutine.h" FileDate="2025-03-20, 16:42:00" FileAge="1742481720799" FileType="1048576" CompNumb="9" />
       <File Name="SDK/rtos/osif/osif.h" FileDate="2025-03-20, 16:42:00" FileAge="1742481720816" FileType="1048576" CompNumb="8" />
       <File Name="SDK/platform/devices/device_registers.h" FileDate="2025-03-20, 16:42:00" FileAge="1742481720781" FileType="1048576" CompNumb="1" />
       <File Name="SDK/rtos/FreeRTOS_PA/Source/include/StackMacros.h" FileDate="2025-03-20, 16:42:00" FileAge="1742481720799" FileType="1048576" CompNumb="9" />
@@ -140,5 +140,5 @@
       <File Name="SDK/platform/drivers/src/clock/MPC57xx/clock_MPC57xx.h" FileDate="2025-03-20, 16:42:00" FileAge="1742481720787" FileType="1048576" CompNumb="3" />
     </GeneratedByPE>
   </GeneratedFilesList>
-  <CodeGenReference>27</CodeGenReference>
+  <CodeGenReference>28</CodeGenReference>
 </CodeGenerationInfo>
