@@ -62,29 +62,29 @@ static uint32_t g_BootLoaderFlash_failedAddress = 0;
  *                        of 256KB flash blocks for bootloader  *
  *                        operations.                           *
  ****************************************************************/
-static const uint32_t g_BlocksStartAddresses[BOOTLOADER_FLASH_NUM_256KB_BLOCKS]={
-		0x01000000,	/* Start Address of 256KB Code Flash Block 0 */
-		0x01040000,	/* Start Address of 256KB Code Flash Block 1 */
-		0x01080000,	/* Start Address of 256KB Code Flash Block 2 */
-		0x010C0000,	/* Start Address of 256KB Code Flash Block 3 */
-		0x01100000,	/* Start Address of 256KB Code Flash Block 4 */
-		0x01140000,	/* Start Address of 256KB Code Flash Block 5 */
-		0x01180000,	/* Start Address of 256KB Code Flash Block 6 */
-		0x011C0000,	/* Start Address of 256KB Code Flash Block 7 */
-		0x01200000,	/* Start Address of 256KB Code Flash Block 8 */
-		0x01240000,	/* Start Address of 256KB Code Flash Block 9 */
-		0x01280000,	/* Start Address of 256KB Code Flash Block 10 */
-		0x012C0000,	/* Start Address of 256KB Code Flash Block 11 */
-		0x01300000,	/* Start Address of 256KB Code Flash Block 12 */
-		0x01340000,	/* Start Address of 256KB Code Flash Block 13 */
-		0x01380000,	/* Start Address of 256KB Code Flash Block 14 */
-		0x013C0000,	/* Start Address of 256KB Code Flash Block 15 */
-		0x01400000,	/* Start Address of 256KB Code Flash Block 16 */
-		0x01440000,	/* Start Address of 256KB Code Flash Block 17 */
-		0x01480000,	/* Start Address of 256KB Code Flash Block 18 */
-		0x014C0000,	/* Start Address of 256KB Code Flash Block 19 */
-		0x01500000,	/* Start Address of 256KB Code Flash Block 20 */
-		0x01540000	/* Start Address of 256KB Code Flash Block 21 */
+static const uint32_t g_BlocksStartAddresses[BOOTLOADER_FLASH_NUM_256KB_BLOCKS] = {
+	0x01000000, /* Start Address of 256KB Code Flash Block 0 */
+	0x01040000, /* Start Address of 256KB Code Flash Block 1 */
+	0x01080000, /* Start Address of 256KB Code Flash Block 2 */
+	0x010C0000, /* Start Address of 256KB Code Flash Block 3 */
+	0x01100000, /* Start Address of 256KB Code Flash Block 4 */
+	0x01140000, /* Start Address of 256KB Code Flash Block 5 */
+	0x01180000, /* Start Address of 256KB Code Flash Block 6 */
+	0x011C0000, /* Start Address of 256KB Code Flash Block 7 */
+	0x01200000, /* Start Address of 256KB Code Flash Block 8 */
+	0x01240000, /* Start Address of 256KB Code Flash Block 9 */
+	0x01280000, /* Start Address of 256KB Code Flash Block 10 */
+	0x012C0000, /* Start Address of 256KB Code Flash Block 11 */
+	0x01300000, /* Start Address of 256KB Code Flash Block 12 */
+	0x01340000, /* Start Address of 256KB Code Flash Block 13 */
+	0x01380000, /* Start Address of 256KB Code Flash Block 14 */
+	0x013C0000, /* Start Address of 256KB Code Flash Block 15 */
+	0x01400000, /* Start Address of 256KB Code Flash Block 16 */
+	0x01440000, /* Start Address of 256KB Code Flash Block 17 */
+	0x01480000, /* Start Address of 256KB Code Flash Block 18 */
+	0x014C0000, /* Start Address of 256KB Code Flash Block 19 */
+	0x01500000, /* Start Address of 256KB Code Flash Block 20 */
+	0x01540000	/* Start Address of 256KB Code Flash Block 21 */
 };
 
 /****************************************************************
@@ -93,11 +93,43 @@ static const uint32_t g_BlocksStartAddresses[BOOTLOADER_FLASH_NUM_256KB_BLOCKS]=
  * Description          : Structure with CRC Module configs.    *
  ****************************************************************/
 extern const crc_user_config_t g_BootloaderFLashCRC_InitConfig;
+
+/****************************************************************
+ * Global Variable Name : g_blockEraseFlags       				*
+ *--------------------------------------------------------------*
+ * Description          : Holds flags indicating whether        *
+ *                        erase operation has occured for		*
+ * 						  each flash block                      *
+ ****************************************************************/
+
+static uint32_t g_blockEraseFlags = 0;
 /*******************************************************************************/
 
 /*******************************************************************************
  *                                Functions                                    *
  *******************************************************************************/
+
+void BlockFlags_SetErased(uint32_t block)
+{
+	if (block < BOOTLOADER_FLASH_NUM_256KB_BLOCKS)
+	{
+		blockEraseFlags |= (1U << block);
+	}
+}
+
+void BlockFlags_ClearAll(void)
+{
+	blockEraseFlags = 0;
+}
+
+bool BlockFlags_IsErased(uint32_t block)
+{
+	if (block < BOOTLOADER_FLASH_NUM_256KB_BLOCKS)
+	{
+		return (blockEraseFlags & (1U << block)) != 0;
+	}
+	return false;
+}
 
 /****************************************************************
  * Function Name: BootloaderFlash_Init                          *
@@ -113,14 +145,14 @@ status_t BootloaderFlash_Init(void)
 	if (g_BootLoaderFlashModuleInit == false)
 	{
 		returnCode = FLASH_DRV_Init();
-		if(returnCode == STATUS_SUCCESS){
+		if (returnCode == STATUS_SUCCESS)
+		{
 			g_BootLoaderFlashModuleInit = true;
 		}
-		else{
+		else
+		{
 			/*Do Nothing*/
 		}
-
-
 	}
 	else
 	{
@@ -157,10 +189,10 @@ status_t BootloaderFlash_Unlock(void)
 status_t BootloaderFlash_Erase(uint32_t a_Dest, uint32_t a_Size)
 {
 	status_t returnCode = STATUS_SUCCESS;
-	uint32_t blkLockState;         /* block lock status to be retrieved */
-	uint32_t startAddress=a_Dest;
-	uint32_t endAddress=startAddress+a_Size;
-	uint32_t idx=0U;
+	uint32_t blkLockState; /* block lock status to be retrieved */
+	uint32_t startAddress = a_Dest;
+	uint32_t endAddress = startAddress + a_Size;
+	uint32_t idx = 0U;
 	uint32_t blocksToErase = 0U;
 	flash_state_t opResult;
 	flash_block_select_t blockSelect;
@@ -168,27 +200,45 @@ status_t BootloaderFlash_Erase(uint32_t a_Dest, uint32_t a_Size)
 	/**************************************************************************/
 	/* Find blocks to be erased corresponding to that range                   */
 	/**************************************************************************/
-	for(idx=0U;idx<BOOTLOADER_FLASH_NUM_256KB_BLOCKS;idx++){
-		if((g_BlocksStartAddresses[idx]<=startAddress)&&
-				(g_BlocksStartAddresses[idx+1]>startAddress)){
-			blocksToErase |=(1<<idx);
+	for (idx = 0U; idx < BOOTLOADER_FLASH_NUM_256KB_BLOCKS; idx++)
+	{
+		if ((g_BlocksStartAddresses[idx] <= startAddress) &&
+			(g_BlocksStartAddresses[idx + 1] > startAddress))
+		{
+			blocksToErase |= (1 << idx);
 		}
-		else if((startAddress<g_BlocksStartAddresses[idx])&&
-				(endAddress>=g_BlocksStartAddresses[idx])){
-			blocksToErase |=(1<<idx);
+		else if ((startAddress < g_BlocksStartAddresses[idx]) &&
+				 (endAddress >= g_BlocksStartAddresses[idx]))
+		{
+			blocksToErase |= (1 << idx);
 		}
-		else if(endAddress<g_BlocksStartAddresses[idx]){
+		else if (endAddress < g_BlocksStartAddresses[idx])
+		{
 			break;
 		}
-		else{
+		else
+		{
 			/*Do Nothing*/
 		}
 	}
-	if(blocksToErase==0){
+
+	/* Remove blocks that are already marked as erased */
+	for (idx = 0U; idx < BOOTLOADER_FLASH_NUM_256KB_BLOCKS; idx++)
+	{
+		if ((blocksToErase & (1U << idx)) && BlockFlags_IsErased(idx))
+		{
+			/* Skip erasing this block as it's already erased */
+			blocksToErase &= ~(1U << idx);
+		}
+	}
+
+	if (blocksToErase == 0)
+	{
 		returnCode = STATUS_ERROR; /* Invalid Range */
 		return returnCode;
 	}
-	else{
+	else
+	{
 		/* Do Nothing */
 	}
 
@@ -201,7 +251,8 @@ status_t BootloaderFlash_Erase(uint32_t a_Dest, uint32_t a_Size)
 		returnCode = FLASH_DRV_SetLock(C55_BLOCK_UTEST, 0x1U);
 		if (STATUS_SUCCESS != returnCode)
 		{
-			while(1);
+			while (1)
+				;
 		}
 	}
 
@@ -214,17 +265,30 @@ status_t BootloaderFlash_Erase(uint32_t a_Dest, uint32_t a_Size)
 	 *  - HIGH Blocks exist in partitions 4 and 5.
 	 *  - 256KB selects generally 256KB Blocks which are in partitions 6,7,8 & 9
 	 *  */
-	blockSelect.lowBlockSelect = 0x0U;                      /*No Blocks Selected from P0, P1*/
-	blockSelect.midBlockSelect = 0x0U;                      /*No Blocks Selected from P2, P3*/
-	blockSelect.highBlockSelect = 0x0U;                     /*No Blocks Selected from P4, P5*/
-	blockSelect.first256KBlockSelect = blocksToErase;      /*Selected from 256KB*/
-	blockSelect.second256KBlockSelect = 0x0U;               /*Reserved : MPC5748G has only 22 256KB blocks*/
+	blockSelect.lowBlockSelect = 0x0U;				  /*No Blocks Selected from P0, P1*/
+	blockSelect.midBlockSelect = 0x0U;				  /*No Blocks Selected from P2, P3*/
+	blockSelect.highBlockSelect = 0x0U;				  /*No Blocks Selected from P4, P5*/
+	blockSelect.first256KBlockSelect = blocksToErase; /*Selected from 256KB*/
+	blockSelect.second256KBlockSelect = 0x0U;		  /*Reserved : MPC5748G has only 22 256KB blocks*/
 	returnCode = FLASH_DRV_Erase(ERS_OPT_MAIN_SPACE, &blockSelect);
 	do
 	{
 		/* Stay in loop till erase operation is complete */
 		returnCode = FLASH_DRV_CheckEraseStatus(&opResult);
 	} while (returnCode == STATUS_FLASH_INPROGRESS);
+
+	/* If the erase was successful, mark the blocks as erased */
+	if (returnCode == STATUS_SUCCESS)
+	{
+		for (idx = 0U; idx < BOOTLOADER_FLASH_NUM_256KB_BLOCKS; idx++)
+		{
+			if (blocksToErase & (1U << idx))
+			{
+				BlockFlags_SetErased(idx);
+			}
+		}
+	}
+
 	return returnCode;
 }
 
@@ -243,10 +307,10 @@ status_t BootloaderFlash_VerifyBlank(uint32_t a_Dest, uint32_t a_Size)
 	uint32_t failedAddress;
 	/* Blank check */
 	returnCode = FLASH_DRV_BlankCheck(a_Dest,
-			a_Size,
-			numOfWordCycle,
-			&failedAddress,
-			NULL_CALLBACK);
+									  a_Size,
+									  numOfWordCycle,
+									  &failedAddress,
+									  NULL_CALLBACK);
 	return returnCode;
 }
 
@@ -263,14 +327,14 @@ status_t BootloaderFlash_VerifyBlank(uint32_t a_Dest, uint32_t a_Size)
 status_t BootloaderFlash_Program(uint32_t a_dest, uint32_t a_size, uint32_t a_source)
 {
 	status_t returnCode = STATUS_SUCCESS;
-	flash_state_t opResult;             /* store the state of flash */
+	flash_state_t opResult; /* store the state of flash */
 	do
 	{
 		/* Wait if there's a programming operation going on */
 		returnCode = FLASH_DRV_CheckProgramStatus(&g_BootLoaderFlash_pCtxData, &opResult);
-	}while(returnCode == STATUS_FLASH_INPROGRESS);
+	} while (returnCode == STATUS_FLASH_INPROGRESS);
 
-	returnCode = FLASH_DRV_Program(&g_BootLoaderFlash_pCtxData,a_dest,a_size,a_source);
+	returnCode = FLASH_DRV_Program(&g_BootLoaderFlash_pCtxData, a_dest, a_size, a_source);
 	return returnCode;
 }
 
@@ -287,22 +351,24 @@ status_t BootloaderFlash_Program(uint32_t a_dest, uint32_t a_size, uint32_t a_so
 status_t BootloaderFlash_ProgramVerify(uint32_t a_dest, uint32_t a_size, uint32_t a_source)
 {
 	status_t returnCode = STATUS_SUCCESS;
-	flash_state_t opResult;             /* store the state of flash */
-	uint32_t numOfWordCycle;            /* number of words per verification cycle */
+	flash_state_t opResult;	 /* store the state of flash */
+	uint32_t numOfWordCycle; /* number of words per verification cycle */
 	returnCode = FLASH_DRV_CheckProgramStatus(&g_BootLoaderFlash_pCtxData, &opResult);
-	if (returnCode == STATUS_FLASH_INPROGRESS){
+	if (returnCode == STATUS_FLASH_INPROGRESS)
+	{
 		/*Do Nothing*/
 	}
-	else{
+	else
+	{
 		/*Verify the programming*/
 		numOfWordCycle = NUMBER_OF_WORD_PGM_VERIFY;
 		/* Program verify */
 		returnCode = FLASH_DRV_ProgramVerify(a_dest,
-				a_size,
-				a_source,
-				numOfWordCycle,
-				&g_BootLoaderFlash_failedAddress,
-				NULL_CALLBACK);
+											 a_size,
+											 a_source,
+											 numOfWordCycle,
+											 &g_BootLoaderFlash_failedAddress,
+											 NULL_CALLBACK);
 	}
 
 	return returnCode;
@@ -319,12 +385,13 @@ status_t BootloaderFlash_ProgramVerify(uint32_t a_dest, uint32_t a_size, uint32_
  * Description  : Reads data from specified flash address into  *
  *                the provided buffer.                          *
  ****************************************************************/
-status_t BootloaderFlash_Read(uint32_t a_dest, uint32_t a_size, uint32_t* a_pBuffer)
+status_t BootloaderFlash_Read(uint32_t a_dest, uint32_t a_size, uint32_t *a_pBuffer)
 {
-	status_t returnCode = STATUS_SUCCESS;    	  /* return code */
-	uint32_t destIndex = 0U;                      /* destination address index */
+	status_t returnCode = STATUS_SUCCESS;		  /* return code */
+	uint32_t destIndex = 0U;					  /* destination address index */
 	uint32_t iterations = a_size / C55_WORD_SIZE; /* Number of words needs to be read */
-	if(a_pBuffer==NULL){
+	if (a_pBuffer == NULL)
+	{
 		returnCode = STATUS_ERROR;
 	}
 
@@ -350,9 +417,9 @@ status_t BootloaderFlash_Read(uint32_t a_dest, uint32_t a_size, uint32_t* a_pBuf
  ****************************************************************/
 status_t BootloaderFlash_InitCRC(void)
 {
-    status_t returnCode = STATUS_SUCCESS;         /* return code */
-    returnCode = CRC_DRV_Init(BOOTLOADERFLASH_CRC_INSTANCE, &g_BootloaderFLashCRC_InitConfig);
-    return returnCode;
+	status_t returnCode = STATUS_SUCCESS; /* return code */
+	returnCode = CRC_DRV_Init(BOOTLOADERFLASH_CRC_INSTANCE, &g_BootloaderFLashCRC_InitConfig);
+	return returnCode;
 }
 
 /****************************************************************
@@ -365,41 +432,41 @@ status_t BootloaderFlash_InitCRC(void)
  * Synchronous  : Synchronous                                   *
  * Description  : Calculates CRC32 for flashed data				*
  ****************************************************************/
-uint32_t BootloaderFlash_CalculateCRC32(uint32_t a_dest, uint32_t a_size){
-	uint32_t destIndex = 0U;                      	/* destination address index */
-	uint32_t iterations = a_size / C55_WORD_SIZE; 	/* Number of words needs to be read */
-	uint32_t flashWord;								/* Word read from flash*/
+uint32_t BootloaderFlash_CalculateCRC32(uint32_t a_dest, uint32_t a_size)
+{
+	uint32_t destIndex = 0U;					  /* destination address index */
+	uint32_t iterations = a_size / C55_WORD_SIZE; /* Number of words needs to be read */
+	uint32_t flashWord;							  /* Word read from flash*/
 	uint32_t resultCRC;
 	/* Word by word verify */
 	CRC_DRV_WriteData(BOOTLOADERFLASH_CRC_INSTANCE, a_dest, a_size);
-/*	for (destIndex = 0U; destIndex < iterations; destIndex++)
-	{
-		flashWord = *(volatile uint32_t *)a_dest;
+	/*	for (destIndex = 0U; destIndex < iterations; destIndex++)
+		{
+			flashWord = *(volatile uint32_t *)a_dest;
 
-		a_dest += C55_WORD_SIZE;
-		a_size -= C55_WORD_SIZE;
-	}*/
-	resultCRC=CRC_DRV_GetCrcResult(BOOTLOADERFLASH_CRC_INSTANCE);
+			a_dest += C55_WORD_SIZE;
+			a_size -= C55_WORD_SIZE;
+		}*/
+	resultCRC = CRC_DRV_GetCrcResult(BOOTLOADERFLASH_CRC_INSTANCE);
 
-	return (resultCRC^0xFFFFFFFF);
+	return (resultCRC ^ 0xFFFFFFFF);
 }
 /*******************************************************************************/
 
-
 void DisableFlashControllerCache(uint32_t flashConfigReg,
-                                 uint32_t disableVal,
-                                 uint32_t *origin_pflash_pfcr)
+								 uint32_t disableVal,
+								 uint32_t *origin_pflash_pfcr)
 {
-    /* Read the values of the register of flash configuration */
-    *origin_pflash_pfcr = REG_READ32(FLASH_FMC + flashConfigReg);
-    /* Disable Caches */
-    REG_BIT_CLEAR32(FLASH_FMC + flashConfigReg, disableVal);
+	/* Read the values of the register of flash configuration */
+	*origin_pflash_pfcr = REG_READ32(FLASH_FMC + flashConfigReg);
+	/* Disable Caches */
+	REG_BIT_CLEAR32(FLASH_FMC + flashConfigReg, disableVal);
 }
 /*****************************************************************
-*               Restore configuration register of FCM            *
-******************************************************************/
+ *               Restore configuration register of FCM            *
+ ******************************************************************/
 void RestoreFlashControllerCache(uint32_t flashConfigReg,
-                                 uint32_t pflash_pfcr)
+								 uint32_t pflash_pfcr)
 {
-    REG_WRITE32(FLASH_FMC + flashConfigReg, pflash_pfcr);
+	REG_WRITE32(FLASH_FMC + flashConfigReg, pflash_pfcr);
 }

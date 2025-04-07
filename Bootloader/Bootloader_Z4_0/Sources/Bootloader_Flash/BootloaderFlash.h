@@ -15,37 +15,32 @@
 #include "crc_driver.h"
 #include "status.h"
 
-
 /****************************************************************************************
  *                                  -=[Definitions]=-                                   *
  ****************************************************************************************/
-#define BOOTLOADER_FLASH_WORDSIZE		(C55_WORD_SIZE)
+#define BOOTLOADER_FLASH_WORDSIZE (C55_WORD_SIZE)
 
 /* Lock State */
-#define UNLOCK_FIRST256_BLOCKS          (0x00000000U)
-#define UNLOCK_SECOND256_BLOCKS         (0x00000000U)
+#define UNLOCK_FIRST256_BLOCKS (0x00000000U)
+#define UNLOCK_SECOND256_BLOCKS (0x00000000U)
 
+#define NUMBER_OF_WORD_BLANK_CHECK (0x90)
+#define NUMBER_OF_WORD_PGM_VERIFY (0x80)
+#define NUMBER_OF_WORD_CHECK_SUM (0x120)
 
-#define NUMBER_OF_WORD_BLANK_CHECK      (0x90)
-#define NUMBER_OF_WORD_PGM_VERIFY       (0x80)
-#define NUMBER_OF_WORD_CHECK_SUM        (0x120)
+#define BOOTLOADERFLASH_CRC_INSTANCE (0U)
 
-#define BOOTLOADERFLASH_CRC_INSTANCE	(0U)
-
-
-#define BOOTLOADER_FLASH_NUM_256KB_BLOCKS				(22U)
-
+#define BOOTLOADER_FLASH_NUM_256KB_BLOCKS (22U)
 
 /* Platform Flash */
-#define FLASH_FMC                       PFLASH_BASE
-#define FLASH_PFCR1                     0x000000000U
-#define FLASH_PFCR2                     0x000000004U
-#define FLASH_FMC_BFEN_MASK             0x000000001U
+#define FLASH_FMC PFLASH_BASE
+#define FLASH_PFCR1 0x000000000U
+#define FLASH_PFCR2 0x000000004U
+#define FLASH_FMC_BFEN_MASK 0x000000001U
 
 /****************************************************************************************
  *                                  -=[Function IDs]=-                                  *
  ****************************************************************************************/
-
 
 /****************************************************************************************
  *                              -=[Function Prototypes]=-                               *
@@ -128,7 +123,7 @@ status_t BootloaderFlash_ProgramVerify(uint32_t a_dest, uint32_t a_size, uint32_
  * Description  : Reads data from specified flash address into  *
  *                the provided buffer.                          *
  ****************************************************************/
-status_t BootloaderFlash_Read(uint32_t a_dest, uint32_t a_size, uint32_t* a_pBuffer);
+status_t BootloaderFlash_Read(uint32_t a_dest, uint32_t a_size, uint32_t *a_pBuffer);
 
 /****************************************************************
  * Function Name: BootloaderFlash_InitCRC                       *
@@ -157,18 +152,35 @@ uint32_t BootloaderFlash_CalculateCRC32(uint32_t a_dest, uint32_t a_size);
  *                          -=[Static Functions Prototypes]=-                           *
  ****************************************************************************************/
 
-
 /**************************************************************
-*                          Disable Flash Cache                *
-***************************************************************/
+ *                          Disable Flash Cache                *
+ ***************************************************************/
 void DisableFlashControllerCache(uint32_t flashConfigReg,
                                  uint32_t disableVal,
                                  uint32_t *origin_pflash_pfcr);
 
 /*****************************************************************
-*               Restore configuration register of FCM            *
-******************************************************************/
+ *               Restore configuration register of FCM            *
+ ******************************************************************/
 void RestoreFlashControllerCache(uint32_t flashConfigReg,
                                  uint32_t pflash_pfcr);
+
+/****************************************************************************************
+ *                          -Mark the specified block as erased                         *
+ ****************************************************************************************/
+
+void BlockFlags_SetErased(uint32_t block);
+
+/****************************************************************************************
+ *                          Clear the erased flags for all blocks                       *
+ ****************************************************************************************/
+
+void BlockFlags_ClearAll(void);
+
+/****************************************************************************************
+ *                          Check if the specified block is marked as erased            *
+ ****************************************************************************************/
+
+bool BlockFlags_IsErased(uint32_t block);
 
 #endif
