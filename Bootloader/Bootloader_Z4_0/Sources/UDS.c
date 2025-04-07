@@ -532,16 +532,30 @@ void UDS_Routine_Control()
 			}
 			UDS_Check_Memory(&status); /* pass needed parameters */
 		}
-		else if (routine_id == FINALIZE_PROGRAMMING)
-		{
-			BlockFlags_ClearAll();
-			UDS_Create_pos_response(NOTREADY);
-			responseFrame.dataBuffer[2] = requestFrame.dataBuffer[2];
-			responseFrame.dataBuffer[3] = requestFrame.dataBuffer[3];
-			responseFrame.dataBuffer[4] = 0;
-			responseFrame.dataSize = 5;
-			responseFrame.ready = READY;
-		}
+		else if(routine_id == FINALIZE_PROGRAMMING){
+            signature = requestFrame.dataBuffer[4];
+            if(signature == ECDSA_SIGNATURE){
+                for(uint8_t i = 5; i<requestFrame.dataSize; i++){ 
+                    BL_data.signature <<= 8;
+                    BL_data.signature |= requestFrame.dataBuffer[i];
+                }
+                UDS_Create_pos_response(NOTREADY);
+                responseFrame.dataBuffer[2] = requestFrame.dataBuffer[2];
+                responseFrame.dataBuffer[3] = requestFrame.dataBuffer[3];
+                responseFrame.dataBuffer[4] = 0;
+                responseFrame.dataSize = 5;
+                responseFrame.ready = READY;
+            }else if(signature == NO_SIGNATURE){
+                UDS_Create_pos_response(NOTREADY);
+                responseFrame.dataBuffer[2] = requestFrame.dataBuffer[2];
+                responseFrame.dataBuffer[3] = requestFrame.dataBuffer[3];
+                responseFrame.dataBuffer[4] = 0;
+                responseFrame.dataSize = 5;
+                responseFrame.ready = READY;
+            }else{
+                /* -ve response */
+            }
+        }
 		else
 		{ /* -ve response Invalid subfunction routine */
 			UDS_Create_neg_response(SUB_FUNC_NOT_SUPPORTED, READY);
