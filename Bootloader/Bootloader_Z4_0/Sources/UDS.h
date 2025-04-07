@@ -107,6 +107,11 @@ typedef enum NRC{
     GENERAL_PROGRAMMING_FAILURE = 0x72
 } NRC;
 
+typedef enum SIGNATURE_TYPE {
+    NO_SIGNATURE = 0X00,
+    ECDSA_SIGNATURE = 0X01 ,
+} SIGNATURE_TYPE;
+
 typedef struct BL_Data{
     /* Data Size */
     uint32_t CRC_Field;
