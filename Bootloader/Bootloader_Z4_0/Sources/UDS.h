@@ -124,6 +124,7 @@ typedef struct BL_Data{
     uint16_t data_block_size;
     uint8_t app_id;
     uint8_t N_paramteres;
+    uint8_t signature[64];
     uint8_t parameters[20]; 
     uint8_t data[MAX_BLOCK_NUMBER];
 
