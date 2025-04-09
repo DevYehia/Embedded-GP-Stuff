@@ -103,6 +103,7 @@ typedef enum NRC{
     REQ_OUT_OF_RANGE = 0x31,
     SECURITY_ACCESS_DENIED = 0x33, /* still unused */
     CRC_ERROR = 0x35,
+    INVALID_KEY = 0x35,
     UPLOAD_DOWNLOAD_NOT_ACCEPTED = 0x70,
     GENERAL_PROGRAMMING_FAILURE = 0x72
 } NRC;
@@ -145,8 +146,14 @@ typedef struct BL_Functions{
     status_t (*BL_TransferDataHandler)(void);
     status_t (*BL_Check_Memory)(void);
     status_t (*BL_Erase_Memory)(void);
+    status_t (*BL_Finalize_Programming)(void);
 }BL_Functions;
 
+/* for every request download one of these structs are made */
+typedef struct Req_Download_Info{
+    uint32_t mem_start_address;
+    uint32_t total_size; /* Total size of data to be received 0 ~ X*/
+} Req_Download_Info;
 
 void UDS_Receive(void);
 

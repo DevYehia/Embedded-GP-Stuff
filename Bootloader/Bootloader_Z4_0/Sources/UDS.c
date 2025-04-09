@@ -21,6 +21,9 @@ uint32_t MaxNumberBlockLength = 500; /* max size in bytes (including SID and seq
 
 BL_Data BL_data = {0, 0, 0, 0, 0, 0, {0}, {0}}; /* Shared struct with BL */
 
+Req_Download_Info req_down_info[10] = {{0,0}};
+uint8_t req_down_idx = 0;
+
 BL_Functions *BL_Callbacks;
 
 uint8_t BL_Func_missing = 0;
@@ -265,6 +268,7 @@ void UDS_Request_Download()
 {
 	volatile uint8_t NBytesDataLength = 0;
 	volatile uint8_t memory_address_size = 0;
+	volatile uint8_t last_address = 0;
 	status_t status = 0;
 	if (!(currentSession == PROGRAMMING_SESSION || prev_SID == ROUTINE_CONTROL || prev_SID == REQUEST_TRANSFER_EXIT))
 	{
@@ -298,9 +302,7 @@ void UDS_Request_Download()
 			UDS_Create_neg_response(WRONG_MSG_LEN_OR_FORMAT, READY);
 			return;
 		}
-
-		BL_data.mem_start_address = 0;
-		BL_data.total_size = 0; /* specifies the total size of the data that will be transferred during the subsequent (multiple) transfer data services */
+	
 
 		for (uint8_t i = 3; i < 3 + memory_address_size; i++)
 		{
@@ -313,6 +315,16 @@ void UDS_Request_Download()
 			BL_data.total_size |= requestFrame.dataBuffer[i];
 		}
 		remaining_Data = BL_data.total_size;
+
+		last_address = req_down_info[req_down_idx].mem_start_address + req_down_info[req_down_idx].total_size - 1;
+		if(last_address + 1 == BL_data.mem_start_address){
+			//increase new req download data size to the one before if they are consecuent in address
+			req_down_info[req_down_idx].total_size += BL_data.total_size;
+		}else{
+			req_down_idx++;
+			req_down_info[req_down_idx].mem_start_address = BL_data.mem_start_address;
+			req_down_info[req_down_idx].total_size = BL_data.total_size;
+		}	
 
 		status = STATUS_SUCCESS; // BL_RequestDownloadHandler();
 		if (status == STATUS_ERROR)
@@ -424,6 +436,11 @@ void UDS_Request_Transfer_Exit()
 		if (remaining_Data == 0)
 		{
 			Reinit_Req_Transfer_Exit();
+			
+			// TODO: Reset req_down_info[req_down_idx] reset
+			memset(req_down_info, 0, sizeof(req_down_info));
+			req_down_idx = 0;
+
 			UDS_Create_pos_response(NOTREADY);
 			responseFrame.dataBuffer[1] = 0x00;
 			responseFrame.dataSize = 1;
@@ -533,13 +550,19 @@ void UDS_Routine_Control()
 			UDS_Check_Memory(&status); /* pass needed parameters */
 		}
 		else if(routine_id == FINALIZE_PROGRAMMING){
+			status = STATUS_BUSY;
             signature = requestFrame.dataBuffer[4];
             if(signature == ECDSA_SIGNATURE){
                 for(uint8_t i = 5; i<requestFrame.dataSize; i++){ 
                     BL_data.signature <<= 8;
                     BL_data.signature |= requestFrame.dataBuffer[i];
                 }
-                UDS_Create_pos_response(NOTREADY);
+				status = BL_Callbacks->BL_Finalize_Programming();
+                if(status == STATUS_ERROR){
+					UDS_Create_neg_response(INVALID_KEY, READY);
+					return;
+				}
+				UDS_Create_pos_response(NOTREADY);
                 responseFrame.dataBuffer[2] = requestFrame.dataBuffer[2];
                 responseFrame.dataBuffer[3] = requestFrame.dataBuffer[3];
                 responseFrame.dataBuffer[4] = 0;
@@ -553,7 +576,8 @@ void UDS_Routine_Control()
                 responseFrame.dataSize = 5;
                 responseFrame.ready = READY;
             }else{
-                /* -ve response */
+				UDS_Create_neg_response(SUB_FUNC_NOT_SUPPORTED, READY);
+				return;
             }
         }
 		else
