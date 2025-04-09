@@ -113,6 +113,12 @@ typedef enum SIGNATURE_TYPE {
     ECDSA_SIGNATURE = 0X01 ,
 } SIGNATURE_TYPE;
 
+/* for every request download one of these structs are made */
+typedef struct Req_Download_Info{
+    uint32_t mem_start_address;
+    uint32_t total_size; /* Total size of data to be received 0 ~ X*/
+} Req_Download_Info;
+
 typedef struct BL_Data{
     /* Data Size */
     uint32_t CRC_Field;
@@ -128,7 +134,8 @@ typedef struct BL_Data{
     uint8_t signature[64];
     uint8_t parameters[20]; 
     uint8_t data[MAX_BLOCK_NUMBER];
-
+    uint8_t req_down_size;
+    Req_Download_Info req_down_info[10];
 } BL_Data;
 
 /* 
@@ -141,19 +148,13 @@ typedef struct BootLoader_Data{
 */
 
 typedef struct BL_Functions{
-    //status_t (*BL_RequestDownloadHandler)(void);
+    status_t (*BL_Request_DownloadHandler)(void);
     //void (*BL_Max_N_Block) (uint32_t *);
     status_t (*BL_TransferDataHandler)(void);
     status_t (*BL_Check_Memory)(void);
     status_t (*BL_Erase_Memory)(void);
     status_t (*BL_Finalize_Programming)(void);
 }BL_Functions;
-
-/* for every request download one of these structs are made */
-typedef struct Req_Download_Info{
-    uint32_t mem_start_address;
-    uint32_t total_size; /* Total size of data to be received 0 ~ X*/
-} Req_Download_Info;
 
 void UDS_Receive(void);
 

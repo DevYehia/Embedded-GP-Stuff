@@ -19,10 +19,7 @@ uint8_t seq_number = 1;
 uint16_t remaining_Data = 0;
 uint32_t MaxNumberBlockLength = 500; /* max size in bytes (including SID and seq number) to be transmitted in every Transfer Data service */
 
-BL_Data BL_data = {0, 0, 0, 0, 0, 0, {0}, {0}}; /* Shared struct with BL */
-
-Req_Download_Info req_down_info[10] = {{0,0}};
-uint8_t req_down_idx = 0;
+BL_Data BL_data = {0, 0, 0, 0, 0, 0, {0}, {0}, 0, {{0,0}}}; /* Shared struct with BL */
 
 BL_Functions *BL_Callbacks;
 
@@ -316,14 +313,14 @@ void UDS_Request_Download()
 		}
 		remaining_Data = BL_data.total_size;
 
-		last_address = req_down_info[req_down_idx].mem_start_address + req_down_info[req_down_idx].total_size - 1;
+		last_address = BL_data.req_down_info[BL_data.req_down_size].mem_start_address + BL_data.req_down_info[BL_data.req_down_size].total_size - 1;
 		if(last_address + 1 == BL_data.mem_start_address){
 			//increase new req download data size to the one before if they are consecuent in address
-			req_down_info[req_down_idx].total_size += BL_data.total_size;
+			BL_data.req_down_info[BL_data.req_down_size].total_size += BL_data.total_size;
 		}else{
-			req_down_idx++;
-			req_down_info[req_down_idx].mem_start_address = BL_data.mem_start_address;
-			req_down_info[req_down_idx].total_size = BL_data.total_size;
+			BL_data.req_down_size++;
+			BL_data.req_down_info[BL_data.req_down_size].mem_start_address = BL_data.mem_start_address;
+			BL_data.req_down_info[BL_data.req_down_size].total_size = BL_data.total_size;
 		}	
 
 		status = STATUS_SUCCESS; // BL_RequestDownloadHandler();
@@ -437,9 +434,9 @@ void UDS_Request_Transfer_Exit()
 		{
 			Reinit_Req_Transfer_Exit();
 			
-			// TODO: Reset req_down_info[req_down_idx] reset
-			memset(req_down_info, 0, sizeof(req_down_info));
-			req_down_idx = 0;
+			// TODO: Reset BL_data.req_down_info[BL_data.req_down_size] reset
+			memset(BL_data.req_down_info, 0, sizeof(BL_data.req_down_info));
+			BL_data.req_down_size = 0;
 
 			UDS_Create_pos_response(NOTREADY);
 			responseFrame.dataBuffer[1] = 0x00;
