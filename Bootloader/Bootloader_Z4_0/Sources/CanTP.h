@@ -17,17 +17,13 @@
 #define startFirst 2
 #define startConsecutive 1
 
-
-
 void CanTP_init();
 
-//Send control frame
-//TODO handle differnet cases of FS
-void send_flow_control(char type,uint32_t buffIdx);
-
+// Send control frame
+// TODO handle differnet cases of FS
+void send_flow_control(char type, uint32_t buffIdx);
 
 void recv_single(void);
-
 
 void recv_consecutive(void);
 
@@ -37,21 +33,20 @@ void handleFlowCtl();
 
 void handleFirstFrame();
 
-void readCanTPPayload(uint8_t size ,uint8_t start);
+void readCanTPPayload(uint8_t size, uint8_t start);
 
-void send_single_frame(uint8_t *payload,uint32_t buffIdx);
+void send_single_frame(uint8_t *payload, uint32_t buffIdx);
 
 uint8_t get_payload_size(uint8_t *payload);
 
 void handleSingleFrame();
 
-void sendFromUDS(void * pv);
-void recieve(void * pv);
+void sendFromUDS(void *pv);
+void recieve(void *pv);
 void timeOutHandle();
-void Can_init(can_instance_t* can_pal_instance, can_user_config_t* can_pal_Config);
+void Can_init(can_instance_t *can_pal_instance, can_user_config_t *can_pal_Config);
 
 void resetCanTP();
-void send_consecutive_frame(uint8_t *payload,uint32_t buffIdx);
-
+void send_consecutive_frame(uint8_t *payload, uint32_t buffIdx);
 
 #endif

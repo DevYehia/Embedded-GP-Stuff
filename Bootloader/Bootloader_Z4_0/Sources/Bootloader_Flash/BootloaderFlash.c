@@ -113,20 +113,20 @@ void BlockFlags_SetErased(uint32_t block)
 {
 	if (block < BOOTLOADER_FLASH_NUM_256KB_BLOCKS)
 	{
-		blockEraseFlags |= (1U << block);
+		g_blockEraseFlags |= (1U << block);
 	}
 }
 
 void BlockFlags_ClearAll(void)
 {
-	blockEraseFlags = 0;
+	g_blockEraseFlags = 0;
 }
 
 bool BlockFlags_IsErased(uint32_t block)
 {
 	if (block < BOOTLOADER_FLASH_NUM_256KB_BLOCKS)
 	{
-		return (blockEraseFlags & (1U << block)) != 0;
+		return (g_blockEraseFlags & (1U << block)) != 0;
 	}
 	return false;
 }
@@ -222,6 +222,12 @@ status_t BootloaderFlash_Erase(uint32_t a_Dest, uint32_t a_Size)
 		}
 	}
 
+	if (blocksToErase == 0)
+	{
+		returnCode = STATUS_ERROR; /* Invalid Range */
+		return returnCode;
+	}
+
 	/* Remove blocks that are already marked as erased */
 	for (idx = 0U; idx < BOOTLOADER_FLASH_NUM_256KB_BLOCKS; idx++)
 	{
@@ -234,7 +240,7 @@ status_t BootloaderFlash_Erase(uint32_t a_Dest, uint32_t a_Size)
 
 	if (blocksToErase == 0)
 	{
-		returnCode = STATUS_ERROR; /* Invalid Range */
+		returnCode = STATUS_SUCCESS; /* Block was erased BEFORE*/
 		return returnCode;
 	}
 	else

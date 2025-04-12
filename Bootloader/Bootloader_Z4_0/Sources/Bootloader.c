@@ -87,17 +87,17 @@ status_t Bootloader_Program(void)
 	uint32_t *programData = g_BLData->data;
 
 	/* Program flash memory with the provided data */
-	returnStatus = BootloaderFlash_Program(g_BLData->mem_start_address, g_BLData->total_size, programData);
+	returnStatus = BootloaderFlash_Program(g_BLData->mem_start_address, g_BLData->data_block_size, programData);
 	if (returnStatus != STATUS_SUCCESS)
 	{
 		return returnStatus;
 	}
 
 	/* Verify that flash programming was successful */
-	returnStatus = BootloaderFlash_ProgramVerify(g_BLData->mem_start_address, g_BLData->total_size, programData);
+	returnStatus = BootloaderFlash_ProgramVerify(g_BLData->mem_start_address, g_BLData->data_block_size, programData);
 	while (returnStatus == STATUS_FLASH_INPROGRESS)
 	{
-		returnStatus = BootloaderFlash_ProgramVerify(g_BLData->mem_start_address, g_BLData->total_size, programData);
+		returnStatus = BootloaderFlash_ProgramVerify(g_BLData->mem_start_address, g_BLData->data_block_size, programData);
 	}
 
 	return returnStatus;

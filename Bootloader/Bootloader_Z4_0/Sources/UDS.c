@@ -17,9 +17,9 @@ dataFrame responseFrame = {0, NULL, 0};
 
 uint8_t seq_number = 1;
 uint16_t remaining_Data = 0;
-uint32_t MaxNumberBlockLength = 500; /* max size in bytes (including SID and seq number) to be transmitted in every Transfer Data service */
+uint32_t MaxNumberBlockLength = MAX_BLOCK_NUMBER; /* max size in bytes (including SID and seq number) to be transmitted in every Transfer Data service */
 
-BL_Data BL_data = {0, 0, 0, 0, 0, 0, {0}, {0}, 0, {{0,0}}}; /* Shared struct with BL */
+BL_Data BL_data = {0, 0, 0, 0, 0, 0, {0}, {0}, 0, {{0, 0}}}; /* Shared struct with BL */
 
 BL_Functions *BL_Callbacks;
 
@@ -192,7 +192,9 @@ void UDS_ECU_Reset()
 		return;
 	}
 	// respond
+	initVAR = 0;
 	UDS_Create_pos_response(READY);
+	PINS_DRV_WritePin(PTH, 5, 1);
 	vTaskDelay(pdMS_TO_TICKS(20));
 
 	// TODO wait for response to be sent
@@ -299,7 +301,9 @@ void UDS_Request_Download()
 			UDS_Create_neg_response(WRONG_MSG_LEN_OR_FORMAT, READY);
 			return;
 		}
-	
+
+		BL_data.mem_start_address = 0;
+		BL_data.total_size = 0; /* specifies the total size of the data that will be transferred during the subsequent (multiple) transfer data services */
 
 		for (uint8_t i = 3; i < 3 + memory_address_size; i++)
 		{
@@ -314,14 +318,17 @@ void UDS_Request_Download()
 		remaining_Data = BL_data.total_size;
 
 		last_address = BL_data.req_down_info[BL_data.req_down_size].mem_start_address + BL_data.req_down_info[BL_data.req_down_size].total_size - 1;
-		if(last_address + 1 == BL_data.mem_start_address){
-			//increase new req download data size to the one before if they are consecuent in address
+		if (last_address + 1 == BL_data.mem_start_address)
+		{
+			// increase new req download data size to the one before if they are consecuent in address
 			BL_data.req_down_info[BL_data.req_down_size].total_size += BL_data.total_size;
-		}else{
+		}
+		else
+		{
 			BL_data.req_down_size++;
 			BL_data.req_down_info[BL_data.req_down_size].mem_start_address = BL_data.mem_start_address;
 			BL_data.req_down_info[BL_data.req_down_size].total_size = BL_data.total_size;
-		}	
+		}
 
 		status = STATUS_SUCCESS; // BL_RequestDownloadHandler();
 		if (status == STATUS_ERROR)
@@ -361,7 +368,7 @@ void UDS_Transfer_Data()
 	}
 
 	/* Ensure the message does not exceed MaxNumberOfBlockLength */
-	if (requestFrame.dataSize > MaxNumberBlockLength)
+	if (requestFrame.dataSize - 2 > MaxNumberBlockLength)
 	{
 		Transfer_Data_Abort();
 		UDS_Create_neg_response(WRONG_MSG_LEN_OR_FORMAT, READY);
@@ -433,11 +440,6 @@ void UDS_Request_Transfer_Exit()
 		if (remaining_Data == 0)
 		{
 			Reinit_Req_Transfer_Exit();
-			
-			// TODO: Reset BL_data.req_down_info[BL_data.req_down_size] reset
-			memset(BL_data.req_down_info, 0, sizeof(BL_data.req_down_info));
-			BL_data.req_down_size = 0;
-
 			UDS_Create_pos_response(NOTREADY);
 			responseFrame.dataBuffer[1] = 0x00;
 			responseFrame.dataSize = 1;
@@ -513,12 +515,15 @@ void UDS_Routine_Control()
 			}
 
 			UDS_Erase_Memory(&status); /* pass needed parameters */
-			UDS_Create_pos_response(NOTREADY);
-			responseFrame.dataBuffer[2] = requestFrame.dataBuffer[2];
-			responseFrame.dataBuffer[3] = requestFrame.dataBuffer[3];
-			responseFrame.dataBuffer[4] = 0;
-			responseFrame.dataSize = 5;
-			responseFrame.ready = READY;
+			if (status == STATUS_SUCCESS)
+			{
+				UDS_Create_pos_response(NOTREADY);
+				responseFrame.dataBuffer[2] = requestFrame.dataBuffer[2];
+				responseFrame.dataBuffer[3] = requestFrame.dataBuffer[3];
+				responseFrame.dataBuffer[4] = 0;
+				responseFrame.dataSize = 5;
+				responseFrame.ready = READY;
+			}
 		}
 		else if (routine_id == CHECK_MEMORY)
 		{
@@ -546,37 +551,45 @@ void UDS_Routine_Control()
 			}
 			UDS_Check_Memory(&status); /* pass needed parameters */
 		}
-		else if(routine_id == FINALIZE_PROGRAMMING){
+		else if (routine_id == FINALIZE_PROGRAMMING)
+		{
 			status = STATUS_BUSY;
-            signature = requestFrame.dataBuffer[4];
-            if(signature == ECDSA_SIGNATURE){
-                for(uint8_t i = 5; i<requestFrame.dataSize; i++){ 
-                    BL_data.signature <<= 8;
-                    BL_data.signature |= requestFrame.dataBuffer[i];
-                }
+			signature = requestFrame.dataBuffer[4];
+			if (signature == ECDSA_SIGNATURE)
+			{
+				for (uint8_t i = 5; i < requestFrame.dataSize; i++)
+				{
+					BL_data.signature <<= 8;
+					BL_data.signature |= requestFrame.dataBuffer[i];
+				}
 				status = BL_Callbacks->BL_Finalize_Programming();
-                if(status == STATUS_ERROR){
+				if (status == STATUS_ERROR)
+				{
 					UDS_Create_neg_response(INVALID_KEY, READY);
 					return;
 				}
 				UDS_Create_pos_response(NOTREADY);
-                responseFrame.dataBuffer[2] = requestFrame.dataBuffer[2];
-                responseFrame.dataBuffer[3] = requestFrame.dataBuffer[3];
-                responseFrame.dataBuffer[4] = 0;
-                responseFrame.dataSize = 5;
-                responseFrame.ready = READY;
-            }else if(signature == NO_SIGNATURE){
-                UDS_Create_pos_response(NOTREADY);
-                responseFrame.dataBuffer[2] = requestFrame.dataBuffer[2];
-                responseFrame.dataBuffer[3] = requestFrame.dataBuffer[3];
-                responseFrame.dataBuffer[4] = 0;
-                responseFrame.dataSize = 5;
-                responseFrame.ready = READY;
-            }else{
+				responseFrame.dataBuffer[2] = requestFrame.dataBuffer[2];
+				responseFrame.dataBuffer[3] = requestFrame.dataBuffer[3];
+				responseFrame.dataBuffer[4] = 0;
+				responseFrame.dataSize = 5;
+				responseFrame.ready = READY;
+			}
+			else if (signature == NO_SIGNATURE)
+			{
+				UDS_Create_pos_response(NOTREADY);
+				responseFrame.dataBuffer[2] = requestFrame.dataBuffer[2];
+				responseFrame.dataBuffer[3] = requestFrame.dataBuffer[3];
+				responseFrame.dataBuffer[4] = 0;
+				responseFrame.dataSize = 5;
+				responseFrame.ready = READY;
+			}
+			else
+			{
 				UDS_Create_neg_response(SUB_FUNC_NOT_SUPPORTED, READY);
 				return;
-            }
-        }
+			}
+		}
 		else
 		{ /* -ve response Invalid subfunction routine */
 			UDS_Create_neg_response(SUB_FUNC_NOT_SUPPORTED, READY);

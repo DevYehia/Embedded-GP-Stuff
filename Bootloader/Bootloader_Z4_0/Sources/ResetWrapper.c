@@ -1,9 +1,8 @@
 #include "ResetWrapper.h"
 
-
-//To do functional reset we do two writes
-//one with the key
-//another one with the inverted key
+// To do functional reset we do two writes
+// one with the key
+// another one with the inverted key
 
 /*
 These bits provide the target chip mode to be entered by software programming. The mechanism to enter
@@ -14,9 +13,6 @@ appropriate RUN0…3 mode value.
 
 */
 
-
-void Do_Reset(uint8_t resetType){
-
-
-
+void Do_Reset(uint8_t resetType)
+{
 }

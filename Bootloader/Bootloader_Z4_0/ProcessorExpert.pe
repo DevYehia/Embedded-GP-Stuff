@@ -48937,7 +48937,7 @@
         <ItemSymbol>FreeRTOSFileDirectory</ItemSymbol>
         <ReadOnly>true</ReadOnly>
         <UserReadOnly>false</UserReadOnly>
-        <Value>D:\S32\eclipse\ProcessorExpert\..\..\S32DS\software\S32_SDK_S32PA_RTM_3.0.0\rtos\FreeRTOS_PA\</Value>
+        <Value>C:\NXP\S32DS_Power_v2.1\eclipse\ProcessorExpert\..\..\S32DS\software\S32_SDK_S32PA_RTM_3.0.0\rtos\FreeRTOS_PA\</Value>
       </ItemState>
       <ItemState>
         <ItemSymbol>VersionSpecificItem</ItemSymbol>

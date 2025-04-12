@@ -3,9 +3,7 @@
 
 #define MAX_BUFF_SIZE 4096
 
-
 #include "can_pal1.h"
-
 
 typedef struct dataFrame
 {
@@ -13,10 +11,5 @@ typedef struct dataFrame
     uint8_t dataBuffer[MAX_BUFF_SIZE];
     uint16_t dataSize;
 } dataFrame;
-
-
-
-
-
 
 #endif
