@@ -38,6 +38,6 @@ extern uint32_t g_BL_Decompress_UpdateBlockSize;
  * Synchronous  : Synchronous                                                          *
  * Description  : Decompresses received update data using LZ4 algorithm.               *
  ***************************************************************************************/
-status_t BLDecomp_Decompress(const uint8_t* pa_u8source,
+uint32_t BLDecomp_Decompress(const uint8_t* pa_u8source,
                              uint8_t* pa_u8dest,
                              uint32_t a_u32compressedSize);
