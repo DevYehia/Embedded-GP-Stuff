@@ -85,7 +85,7 @@ int main() {
 	if(returnCode==STATUS_ERROR){
 		while(1);
 	}
-	returnCode = BLSig_UpdateHash(message,sizeof(message));
+	returnCode = BLSig_UpdateHash(message,sizeof(message)-1);
 	if(returnCode==STATUS_ERROR){
 		while(1);
 	}

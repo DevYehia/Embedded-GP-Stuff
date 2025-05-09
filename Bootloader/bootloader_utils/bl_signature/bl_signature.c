@@ -75,7 +75,7 @@ status_t BLSig_InitHash(void)
 status_t BLSig_UpdateHash(const uint8_t *pa_u8source, uint32_t a_u32size)
 {
     status_t returnCode = STATUS_SUCCESS;
-    uint32_t msglen=a_u32size-1;
+    uint32_t msglen=a_u32size;
     if (pa_u8source == NULL)
     {
         returnCode = STATUS_ERROR;
