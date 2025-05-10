@@ -154,7 +154,7 @@ void UDS_Session_Control()
 			// taskYIELD();
 			// TODO wait for sending response
 			initVAR = 0xFFFFAAAA;
-			PINS_DRV_WritePin(PTA, 4, 1);
+//			PINS_DRV_WritePin(PTA, 4, 1);
 			/* Set flag ... to be in flash/eeprom */
 			// #ifndef UDS_BOOTLOADER
 			// SOFT_RESET();

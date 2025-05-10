@@ -1,5 +1,4 @@
 #include "UDS.h"
-
 #define UDS_BOOTLOADER
 
 UDS_SID SID = PROGRAMMING_SESSION;
@@ -194,7 +193,7 @@ void UDS_ECU_Reset()
 	// respond
 	initVAR = 0;
 	UDS_Create_pos_response(READY);
-	PINS_DRV_WritePin(PTH, 5, 1);
+//	PINS_DRV_WritePin(PTH, 5, 1);
 	vTaskDelay(pdMS_TO_TICKS(20));
 
 	// TODO wait for response to be sent
@@ -284,6 +283,8 @@ void UDS_Request_Download()
 			return;
 		}
 
+		BL_data.compression_flag = requestFrame.dataBuffer[1]>>4; /* DataFormatIdentifier(1byte) ... Bits 7-4 -> Compression method (default 0x0 - >Nocompression */
+		NBytesDataLength = requestFrame.dataBuffer[2] >> 4;  /* Defines number of bytes of MEMORY LENGTH parameter */
 		NBytesDataLength = requestFrame.dataBuffer[2] >> 4;		 /* Defines number of bytes of MEMORY LENGTH parameter */
 		memory_address_size = requestFrame.dataBuffer[2] & 0x0F; /* Defines number of bytes of START MEMORY ADDRESS parameter*/
 
@@ -331,6 +332,7 @@ void UDS_Request_Download()
 		}
 
 		status = STATUS_SUCCESS; // BL_RequestDownloadHandler();
+		BL_data.request_flag = 1;
 		if (status == STATUS_ERROR)
 		{
 			REQ_Download_Abort();
@@ -554,15 +556,16 @@ void UDS_Routine_Control()
 		else if (routine_id == FINALIZE_PROGRAMMING)
 		{
 			status = STATUS_BUSY;
-			signature = requestFrame.dataBuffer[4];
+			uint8_t signature = requestFrame.dataBuffer[4];
 			if (signature == ECDSA_SIGNATURE)
 			{
 				for (uint8_t i = 5; i < requestFrame.dataSize; i++)
 				{
-					BL_data.signature <<= 8;
-					BL_data.signature |= requestFrame.dataBuffer[i];
+					BL_data.signature[i-5] = requestFrame.dataBuffer[i];
 				}
+//				portENTER_CRITICAL();
 				status = BL_Callbacks->BL_Finalize_Programming();
+//				portEXIT_CRITICAL();
 				if (status == STATUS_ERROR)
 				{
 					UDS_Create_neg_response(INVALID_KEY, READY);

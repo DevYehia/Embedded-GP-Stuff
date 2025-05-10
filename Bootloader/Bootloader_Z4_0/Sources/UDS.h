@@ -139,7 +139,10 @@ typedef struct BL_Data
     /* UDS_Routine_Control */
     uint16_t data_block_size;
     uint8_t app_id;
+    uint8_t compression_flag;
+    uint8_t request_flag;
     uint8_t N_paramteres;
+    uint8_t signature[64];
     uint8_t parameters[20];
     uint8_t data[MAX_BLOCK_NUMBER];
     uint8_t req_down_size;
@@ -162,7 +165,7 @@ typedef struct BL_Functions
     status_t (*BL_TransferDataHandler)(void);
     status_t (*BL_Check_Memory)(void);
     status_t (*BL_Erase_Memory)(void);
-    status_t (*BL_Finalize_Programming)(void);
+    status_t  (*BL_Finalize_Programming)(void);
 } BL_Functions;
 
 void UDS_Receive(void);

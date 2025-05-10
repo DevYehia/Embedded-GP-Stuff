@@ -6,6 +6,9 @@
 #include "status.h"
 #include "Bootloader_Flash/BootloaderFlash.h" /* Lower-level flash operations */
 #include "UDS.h"
+#include "bootloader_utils/bl_signature/bl_hash/sha256.h"
+#include "bootloader_utils/bl_signature/bl_signature.h"
+#include "bootloader_utils/bl_decompress/bl_decompress.h"
 
 /* Maximum block number for data transfer operations (UDS limit) */
 #define MAX_BLOCK_NUMBER 4095U
@@ -61,5 +64,11 @@ status_t Bootloader_Program(void);
  * @return status_t STATUS_SUCCESS if the CRC check is successful; otherwise, an error status.
  */
 status_t Bootloader_CheckMemory(void);
+
+
+/* Handler to finish the hash and verify the signature.
+ * Expects `signature` to point to the raw ECDSA signature bytes.
+ */
+status_t Bootloader_Finalize_Programming(void);
 
 #endif /* BOOTLOADER_H_ */

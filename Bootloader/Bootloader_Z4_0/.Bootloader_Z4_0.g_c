@@ -18,7 +18,7 @@
         <Line>Generated_Code\FreeRTOSConfig.h</Line>
         <Line>Generated_Code\can_pal_cfg.h</Line>
       </GenExtraFiles>
-      <XtraAge0>1519193077</XtraAge0>
+      <XtraAge0>1519194248</XtraAge0>
       <XtraAge1>1519193077</XtraAge1>
       <GenExtraFileType1>4</GenExtraFileType1>
       <GenExtraFileType0>4</GenExtraFileType0>
@@ -845,7 +845,7 @@
     </GenFiles>
     <SignalListFile />
     <DestinationCompiler>GNUC</DestinationCompiler>
-    <ProjectModificationStamp>7</ProjectModificationStamp>
+    <ProjectModificationStamp>10</ProjectModificationStamp>
   </Options>
   <CpuID_1>
     <Generated>true</Generated>
@@ -901,8 +901,8 @@
     <GenComponentVersion>1.2.0</GenComponentVersion>
     <GenDriverVersion>1.4</GenDriverVersion>
     <GenEventModule />
-    <HeaderAge>1519193077</HeaderAge>
-    <CodeAge>1519193077</CodeAge>
+    <HeaderAge>1519194358</HeaderAge>
+    <CodeAge>1519194358</CodeAge>
     <AsemblAge>-1</AsemblAge>
     <GenNumMethods>17</GenNumMethods>
     <PINS_DRV_Init>true</PINS_DRV_Init>
@@ -1142,7 +1142,7 @@
     <pvTimerGetTimerID>false</pvTimerGetTimerID>
     <pcTimerGetTimerName>false</pcTimerGetTimerName>
     <xTimerIsTimerActive>false</xTimerIsTimerActive>
-    <xTimerPendFunctionCall>true</xTimerPendFunctionCall>
+    <xTimerPendFunctionCall>false</xTimerPendFunctionCall>
     <xTimerPendFunctionCallFromISR>true</xTimerPendFunctionCallFromISR>
     <xTimerReset>false</xTimerReset>
     <xTimerResetFromISR>false</xTimerResetFromISR>
@@ -1244,7 +1244,7 @@
     <GenDriverVersion>01.00</GenDriverVersion>
     <GenEventModule />
     <HeaderAge>1519193077</HeaderAge>
-    <CodeAge>1519193077</CodeAge>
+    <CodeAge>1521008455</CodeAge>
     <AsemblAge>-1</AsemblAge>
     <GenNumMethods>16</GenNumMethods>
     <CAN_Init>true</CAN_Init>

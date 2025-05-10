@@ -227,8 +227,6 @@ Module "FreeRTOS"  (component FreeRTOS)
                 previously been created using a call to xSemaphoreCreateRecursiveMutex();    configUSE_RECURSIVE_MUTEXES must 
                 be set to 1 in FreeRTOSConfig.h for this macro to be available.   This macro must not be used on mutexes 
                 created using xSemaphoreCreateMutex().
-   - FreeRTOS_xTimerPendFunctionCall -Used to pend the execution of a function to the RTOS daemon task (the timer service task, 
-                hence this function is pre-fixed with 'Timer').
    - FreeRTOS_xTimerPendFunctionCallFromISR -Used to pend the execution of a function to the RTOS daemon task (the timer 
                 service task, hence this function is pre-fixed with 'Timer').
    - FreeRTOS_portSWITCH_TO_USER_MODE -Sets the calling task into User mode. Once in User mode a task cannot return to 
