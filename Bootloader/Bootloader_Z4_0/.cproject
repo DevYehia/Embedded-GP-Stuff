@@ -107,6 +107,7 @@
 									<listOptionValue builtIn="false" value="START_FROM_FLASH"/>
 									<listOptionValue builtIn="false" value="DEBUG_SECONDARY_CORES"/>
 								</option>
+								<inputType id="cdt.managedbuild.tool.gnu.cpp.compiler.input.962482154" superClass="cdt.managedbuild.tool.gnu.cpp.compiler.input"/>
 							</tool>
 							<tool id="com.freescale.s32ds.cross.gnu.e200.tool.c.linker.827609532" name="Standard S32DS C Linker" superClass="com.freescale.s32ds.cross.gnu.e200.tool.c.linker">
 								<option id="com.freescale.s32ds.cross.gnu.tool.c.linker.option.gcsections.1772677134" name="Remove unused sections (-Xlinker --gc-sections)" superClass="com.freescale.s32ds.cross.gnu.tool.c.linker.option.gcsections" value="true" valueType="boolean"/>
@@ -126,6 +127,7 @@
 								<option id="com.freescale.s32ds.cross.gnu.e200.tool.cpp.linker.option.target.family.925694841" name="Target Processor" superClass="com.freescale.s32ds.cross.gnu.e200.tool.cpp.linker.option.target.family" value="com.freescale.s32ds.cross.gnu.e200.tool.cpp.linker.option.target.family.e200z4" valueType="enumerated"/>
 								<option id="com.freescale.s32ds.cross.gnu.e200.tool.cpp.linker.option.target.sysroot.248082100" name="Sysroot" superClass="com.freescale.s32ds.cross.gnu.e200.tool.cpp.linker.option.target.sysroot" value="--sysroot=&quot;${VLE_EWL_DIR}&quot;" valueType="string"/>
 								<option id="com.freescale.s32ds.cross.gnu.e200.tool.cpp.linker.option.target.libraries.1157783827" superClass="com.freescale.s32ds.cross.gnu.e200.tool.cpp.linker.option.target.libraries" value="com.freescale.s32ds.cross.gnu.e200.tool.cpp.linker.option.target.libraries.ewl_c9x_noio" valueType="enumerated"/>
+								<inputType id="com.freescale.s32ds.cross.gnu.tool.cpp.linker.inputType.scriptfile.1773437893" superClass="com.freescale.s32ds.cross.gnu.tool.cpp.linker.inputType.scriptfile"/>
 							</tool>
 							<tool id="com.freescale.s32ds.cross.gnu.e200.tool.archiver.1217892422" name="Standard S32DS Archiver" superClass="com.freescale.s32ds.cross.gnu.e200.tool.archiver"/>
 							<tool id="com.freescale.s32ds.cross.gnu.e200.tool.assembler.2105402596" name="Standard S32DS Assembler" superClass="com.freescale.s32ds.cross.gnu.e200.tool.assembler">
@@ -303,6 +305,7 @@
 									<listOptionValue builtIn="false" value="START_FROM_FLASH"/>
 									<listOptionValue builtIn="false" value="DEBUG_SECONDARY_CORES"/>
 								</option>
+								<inputType id="cdt.managedbuild.tool.gnu.cpp.compiler.input.1275367862" superClass="cdt.managedbuild.tool.gnu.cpp.compiler.input"/>
 							</tool>
 							<tool id="com.freescale.s32ds.cross.gnu.e200.tool.c.linker.246766245" name="Standard S32DS C Linker" superClass="com.freescale.s32ds.cross.gnu.e200.tool.c.linker">
 								<option id="com.freescale.s32ds.cross.gnu.tool.c.linker.option.gcsections.313694663" name="Remove unused sections (-Xlinker --gc-sections)" superClass="com.freescale.s32ds.cross.gnu.tool.c.linker.option.gcsections" value="true" valueType="boolean"/>
@@ -322,6 +325,7 @@
 								<option id="com.freescale.s32ds.cross.gnu.e200.tool.cpp.linker.option.target.family.1584200298" name="Target Processor" superClass="com.freescale.s32ds.cross.gnu.e200.tool.cpp.linker.option.target.family" value="com.freescale.s32ds.cross.gnu.e200.tool.cpp.linker.option.target.family.e200z4" valueType="enumerated"/>
 								<option id="com.freescale.s32ds.cross.gnu.e200.tool.cpp.linker.option.target.sysroot.1311092550" name="Sysroot" superClass="com.freescale.s32ds.cross.gnu.e200.tool.cpp.linker.option.target.sysroot" value="--sysroot=&quot;${VLE_EWL_DIR}&quot;" valueType="string"/>
 								<option id="com.freescale.s32ds.cross.gnu.e200.tool.cpp.linker.option.target.libraries.277466659" superClass="com.freescale.s32ds.cross.gnu.e200.tool.cpp.linker.option.target.libraries" value="com.freescale.s32ds.cross.gnu.e200.tool.cpp.linker.option.target.libraries.ewl_c9x_noio" valueType="enumerated"/>
+								<inputType id="com.freescale.s32ds.cross.gnu.tool.cpp.linker.inputType.scriptfile.743318857" superClass="com.freescale.s32ds.cross.gnu.tool.cpp.linker.inputType.scriptfile"/>
 							</tool>
 							<tool id="com.freescale.s32ds.cross.gnu.e200.tool.archiver.374335273" name="Standard S32DS Archiver" superClass="com.freescale.s32ds.cross.gnu.e200.tool.archiver"/>
 							<tool id="com.freescale.s32ds.cross.gnu.e200.tool.assembler.731655121" name="Standard S32DS Assembler" superClass="com.freescale.s32ds.cross.gnu.e200.tool.assembler">
@@ -497,6 +501,7 @@
 									<listOptionValue builtIn="false" value="TURN_ON_CPU2"/>
 									<listOptionValue builtIn="false" value="DEBUG_SECONDARY_CORES"/>
 								</option>
+								<inputType id="cdt.managedbuild.tool.gnu.cpp.compiler.input.855953203" superClass="cdt.managedbuild.tool.gnu.cpp.compiler.input"/>
 							</tool>
 							<tool id="com.freescale.s32ds.cross.gnu.e200.tool.c.linker.420054526" name="Standard S32DS C Linker" superClass="com.freescale.s32ds.cross.gnu.e200.tool.c.linker">
 								<option id="com.freescale.s32ds.cross.gnu.tool.c.linker.option.gcsections.1402540825" name="Remove unused sections (-Xlinker --gc-sections)" superClass="com.freescale.s32ds.cross.gnu.tool.c.linker.option.gcsections" value="true" valueType="boolean"/>
@@ -516,6 +521,7 @@
 								<option id="com.freescale.s32ds.cross.gnu.e200.tool.cpp.linker.option.target.family.1661356907" name="Target Processor" superClass="com.freescale.s32ds.cross.gnu.e200.tool.cpp.linker.option.target.family" value="com.freescale.s32ds.cross.gnu.e200.tool.cpp.linker.option.target.family.e200z4" valueType="enumerated"/>
 								<option id="com.freescale.s32ds.cross.gnu.e200.tool.cpp.linker.option.target.sysroot.1913852875" name="Sysroot" superClass="com.freescale.s32ds.cross.gnu.e200.tool.cpp.linker.option.target.sysroot" value="--sysroot=&quot;${VLE_EWL_DIR}&quot;" valueType="string"/>
 								<option id="com.freescale.s32ds.cross.gnu.e200.tool.cpp.linker.option.target.libraries.496579341" superClass="com.freescale.s32ds.cross.gnu.e200.tool.cpp.linker.option.target.libraries" value="com.freescale.s32ds.cross.gnu.e200.tool.cpp.linker.option.target.libraries.ewl_c9x_noio" valueType="enumerated"/>
+								<inputType id="com.freescale.s32ds.cross.gnu.tool.cpp.linker.inputType.scriptfile.2069598255" superClass="com.freescale.s32ds.cross.gnu.tool.cpp.linker.inputType.scriptfile"/>
 							</tool>
 							<tool id="com.freescale.s32ds.cross.gnu.e200.tool.archiver.1927176964" name="Standard S32DS Archiver" superClass="com.freescale.s32ds.cross.gnu.e200.tool.archiver"/>
 							<tool id="com.freescale.s32ds.cross.gnu.e200.tool.assembler.1875490903" name="Standard S32DS Assembler" superClass="com.freescale.s32ds.cross.gnu.e200.tool.assembler">

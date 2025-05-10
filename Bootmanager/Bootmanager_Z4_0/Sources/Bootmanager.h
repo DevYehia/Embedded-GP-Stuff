@@ -3,6 +3,7 @@
 
 #define NOINIT_FLAG_ADDRESS  0x40040000  // Address containing the programming session flag
 #define BOOTLOADER_FLAG_VALUE  0xFFFFAAAA    // Predefined flag value for bootloader mode
+#define VALIDITY_FLAG_VALUE  0x00000000
 #define BOOTLOADER_START_ADDRESS  0x01200000//0x00FA4010  // Start address for bootloader
 #define APPLICATION_START_ADDRESS  0x01400000//0x00FA0010 // Start address for application
 

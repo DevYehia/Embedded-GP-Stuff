@@ -3,7 +3,7 @@
   <Header>
     <Name>Bootloader_Z4_0</Name>
     <SavedBy>SDVPTH</SavedBy>
-    <ModificationStamp>10</ModificationStamp>
+    <ModificationStamp>11</ModificationStamp>
     <Date>2025-02-19</Date>
     <IDE>Eclipse IDE</IDE>
     <PEversion>1.12.2.RT7_b1743-0713</PEversion>
@@ -48937,7 +48937,7 @@
         <ItemSymbol>FreeRTOSFileDirectory</ItemSymbol>
         <ReadOnly>true</ReadOnly>
         <UserReadOnly>false</UserReadOnly>
-        <Value>C:\NXP\S32DS_Power_v2.1\eclipse\ProcessorExpert\..\..\S32DS\software\S32_SDK_S32PA_RTM_3.0.0\rtos\FreeRTOS_PA\</Value>
+        <Value>D:\NXP\eclipse\ProcessorExpert\..\..\S32DS\software\S32_SDK_S32PA_RTM_3.0.0\rtos\FreeRTOS_PA\</Value>
       </ItemState>
       <ItemState>
         <ItemSymbol>VersionSpecificItem</ItemSymbol>
@@ -50946,8 +50946,8 @@
         <ReadOnly>false</ReadOnly>
         <UserReadOnly>false</UserReadOnly>
         <PropertyModelIsAutomatic>false</PropertyModelIsAutomatic>
-        <Index>1</Index>
-        <EnumSymbVal>CAN_LOOPBACK_MODE</EnumSymbVal>
+        <Index>0</Index>
+        <EnumSymbVal>CAN_NORMAL_MODE</EnumSymbVal>
       </ItemState>
       <ItemState>
         <ItemSymbol>peClkSrc0</ItemSymbol>

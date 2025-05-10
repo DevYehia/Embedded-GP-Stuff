@@ -18,7 +18,8 @@ uint32_t g_totalSize = 0;
 /* Keep track of whether InitHash() has been called already */
 static bool g_hashInitialized = false;
 
-// volatile uint32_t calculatedCRC32;
+//__attribute__((section(".noinit"))) volatile uint32_t validFlag;
+
 
 /* Global structure to store application-specific bootloader function handlers */
 static BL_Functions g_UDSBootloaderHandler = {
@@ -101,7 +102,7 @@ status_t Bootloader_Program(void)
 	if(g_BLData->compression_flag == 1)
 
 	{
-		#define DECOMPRESSED_SIZE 2000
+		#define DECOMPRESSED_SIZE 4096
 		char decompressed_buf[DECOMPRESSED_SIZE];
 		volatile uint32_t decompBytes = BLDecomp_Decompress(
 				(const uint8_t*) g_BLData->data,
@@ -205,5 +206,11 @@ status_t Bootloader_Finalize_Programming(void)
 	RestoreFlashControllerCache(FLASH_PFCR2, pflash_pfcr2);
 
 	/* now verify the ECDSA signature against that digest */
-	return BLSig_VerifySignature(digest, sizeof(digest),g_BLData->signature);
+	rc = BLSig_VerifySignature(digest, sizeof(digest),g_BLData->signature);
+
+	if(rc == STATUS_SUCCESS)
+	{
+		*((volatile uint32_t *)0x40040008) = 0x00000000;
+	}
+	return rc;
 }

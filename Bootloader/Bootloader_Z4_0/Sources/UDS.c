@@ -7,6 +7,7 @@ UDS_SID prev_SID = ROUTINE_CONTROL;
 DIAGNOSTIC_SESSION_SUBFUNC currentSession = DEFAULT_SESSION;
 __attribute__((section(".noinit"))) volatile uint32_t initVAR;
 
+
 /********************** Note: *************/
 /* all variables initialization has changed for testing */
 

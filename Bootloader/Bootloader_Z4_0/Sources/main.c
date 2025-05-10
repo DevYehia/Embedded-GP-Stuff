@@ -323,8 +323,8 @@ int main(void)
 	CLOCK_SYS_Init(g_clockManConfigsArr,   CLOCK_MANAGER_CONFIG_CNT,
 			g_clockManCallbacksArr, CLOCK_MANAGER_CALLBACK_CNT);
 	CLOCK_SYS_UpdateConfiguration(0U, CLOCK_MANAGER_POLICY_AGREEMENT);
-	//	PINS_DRV_Init(NUM_OF_CONFIGURED_PINS, g_pin_mux_InitConfigArr);
-
+		PINS_DRV_Init(NUM_OF_CONFIGURED_PINS, g_pin_mux_InitConfigArr);
+		*((volatile uint32_t *)0x40040008) = 0x11111111;
 
 	//BOARD RECOVERY
 
@@ -353,12 +353,12 @@ int main(void)
 
 	CanTP_init(&responseFrame, &requestFrame);
 
-	for(idx=0;idx<size;idx = idx+4){
-		buffer[idx]=0xAA; /*Initialize Buffer*/
-		buffer[idx+1]=0XBB;
-		buffer[idx+2]=0XCC;
-		buffer[idx+3]=0XDD;
-	}
+	// for(idx=0;idx<size;idx = idx+4){
+	// 	buffer[idx]=0xAA; /*Initialize Buffer*/
+	// 	buffer[idx+1]=0XBB;
+	// 	buffer[idx+2]=0XCC;
+	// 	buffer[idx+3]=0XDD;
+	// }
 
 	//	BLOCK_END_ADDRS + 1 - BLOCK_START_ADDRS;
 	//	size = BUFFER_SIZE_BYTE;/*Size in bytes for the program API*/
@@ -383,12 +383,12 @@ int main(void)
 	//		returnStatus = BootloaderFlash_ProgramVerify(0x1500000, 252, buffer);
 	//	}
 
-	xTaskCreate(UDS_StubTask,
-			"UDS_send example",
-			800,
-			(void *) 0,
-			5,
-			NULL);
+	// xTaskCreate(UDS_StubTask,
+	// 		"UDS_send example",
+	// 		800,
+	// 		(void *) 0,
+	// 		5,
+	// 		NULL);
 
 
 	xTaskCreate(recieve2,
@@ -398,33 +398,33 @@ int main(void)
 			6,
 			NULL);
 
-	//	   xTaskCreate(sendFromUDS2,
-	//	       "TPSend",
-	//			configMINIMAL_STACK_SIZE,
-	//	       (void *) 0,
-	//	       6,
-	//	       NULL);
+		   xTaskCreate(sendFromUDS2,
+		       "TPSend",
+				configMINIMAL_STACK_SIZE,
+		       (void *) 0,
+		       6,
+		       NULL);
 
-	//	   xTaskCreate(blink_led,
-	//	       "LED",
-	//			configMINIMAL_STACK_SIZE,
-	//	       (void *) 0,
-	//	       6,
-	//	       NULL);
+		   xTaskCreate(blink_led,
+		       "LED",
+				configMINIMAL_STACK_SIZE,
+		       (void *) 0,
+		       6,
+		       NULL);
 	vTaskStartScheduler();
 
 	/*** Don't write any code pass this line, or it will be deleted during code generation. ***/
-	/*** RTOS startup code. Macro PEX_RTOS_START is defined by the RTOS component. DON'T MODIFY THIS CODE!!! ***/
-#ifdef PEX_RTOS_START
-	PEX_RTOS_START();                  /* Startup of the selected RTOS. Macro is defined by the RTOS component. */
-#endif
-	/*** End of RTOS startup code.  ***/
-	/*** Processor Expert end of main routine. DON'T MODIFY THIS CODE!!! ***/
-	for(;;) {
-		if(exit_code != 0) {
-			break;
-		}
-	}
-	return exit_code;
-	/*** Processor Expert end of main routine. DON'T WRITE CODE BELOW!!! ***/
+  /*** RTOS startup code. Macro PEX_RTOS_START is defined by the RTOS component. DON'T MODIFY THIS CODE!!! ***/
+  #ifdef PEX_RTOS_START
+    PEX_RTOS_START();                  /* Startup of the selected RTOS. Macro is defined by the RTOS component. */
+  #endif
+  /*** End of RTOS startup code.  ***/
+  /*** Processor Expert end of main routine. DON'T MODIFY THIS CODE!!! ***/
+  for(;;) {
+    if(exit_code != 0) {
+      break;
+    }
+  }
+  return exit_code;
 }
+  /*** Processor Expert end of main routine. DON'T WRITE CODE BELOW!!! ***/

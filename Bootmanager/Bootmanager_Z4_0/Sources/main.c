@@ -25,17 +25,18 @@ int main(void) {
 	//while(test){};
 //	 *(volatile uint8_t *)NOINIT_FLAG_ADDRESS = BOOTLOADER_FLAG_VALUE;
 
+	//	uint32_t *p = &initVAR;
+	//	initVAR = 0xFFFFAAAA;
+
+		//	__attribute__((section(".noinit")))
+
 	uint32_t boot_flag = read_noinit_flag(NOINIT_FLAG_ADDRESS);
-//	uint32_t *p = &initVAR;
-//	initVAR = 0xFFFFAAAA;
-
-	//	__attribute__((section(".noinit")))
-
+	uint32_t validity_flag = read_noinit_flag(NOINIT_FLAG_ADDRESS + 8);
 
 	DisableResetEscalation();
 	*((volatile uint32_t *)0x40040004) = 0xFFFFBBBB;
 
-	 if (boot_flag == BOOTLOADER_FLAG_VALUE) {
+	 if (boot_flag == BOOTLOADER_FLAG_VALUE || validity_flag != VALIDITY_FLAG_VALUE) {
 		bootloader_function();
 	} else {
 		application_function();
