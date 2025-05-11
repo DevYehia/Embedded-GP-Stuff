@@ -1,6 +1,7 @@
 #include "UDS.h"
 #define UDS_BOOTLOADER
 
+#include "cpu.h"
 UDS_SID SID = PROGRAMMING_SESSION;
 UDS_SID prev_SID = ROUTINE_CONTROL;
 
@@ -149,7 +150,7 @@ void UDS_Session_Control()
 			// TODO wait for sending response
 			initVAR = 0xFFFFAAAA;
 
-/* Set flag ... to be in flash/eeprom */
+			/* Set flag ... to be in flash/eeprom */
 #ifndef UDS_BOOTLOADER
 			// SOFT_RESET();
 			// HARD_RESET();
@@ -193,13 +194,17 @@ void UDS_ECU_Reset()
 	}
 	// respond
 	initVAR = 0;
+
 	UDS_Create_pos_response(READY);
-//	PINS_DRV_WritePin(PTH, 5, 1);
+	PINS_DRV_WritePin(PTH, 5, 1);
 	vTaskDelay(pdMS_TO_TICKS(20));
 
 	// TODO wait for response to be sent
+	portENTER_CRITICAL();
+	INT_SYS_DisableIRQGlobal();
 	CAN_Deinit(&can_pal1_instance);
 	PIT_DRV_Deinit(INST_PIT1);
+	portEXIT_CRITICAL();
 	__asm__("e_lis %r12,0x00F9");
 	__asm__("e_or2i %r12,0x8010");
 	__asm__("e_lwz %r0,0(%r12) ");
@@ -564,9 +569,9 @@ void UDS_Routine_Control()
 				{
 					BL_data.signature[i-5] = requestFrame.dataBuffer[i];
 				}
-//				portENTER_CRITICAL();
+				//				portENTER_CRITICAL();
 				status = BL_Callbacks->BL_Finalize_Programming();
-//				portEXIT_CRITICAL();
+				//				portEXIT_CRITICAL();
 				if (status == STATUS_ERROR)
 				{
 					UDS_Create_neg_response(INVALID_KEY, READY);

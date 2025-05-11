@@ -159,13 +159,13 @@ void UDS_StubTask(void* params){
 		// Signature (64 bytes):
 		// Signature (64 bytes):
 		uint8_t signature[64] = {0xa8, 0xe3, 0xbb, 0x09, 0x4d, 0x46, 0xa9, 0x1f,
-			    0xd2, 0x8e, 0xe3, 0x88, 0xcc, 0x01, 0x2e, 0x22,
-			    0xc3, 0x92, 0xd2, 0x70, 0x89, 0x72, 0xd6, 0xba,
-			    0x87, 0xc9, 0x08, 0x61, 0x2b, 0xa8, 0xae, 0xa3,
-			    0xe9, 0xe1, 0x78, 0xc9, 0xaf, 0x3c, 0x74, 0x56,
-			    0x1c, 0xfc, 0xb3, 0x04, 0x72, 0x52, 0x11, 0xdf,
-			    0xaf, 0x6f, 0x2d, 0x75, 0x25, 0x75, 0xf4, 0xf5,
-			    0x42, 0x89, 0xbe, 0xc2, 0x11, 0xbd, 0xfd, 0x68 };
+				0xd2, 0x8e, 0xe3, 0x88, 0xcc, 0x01, 0x2e, 0x22,
+				0xc3, 0x92, 0xd2, 0x70, 0x89, 0x72, 0xd6, 0xba,
+				0x87, 0xc9, 0x08, 0x61, 0x2b, 0xa8, 0xae, 0xa3,
+				0xe9, 0xe1, 0x78, 0xc9, 0xaf, 0x3c, 0x74, 0x56,
+				0x1c, 0xfc, 0xb3, 0x04, 0x72, 0x52, 0x11, 0xdf,
+				0xaf, 0x6f, 0x2d, 0x75, 0x25, 0x75, 0xf4, 0xf5,
+				0x42, 0x89, 0xbe, 0xc2, 0x11, 0xbd, 0xfd, 0x68 };
 		//start frame + total size of can bus frames including headers = 0x050
 		can_message_t message10 = {0, 0x55, {0x10, 0x45, 0x31, 0x01, 0xff, 0x02, 0x01, signature[0]}, 8};
 		// can_message_t message10 = {0, 0x55, {0x02, 0x11, 0x01, 0xAA, 0xAA, 0xAA, 0xAA, 0xAA}, 8};
@@ -323,13 +323,20 @@ int main(void)
 	CLOCK_SYS_Init(g_clockManConfigsArr,   CLOCK_MANAGER_CONFIG_CNT,
 			g_clockManCallbacksArr, CLOCK_MANAGER_CALLBACK_CNT);
 	CLOCK_SYS_UpdateConfiguration(0U, CLOCK_MANAGER_POLICY_AGREEMENT);
-		PINS_DRV_Init(NUM_OF_CONFIGURED_PINS, g_pin_mux_InitConfigArr);
-		*((volatile uint32_t *)0x40040008) = 0x11111111;
+	PINS_DRV_Init(NUM_OF_CONFIGURED_PINS, g_pin_mux_InitConfigArr);
 
 	//BOARD RECOVERY
 
 	//Init CAN Stack
 
+
+	//		status_t  returnStatus = BootloaderFlash_Unlock();
+	//	    returnStatus = BootloaderFlash_Erase(0x1400000, 4000);
+	//	    returnStatus = BootloaderFlash_VerifyBlank(0x1400000,4000);
+	//	    if (returnStatus == STATUS_SUCCESS)
+	//	    {
+	//	    	while(1);
+	//	    }
 	/*
 		status_t returnStatus = BootloaderFlash_Unlock();
 
@@ -367,7 +374,8 @@ int main(void)
 	UDS_Init(&a_BLHandlersConfig);
 
 	Bootloader_Init(&a_BLHandlersConfig);
-
+//
+//	*((volatile uint32_t *)0x40040008) = 0x11111111;
 
 	//	status_t returnStatus = BootloaderFlash_Unlock();
 	//
@@ -393,24 +401,24 @@ int main(void)
 
 	xTaskCreate(recieve2,
 			"TpReceieve",
-			800,
+			2048,
 			(void *) 0,
 			6,
 			NULL);
 
-		   xTaskCreate(sendFromUDS2,
-		       "TPSend",
-				configMINIMAL_STACK_SIZE,
-		       (void *) 0,
-		       6,
-		       NULL);
+	xTaskCreate(sendFromUDS2,
+			"TPSend",
+			configMINIMAL_STACK_SIZE,
+			(void *) 0,
+			6,
+			NULL);
 
-		   xTaskCreate(blink_led,
-		       "LED",
-				configMINIMAL_STACK_SIZE,
-		       (void *) 0,
-		       6,
-		       NULL);
+	xTaskCreate(blink_led,
+			"LED",
+			configMINIMAL_STACK_SIZE,
+			(void *) 0,
+			6,
+			NULL);
 	vTaskStartScheduler();
 
 	/*** Don't write any code pass this line, or it will be deleted during code generation. ***/
@@ -426,5 +434,5 @@ int main(void)
     }
   }
   return exit_code;
-}
   /*** Processor Expert end of main routine. DON'T WRITE CODE BELOW!!! ***/
+}

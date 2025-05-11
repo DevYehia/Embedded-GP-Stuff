@@ -51,6 +51,7 @@ MEMORY
     m_text : org = FLASH_BASE_ADDR, len = FLASH_SIZE
     m_data : org = SRAM_BASE_ADDR, len = SRAM_SIZE
     m_data2 : ORIGIN = 0x40040000, len = 0x20 
+    m_delta : ORIGIN = 0x01440000, len = 0x100K
 }
 
 
@@ -206,6 +207,14 @@ SECTIONS
          *(.noinit.*)
          __noinit_end__ = . + 0x8;
     } > m_data2
+
+
+    .led_blink :
+    {
+    	*(.led_blink)
+    	*(.led_blink.*)
+    
+    } > m_delta
 
     .rodata :
     {

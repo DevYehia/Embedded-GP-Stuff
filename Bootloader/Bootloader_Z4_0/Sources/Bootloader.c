@@ -72,6 +72,7 @@ status_t Bootloader_Erase_Memory(void)
 		return returnStatus;
 	}
 
+	g_BLData->ers_total_size = 384;
 	/* Erase flash memory starting at the specified address for the given size */
 	returnStatus = BootloaderFlash_Erase(g_BLData->ers_mem_start_address, g_BLData->ers_total_size);
 	if (returnStatus != STATUS_SUCCESS)
@@ -102,8 +103,8 @@ status_t Bootloader_Program(void)
 	if(g_BLData->compression_flag == 1)
 
 	{
-		#define DECOMPRESSED_SIZE 4096
-		char decompressed_buf[DECOMPRESSED_SIZE];
+#define DECOMPRESSED_SIZE 5000
+		char decompressed_buf[DECOMPRESSED_SIZE] = {0};
 		volatile uint32_t decompBytes = BLDecomp_Decompress(
 				(const uint8_t*) g_BLData->data,
 				(uint8_t *)decompressed_buf,
@@ -117,8 +118,8 @@ status_t Bootloader_Program(void)
 	else{
 		/* Retrieve the pointer to the program data from the bootloader data structure */
 		programData = g_BLData->data;
-		g_totalSize += g_BLData->data_block_size;
-		g_BLData->total_size = g_totalSize;
+		//		g_totalSize += g_BLData->data_block_size;
+		//		g_BLData->total_size = g_totalSize;
 	}
 
 
@@ -155,7 +156,10 @@ status_t Bootloader_CheckMemory(void)
 	/* Compute CRC32 over the flash memory area defined by UDS bootloader data */
 	uint32_t computed_crc = BootloaderFlash_CalculateCRC32(prev_start_address, g_BLData->total_size);
 
-	status_t rc = STATUS_ERROR;
+	/* Restore flash controller cache settings after flash operations */
+	RestoreFlashControllerCache(FLASH_PFCR1, pflash_pfcr1);
+	RestoreFlashControllerCache(FLASH_PFCR2, pflash_pfcr2);
+	status_t rc;
 
 	if (!g_hashInitialized) {
 		/* first time through: init the SHA-256 ctx */
@@ -163,22 +167,29 @@ status_t Bootloader_CheckMemory(void)
 		g_hashInitialized = true;
 	}
 
-	if (rc == STATUS_SUCCESS)
+	if (!(g_hashInitialized  && rc == STATUS_ERROR))
 	{
-	/* now update the running hash with this chunk */
-	BLSig_UpdateHash((uint8_t *)(prev_start_address), (size_t)g_BLData->total_size);
+		/* now update the running hash with this chunk */
+		rc = BLSig_UpdateHash((uint8_t *)(prev_start_address), (size_t)g_BLData->total_size);
+	}
+
+	if (rc != STATUS_SUCCESS)
+	{
+
+		while(1);
 	}
 
 
-
-	/* Compare the computed CRC with the expected CRC value from bootloader data */
-	if (computed_crc == g_BLData->CRC_Field)
-	{
-		return STATUS_SUCCESS;
-	}
-	else
-	{
-		return STATUS_ERROR;
+	else{
+		/* Compare the computed CRC with the expected CRC value from bootloader data */
+		if (computed_crc == g_BLData->CRC_Field)
+		{
+			return STATUS_SUCCESS;
+		}
+		else
+		{
+			return STATUS_ERROR;
+		}
 	}
 }
 
@@ -193,6 +204,7 @@ status_t Bootloader_Finalize_Programming(void)
 {
 
 	uint8_t digest[32];
+
 	status_t rc;
 
 	/* finalize the hash into our local buffer */
@@ -201,13 +213,8 @@ status_t Bootloader_Finalize_Programming(void)
 		return rc;
 	}
 
-	/* Restore flash controller cache settings after flash operations */
-	RestoreFlashControllerCache(FLASH_PFCR1, pflash_pfcr1);
-	RestoreFlashControllerCache(FLASH_PFCR2, pflash_pfcr2);
-
 	/* now verify the ECDSA signature against that digest */
 	rc = BLSig_VerifySignature(digest, sizeof(digest),g_BLData->signature);
-
 	if(rc == STATUS_SUCCESS)
 	{
 		*((volatile uint32_t *)0x40040008) = 0x00000000;

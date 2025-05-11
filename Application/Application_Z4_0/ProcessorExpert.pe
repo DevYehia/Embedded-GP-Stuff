@@ -3,7 +3,7 @@
   <Header>
     <Name>Application_Z4_0</Name>
     <SavedBy>SDVPTH</SavedBy>
-    <ModificationStamp>14</ModificationStamp>
+    <ModificationStamp>16</ModificationStamp>
     <Date>2025-02-15</Date>
     <IDE>Eclipse IDE</IDE>
     <PEversion>1.12.2.RT7_b1743-0713</PEversion>
@@ -47782,7 +47782,7 @@
         <ItemSymbol>ProjectComponentsCountChanged</ItemSymbol>
         <ReadOnly>false</ReadOnly>
         <UserReadOnly>false</UserReadOnly>
-        <Value>2</Value>
+        <Value>0</Value>
       </ItemState>
       <ItemState>
         <ItemSymbol>ModuleName_ADC</ItemSymbol>

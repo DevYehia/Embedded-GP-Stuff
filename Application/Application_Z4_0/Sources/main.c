@@ -142,14 +142,13 @@ void DisableResetEscalation (void){
 	*DRETRegister = 0U;
 }
 
-//void blink_led(void* params){
-//	while(1){
-//		//PINS_DRV_TogglePins(GREEN_PORT, (1 << GREEN_LED));
-//		PINS_DRV_TogglePins(PTA, (1 << 4));
-//
-//		vTaskDelay(pdMS_TO_TICKS(2000));
-//	}
-//}
+__attribute__((section(".led_blink")))
+void blink_led(void* params){
+	while(1){
+		PINS_DRV_TogglePins(PTA, (1 << 4));
+		vTaskDelay(pdMS_TO_TICKS(2000));
+	}
+}
 
 extern dataFrame requestFrame;
 extern dataFrame responseFrame;
@@ -190,7 +189,7 @@ int main(void)
 //    Can_init(&can_pal1_instance, &can_pal1_Config0);
     CanTP_init(&responseFrame, &requestFrame);
 
-//    PINS_DRV_SetPins(PTA, (1 << 4));
+    PINS_DRV_SetPins(PTA, (1 << 4));
 //    dummy_force_include();
 //    UDS_Init();
 
@@ -226,12 +225,12 @@ int main(void)
       NULL);
 
 
-//  xTaskCreate(blink_led,
-//      "LED_Blink",
-//		configMINIMAL_STACK_SIZE,
-//      (void *) 0,
-//      6,
-//      NULL);
+  xTaskCreate(blink_led,
+      "LED_Blink",
+		configMINIMAL_STACK_SIZE,
+      (void *) 0,
+      6,
+      NULL);
 //    xTaskCreate(UDS_Receive,
 //    		"UDSReceive",
 //    		configMINIMAL_STACK_SIZE,

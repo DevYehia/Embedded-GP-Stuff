@@ -31,7 +31,7 @@ ENTRY(_start)
 
 /* define heap and stack size */
 __HEAP_SIZE = DEFINED(__heap_size__) ? __heap_size__ : 0x00000000;
-__STACK_SIZE = DEFINED(__stack_size__) ? __stack_size__ : 0x00003000;
+__STACK_SIZE = DEFINED(__stack_size__) ? __stack_size__ : 0x00008000;
 
 /* Define FLASH */
 FLASH_BASE_ADDR = DEFINED(__flash_base_addr__) ? __flash_base_addr__ : 0x01200000;
