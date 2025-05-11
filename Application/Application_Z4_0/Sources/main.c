@@ -146,7 +146,7 @@ __attribute__((section(".led_blink")))
 void blink_led(void* params){
 	while(1){
 		PINS_DRV_TogglePins(PTA, (1 << 4));
-		vTaskDelay(pdMS_TO_TICKS(2000));
+		vTaskDelay(pdMS_TO_TICKS(5000));
 	}
 }
 
