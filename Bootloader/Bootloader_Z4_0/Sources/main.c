@@ -375,7 +375,7 @@ int main(void)
 
 	Bootloader_Init(&a_BLHandlersConfig);
 //
-//	*((volatile uint32_t *)0x40040008) = 0x11111111;
+	*((volatile uint32_t *)0x40040008) = 0x11111111;
 
 	//	status_t returnStatus = BootloaderFlash_Unlock();
 	//
