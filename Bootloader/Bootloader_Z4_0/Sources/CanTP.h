@@ -19,8 +19,7 @@
 
 void CanTP_init();
 
-// Send control frame
-// TODO handle differnet cases of FS
+
 void send_flow_control(char type, uint32_t buffIdx);
 
 void recv_single(void);

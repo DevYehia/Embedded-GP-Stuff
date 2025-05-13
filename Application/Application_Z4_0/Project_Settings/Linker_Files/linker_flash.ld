@@ -51,6 +51,7 @@ MEMORY
     m_text : org = FLASH_BASE_ADDR, len = FLASH_SIZE
     m_data : org = SRAM_BASE_ADDR, len = SRAM_SIZE
     m_data2 : ORIGIN = 0x40040000, len = 0x20 
+    m_delta : ORIGIN = 0x01440000, len = 0x100K
 }
 
 
@@ -110,11 +111,11 @@ SECTIONS
     } > m_text
     .sdata2 :
     {
-        . = ALIGN(4);
+        . = ALIGN(8);
         __sdata2_start__ = .; /* Create a global symbol at sdata2 start. */
         *(.sdata2)
         *(.sdata2.*)
-        . = ALIGN(4);
+        . = ALIGN(8);
         __sdata2_end__ = .; /* Define a global symbol at sdata2 end. */
     } > m_text
     .got2 :
@@ -124,7 +125,7 @@ SECTIONS
 /* migration to version v1.2
    define section PREINIT_ARRAY */
 
-.preinit_array :
+.preinit_array : ALIGN(8)
   {
     PROVIDE_HIDDEN (__preinit_array_start = .);
     KEEP (*(.preinit_array))
@@ -135,7 +136,7 @@ SECTIONS
 /*  migration to version v1.2
     define section INIT_ARRAY*/
 
-  .init_array :
+  .init_array :ALIGN(8)
   {
     PROVIDE_HIDDEN (__init_array_start = .);
     KEEP (*(SORT(.init_array.*)))
@@ -148,7 +149,7 @@ SECTIONS
 /* migration to version v1.2
    define section DTORS */
 
-  .dtors :
+  .dtors :ALIGN(8)
   {
     KEEP (*crtbegin.o(.dtors))
     KEEP (*crtbegin?.o(.dtors))
@@ -161,7 +162,7 @@ SECTIONS
 /* migration to version v1.2
    define section CTORS */
 
-  .ctors :
+  .ctors :ALIGN(8)
   {
     /* gcc uses crtbegin.o to find the start of
        the constructors, so we make sure it is
@@ -188,7 +189,7 @@ SECTIONS
 /* migration to version v1.2
    define section FINI_ARRAY */
 
-  .fini_array :
+  .fini_array :ALIGN(8)
   {
     PROVIDE_HIDDEN (__fini_array_start = .);
     KEEP (*(SORT(.fini_array.*)))
@@ -206,6 +207,14 @@ SECTIONS
          *(.noinit.*)
          __noinit_end__ = . + 0x8;
     } > m_data2
+
+
+    .led_blink :
+    {
+    	*(.led_blink)
+    	*(.led_blink.*)
+    
+    } > m_delta
 
     .rodata :
     {

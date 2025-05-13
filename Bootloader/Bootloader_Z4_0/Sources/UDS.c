@@ -1,12 +1,13 @@
 #include "UDS.h"
-
 #define UDS_BOOTLOADER
 
+#include "cpu.h"
 UDS_SID SID = PROGRAMMING_SESSION;
 UDS_SID prev_SID = ROUTINE_CONTROL;
 
 DIAGNOSTIC_SESSION_SUBFUNC currentSession = DEFAULT_SESSION;
 __attribute__((section(".noinit"))) volatile uint32_t initVAR;
+
 
 /********************** Note: *************/
 /* all variables initialization has changed for testing */
@@ -66,6 +67,17 @@ static void Transfer_Data_Abort()
 	seq_number = 1;
 }
 
+static void Add_DID(){
+	memmove(&requestFrame.dataBuffer[3], &requestFrame.dataBuffer[1], requestFrame.dataSize - 1);
+
+	requestFrame.dataBuffer[DIAG_ID_HIGH_BYTE_POS] = (LOCAL_DID>>8)&0x7;
+	requestFrame.dataBuffer[DIAG_ID_LOW_BYTE_POS] =  (uint8_t)LOCAL_DID;
+	
+	requestFrame.dataSize += 2;
+
+	responseFrame.ready = READY
+}
+
 static DID_Found_Status checkIfIDExists(DID ID)
 {
 	switch (ID)
@@ -106,7 +118,6 @@ void UDS_Create_pos_response(uint8_t isReady)
 	responseFrame.dataBuffer[SID_POS] = requestFrame.dataBuffer[SID_POS] + 0x40;
 	responseFrame.dataBuffer[SUB_BYTE_POS] = requestFrame.dataBuffer[SUB_BYTE_POS];
 	responseFrame.dataSize = 2;
-
 	responseFrame.ready = isReady;
 }
 
@@ -116,6 +127,7 @@ void UDS_Create_neg_response(NRC neg_code, uint8_t isReady)
 	responseFrame.dataBuffer[1] = requestFrame.dataBuffer[SID_POS];
 	responseFrame.dataBuffer[2] = neg_code;
 	responseFrame.dataSize = 3;
+	Add_DID();
 	responseFrame.ready = isReady;
 }
 
@@ -149,7 +161,7 @@ void UDS_Session_Control()
 			// TODO wait for sending response
 			initVAR = 0xFFFFAAAA;
 
-/* Set flag ... to be in flash/eeprom */
+			/* Set flag ... to be in flash/eeprom */
 #ifndef UDS_BOOTLOADER
 			// SOFT_RESET();
 			// HARD_RESET();
@@ -169,7 +181,7 @@ void UDS_Session_Control()
 		responseFrame.dataBuffer[4] = 0x23;
 		responseFrame.dataBuffer[5] = 0x23;
 		responseFrame.dataSize = 6;
-		responseFrame.ready = READY;
+		Add_DID();
 	}
 }
 
@@ -193,13 +205,19 @@ void UDS_ECU_Reset()
 	}
 	// respond
 	initVAR = 0;
-	UDS_Create_pos_response(READY);
+
+	UDS_Create_pos_response(NOTREADY);
+	Add_DID();
+
 	PINS_DRV_WritePin(PTH, 5, 1);
 	vTaskDelay(pdMS_TO_TICKS(20));
 
 	// TODO wait for response to be sent
+	portENTER_CRITICAL();
+	INT_SYS_DisableIRQGlobal();
 	CAN_Deinit(&can_pal1_instance);
 	PIT_DRV_Deinit(INST_PIT1);
+	portEXIT_CRITICAL();
 	__asm__("e_lis %r12,0x00F9");
 	__asm__("e_or2i %r12,0x8010");
 	__asm__("e_lwz %r0,0(%r12) ");
@@ -237,7 +255,7 @@ void UDS_Read_by_ID()
 
 	responseFrame.dataBuffer[DATA_START_POS]; // TODO Replace with actual identifier
 	responseFrame.dataSize = 5;
-	responseFrame.ready = READY;
+	Add_DID();
 }
 
 void UDS_Write_by_ID()
@@ -258,10 +276,9 @@ void UDS_Write_by_ID()
 	responseFrame.dataBuffer[DID_HIGH_BYTE_POS] = requestFrame.dataBuffer[DID_HIGH_BYTE_POS];
 	responseFrame.dataBuffer[DID_LOW_BYTE_POS] = requestFrame.dataBuffer[DID_LOW_BYTE_POS];
 	responseFrame.dataSize = 4;
-	responseFrame.ready = READY;
+	Add_DID();
 }
 
-/* Assuming payload[0] is SID */
 /* Receives frame of type Request_Download from the client */
 void UDS_Request_Download()
 {
@@ -271,7 +288,6 @@ void UDS_Request_Download()
 	status_t status = 0;
 	if (!(currentSession == PROGRAMMING_SESSION || prev_SID == ROUTINE_CONTROL || prev_SID == REQUEST_TRANSFER_EXIT))
 	{
-		/* -ve response 0x70 */
 		UDS_Create_neg_response(UPLOAD_DOWNLOAD_NOT_ACCEPTED, READY);
 		return;
 	}
@@ -284,6 +300,8 @@ void UDS_Request_Download()
 			return;
 		}
 
+		BL_data.compression_flag = requestFrame.dataBuffer[1]>>4; /* DataFormatIdentifier(1byte) ... Bits 7-4 -> Compression method (default 0x0 - >Nocompression) */
+		NBytesDataLength = requestFrame.dataBuffer[2] >> 4;  /* Defines number of bytes of MEMORY LENGTH parameter */
 		NBytesDataLength = requestFrame.dataBuffer[2] >> 4;		 /* Defines number of bytes of MEMORY LENGTH parameter */
 		memory_address_size = requestFrame.dataBuffer[2] & 0x0F; /* Defines number of bytes of START MEMORY ADDRESS parameter*/
 
@@ -331,6 +349,7 @@ void UDS_Request_Download()
 		}
 
 		status = STATUS_SUCCESS; // BL_RequestDownloadHandler();
+		BL_data.request_flag = 1;
 		if (status == STATUS_ERROR)
 		{
 			REQ_Download_Abort();
@@ -339,17 +358,13 @@ void UDS_Request_Download()
 		}
 		else
 		{
-			// REQ_Download_Abort();
-			UDS_Create_pos_response(NOTREADY);	/* isReady parameter is set to 0 */
+			UDS_Create_pos_response(NOTREADY);	
 			responseFrame.dataBuffer[1] = 0x20; /* MaxNumberBlockLength = 2 bytes, followed by reserved 4 bits = 0 */
-
-			// test with vlaue = 5
-			//  BL_Max_N_Block(&MaxNumberBlockLength);
 
 			responseFrame.dataBuffer[2] = (uint8_t)(MaxNumberBlockLength >> 8); /* 1st byte */
 			responseFrame.dataBuffer[3] = (uint8_t)(MaxNumberBlockLength);		/* 2nd byte  e.g: 0x0FFA = 4090 ... max size in bytes (including SID) to be transmitted using Transfer Data service */
 			responseFrame.dataSize = 4;
-			responseFrame.ready = READY;
+			Add_DID();
 			/*  convey the MaxNumberBlockLength for each TransferData request to the client. This length encompasses the service identifier
 					and data parameters within the TransferData request message. */
 		}
@@ -358,7 +373,8 @@ void UDS_Request_Download()
 
 /* Receives frame of type Transfer Data from the client */
 void UDS_Transfer_Data()
-{
+{	
+	uint8_t remainder = 0;
 	status_t status = 0;
 	if (requestFrame.dataSize < 2)
 	{
@@ -385,6 +401,17 @@ void UDS_Transfer_Data()
 			BL_data.data[i] = requestFrame.dataBuffer[2 + i];
 			remaining_Data--;
 		}
+		
+		remainder = BL_data.data_block_size % 4;
+		if(remainder){
+			uint8_t idx = BL_data.data_block_size;
+			while(remainder--){
+				BL_data.data[idx];
+				idx++;
+			}
+			BL_data.data_block_size+= remainder;
+		}
+
 		// No Function was passed (TESTING PURPOSES ONLY)
 		if (BL_Callbacks->BL_TransferDataHandler == NULL)
 		{
@@ -408,14 +435,13 @@ void UDS_Transfer_Data()
 		}
 		else
 		{
-
 			/* +ve Response */
 			UDS_Create_pos_response(NOTREADY);
 			responseFrame.dataBuffer[1] = seq_number;
 			responseFrame.dataSize = 2;
 
 			seq_number++; /* Update sequence number */
-			responseFrame.ready = READY;
+			Add_DID();
 			// call CAN_TP send?
 		}
 	}
@@ -429,6 +455,7 @@ void UDS_Transfer_Data()
 
 void UDS_Request_Transfer_Exit()
 {
+	BL_data.request_flag = 1;
 	if (requestFrame.dataSize != 1)
 	{
 		UDS_Create_neg_response(WRONG_MSG_LEN_OR_FORMAT, READY);
@@ -443,7 +470,7 @@ void UDS_Request_Transfer_Exit()
 			UDS_Create_pos_response(NOTREADY);
 			responseFrame.dataBuffer[1] = 0x00;
 			responseFrame.dataSize = 1;
-			responseFrame.ready = READY;
+			Add_DID();
 		}
 		else
 		{
@@ -463,13 +490,14 @@ void UDS_Routine_Control()
 	uint8_t expected_size = 0;
 	uint16_t routine_id = 0;
 	status_t status = 0;
+	uint8_t remainder = 0;
+	
 	static RoutineControlType prev_ctrl_type = STOP_ROUTINE;
 	volatile uint8_t NBytesDataLength = 0;
 	volatile uint8_t memory_address_size = 0;
 
 	if (requestFrame.dataBuffer[1] == START_ROUTINE)
 	{
-
 		routine_id = (requestFrame.dataBuffer[2] << 8) | requestFrame.dataBuffer[3];
 		BL_data.N_paramteres = requestFrame.dataBuffer[4];
 
@@ -514,15 +542,22 @@ void UDS_Routine_Control()
 				BL_data.ers_total_size |= requestFrame.dataBuffer[i];
 			}
 
+
+			remainder = BL_data.ers_total_size % 4;
+			if(remainder){
+				BL_data.ers_total_size += remainder;
+			}
+			
 			UDS_Erase_Memory(&status); /* pass needed parameters */
 			if (status == STATUS_SUCCESS)
 			{
 				UDS_Create_pos_response(NOTREADY);
 				responseFrame.dataBuffer[2] = requestFrame.dataBuffer[2];
 				responseFrame.dataBuffer[3] = requestFrame.dataBuffer[3];
-				responseFrame.dataBuffer[4] = 0;
-				responseFrame.dataSize = 5;
-				responseFrame.ready = READY;
+				// responseFrame.dataBuffer[4] = 0;
+				// responseFrame.dataSize = 5;
+				responseFrame.dataSize = 4;
+				Add_DID();
 			}
 		}
 		else if (routine_id == CHECK_MEMORY)
@@ -554,15 +589,16 @@ void UDS_Routine_Control()
 		else if (routine_id == FINALIZE_PROGRAMMING)
 		{
 			status = STATUS_BUSY;
-			signature = requestFrame.dataBuffer[4];
+			uint8_t signature = requestFrame.dataBuffer[4];
 			if (signature == ECDSA_SIGNATURE)
 			{
 				for (uint8_t i = 5; i < requestFrame.dataSize; i++)
 				{
-					BL_data.signature <<= 8;
-					BL_data.signature |= requestFrame.dataBuffer[i];
+					BL_data.signature[i-5] = requestFrame.dataBuffer[i];
 				}
+				//				portENTER_CRITICAL();
 				status = BL_Callbacks->BL_Finalize_Programming();
+				//				portEXIT_CRITICAL();
 				if (status == STATUS_ERROR)
 				{
 					UDS_Create_neg_response(INVALID_KEY, READY);
@@ -571,18 +607,20 @@ void UDS_Routine_Control()
 				UDS_Create_pos_response(NOTREADY);
 				responseFrame.dataBuffer[2] = requestFrame.dataBuffer[2];
 				responseFrame.dataBuffer[3] = requestFrame.dataBuffer[3];
-				responseFrame.dataBuffer[4] = 0;
-				responseFrame.dataSize = 5;
-				responseFrame.ready = READY;
+				// responseFrame.dataBuffer[4] = 0;
+				// responseFrame.dataSize = 5;
+				responseFrame.dataSize = 4;
+				Add_DID();
 			}
 			else if (signature == NO_SIGNATURE)
 			{
 				UDS_Create_pos_response(NOTREADY);
 				responseFrame.dataBuffer[2] = requestFrame.dataBuffer[2];
 				responseFrame.dataBuffer[3] = requestFrame.dataBuffer[3];
-				responseFrame.dataBuffer[4] = 0;
-				responseFrame.dataSize = 5;
-				responseFrame.ready = READY;
+				// responseFrame.dataBuffer[4] = 0;
+				// responseFrame.dataSize = 5;
+				responseFrame.dataSize = 4;
+				Add_DID();
 			}
 			else
 			{
@@ -593,8 +631,6 @@ void UDS_Routine_Control()
 		else
 		{ /* -ve response Invalid subfunction routine */
 			UDS_Create_neg_response(SUB_FUNC_NOT_SUPPORTED, READY);
-
-			/* Don't need Finished_Routine_CTR here */
 			return;
 		}
 	}
@@ -608,7 +644,7 @@ void UDS_Routine_Control()
 			responseFrame.dataBuffer[i] = requestFrame.dataBuffer[i + 1];
 		}
 		responseFrame.dataSize = 4;
-		responseFrame.ready = READY;
+		Add_DID();
 	}
 	else if (requestFrame.dataBuffer[1] == REQ_ROUTINE_CTRL && prev_ctrl_type == START_ROUTINE)
 	{
@@ -620,8 +656,8 @@ void UDS_Routine_Control()
 
 			if (BL_data.N_paramteres > 0)
 			{
-				if (requestFrame.dataSize != expected_size)
-				{ // Ensure full parameters are received
+				if (requestFrame.dataSize != expected_size) /* Ensure full parameters are received */
+				{ 
 					/* -ve response */
 					UDS_Create_neg_response(WRONG_MSG_LEN_OR_FORMAT, READY);
 					return;
@@ -636,15 +672,15 @@ void UDS_Routine_Control()
 			}
 			responseFrame.dataBuffer[4] = status;
 			responseFrame.dataSize = 5;
-			responseFrame.ready = READY;
+			Add_DID();
 		}
 		else if (routine_id == CHECK_MEMORY)
 		{
 
 			if (BL_data.N_paramteres > 0)
 			{
-				if (requestFrame.dataSize != expected_size)
-				{ // Ensure full parameters are received
+				if (requestFrame.dataSize != expected_size) /**/ Ensure full parameters are received */
+				{ 
 					/* -ve response */
 					UDS_Create_neg_response(WRONG_MSG_LEN_OR_FORMAT, READY);
 					return;
@@ -658,7 +694,7 @@ void UDS_Routine_Control()
 			}
 			responseFrame.dataBuffer[4] = status;
 			responseFrame.dataSize = 5;
-			responseFrame.ready = READY;
+			Add_DID();
 		}
 		else
 		{
@@ -698,7 +734,7 @@ void UDS_Check_Memory(status_t *status)
 			responseFrame.dataBuffer[i] = requestFrame.dataBuffer[i];
 		}
 		responseFrame.dataBuffer[4] = GENERAL_PROGRAMMING_FAILURE;
-		responseFrame.ready = READY;
+		Add_DID();
 		Finished_Routine_CTR();
 		return;
 	}
@@ -711,7 +747,7 @@ void UDS_Check_Memory(status_t *status)
 		}
 		responseFrame.dataBuffer[4] = 0x00;
 		responseFrame.dataSize = 5;
-		responseFrame.ready = READY;
+		Add_DID();
 		Finished_Routine_CTR();
 	}
 }
@@ -739,7 +775,7 @@ void UDS_Erase_Memory(status_t *status)
 			responseFrame.dataBuffer[i] = requestFrame.dataBuffer[i];
 		}
 		responseFrame.dataBuffer[4] = CRC_ERROR;
-		responseFrame.ready = READY;
+		Add_DID();
 
 		Finished_Routine_CTR();
 		return;
@@ -753,7 +789,7 @@ void UDS_Erase_Memory(status_t *status)
 		}
 		responseFrame.dataBuffer[4] = 0x00;
 		responseFrame.dataSize = 5;
-		responseFrame.ready = READY;
+		Add_DID();
 		Finished_Routine_CTR();
 	}
 }
@@ -775,62 +811,66 @@ void UDS_Init(BL_Functions *BL_Funcs)
 		currentSession = DEFAULT_SESSION;
 	else
 		currentSession = PROGRAMMING_SESSION;
-	// currentSession = PROGRAMMING_SESSION;
 }
-
-/* Don't forget NRC = 0x78 ... P2 Star*/
-
+//TODO NRC = 0x78 ... P2 Star*/
 void UDS_Receive(void)
 {
+	uint16_t diagnostic_Id = 0;
 
-	//	while(1){
 	if (requestFrame.ready == READY)
 	{
 		prev_SID = SID;
 		SID = requestFrame.dataBuffer[SID_POS];
-		int data1 = requestFrame.dataBuffer[1];
 
-		if (SID == DIAGNOSTIC_SESSION_CONTROL)
-		{
-			UDS_Session_Control();
-		}
-		else if (SID == ECU_RESET)
-		{
-			UDS_ECU_Reset();
-		}
-		else if (SID == READ_DATA_BY_ID)
-		{
-			UDS_Read_by_ID();
-		}
-		else if (SID == WRITE_DATA_BY_ID)
-		{
-			UDS_Write_by_ID();
-		}
-#ifdef UDS_BOOTLOADER
-		else if (SID == REQUEST_DOWNLOAD && currentSession == PROGRAMMING_SESSION)
-		{
-			UDS_Request_Download();
-		}
-		else if (SID == ROUTINE_CONTROL && currentSession == PROGRAMMING_SESSION)
-		{
-			UDS_Routine_Control();
-		}
-		else if (SID == TRANSFER_DATA && currentSession == PROGRAMMING_SESSION)
-		{
-			UDS_Transfer_Data();
-		}
-		else if (SID == REQUEST_TRANSFER_EXIT && currentSession == PROGRAMMING_SESSION)
-		{
-			UDS_Request_Transfer_Exit();
-		}
-#endif
-		else
-		{
-			UDS_Create_neg_response(SERVICE_NOT_SUPPORTED, READY);
-		}
+		diagnostic_Id = ((requestFrame.dataBuffer[DIAG_ID_HIGH_BYTE_POS]<<8)&0x7) | requestFrame.dataBuffer[DIAG_ID_LOW_BYTE_POS];
+		
+		memmove(&requestFrame.dataBuffer[1], &requestFrame.dataBuffer[3], requestFrame.dataSize - 3);/* #include <string.h> */
+		requestFrame.dataSize -= 2;
+		
+		if(diagnostic_Id==EXPECTED_DID){
+			if (SID == DIAGNOSTIC_SESSION_CONTROL)
+			{
+				UDS_Session_Control();
+			}
+			else if (SID == ECU_RESET)
+			{
+				UDS_ECU_Reset();
+			}
+			else if (SID == READ_DATA_BY_ID)
+			{
+				UDS_Read_by_ID();
+			}
+			else if (SID == WRITE_DATA_BY_ID)
+			{
+				UDS_Write_by_ID();
+			}
+	#ifdef UDS_BOOTLOADER
+			else if (SID == REQUEST_DOWNLOAD && currentSession == PROGRAMMING_SESSION)
+			{
+				UDS_Request_Download();
+			}
+			else if (SID == ROUTINE_CONTROL && currentSession == PROGRAMMING_SESSION)
+			{
+				UDS_Routine_Control();
+			}
+			else if (SID == TRANSFER_DATA && currentSession == PROGRAMMING_SESSION)
+			{
+				UDS_Transfer_Data();
+			}
+			else if (SID == REQUEST_TRANSFER_EXIT && currentSession == PROGRAMMING_SESSION)
+			{
+				UDS_Request_Transfer_Exit();
+			}
+	#endif
+			else
+			{
+				UDS_Create_neg_response(SERVICE_NOT_SUPPORTED, READY);
+			}
 
-		reset_dataframe(&requestFrame);
+			reset_dataframe(&requestFrame);
+		}
 	}
+
 }
 
 BL_Data *UDS_BL_Receive(void)
