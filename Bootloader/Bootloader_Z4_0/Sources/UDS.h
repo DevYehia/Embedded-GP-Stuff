@@ -19,6 +19,8 @@
 #define DATA_START_POS 4
 #define getSID(buffer) (buffer[SID_POS])
 
+
+
 // Session Control Macros
 #define SESSION_CTRL_MIN_SIZE 2
 
@@ -31,6 +33,11 @@
 #ifndef MAX_BLOCK_NUMBER
 #define MAX_BLOCK_NUMBER 4088
 #endif
+
+#define DIAG_ID_HIGH_BYTE_POS  1
+#define DIAG_ID_LOW_BYTE_POS   2
+#define EXPECTED_DIAG_ID       0x55
+#define LOCAL_DIAG_ID          0x33 
 
 #define READY 1
 #define NOTREADY 0
