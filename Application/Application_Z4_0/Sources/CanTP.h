@@ -58,7 +58,7 @@ void readCanTPPayload(uint8_t size, uint8_t start);
 // 1) payload: buffer with data to be sent
 // 2) buffIdx: Index of CAN buffer for sending
 //Outputs: None
-//Desc: Send Single Frame (No Shit)
+//Desc: Send Single Frame
 void send_single_frame(uint8_t *payload, uint32_t buffIdx);
 
 //Inputs:
@@ -107,7 +107,7 @@ void resetCanTP();
 // 1) payload: buffer with data to be sent
 // 2) buffIdx: Index of CAN buffer for sending
 //Outputs: None
-//Desc: Send Consecutive Frame (No Shit)
+//Desc: Send Consecutive Frame
 void send_consecutive_frame(uint8_t *payload, uint32_t buffIdx);
 
 #endif
