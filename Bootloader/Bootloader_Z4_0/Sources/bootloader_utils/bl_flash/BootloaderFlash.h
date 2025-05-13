@@ -2,12 +2,13 @@
  * Module Name  : Bootloader Flash                                                     *
  * File Name    : BootloaderFlash.h                                                    *
  * Author       : Ouda                                                                 *
- * Purpose      : This module is a rubber layer driver for bootloader flashing	       *
- * 				  functionalities.										               *
+ * Purpose      : This module is a wrapper layer driver for bootloader flashing        *
+ *                functionalities.                                                     *
  ***************************************************************************************/
 
 #ifndef BOOTLOADER_H_
 #define BOOTLOADER_H_
+
 /****************************************************************************************
  *                                    -=[Includes]=-                                    *
  ****************************************************************************************/
@@ -18,40 +19,70 @@
 /****************************************************************************************
  *                                  -=[Definitions]=-                                   *
  ****************************************************************************************/
-#define BOOTLOADER_FLASH_WORDSIZE (C55_WORD_SIZE)
+/* Flash Configuration */
+#define BOOTLOADER_FLASH_WORDSIZE           (C55_WORD_SIZE)
+#define BOOTLOADER_FLASH_NUM_256KB_BLOCKS   (22U)
 
-/* Lock State */
-#define UNLOCK_FIRST256_BLOCKS (0x00000000U)
-#define UNLOCK_SECOND256_BLOCKS (0x00000000U)
+/* Lock States */
+#define UNLOCK_FIRST256_BLOCKS              (0x00000000U)
+#define UNLOCK_SECOND256_BLOCKS             (0x00000000U)
 
-#define NUMBER_OF_WORD_BLANK_CHECK (0x90)
-#define NUMBER_OF_WORD_PGM_VERIFY (0x80)
-#define NUMBER_OF_WORD_CHECK_SUM (0x120)
+/* Verification Parameters */
+#define NUMBER_OF_WORD_BLANK_CHECK          (0x90)
+#define NUMBER_OF_WORD_PGM_VERIFY           (0x80)
+#define NUMBER_OF_WORD_CHECK_SUM            (0x120)
 
-#define BOOTLOADERFLASH_CRC_INSTANCE (0U)
+/* Module Instances */
+#define BOOTLOADERFLASH_CRC_INSTANCE        (0U)
 
-#define BOOTLOADER_FLASH_NUM_256KB_BLOCKS (22U)
-
-/* Platform Flash */
-#define FLASH_FMC PFLASH_BASE
-#define FLASH_PFCR1 0x000000000U
-#define FLASH_PFCR2 0x000000004U
-#define FLASH_FMC_BFEN_MASK 0x000000001U
-
-/****************************************************************************************
- *                                  -=[Function IDs]=-                                  *
- ****************************************************************************************/
+/* Platform-Specific Flash Definitions */
+#define FLASH_FMC                           (PFLASH_BASE)
+#define FLASH_PFCR1                         (0x000000000U)
+#define FLASH_PFCR2                         (0x000000004U)
+#define FLASH_FMC_BFEN_MASK                 (0x000000001U)
 
 /****************************************************************************************
  *                              -=[Function Prototypes]=-                               *
  ****************************************************************************************/
 
 /****************************************************************
+ * Function Name: BlockFlags_ClearAll [HELPER]                  *
+ * Inputs       : None                                          *
+ * Outputs      : None                                          *
+ * Reentrancy   : Non-Reentrant                                 *
+ * Synchronous  : Synchronous                                   *
+ * Description  : Clears all block erase flags.                 *
+ ****************************************************************/
+void BootloaderFlash_ClearErasedFlags(void);
+
+/****************************************************************
+ * Function Name: BootloaderFlash_DisableCache                  *
+ * Inputs       : None                                          *
+ * Outputs      : None                                          *
+ * Reentrancy   : Non-Reentrant                                 *
+ * Synchronous  : Synchronous                                   *
+ * Description  : Disables flash controller cache for reliable  *
+ *                flash operations.                             *
+ ****************************************************************/
+void BootloaderFlash_DisableCache(void);
+
+/****************************************************************
+ * Function Name: BootloaderFlash_RestoreCache                  *
+ * Inputs       : None                                          *
+ * Outputs      : None                                          *
+ * Reentrancy   : Non-Reentrant                                 *
+ * Synchronous  : Synchronous                                   *
+ * Description  : Restores original flash controller cache      *
+ *                configuration.                                *
+ ****************************************************************/
+void BootloaderFlash_RestoreCache(void);
+
+/****************************************************************
  * Function Name: BootloaderFlash_Init                          *
  * Inputs       : None                                          *
  * Outputs      : status_t - Initialization status              *
  * Reentrancy   : Non-Reentrant                                 *
- * Synchronous  : Synchronous                                    *
+ * Synchronous  : Synchronous                                   *
  * Description  : Initializes the Bootloader Flash module.      *
  ****************************************************************/
 status_t BootloaderFlash_Init(void);
@@ -61,7 +92,7 @@ status_t BootloaderFlash_Init(void);
  * Inputs       : None                                          *
  * Outputs      : status_t - Unlock operation status            *
  * Reentrancy   : Non-Reentrant                                 *
- * Synchronous  : Synchronous                                    *
+ * Synchronous  : Synchronous                                   *
  * Description  : Unlocks the first 256K blocks of the flash.   *
  ****************************************************************/
 status_t BootloaderFlash_Unlock(void);
@@ -80,10 +111,11 @@ status_t BootloaderFlash_Erase(uint32_t a_Dest, uint32_t a_Size);
 
 /****************************************************************
  * Function Name: BootloaderFlash_VerifyBlank                   *
- * Inputs       : None                                          *
+ * Inputs       : a_Dest - Starting address to verify           *
+ *                a_Size - Number of bytes to verify            *
  * Outputs      : status_t - Verification status                *
  * Reentrancy   : Non-Reentrant                                 *
- * Synchronous  : Synchronous                                    *
+ * Synchronous  : Synchronous                                   *
  * Description  : Verifies if the specified flash block is blank*
  ****************************************************************/
 status_t BootloaderFlash_VerifyBlank(uint32_t a_Dest, uint32_t a_Size);
@@ -91,7 +123,7 @@ status_t BootloaderFlash_VerifyBlank(uint32_t a_Dest, uint32_t a_Size);
 /****************************************************************
  * Function Name: BootloaderFlash_Program                       *
  * Inputs       : a_dest  - Destination address in flash        *
- *                a_size  - Size of data to program             *
+ *                a_size  - Size of data to program (bytes)     *
  *                a_source- Source address of data              *
  * Outputs      : status_t - Programming status                 *
  * Reentrancy   : Non-Reentrant                                 *
@@ -103,11 +135,11 @@ status_t BootloaderFlash_Program(uint32_t a_dest, uint32_t a_size, uint32_t a_so
 /****************************************************************
  * Function Name: BootloaderFlash_ProgramVerify                 *
  * Inputs       : a_dest  - Destination address in flash        *
- *                a_size  - Size of data verified               *
+ *                a_size  - Size of data verified (bytes)       *
  *                a_source- Source address of data              *
  * Outputs      : status_t - Verification status                *
  * Reentrancy   : Non-Reentrant                                 *
- * Synchronous  : Synchronous                                    *
+ * Synchronous  : Synchronous                                   *
  * Description  : Verifies the programmed data in flash.        *
  ****************************************************************/
 status_t BootloaderFlash_ProgramVerify(uint32_t a_dest, uint32_t a_size, uint32_t a_source);
@@ -115,7 +147,7 @@ status_t BootloaderFlash_ProgramVerify(uint32_t a_dest, uint32_t a_size, uint32_
 /****************************************************************
  * Function Name: BootloaderFlash_Read                          *
  * Inputs       : a_dest  - Source address in flash to read from*
- *                a_size  - Size of data to read (in bytes)     *
+ *                a_size  - Size of data to read (bytes)        *
  *                a_pBuffer- Pointer to buffer for storing data *
  * Outputs      : status_t - Read operation status              *
  * Reentrancy   : Non-Reentrant                                 *
@@ -131,56 +163,21 @@ status_t BootloaderFlash_Read(uint32_t a_dest, uint32_t a_size, uint32_t *a_pBuf
  * Outputs      : status_t - Initialization status              *
  * Reentrancy   : Non-Reentrant                                 *
  * Synchronous  : Synchronous                                   *
- * Description  : Initializes CRC module using predefined        *
+ * Description  : Initializes CRC module using predefined       *
  *                instance and configuration.                   *
  ****************************************************************/
 status_t BootloaderFlash_InitCRC(void);
 
 /****************************************************************
- * Function Name: BootloaderFlash_Read                          *
+ * Function Name: BootloaderFlash_CalculateCRC32                *
  * Inputs       : a_dest  - Source address in flash to read from*
- *                a_size  - Size of data to calculate CRC for 	*
- *                (in bytes)     								*
- * Outputs      : uint32_t - Caclulated CRC32              		*
+ *                a_size  - Size of data to calculate CRC for   *
+ *                          (bytes)                             *
+ * Outputs      : uint32_t - Calculated CRC32                   *
  * Reentrancy   : Non-Reentrant                                 *
  * Synchronous  : Synchronous                                   *
- * Description  : Calculates CRC32 for flashed data				*
+ * Description  : Calculates CRC32 for flashed data.            *
  ****************************************************************/
 uint32_t BootloaderFlash_CalculateCRC32(uint32_t a_dest, uint32_t a_size);
 
-/****************************************************************************************
- *                          -=[Static Functions Prototypes]=-                           *
- ****************************************************************************************/
-
-/**************************************************************
- *                          Disable Flash Cache                *
- ***************************************************************/
-void DisableFlashControllerCache(uint32_t flashConfigReg,
-                                 uint32_t disableVal,
-                                 uint32_t *origin_pflash_pfcr);
-
-/*****************************************************************
- *               Restore configuration register of FCM            *
- ******************************************************************/
-void RestoreFlashControllerCache(uint32_t flashConfigReg,
-                                 uint32_t pflash_pfcr);
-
-/****************************************************************************************
- *                          -Mark the specified block as erased                         *
- ****************************************************************************************/
-
-void BlockFlags_SetErased(uint32_t block);
-
-/****************************************************************************************
- *                          Clear the erased flags for all blocks                       *
- ****************************************************************************************/
-
-void BlockFlags_ClearAll(void);
-
-/****************************************************************************************
- *                          Check if the specified block is marked as erased            *
- ****************************************************************************************/
-
-bool BlockFlags_IsErased(uint32_t block);
-
-#endif
+#endif /* BOOTLOADER_H_ */

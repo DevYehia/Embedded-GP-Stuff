@@ -11,14 +11,6 @@
  ****************************************************************************************/
 #include "BootloaderFlash.h"
 
-static void BootloaderFlash_Error(uint8_t a_ErrorSource)
-{
-	while (1)
-	{
-		/*Error function that's called when unexpected behavior occurs
-		 * check a_ErrorSource for the ID of the function*/
-	}
-}
 
 /*******************************************************************************
  *                             Global Variables                                *
@@ -63,28 +55,28 @@ static uint32_t g_BootLoaderFlash_failedAddress = 0;
  *                        operations.                           *
  ****************************************************************/
 static const uint32_t g_BlocksStartAddresses[BOOTLOADER_FLASH_NUM_256KB_BLOCKS] = {
-	0x01000000, /* Start Address of 256KB Code Flash Block 0 */
-	0x01040000, /* Start Address of 256KB Code Flash Block 1 */
-	0x01080000, /* Start Address of 256KB Code Flash Block 2 */
-	0x010C0000, /* Start Address of 256KB Code Flash Block 3 */
-	0x01100000, /* Start Address of 256KB Code Flash Block 4 */
-	0x01140000, /* Start Address of 256KB Code Flash Block 5 */
-	0x01180000, /* Start Address of 256KB Code Flash Block 6 */
-	0x011C0000, /* Start Address of 256KB Code Flash Block 7 */
-	0x01200000, /* Start Address of 256KB Code Flash Block 8 */
-	0x01240000, /* Start Address of 256KB Code Flash Block 9 */
-	0x01280000, /* Start Address of 256KB Code Flash Block 10 */
-	0x012C0000, /* Start Address of 256KB Code Flash Block 11 */
-	0x01300000, /* Start Address of 256KB Code Flash Block 12 */
-	0x01340000, /* Start Address of 256KB Code Flash Block 13 */
-	0x01380000, /* Start Address of 256KB Code Flash Block 14 */
-	0x013C0000, /* Start Address of 256KB Code Flash Block 15 */
-	0x01400000, /* Start Address of 256KB Code Flash Block 16 */
-	0x01440000, /* Start Address of 256KB Code Flash Block 17 */
-	0x01480000, /* Start Address of 256KB Code Flash Block 18 */
-	0x014C0000, /* Start Address of 256KB Code Flash Block 19 */
-	0x01500000, /* Start Address of 256KB Code Flash Block 20 */
-	0x01540000	/* Start Address of 256KB Code Flash Block 21 */
+    0x01000000, /* Start Address of 256KB Code Flash Block 0 */
+    0x01040000, /* Start Address of 256KB Code Flash Block 1 */
+    0x01080000, /* Start Address of 256KB Code Flash Block 2 */
+    0x010C0000, /* Start Address of 256KB Code Flash Block 3 */
+    0x01100000, /* Start Address of 256KB Code Flash Block 4 */
+    0x01140000, /* Start Address of 256KB Code Flash Block 5 */
+    0x01180000, /* Start Address of 256KB Code Flash Block 6 */
+    0x011C0000, /* Start Address of 256KB Code Flash Block 7 */
+    0x01200000, /* Start Address of 256KB Code Flash Block 8 */
+    0x01240000, /* Start Address of 256KB Code Flash Block 9 */
+    0x01280000, /* Start Address of 256KB Code Flash Block 10 */
+    0x012C0000, /* Start Address of 256KB Code Flash Block 11 */
+    0x01300000, /* Start Address of 256KB Code Flash Block 12 */
+    0x01340000, /* Start Address of 256KB Code Flash Block 13 */
+    0x01380000, /* Start Address of 256KB Code Flash Block 14 */
+    0x013C0000, /* Start Address of 256KB Code Flash Block 15 */
+    0x01400000, /* Start Address of 256KB Code Flash Block 16 */
+    0x01440000, /* Start Address of 256KB Code Flash Block 17 */
+    0x01480000, /* Start Address of 256KB Code Flash Block 18 */
+    0x014C0000, /* Start Address of 256KB Code Flash Block 19 */
+    0x01500000, /* Start Address of 256KB Code Flash Block 20 */
+    0x01540000  /* Start Address of 256KB Code Flash Block 21 */
 };
 
 /****************************************************************
@@ -95,40 +87,152 @@ static const uint32_t g_BlocksStartAddresses[BOOTLOADER_FLASH_NUM_256KB_BLOCKS] 
 extern const crc_user_config_t g_BootloaderFLashCRC_InitConfig;
 
 /****************************************************************
- * Global Variable Name : g_blockEraseFlags       				*
+ * Global Variable Name : g_blockEraseFlags                     *
  *--------------------------------------------------------------*
  * Description          : Holds flags indicating whether        *
- *                        erase operation has occured for		*
- * 						  each flash block                      *
+ *                        erase operation has occurred for      *
+ *                        each flash block.                     *
  ****************************************************************/
-
 static uint32_t g_blockEraseFlags = 0;
-/*******************************************************************************/
+
+/****************************************************************
+ * Global Variable Name : g_pflash_pfcr1                        *
+ *--------------------------------------------------------------*
+ * Description          : Stores the original configuration of  *
+ *                        the primary flash controller register *
+ *                        PFCR1 before disabling the cache.     *
+ ****************************************************************/
+static volatile uint32_t g_pflash_pfcr1 = 0;
+
+/****************************************************************
+ * Global Variable Name : g_pflash_pfcr2                        *
+ *--------------------------------------------------------------*
+ * Description          : Stores the original configuration of  *
+ *                        the primary flash controller register *
+ *                        PFCR2 before disabling the cache.     *
+ ****************************************************************/
+static volatile uint32_t g_pflash_pfcr2 = 0;
 
 /*******************************************************************************
  *                                Functions                                    *
  *******************************************************************************/
 
-void BlockFlags_SetErased(uint32_t block)
+ /****************************************************************
+ * Function Name: DisableFlashControllerCache [HELPER]          *
+ * Inputs       : flashConfigReg - Flash configuration register *
+ *                disableVal - Value to disable cache           *
+ *                origin_pflash_pfcr - Pointer to store original*
+ *                                      register value          *
+ * Outputs      : None                                          *
+ * Reentrancy   : Non-Reentrant                                 *
+ * Synchronous  : Synchronous                                   *
+ * Description  : Disables the flash controller cache by        *
+ *                modifying the specified configuration register*
+ *                and saves the original value.                 *
+ ****************************************************************/
+static void DisableFlashControllerCache(uint32_t flashConfigReg,
+	uint32_t disableVal,
+	uint32_t *origin_pflash_pfcr)
 {
-	if (block < BOOTLOADER_FLASH_NUM_256KB_BLOCKS)
-	{
-		g_blockEraseFlags |= (1U << block);
-	}
+/* Read the values of the register of flash configuration */
+*origin_pflash_pfcr = REG_READ32(FLASH_FMC + flashConfigReg);
+/* Disable Caches */
+REG_BIT_CLEAR32(FLASH_FMC + flashConfigReg, disableVal);
 }
 
-void BlockFlags_ClearAll(void)
+/****************************************************************
+* Function Name: RestoreFlashControllerCache [HELPER]          *
+* Inputs       : flashConfigReg - Flash configuration register *
+*                pflash_pfcr - Original register value to      *
+* 				  restore                                       *
+* Outputs      : None                                          *
+* Reentrancy   : Non-Reentrant                                 *
+* Synchronous  : Synchronous                                   *
+* Description  : Restores the original configuration to the    *
+*                specified flash controller cache register.    *
+****************************************************************/
+static void RestoreFlashControllerCache(uint32_t flashConfigReg,
+	uint32_t pflash_pfcr)
 {
-	g_blockEraseFlags = 0;
+REG_WRITE32(FLASH_FMC + flashConfigReg, pflash_pfcr);
 }
 
-bool BlockFlags_IsErased(uint32_t block)
+
+/****************************************************************
+* Function Name: BlockFlags_SetErased [HELPER]                 *
+* Inputs       : block - Index of the block to mark as erased  *
+* Outputs      : None                                          *
+* Reentrancy   : Non-Reentrant                                 *
+* Synchronous  : Synchronous                                   *
+* Description  : Sets the flag indicating the specified block  *
+*                has been erased.                              *
+****************************************************************/
+static void BlockFlags_SetErased(uint32_t block)
 {
-	if (block < BOOTLOADER_FLASH_NUM_256KB_BLOCKS)
-	{
-		return (g_blockEraseFlags & (1U << block)) != 0;
-	}
-	return false;
+if (block < BOOTLOADER_FLASH_NUM_256KB_BLOCKS)
+{
+g_blockEraseFlags |= (1U << block);
+}
+}
+
+/****************************************************************
+* Function Name: BlockFlags_IsErased [HELPER]                  *
+* Inputs       : block - Index of the block to check           *
+* Outputs      : bool - True if block is marked as erased      *
+* Reentrancy   : Non-Reentrant                                 *
+* Synchronous  : Synchronous                                   *
+* Description  : Checks if the specified block is marked as    *
+*                erased.                                       *
+****************************************************************/
+static bool BlockFlags_IsErased(uint32_t block)
+{
+if (block < BOOTLOADER_FLASH_NUM_256KB_BLOCKS)
+{
+return (g_blockEraseFlags & (1U << block)) != 0;
+}
+return false;
+}
+/****************************************************************
+* Function Name: BlockFlags_ClearAll [HELPER]                  *
+* Inputs       : None                                          *
+* Outputs      : None                                          *
+* Reentrancy   : Non-Reentrant                                 *
+* Synchronous  : Synchronous                                   *
+* Description  : Clears all block erase flags.                 *
+****************************************************************/
+void BootloaderFlash_ClearErasedFlags(void)
+{
+g_blockEraseFlags = 0;
+}
+
+/****************************************************************
+* Function Name: BootloaderFlash_DisableCache                  *
+* Inputs       : None                                          *
+* Outputs      : None                                          *
+* Reentrancy   : Non-Reentrant                                 *
+* Synchronous  : Synchronous                                   *
+* Description  : Disables the flash controller cache to ensure *
+*                reliable flash operations by saving the       *
+*                original cache configurations.                *
+****************************************************************/
+void BootloaderFlash_DisableCache(void){
+DisableFlashControllerCache(FLASH_PFCR1, FLASH_FMC_BFEN_MASK, &g_pflash_pfcr1);
+DisableFlashControllerCache(FLASH_PFCR2, FLASH_FMC_BFEN_MASK, &g_pflash_pfcr2);
+}
+
+/****************************************************************
+* Function Name: BootloaderFlash_RestoreCache                  *
+* Inputs       : None                                          *
+* Outputs      : None                                          *
+* Reentrancy   : Non-Reentrant                                 *
+* Synchronous  : Synchronous                                   *
+* Description  : Restores the original flash controller cache  *
+*                configurations after flash operations.        *
+****************************************************************/
+void BootloaderFlash_RestoreCache(void){
+/* Restore flash controller cache settings after flash operations */
+RestoreFlashControllerCache(FLASH_PFCR1, g_pflash_pfcr1);
+RestoreFlashControllerCache(FLASH_PFCR2, g_pflash_pfcr2);
 }
 
 /****************************************************************
@@ -136,7 +240,7 @@ bool BlockFlags_IsErased(uint32_t block)
  * Inputs       : None                                          *
  * Outputs      : status_t - Initialization status              *
  * Reentrancy   : Non-Reentrant                                 *
- * Synchronous  : Synchronous                                    *
+ * Synchronous  : Synchronous                                   *
  * Description  : Initializes the Bootloader Flash module.      *
  ****************************************************************/
 status_t BootloaderFlash_Init(void)
@@ -166,7 +270,7 @@ status_t BootloaderFlash_Init(void)
  * Inputs       : None                                          *
  * Outputs      : status_t - Unlock operation status            *
  * Reentrancy   : Non-Reentrant                                 *
- * Synchronous  : Synchronous                                    *
+ * Synchronous  : Synchronous                                   *
  * Description  : Unlocks the first 256K blocks of the flash.   *
  ****************************************************************/
 status_t BootloaderFlash_Unlock(void)
@@ -429,14 +533,14 @@ status_t BootloaderFlash_InitCRC(void)
 }
 
 /****************************************************************
- * Function Name: BootloaderFlash_Read                          *
+ * Function Name: BootloaderFlash_CalculateCRC32                *
  * Inputs       : a_dest  - Source address in flash to read from*
- *                a_size  - Size of data to calculate CRC for 	*
- *                (in bytes)     								*
- * Outputs      : uint32_t - Caclulated CRC32              		*
+ *                a_size  - Size of data to calculate CRC for   *
+ *                          (in bytes)                          *
+ * Outputs      : uint32_t - Calculated CRC32                   *
  * Reentrancy   : Non-Reentrant                                 *
  * Synchronous  : Synchronous                                   *
- * Description  : Calculates CRC32 for flashed data				*
+ * Description  : Calculates CRC32 for flashed data.            *
  ****************************************************************/
 uint32_t BootloaderFlash_CalculateCRC32(uint32_t a_dest, uint32_t a_size)
 {
@@ -456,23 +560,4 @@ uint32_t BootloaderFlash_CalculateCRC32(uint32_t a_dest, uint32_t a_size)
 	resultCRC = CRC_DRV_GetCrcResult(BOOTLOADERFLASH_CRC_INSTANCE);
 
 	return (resultCRC ^ 0xFFFFFFFF);
-}
-/*******************************************************************************/
-
-void DisableFlashControllerCache(uint32_t flashConfigReg,
-								 uint32_t disableVal,
-								 uint32_t *origin_pflash_pfcr)
-{
-	/* Read the values of the register of flash configuration */
-	*origin_pflash_pfcr = REG_READ32(FLASH_FMC + flashConfigReg);
-	/* Disable Caches */
-	REG_BIT_CLEAR32(FLASH_FMC + flashConfigReg, disableVal);
-}
-/*****************************************************************
- *               Restore configuration register of FCM            *
- ******************************************************************/
-void RestoreFlashControllerCache(uint32_t flashConfigReg,
-								 uint32_t pflash_pfcr)
-{
-	REG_WRITE32(FLASH_FMC + flashConfigReg, pflash_pfcr);
 }
