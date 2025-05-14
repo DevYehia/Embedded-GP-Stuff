@@ -1,4 +1,4 @@
-#include "UDS.h"
+ #include "UDS.h"
 #define UDS_BOOTLOADER
 
 #include "cpu.h"
@@ -68,14 +68,16 @@ static void Transfer_Data_Abort()
 }
 
 static void Add_DID(){
-	memmove(&requestFrame.dataBuffer[3], &requestFrame.dataBuffer[1], requestFrame.dataSize - 1);
+	for (int i = requestFrame.dataSize - 1; i >= 0; i--) {
+		requestFrame.dataBuffer[i + 2] = requestFrame.dataBuffer[i];
+	}
 
-	requestFrame.dataBuffer[DIAG_ID_HIGH_BYTE_POS] = (LOCAL_DID>>8)&0x7;
-	requestFrame.dataBuffer[DIAG_ID_LOW_BYTE_POS] =  (uint8_t)LOCAL_DID;
-	
+	requestFrame.dataBuffer[DIAG_ID_HIGH_BYTE_POS] = (LOCAL_DIAG_ID>>8)&0x7;
+	requestFrame.dataBuffer[DIAG_ID_LOW_BYTE_POS] =  (uint8_t)LOCAL_DIAG_ID;
+
 	requestFrame.dataSize += 2;
 
-	responseFrame.ready = READY
+	responseFrame.ready = READY;
 }
 
 static DID_Found_Status checkIfIDExists(DID ID)
@@ -348,26 +350,17 @@ void UDS_Request_Download()
 			BL_data.req_down_info[BL_data.req_down_size].total_size = BL_data.total_size;
 		}
 
-		status = STATUS_SUCCESS; // BL_RequestDownloadHandler();
 		BL_data.request_flag = 1;
-		if (status == STATUS_ERROR)
-		{
-			REQ_Download_Abort();
-			UDS_Create_neg_response(REQ_OUT_OF_RANGE, READY); /* Do memory adressing range check .. if invalid NRC: REQ_OUT_OF_RANGE */
-			return;
-		}
-		else
-		{
-			UDS_Create_pos_response(NOTREADY);	
-			responseFrame.dataBuffer[1] = 0x20; /* MaxNumberBlockLength = 2 bytes, followed by reserved 4 bits = 0 */
 
-			responseFrame.dataBuffer[2] = (uint8_t)(MaxNumberBlockLength >> 8); /* 1st byte */
-			responseFrame.dataBuffer[3] = (uint8_t)(MaxNumberBlockLength);		/* 2nd byte  e.g: 0x0FFA = 4090 ... max size in bytes (including SID) to be transmitted using Transfer Data service */
-			responseFrame.dataSize = 4;
-			Add_DID();
-			/*  convey the MaxNumberBlockLength for each TransferData request to the client. This length encompasses the service identifier
-					and data parameters within the TransferData request message. */
-		}
+		UDS_Create_pos_response(NOTREADY);
+		responseFrame.dataBuffer[1] = 0x20; /* MaxNumberBlockLength = 2 bytes, followed by reserved 4 bits = 0 */
+
+		responseFrame.dataBuffer[2] = (uint8_t)(MaxNumberBlockLength >> 8); /* 1st byte */
+		responseFrame.dataBuffer[3] = (uint8_t)(MaxNumberBlockLength);		/* 2nd byte  e.g: 0x0FFA = 4090 ... max size in bytes (including SID) to be transmitted using Transfer Data service */
+		responseFrame.dataSize = 4;
+		Add_DID();
+		/*  convey the MaxNumberBlockLength for each TransferData request to the client. This length encompasses the service identifier
+			and data parameters within the TransferData request message. */
 	}
 }
 
@@ -401,15 +394,18 @@ void UDS_Transfer_Data()
 			BL_data.data[i] = requestFrame.dataBuffer[2 + i];
 			remaining_Data--;
 		}
-		
-		remainder = BL_data.data_block_size % 4;
-		if(remainder){
-			uint8_t idx = BL_data.data_block_size;
-			while(remainder--){
-				BL_data.data[idx];
-				idx++;
+
+		if(BL_data.compression_flag == 0)
+		{
+			remainder = BL_data.data_block_size % 4;
+			if(remainder){
+				uint8_t idx = BL_data.data_block_size;
+				while(remainder--){
+					BL_data.data[idx] = 0xFF;
+					idx++;
+				}
+
 			}
-			BL_data.data_block_size+= remainder;
 		}
 
 		// No Function was passed (TESTING PURPOSES ONLY)
@@ -491,7 +487,7 @@ void UDS_Routine_Control()
 	uint16_t routine_id = 0;
 	status_t status = 0;
 	uint8_t remainder = 0;
-	
+
 	static RoutineControlType prev_ctrl_type = STOP_ROUTINE;
 	volatile uint8_t NBytesDataLength = 0;
 	volatile uint8_t memory_address_size = 0;
@@ -547,7 +543,7 @@ void UDS_Routine_Control()
 			if(remainder){
 				BL_data.ers_total_size += remainder;
 			}
-			
+
 			UDS_Erase_Memory(&status); /* pass needed parameters */
 			if (status == STATUS_SUCCESS)
 			{
@@ -679,7 +675,7 @@ void UDS_Routine_Control()
 
 			if (BL_data.N_paramteres > 0)
 			{
-				if (requestFrame.dataSize != expected_size) /**/ Ensure full parameters are received */
+				if (requestFrame.dataSize != expected_size) /* Ensure full parameters are received */
 				{ 
 					/* -ve response */
 					UDS_Create_neg_response(WRONG_MSG_LEN_OR_FORMAT, READY);
@@ -819,15 +815,14 @@ void UDS_Receive(void)
 
 	if (requestFrame.ready == READY)
 	{
+		diagnostic_Id = ((requestFrame.dataBuffer[DIAG_ID_HIGH_BYTE_POS]<<8)&0x7) | requestFrame.dataBuffer[DIAG_ID_LOW_BYTE_POS];
+		requestFrame.dataSize -= 2;
+		for (uint32_t i = 0; i < requestFrame.dataSize; i++) {
+			requestFrame.dataBuffer[i] = requestFrame.dataBuffer[i + 2];
+		}
 		prev_SID = SID;
 		SID = requestFrame.dataBuffer[SID_POS];
-
-		diagnostic_Id = ((requestFrame.dataBuffer[DIAG_ID_HIGH_BYTE_POS]<<8)&0x7) | requestFrame.dataBuffer[DIAG_ID_LOW_BYTE_POS];
-		
-		memmove(&requestFrame.dataBuffer[1], &requestFrame.dataBuffer[3], requestFrame.dataSize - 3);/* #include <string.h> */
-		requestFrame.dataSize -= 2;
-		
-		if(diagnostic_Id==EXPECTED_DID){
+		if(diagnostic_Id==EXPECTED_DIAG_ID){
 			if (SID == DIAGNOSTIC_SESSION_CONTROL)
 			{
 				UDS_Session_Control();
@@ -844,7 +839,7 @@ void UDS_Receive(void)
 			{
 				UDS_Write_by_ID();
 			}
-	#ifdef UDS_BOOTLOADER
+#ifdef UDS_BOOTLOADER
 			else if (SID == REQUEST_DOWNLOAD && currentSession == PROGRAMMING_SESSION)
 			{
 				UDS_Request_Download();
@@ -861,7 +856,7 @@ void UDS_Receive(void)
 			{
 				UDS_Request_Transfer_Exit();
 			}
-	#endif
+#endif
 			else
 			{
 				UDS_Create_neg_response(SERVICE_NOT_SUPPORTED, READY);

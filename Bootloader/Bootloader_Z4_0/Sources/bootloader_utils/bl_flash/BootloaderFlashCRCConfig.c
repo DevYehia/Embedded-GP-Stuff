@@ -35,8 +35,8 @@
  ****************************************************************/
 const crc_user_config_t g_BootloaderFLashCRC_InitConfig = {
     .polynomial = CRC_BITS_32,           /* 32-bit CRC polynomial */
-    .writeTranspose = CRC_TRANSPOSE_BITS,/* Transpose bits during write */
+    .writeTranspose = CRC_TRANSPOSE_NONE,/* No transpose bits during write */
     .complementChecksum = false,         /* No checksum complement */
-    .readTranspose = false,              /* No read transpose */
+    .readTranspose = true,              	/*read transpose */
     .seed = 0xFFFFFFFFU                  /* Initial seed value */
 };

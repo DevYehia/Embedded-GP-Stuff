@@ -17,6 +17,11 @@
 #define DATA_START_POS 4
 #define getSID(buffer) (buffer[SID_POS])
 
+#define DIAG_ID_HIGH_BYTE_POS  0
+#define DIAG_ID_LOW_BYTE_POS   1
+#define EXPECTED_DIAG_ID       0x55
+#define LOCAL_DIAG_ID          0x33
+
 //Session Control Macros
 #define SESSION_CTRL_MIN_SIZE  2
 
@@ -104,17 +109,40 @@ typedef enum NRC{
     GENERAL_PROGRAMMING_FAILURE = 0x72
 } NRC;
 
-typedef struct BL_Data{
-    /* Data Size */
-    uint32_t CRC_Field;
+typedef enum SIGNATURE_TYPE
+{
+    NO_SIGNATURE = 0X00,
+    ECDSA_SIGNATURE = 0X01,
+} SIGNATURE_TYPE;
+
+typedef struct Req_Download_Info
+{
     uint32_t mem_start_address;
     uint32_t total_size; /* Total size of data to be received 0 ~ X*/
+} Req_Download_Info;
+
+typedef struct BL_Data
+{
+    /* Data Size */
+    uint32_t CRC_Field;
+    uint32_t CRC_algo;
     /* UDS_Routine_Control */
-    uint8_t data_block_size;
-    uint8_t app_id;
+    uint16_t data_block_size;
+    // uint8_t app_id;
     uint8_t N_paramteres;
+    uint8_t signature[64];
     uint8_t parameters[20];
+    #ifdef UDS_BOOTLOADER
+    uint32_t mem_start_address;
+    uint32_t total_size; /* Total size of data to be received 0 ~ X*/
+    uint32_t ers_mem_start_address;
+    uint32_t ers_total_size; /* Total size of data to be received 0 ~ X*/
+    uint8_t compression_flag;
+    uint8_t request_flag;
     uint8_t data[MAX_BLOCK_NUMBER];
+    uint8_t req_down_size;
+    Req_Download_Info req_down_info[10];
+    #endif
 } BL_Data;
 
 /*
@@ -127,8 +155,8 @@ typedef struct BootLoader_Data{
 */
 
 typedef struct BL_Functions{
-    status_t (*BL_RequestDownloadHandler)(void);
-    void (*BL_Max_N_Block) (uint32_t *);
+    // status_t (*BL_RequestDownloadHandler)(void);
+    // void (*BL_Max_N_Block) (uint32_t *);
     status_t (*BL_TransferDataHandler)(void);
     status_t (*BL_Check_Memory)(void);
     status_t (*BL_Erase_Memory)(void);
@@ -156,7 +184,7 @@ void UDS_Request_Transfer_Exit();
 void UDS_Routine_Control();
 void UDS_Check_Memory(status_t *status);
 void UDS_Erase_Memory(status_t *status);
-
+BL_Data *UDS_BL_Receive(void);
 
 /************RESPONSE APIs*************/
 void UDS_Create_pos_response(uint8_t isReady);

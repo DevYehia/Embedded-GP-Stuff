@@ -1,33 +1,43 @@
 #include "Bootloader.h"
 
+#define DECOMPRESSED_BUFFER_SIZE 5000
+
 /* Global pointer to bootloader data received from UDS */
-static BL_Data *g_BLData = NULL;
+static BL_Data *gBootloaderData = NULL;
 
 /* External function to receive bootloader data via UDS */
 extern BL_Data *UDS_BL_Receive(void);
 
-/* Variables to store original flash controller cache configuration */
-static volatile uint32_t pflash_pfcr1 = 0;
-static volatile uint32_t pflash_pfcr2 = 0;
+/* Tracks the most recent status of flash operations */
+static status_t lastOperationStatus;
 
-/* Global variable to track the return status of bootloader operations */
-static status_t returnStatus;
+/* Cumulative size of data programmed into flash memory */
+uint32_t totalProgramSize = 0;
 
-uint32_t g_totalSize = 0;
 
-/* Keep track of whether InitHash() has been called already */
-static bool g_hashInitialized = false;
+/* Cumulative size of data programmed before padding into flash memory */
+uint32_t totalActualSize = 0;
 
-//__attribute__((section(".noinit"))) volatile uint32_t validFlag;
+/* Indicates whether SHA-256 hash context has been initialized */
+static bool isHashInitialized = false;
 
+/* Indicates that programming should target the bootloader-update region */
+static bool gEnterBootloaderUpdateMode = false;
+
+/* Holds the start address for Bootloader_Program (remapped if update mode is active) */
+static uint32_t programStartAddress;
+
+// size of the data block to program (raw or decompressed),
+static uint32_t blockSize = 0;
 
 /* Global structure to store application-specific bootloader function handlers */
-static BL_Functions g_UDSBootloaderHandler = {
+static BL_Functions gBootloaderHandlers = {
 		.BL_TransferDataHandler = NULL,
 		.BL_Check_Memory = NULL,
 		.BL_Erase_Memory = NULL,
 		.BL_Finalize_Programming = NULL};
 
+// Initialize the bootloader with application-provided handlers and disable flash caches
 status_t Bootloader_Init(BL_Functions *a_pBLHandlersConfig)
 {
 	/* Validate input handler configuration */
@@ -40,15 +50,14 @@ status_t Bootloader_Init(BL_Functions *a_pBLHandlersConfig)
 		return STATUS_ERROR;
 	}
 	/* Store the provided bootloader function handlers for later use */
-	g_UDSBootloaderHandler = *a_pBLHandlersConfig;
+	gBootloaderHandlers = *a_pBLHandlersConfig;
 
 	/* Disable flash controller caches to ensure safe flash operations */
-	DisableFlashControllerCache(FLASH_PFCR1, FLASH_FMC_BFEN_MASK, &pflash_pfcr1);
-	DisableFlashControllerCache(FLASH_PFCR2, FLASH_FMC_BFEN_MASK, &pflash_pfcr2);
+	BootloaderFlash_DisableCache();
 
 	/* Retrieve bootloader data via UDS and store it globally */
-	g_BLData = UDS_BL_Receive();
-	if (g_BLData == NULL)
+	gBootloaderData = UDS_BL_Receive();
+	if (gBootloaderData == NULL)
 	{
 		return STATUS_ERROR;
 	}
@@ -57,167 +66,182 @@ status_t Bootloader_Init(BL_Functions *a_pBLHandlersConfig)
 	return BootloaderFlash_Init();
 }
 
+// Erase the flash region specified by UDS bootloader data and verify blank state
 status_t Bootloader_Erase_Memory(void)
 {
 	/* Ensure that bootloader data is available */
-	if (g_BLData == NULL)
+	if (gBootloaderData == NULL)
 	{
 		return STATUS_ERROR;
 	}
 
 	/* Unlock flash memory for erase operation */
-	returnStatus = BootloaderFlash_Unlock();
-	if (returnStatus != STATUS_SUCCESS)
+	lastOperationStatus = BootloaderFlash_Unlock();
+	if (lastOperationStatus != STATUS_SUCCESS)
 	{
-		return returnStatus;
+		return lastOperationStatus;
 	}
 
-	g_BLData->ers_total_size = 384;
-	/* Erase flash memory starting at the specified address for the given size */
-	returnStatus = BootloaderFlash_Erase(g_BLData->ers_mem_start_address, g_BLData->ers_total_size);
-	if (returnStatus != STATUS_SUCCESS)
+	/* Determine start address for erase, possibly remapped for update region */
+	uint32_t eraseStartAddress = gBootloaderData->ers_mem_start_address;
+	if ((eraseStartAddress >= 0x01000000U && eraseStartAddress <= 0x0103FFFFU) ||
+			(eraseStartAddress >= 0x01400000U && eraseStartAddress <= 0x0143FFFFU))
 	{
-		return returnStatus;
+		eraseStartAddress = RemapToUpdateRegion(eraseStartAddress);
+		gEnterBootloaderUpdateMode = true; /* Enable update-mode remapping for subsequent operations */
+		*((volatile uint32_t *)0x4004000C) = 0xBBBBBBBB;
+	}
+
+	else
+		*((volatile uint32_t *)0x40040008) = 0x11111111;
+
+	/* Erase flash memory starting at the specified address for the given size */
+	lastOperationStatus = BootloaderFlash_Erase(eraseStartAddress, gBootloaderData->ers_total_size);
+	if (lastOperationStatus != STATUS_SUCCESS)
+	{
+		return lastOperationStatus;
 	}
 
 	/* Verify that the erased flash memory is blank */
-	return BootloaderFlash_VerifyBlank(g_BLData->ers_mem_start_address, g_BLData->ers_total_size);
+	return BootloaderFlash_VerifyBlank(eraseStartAddress, gBootloaderData->ers_total_size);
 }
 
+// Program the flash memory with data blocks from UDS, decompress if the compression flag is set, then verify
 status_t Bootloader_Program(void)
 {
 	/* Ensure that bootloader data is available */
-	if (g_BLData == NULL)
+	if (gBootloaderData == NULL)
 	{
 		return STATUS_ERROR;
 	}
 
-	uint32_t *programData;
-
-	if(g_BLData->request_flag == 1)
+	if (gBootloaderData->request_flag == 1)
 	{
-		g_totalSize = 0;
-		g_BLData->request_flag = 0;
+		totalProgramSize = 0;
+		totalActualSize = 0;
 	}
 
-	if(g_BLData->compression_flag == 1)
+	uint32_t *programDataBuffer;
 
+	if (gBootloaderData->compression_flag == 1)
 	{
-#define DECOMPRESSED_SIZE 5000
-		char decompressed_buf[DECOMPRESSED_SIZE] = {0};
-		volatile uint32_t decompBytes = BLDecomp_Decompress(
-				(const uint8_t*) g_BLData->data,
-				(uint8_t *)decompressed_buf,
-				g_BLData->data_block_size
-		);
-		programData = (uint32_t) decompressed_buf;
-		g_BLData->data_block_size = decompBytes;
-		g_totalSize += decompBytes;
-		g_BLData->total_size = g_totalSize;
+		char decompressedBuffer[DECOMPRESSED_BUFFER_SIZE] = {0};
+		volatile uint32_t decompressedBytesCount = BLDecomp_Decompress(
+				(const uint8_t *)gBootloaderData->data,
+				(uint8_t *)decompressedBuffer,
+				gBootloaderData->data_block_size);
+
+		blockSize = decompressedBytesCount;
+		totalActualSize += blockSize;
+		uint8_t remainder = 0;
+		remainder = blockSize % 4;
+		if(remainder){
+			uint8_t idx = blockSize;
+			blockSize+= remainder;
+			while(remainder--){
+				decompressedBuffer[idx] = 0xFF;
+				idx++;
+			}
+		}
+		programDataBuffer = (uint32_t)decompressedBuffer;
 	}
-	else{
-		/* Retrieve the pointer to the program data from the bootloader data structure */
-		programData = g_BLData->data;
-		//		g_totalSize += g_BLData->data_block_size;
-		//		g_BLData->total_size = g_totalSize;
+	else
+	{
+		/* No compression: program directly from received data buffer */
+		programDataBuffer = (uint32_t *)gBootloaderData->data;
+		blockSize = gBootloaderData->data_block_size;
+		totalActualSize += blockSize;
+		uint8_t remainder = 0;
+		remainder = blockSize % 4;
+		if(remainder)
+			blockSize+= remainder;
+
 	}
 
+	totalProgramSize += blockSize;
+	/* Calculate address for programming, remap if update mode is active */
+	programStartAddress = gBootloaderData->mem_start_address;
+	if (gEnterBootloaderUpdateMode)
+	{
+		programStartAddress = RemapToUpdateRegion(programStartAddress);
+	}
 
 	/* Program flash memory with the provided data */
-	returnStatus = BootloaderFlash_Program(g_BLData->mem_start_address, g_BLData->data_block_size, programData);
-	if (returnStatus != STATUS_SUCCESS)
+	lastOperationStatus = BootloaderFlash_Program(programStartAddress, blockSize, programDataBuffer);
+	if (lastOperationStatus != STATUS_SUCCESS)
 	{
-		return returnStatus;
+		return lastOperationStatus;
 	}
 
 	/* Verify that flash programming was successful */
-	returnStatus = BootloaderFlash_ProgramVerify(g_BLData->mem_start_address,g_BLData->data_block_size, programData);
-	while (returnStatus == STATUS_FLASH_INPROGRESS)
+	lastOperationStatus = BootloaderFlash_ProgramVerify(programStartAddress, blockSize, programDataBuffer);
+	/* Wait until program verification is no longer in progress */
+	while (lastOperationStatus == STATUS_FLASH_INPROGRESS)
 	{
-		returnStatus = BootloaderFlash_ProgramVerify(g_BLData->mem_start_address, g_BLData->data_block_size, programData);
+		lastOperationStatus = BootloaderFlash_ProgramVerify(programStartAddress, blockSize, programDataBuffer);
 	}
 
-	return returnStatus;
+	return lastOperationStatus;
 }
 
+// Verify programmed flash memory using CRC32 and update running SHA-256 hash
 status_t Bootloader_CheckMemory(void)
 {
 	/* Ensure that bootloader data is available */
-	if (g_BLData == NULL)
+	if (gBootloaderData == NULL)
 	{
 		return STATUS_ERROR;
 	}
-
-	uint32_t prev_start_address = g_BLData->mem_start_address - g_BLData->total_size;
 
 	/* Initialize CRC calculation module */
 	BootloaderFlash_InitCRC();
 
 	/* Compute CRC32 over the flash memory area defined by UDS bootloader data */
-	uint32_t computed_crc = BootloaderFlash_CalculateCRC32(prev_start_address, g_BLData->total_size);
+	uint32_t calculatedCrc = BootloaderFlash_CalculateCRC32(programStartAddress, totalProgramSize);
 
 	/* Restore flash controller cache settings after flash operations */
-	RestoreFlashControllerCache(FLASH_PFCR1, pflash_pfcr1);
-	RestoreFlashControllerCache(FLASH_PFCR2, pflash_pfcr2);
-	status_t rc;
+	BootloaderFlash_RestoreCache();
 
-	if (!g_hashInitialized) {
-		/* first time through: init the SHA-256 ctx */
-		rc = BLSig_InitHash();
-		g_hashInitialized = true;
+	status_t hashStatus;
+
+	/* Initialize SHA-256 hash context if first pass */
+	if (!isHashInitialized)
+	{
+		status_t hashStatus = BLSig_InitHash();
+		isHashInitialized = true;
 	}
 
-	if (!(g_hashInitialized  && rc == STATUS_ERROR))
+	if (!(isHashInitialized && hashStatus == STATUS_ERROR))
 	{
 		/* now update the running hash with this chunk */
-		rc = BLSig_UpdateHash((uint8_t *)(prev_start_address), (size_t)g_BLData->total_size);
+		hashStatus = BLSig_UpdateHash((uint8_t *)(programStartAddress), (size_t)totalActualSize);
 	}
 
-	if (rc != STATUS_SUCCESS)
-	{
-
-		while(1);
-	}
-
-
-	else{
-		/* Compare the computed CRC with the expected CRC value from bootloader data */
-		if (computed_crc == g_BLData->CRC_Field)
-		{
-			return STATUS_SUCCESS;
-		}
-		else
-		{
-			return STATUS_ERROR;
-		}
-	}
+	/* Compare the computed CRC with the expected CRC value from bootloader data */
+	return (calculatedCrc == gBootloaderData->CRC_Field) ? STATUS_SUCCESS : STATUS_ERROR;
 }
 
-
-/*
- * Bootloader_VerifySigHandler
- *
- * This should be called once all the data has been fed through
- * Bootloader_HashDataHandler, and you have the signature to check.
- */
+// Finalize programming by verifying ECDSA signature against computed hash
 status_t Bootloader_Finalize_Programming(void)
 {
 
-	uint8_t digest[32];
+	uint8_t hashDigest[32];
 
-	status_t rc;
-
-	/* finalize the hash into our local buffer */
-	rc = BLSig_FinalizeHash(digest);
-	if (rc != STATUS_SUCCESS) {
-		return rc;
+	/* Finalize SHA-256 hash into local buffer */
+	status_t signatureStatus = BLSig_FinalizeHash(hashDigest);
+	if (signatureStatus != STATUS_SUCCESS)
+	{
+		return signatureStatus;
 	}
 
-	/* now verify the ECDSA signature against that digest */
-	rc = BLSig_VerifySignature(digest, sizeof(digest),g_BLData->signature);
-	if(rc == STATUS_SUCCESS)
+	/* Verify ECDSA signature provided in bootloader data */
+	signatureStatus = BLSig_VerifySignature(hashDigest,
+			sizeof(hashDigest),
+			gBootloaderData->signature);
+	if (signatureStatus == STATUS_SUCCESS)
 	{
+		/* Write valid flag to a known memory location */
 		*((volatile uint32_t *)0x40040008) = 0x00000000;
 	}
-	return rc;
+	return signatureStatus;
 }

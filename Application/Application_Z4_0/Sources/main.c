@@ -75,7 +75,7 @@ void UDS_StubTask(void* params){
 	while(1){
 		switch(send7mada){
 		case 1: ;
-		can_message_t message = {0,      0x55, {   0x02,                0x10,    0x02,                    0xAA,0xAA,0xAA,0xAA,0xAA},   8};
+		can_message_t message = {0, 0x55, {0x04,0x00,0x55,0x10,0x02,0xAA,0xAA,0xAA},8};
 		CAN_Send(&can_pal1_instance, 1, &message);
 		vTaskDelay(pdMS_TO_TICKS( 20 ));
 		break;
@@ -193,12 +193,12 @@ int main(void)
 //    dummy_force_include();
 //    UDS_Init();
 
-    //  xTaskCreate(UDS_StubTask,
-    //      "UDS_send example",
-	 	// configMINIMAL_STACK_SIZE,
-    //      (void *) 0,
-    //      5,
-    //      NULL);
+      xTaskCreate(UDS_StubTask,
+          "UDS_send example",
+	 	 configMINIMAL_STACK_SIZE,
+          (void *) 0,
+          5,
+          NULL);
 
      /*xTaskCreate(testSendConsec,
          "green",
@@ -217,20 +217,20 @@ int main(void)
         NULL);
 
 
-  xTaskCreate(sendFromUDS2,
-      "TPSend",
-		configMINIMAL_STACK_SIZE,
-      (void *) 0,
-      6,
-      NULL);
+//  xTaskCreate(sendFromUDS2,
+//      "TPSend",
+//		configMINIMAL_STACK_SIZE,
+//      (void *) 0,
+//      6,
+//      NULL);
 
 
-  xTaskCreate(blink_led,
-      "LED_Blink",
-		configMINIMAL_STACK_SIZE,
-      (void *) 0,
-      6,
-      NULL);
+//  xTaskCreate(blink_led,
+//      "LED_Blink",
+//		configMINIMAL_STACK_SIZE,
+//      (void *) 0,
+//      6,
+//      NULL);
 //    xTaskCreate(UDS_Receive,
 //    		"UDSReceive",
 //    		configMINIMAL_STACK_SIZE,
