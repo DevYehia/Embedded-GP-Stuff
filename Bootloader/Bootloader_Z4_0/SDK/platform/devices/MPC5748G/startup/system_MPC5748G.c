@@ -106,7 +106,7 @@ void SystemInit(void)
 #define KEY_VALUE2 0xA50Fu
 
 #if defined(DEBUG_SECONDARY_CORES)
-    // #define START_SECONDARY_CORES
+//     #define START_SECONDARY_CORES
 #endif
 
 #if defined(START_SECONDARY_CORES)
@@ -145,7 +145,7 @@ void SystemInit(void)
 #endif /* defined(TURN_ON_CPU2) */
     MC_ME->MCTL = (mctl & 0xffff0000ul) | KEY_VALUE1;
     MC_ME->MCTL =  mctl; /* key value 2 always from MCTL */
-#endif /* defined(START_SECONDARY_CORES) */\
+#endif /* defined(START_SECONDARY_CORES) */
 
 /**************************************************************************/
                       /* FPU ENABLE*/

@@ -3,6 +3,7 @@
 #include "UDS.h"
 #include "flash_c55_driver.h"
 #include "Bootloader.h"
+#include "stdlib.h"
 
 #define BUFFER_SIZE_BYTE                (254U)
 #define COMPRESSED_SIZE_BYTE			(14U)
@@ -13,7 +14,7 @@
 volatile int exit_code = 0;
 
 uint8_t sendConsec = 0;
-volatile uint8_t send7mada = 2;
+volatile uint8_t send7mada = 1;
 uint8_t seq_n = 1;
 
 
@@ -37,19 +38,62 @@ void UDS_StubTask(void* params){
 	// status, msgID     FType-data size\	,     SID ,    Subfun ID,  parameters,  pad,   Nbytes = 8
 	while(1){
 		switch(send7mada){
-		case 1: ;
+		case 0: ;
 		can_message_t message = {0,      0x55, { 0x02, 0x10,0x02, 0xAA,0xAA,0xAA,0xAA,0xAA},   8};
 		CAN_Send(&can_pal1_instance, 1, &message);
 		vTaskDelay(pdMS_TO_TICKS( 20 ));
 		break;
 
+		case 1: ;
+		//generate random seed
+		srand(*((uint32_t *) (0x40040010)));
+		volatile uint32_t seed = rand() % 0x10000;
+		// Level-specific masks
+		uint32_t level_masks[] = {
+				0x00000000, // Level 0 (unused)
+				0x5A5A5A5A, // Level 1
+				0xA5A5A5A5, // Level 2
+				0x12345678, // Level 3 (programming)
+				0x87654321  // Level 4+
+		};
+
+		uint32_t key = seed;
+
+		// 1. Bit rotation based on level
+		uint8_t rotation = (1 * 3) % 32;
+		key = (key << rotation) | (key >> (32 - rotation));
+
+		// 2. XOR with level-specific mask
+		key ^= level_masks[1];
+
+		// 3. Simple scrambling
+		key = ((key & 0xAAAAAAAA) >> 1) | ((key & 0x55555555) << 1);
+
+		// 4. Final XOR with inverted seed
+		key ^= ~seed;
+
+		//		volatile uint32_t v1 = PIT_DRV_GetCurrentTimerCount(INST_PIT1, 3);
+		can_message_t message0 = {0, 0x55, {0x04,0x00,0x55,0x27,0x01,0xAA,0xAA,0xAA},8};
+		CAN_Send(&can_pal1_instance, 1, &message0);
+		vTaskDelay(pdMS_TO_TICKS( 20 ));
+		can_message_t message0_2 = {0, 0x55, {0x10,0x08,0x00,0x55,0x27,0x02,(key >> 24) & 0xFF,(key >> 16) & 0xFF},8};
+		CAN_Send(&can_pal1_instance, 1, &message0_2);
+		vTaskDelay(pdMS_TO_TICKS( 20 ));
+		can_message_t message0_3 = {0, 0x55, {0x21,(key >> 8)& 0xFF,key & 0xFF,0xAA,0xAA,0xAA,0xAA,0xAA},8};
+		CAN_Send(&can_pal1_instance, 1, &message0_3);
+		vTaskDelay(pdMS_TO_TICKS( 20 ));
+		send7mada = 2;
+		break;
+
 		case 2: ;
+		volatile uint32_t v1 = PIT_DRV_GetCurrentTimerCount(INST_PIT1, 3);
+		//		v1 = 30;
 		//REQ DOWNLOAD
 		// mem address(start address) = 4 bytes .. mem size = 1 byte
 		can_message_t message1 = {0, 0x55, {0x10, 0x0A, 0x00, 0x55, 0x34, 0x10, 0x14, 0x01}, 8};
 		CAN_Send(&can_pal1_instance, 1, &message1);
 		vTaskDelay(pdMS_TO_TICKS( 20 ));
-		can_message_t message1_2 = {0, 0x55, {0x21,0x50, 0x00,0x00, 0x0E, 0xAA, 0xAA,0xAA}, 8};
+		can_message_t message1_2 = {0, 0x55, {0x21,0x20, 0x00,0x00, 0x0E, 0xAA, 0xAA,0xAA}, 8};
 		CAN_Send(&can_pal1_instance, 1, &message1_2);
 		vTaskDelay(pdMS_TO_TICKS( 20 ));
 		send7mada = 3;
@@ -59,7 +103,7 @@ void UDS_StubTask(void* params){
 		can_message_t message2 = {0, 0x55, {0x10,0x0C, 0x00, 0x55, 0x31, 0x01, 0xff, 0x00}, 8};
 		CAN_Send(&can_pal1_instance, 1, &message2);
 		vTaskDelay(pdMS_TO_TICKS(20));
-		can_message_t message2_2 = {0, 0x55, {0x21,0x14, 0x01,0x50,0x00,0x00,0x0E, 0xAA, 0xAA}, 8};
+		can_message_t message2_2 = {0, 0x55, {0x21,0x14, 0x01,0x20,0x00,0x00,0x0E, 0xAA, 0xAA}, 8};
 		CAN_Send(&can_pal1_instance, 1, &message2_2);
 		vTaskDelay(pdMS_TO_TICKS(20));
 		send7mada = 4;
@@ -117,7 +161,7 @@ void UDS_StubTask(void* params){
 		can_message_t message6 = {0, 0x55, {0x10,0x0A,0x00, 0x55, 0x34, 0x00, 0x14, 0x01}, 8};
 		CAN_Send(&can_pal1_instance, 1, &message6);
 		vTaskDelay(pdMS_TO_TICKS( 20 ));
-		can_message_t message6_2 = {0, 0x55, {0x21,0x50, 0x01 ,0x00, 0xFE, 0xAA, 0xAA, 0xAA}, 8};
+		can_message_t message6_2 = {0, 0x55, {0x21,0x20, 0x01 ,0x00, 0xFE, 0xAA, 0xAA, 0xAA}, 8};
 		CAN_Send(&can_pal1_instance, 1, &message6_2);
 		vTaskDelay(pdMS_TO_TICKS( 20 ));
 		send7mada = 8;
@@ -168,6 +212,7 @@ void UDS_StubTask(void* params){
 
 
 		case 11:; // Finalize programming
+		//		volatile uint32_t v2 = xTaskGetTickCount();
 		uint8_t k = 6;
 		uint8_t local_size = 58;
 		uint8_t local_seq_n = 2;
@@ -203,6 +248,20 @@ void UDS_StubTask(void* params){
 			vTaskDelay(pdMS_TO_TICKS(20));
 		}
 		vTaskDelay(pdMS_TO_TICKS(100));
+
+		send7mada = 12;
+		break;
+
+		case 12: ;
+		*(uint32_t *)(0x40040000) = 0x0;
+		CAN_Deinit(&can_pal1_instance);
+		PIT_DRV_Deinit(INST_PIT1);
+		CRC_DRV_Deinit(INST_CRC1);
+		__asm__("e_lis %r12,0x00F9");
+		__asm__("e_or2i %r12,0x8010");
+		__asm__("e_lwz %r0,0(%r12) ");
+		__asm__("mtlr %r0");
+		__asm__("se_blrl");
 		break;
 		}
 		//		case 10: ;
@@ -212,17 +271,7 @@ void UDS_StubTask(void* params){
 		//		vTaskDelay(pdMS_TO_TICKS( 20 ));
 		//		break;
 		//
-		//		case 11: ;
-		//		*(uint32_t *)(0x40040000) = 0x0;
-		//		CAN_Deinit(&can_pal1_instance);
-		//		PIT_DRV_Deinit(INST_PIT1);
-		//		CRC_DRV_Deinit(INST_CRC1);
-		//		__asm__("e_lis %r12,0x00F9");
-		//		__asm__("e_or2i %r12,0x8010");
-		//		__asm__("e_lwz %r0,0(%r12) ");
-		//		__asm__("mtlr %r0");
-		//		__asm__("se_blrl");
-		//		break;
+
 
 
 	}
@@ -282,6 +331,37 @@ void blink_led(void* params){
 	}
 }
 
+void Core_Boot(void)
+
+{
+
+	/* Enable e200z4b and e200z2 cores in RUN0-RUN3, DRUN and SAFE modes */
+	uint32_t mctl = MC_ME->MCTL;
+
+	MC_ME->CCTL2 = 0x00FEU;    /* e200z4b is active */
+
+	/* Set start address for e200z4b and e200z2 cores */
+
+	MC_ME->CADDR2 = 0x01040000 | 0x1U; /* e200z4b boot address + RMC bit */
+
+	/* Mode change - re-enter the DRUN mode to start cores */
+
+
+	MC_ME->MCTL = 0x30005AF0;         /* Mode & Key */
+
+	MC_ME->MCTL = 0x3000A50F;        /* Mode & Key inverted */
+
+	//	MC_ME->MCTL = (mctl & 0xffff0000ul) | KEY_VALUE1;
+	//	MC_ME->MCTL =  mctl;
+
+	while((MC_ME->GS & (1 << 27)) == 1);   /* Wait for mode entry complete */
+
+	while (((MC_ME->GS >> 28) & 0xF) != 0x3); /* Check DRUN mode entered */
+
+	//
+
+}//Core_Boot
+
 extern dataFrame requestFrame;
 extern dataFrame responseFrame;
 
@@ -300,34 +380,33 @@ BL_Functions a_BLHandlersConfig = {.BL_TransferDataHandler = Bootloader_Program,
 // volatile int a = 1;
 int main(void)
 {
-
-	//	while (a);
-
-
 	/* Write your local variable definition here */
-	//	uint32_t dest=BLOCK_START_ADDRS;
-	//	uint32_t buffer [BUFFER_SIZE_BYTE/BOOTLOADER_FLASH_WORDSIZE];
-	//	uint32_t size = BUFFER_SIZE_BYTE/BOOTLOADER_FLASH_WORDSIZE;
-	//	uint32_t idx = 0;
-	//	uint32_t pflash_pfcr1, pflash_pfcr2;
-	//	volatile uint32_t calculatedCRC32;
+
 	/*** Processor Expert internal initialization. DON'T REMOVE THIS CODE!!! ***/
 #ifdef PEX_RTOS_INIT
 	PEX_RTOS_INIT();                   /* Initialization of the selected RTOS. Macro is defined by the RTOS component. */
 #endif
-	/*** End of Processor Expert internal initialization.
-	 *                     ***/
+	/*** End of Processor Expert internal initialization.                    ***/
+
+	/* Write your code here */
+	/* For example: for(;;) { } */
+
+	if(*((volatile uint32_t *)0x40040004) != 0xFFFFBBBB)
+		Core_Boot();
+	*((volatile uint32_t *)0x40040004) = 0xFFFFBBBB;
 	/* Initialize clock gate*/
 	CLOCK_SYS_Init(g_clockManConfigsArr,   CLOCK_MANAGER_CONFIG_CNT,
 			g_clockManCallbacksArr, CLOCK_MANAGER_CALLBACK_CNT);
 	CLOCK_SYS_UpdateConfiguration(0U, CLOCK_MANAGER_POLICY_AGREEMENT);
 	PINS_DRV_Init(NUM_OF_CONFIGURED_PINS, g_pin_mux_InitConfigArr);
+	//Init CAN Stack
+	Can_init(&can_pal1_instance, &can_pal1_Config0);
+	CanTP_init(&responseFrame, &requestFrame);
+	UDS_Init(&a_BLHandlersConfig);
+	Bootloader_Init(&a_BLHandlersConfig);
+
 
 	//BOARD RECOVERY
-
-	//Init CAN Stack
-
-
 	//		status_t  returnStatus = BootloaderFlash_Unlock();
 	//	    returnStatus = BootloaderFlash_Erase(0x1400000, 4000);
 	//	    returnStatus = BootloaderFlash_VerifyBlank(0x1400000,4000);
@@ -337,65 +416,28 @@ int main(void)
 	//	    }
 	/*
 		status_t returnStatus = BootloaderFlash_Unlock();
-
-
 	    returnStatus = BootloaderFlash_Erase(0x1400000, 4000);
+	 */
 
-
-	    int x = 0xAABBCCDD;
-	    int y[] = {1,2,3,4,5,6,7,8,1,2,3,4,5,6,7,8};
-	    int dest = 0x1409ff8;
-	    for (int i = 0 ; i < 16 ; i+=2){
-
-
-	    returnStatus = BootloaderFlash_Program(dest, 8, y+i);
-	    dest+=8;
-	    }*/
-	//returnStatus = BootloaderFlash_Erase(0x1400000, 4000);
-
-
-	Can_init(&can_pal1_instance, &can_pal1_Config0);
-
-	CanTP_init(&responseFrame, &requestFrame);
-
-	for(idx=0;idx<size - 2;idx = idx+4){
-		buffer[idx]=0xAA; /*Initialize Buffer*/
-		buffer[idx+1]=0XBB;
-		buffer[idx+2]=0XCC;
-		buffer[idx+3]=0XDD;
-	}
-	buffer[252] = 0xAA;
-	buffer[253] = 0xBB;
+	// Test Code
+	//	for(idx=0;idx<size - 2;idx = idx+4){
+	//		buffer[idx]=0xAA; /*Initialize Buffer*/
+	//		buffer[idx+1]=0XBB;
+	//		buffer[idx+2]=0XCC;
+	//		buffer[idx+3]=0XDD;
+	//	}
+	//	buffer[252] = 0xAA;
+	//	buffer[253] = 0xBB;
 
 	//	BLOCK_END_ADDRS + 1 - BLOCK_START_ADDRS;
 	//	size = BUFFER_SIZE_BYTE;/*Size in bytes for the program API*/
 
-	//TODO fix passed parameter
-	UDS_Init(&a_BLHandlersConfig);
-
-	Bootloader_Init(&a_BLHandlersConfig);
-	//
-
-	//	status_t returnStatus = BootloaderFlash_Unlock();
-	//
-	//
-	//    returnStatus = BootloaderFlash_Erase(0x1500000, 4000);
-	//
-	//
-	//	returnStatus = BootloaderFlash_Program(0x1500000, 252, buffer);
-	//
-	//	returnStatus = BootloaderFlash_ProgramVerify(0x1500000, 252, buffer);
-	//	while (returnStatus == STATUS_FLASH_INPROGRESS)
-	//	{
-	//		returnStatus = BootloaderFlash_ProgramVerify(0x1500000, 252, buffer);
-	//	}
-
-	xTaskCreate(UDS_StubTask,
-			"UDS_send example",
-			800,
-			(void *) 0,
-			5,
-			NULL);
+	//	xTaskCreate(UDS_StubTask,
+	//			"UDS_send example",
+	//			800,
+	//			(void *) 0,
+	//			5,
+	//			NULL);
 
 
 	xTaskCreate(recieve2,
@@ -405,19 +447,19 @@ int main(void)
 			6,
 			NULL);
 
-	//	xTaskCreate(sendFromUDS2,
-	//			"TPSend",
-	//			configMINIMAL_STACK_SIZE,
-	//			(void *) 0,
-	//			6,
-	//			NULL);
-	//
-	//	xTaskCreate(blink_led,
-	//			"LED",
-	//			configMINIMAL_STACK_SIZE,
-	//			(void *) 0,
-	//			6,
-	//			NULL);
+	xTaskCreate(sendFromUDS2,
+			"TPSend",
+			configMINIMAL_STACK_SIZE,
+			(void *) 0,
+			6,
+			NULL);
+
+	xTaskCreate(blink_led,
+			"LED",
+			configMINIMAL_STACK_SIZE,
+			(void *) 0,
+			6,
+			NULL);
 	vTaskStartScheduler();
 
 	/*** Don't write any code pass this line, or it will be deleted during code generation. ***/
@@ -432,5 +474,6 @@ int main(void)
 			break;
 		}
 	}
-	return exit_code;}
-/*** Processor Expert end of main routine. DON'T WRITE CODE BELOW!!! ***/
+	return exit_code;
+}
+	/*** Processor Expert end of main routine. DON'T WRITE CODE BELOW!!! ***/

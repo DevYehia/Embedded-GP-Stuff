@@ -1,4 +1,4 @@
- #include "UDS.h"
+#include "UDS.h"
 #define UDS_BOOTLOADER
 
 #include "cpu.h"
@@ -26,6 +26,13 @@ BL_Functions *BL_Callbacks;
 
 uint8_t BL_Func_missing = 0;
 
+uint16_t sec_access_seed = 0x0000; //seed generated in UDS_Security_Acess Function
+
+
+ECU_UNLOCK_STATE ECU_unlock_state = LOCKED;
+
+
+
 static void reset_dataframe(dataFrame *frame)
 {
 	frame->ready = 0;
@@ -37,6 +44,35 @@ static void Reinit_Req_Transfer_Exit()
 {
 	seq_number = 1;
 }
+
+uint32_t generate_recommended_key(uint32_t seed, uint8_t security_level){
+    // Level-specific masks
+    uint32_t level_masks[] = {
+        0x00000000,  // Level 0 (unused)
+        0x5A5A5A5A,  // Level 1
+        0xA5A5A5A5,  // Level 2
+        0x12345678,  // Level 3 (programming)
+        0x87654321   // Level 4+
+    };
+
+    uint32_t key = seed;
+
+    // 1. Bit rotation based on level
+    uint8_t rotation = (security_level * 3) % 32;
+    key = (key << rotation) | (key >> (32 - rotation));
+
+    // 2. XOR with level-specific mask
+    key ^= level_masks[security_level];
+
+    // 3. Simple scrambling
+    key = ((key & 0xAAAAAAAA) >> 1) | ((key & 0x55555555) << 1);
+
+    // 4. Final XOR with inverted seed
+    key ^= ~seed;
+
+    return key;
+}
+
 
 void Finished_Routine_CTR()
 {
@@ -131,6 +167,75 @@ void UDS_Create_neg_response(NRC neg_code, uint8_t isReady)
 	responseFrame.dataSize = 3;
 	Add_DID();
 	responseFrame.ready = isReady;
+}
+
+void UDS_Security_Access(void){
+
+    static SECURITY_ACCESS_STATE currentState = SEED_STATE; //Current state of Security Access Request
+
+    //if security access seed request is of incorrect length
+	if (currentState == SEED_STATE && requestFrame.dataSize != SEC_ACCESS_SEED_REQ_LEN){
+        UDS_Create_neg_response(WRONG_MSG_LEN_OR_FORMAT, READY);
+        return;
+    }
+
+    //if security access key request is of incorrect length
+	if (currentState == KEY_STATE && requestFrame.dataSize != SEC_ACCESS_KEY_REQ_LEN){
+        UDS_Create_neg_response(WRONG_MSG_LEN_OR_FORMAT, READY);
+        return;
+    }
+
+    //get request type
+    SECURITY_ACCESS_REQ_TYPE req_type = requestFrame.dataBuffer[SEC_ACCESS_REQ_TYPE_POS];
+
+    //incorrect sequence
+    if(currentState == SEED_STATE && req_type == KEY_REQ){
+        UDS_Create_neg_response(REQ_SEQ_ERROR, READY);
+        return;
+    }
+
+    if(req_type == SEED_REQ){
+
+        //generate random seed
+        srand(*((uint32_t *) (0x40040010)));
+        sec_access_seed = rand() % 0x10000;
+        //respond
+        UDS_Create_pos_response(NOTREADY);
+        requestFrame.dataBuffer[SEC_ACCESS_SEED_HIGH_BYTE] = (sec_access_seed >> 8) & 0xFF;
+        requestFrame.dataBuffer[SEC_ACCESS_SEED_LOW_BYTE] = sec_access_seed & 0xFF;
+        requestFrame.dataSize = 4;
+        Add_DID();
+        //set state to waiting for key
+        currentState = KEY_STATE;
+
+    }
+    else if(req_type == KEY_REQ){
+
+        //extract key from message
+        uint32_t key = 0;
+        for(uint8_t i = 0 ; i < 4 ; i++){
+            key <<= 8;
+            key |= requestFrame.dataBuffer[SEC_ACCESS_KEY_START_BYTE + i];
+        }
+
+        //check for correct key
+        if( key == generate_recommended_key(sec_access_seed, 1)){
+            ECU_unlock_state = UNLOCKED;
+            UDS_Create_pos_response(NOTREADY);
+            Add_DID();
+        }
+        //incorrect key
+        else{
+            UDS_Create_neg_response(INVALID_KEY, READY);
+        }
+
+        //return back to original state
+        currentState = SEED_STATE;
+
+
+    }
+
+
 }
 
 void UDS_Session_Control()
@@ -840,19 +945,23 @@ void UDS_Receive(void)
 				UDS_Write_by_ID();
 			}
 #ifdef UDS_BOOTLOADER
-			else if (SID == REQUEST_DOWNLOAD && currentSession == PROGRAMMING_SESSION)
+			else if (SID == REQUEST_DOWNLOAD && currentSession == PROGRAMMING_SESSION && ECU_unlock_state == UNLOCKED)
 			{
 				UDS_Request_Download();
 			}
-			else if (SID == ROUTINE_CONTROL && currentSession == PROGRAMMING_SESSION)
+			else if (SID == ROUTINE_CONTROL && currentSession == PROGRAMMING_SESSION && ECU_unlock_state == UNLOCKED)
 			{
 				UDS_Routine_Control();
 			}
-			else if (SID == TRANSFER_DATA && currentSession == PROGRAMMING_SESSION)
+			else if (SID == TRANSFER_DATA && currentSession == PROGRAMMING_SESSION && ECU_unlock_state == UNLOCKED)
 			{
 				UDS_Transfer_Data();
 			}
-			else if (SID == REQUEST_TRANSFER_EXIT && currentSession == PROGRAMMING_SESSION)
+			else if (SID == SECURITY_ACCESS && currentSession == PROGRAMMING_SESSION)
+			{
+				UDS_Security_Access();
+			}
+			else if (SID == REQUEST_TRANSFER_EXIT && currentSession == PROGRAMMING_SESSION && ECU_unlock_state == UNLOCKED)
 			{
 				UDS_Request_Transfer_Exit();
 			}

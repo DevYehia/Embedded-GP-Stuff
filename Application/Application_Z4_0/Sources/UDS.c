@@ -178,6 +178,8 @@ void UDS_Session_Control()
 #ifndef UDS_BOOTLOADER
 			// SOFT_RESET();
 			// HARD_RESET();
+			*((uint32_t *) (0x40040010)) = PIT_DRV_GetCurrentTimerCount(INST_PIT1, 3);
+//			volatile uint32_t v1 = PIT_DRV_GetCurrentTimerCount(INST_PIT1, 3);
 			CAN_Deinit(&can_pal1_instance);
 			PIT_DRV_Deinit(INST_PIT1);
 			__asm__("e_lis %r12,0x00F9");

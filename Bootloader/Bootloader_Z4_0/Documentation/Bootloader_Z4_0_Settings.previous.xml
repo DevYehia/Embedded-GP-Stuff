@@ -155,5 +155,33 @@
       <EmptySection_DummyValue />
     </Events>
   </Bean>
+  <Bean name="pit1" type="pit">
+    <Enabled v="Y" />
+    <Properties>
+      <Component_name v="pit1" />
+      <Device v="PIT" />
+      <Component_version v="S32_SDK_C55" />
+    </Properties>
+    <Methods>
+      <EmptySection_DummyValue />
+    </Methods>
+    <Events>
+      <EmptySection_DummyValue />
+    </Events>
+  </Bean>
+  <Bean name="rtcTimer1" type="rtc_api">
+    <Enabled v="Y" />
+    <Properties>
+      <Component_name v="rtcTimer1" />
+      <Device v="RTC" />
+      <Component_version v="S32_SDK_C55" />
+    </Properties>
+    <Methods>
+      <EmptySection_DummyValue />
+    </Methods>
+    <Events>
+      <EmptySection_DummyValue />
+    </Events>
+  </Bean>
 </PE_PROJECT_SETTINGS_DOCUMENTATION>
 

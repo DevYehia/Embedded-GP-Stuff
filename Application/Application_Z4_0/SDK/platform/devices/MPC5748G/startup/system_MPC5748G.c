@@ -100,12 +100,11 @@ void SystemInit(void)
   /**************************************************************************/
                     /* ENABLE CORES */
   /**************************************************************************/
-#ifdef Hmada
 #define KEY_VALUE1 0x5AF0u
 #define KEY_VALUE2 0xA50Fu
 
 #if defined(DEBUG_SECONDARY_CORES)
-    #define START_SECONDARY_CORES
+//    #define START_SECONDARY_CORES
 #endif
 
 #if defined(START_SECONDARY_CORES)
@@ -116,7 +115,7 @@ void SystemInit(void)
         cpu1_bootAddr = __cpu1_boot_addr__;
     #else
         #if defined(START_FROM_FLASH)
-            cpu1_bootAddr = 0x011d0000U;
+            cpu1_bootAddr = 0x01040000;
         #else
             cpu1_bootAddr = 0x40040000U;
         #endif /* defined(START_FROM_FLASH) */
@@ -126,26 +125,26 @@ void SystemInit(void)
     /* Set Start address for core 1: Will reset and start */
     MC_ME->CADDR2 = cpu1_bootAddr | 0x1U;
 #endif /* defined(TURN_ON_CPU1) */
-#if defined(TURN_ON_CPU2)
-    uint32_t cpu2_bootAddr = 0U;
-    #if defined(__cpu2_boot_addr__)
-        cpu2_bootAddr = __cpu2_boot_addr__;
-    #else
-        #if defined(START_FROM_FLASH)
-            cpu2_bootAddr = 0x013a0000U;
-        #else
-            cpu2_bootAddr = 0x40080000U;
-        #endif /* defined(START_FROM_FLASH) */
-    #endif /* defined(__cpu2_boot_addr__) */
-    /* enable core 2 in all modes */
-    MC_ME->CCTL3 = 0x00FEU;
-    /* Set Start address for core 2: Will reset and start */
-    MC_ME->CADDR3 = cpu2_bootAddr | 0x1U;
-#endif /* defined(TURN_ON_CPU2) */
+//#if defined(TURN_ON_CPU2)
+//    uint32_t cpu2_bootAddr = 0U;
+//    #if defined(__cpu2_boot_addr__)
+//        cpu2_bootAddr = __cpu2_boot_addr__;
+//    #else
+//        #if defined(START_FROM_FLASH)
+//            cpu2_bootAddr = 0x013a0000U;
+//        #else
+//            cpu2_bootAddr = 0x40080000U;
+//        #endif /* defined(START_FROM_FLASH) */
+//    #endif /* defined(__cpu2_boot_addr__) */
+//    /* enable core 2 in all modes */
+//    MC_ME->CCTL3 = 0x00FEU;
+//    /* Set Start address for core 2: Will reset and start */
+//    MC_ME->CADDR3 = cpu2_bootAddr | 0x1U;
+//#endif /* defined(TURN_ON_CPU2) */
     MC_ME->MCTL = (mctl & 0xffff0000ul) | KEY_VALUE1;
     MC_ME->MCTL =  mctl; /* key value 2 always from MCTL */
 #endif /* defined(START_SECONDARY_CORES) */
-#endif
+
 
 /**************************************************************************/
                       /* FPU ENABLE*/

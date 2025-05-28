@@ -2,6 +2,19 @@
 
 #define DECOMPRESSED_BUFFER_SIZE 5000
 
+#define FLASHED_ARRAY ((volatile uint32_t*)0x40040010)
+
+#define SIGNATURE_ARRAY ((volatile uint32_t*)0x40040108)
+
+#define BOOTMANAGER_START_ADDRESS 0x01000000
+
+#define BOOTMANAGER_END_ADDRESS 0x0103FFFF
+
+#define BOOTLOADER_START_ADDRESS 0x01200000
+
+#define BOOTLOADER_END_ADDRESS 0x0123FFFF
+
+
 /* Global pointer to bootloader data received from UDS */
 static BL_Data *gBootloaderData = NULL;
 
@@ -14,12 +27,11 @@ static status_t lastOperationStatus;
 /* Cumulative size of data programmed into flash memory */
 uint32_t totalProgramSize = 0;
 
-
 /* Cumulative size of data programmed before padding into flash memory */
 uint32_t totalActualSize = 0;
 
-/* Indicates whether SHA-256 hash context has been initialized */
-static bool isHashInitialized = false;
+///* Indicates whether SHA-256 hash context has been initialized */
+//static bool isHashInitialized = false;
 
 /* Indicates that programming should target the bootloader-update region */
 static bool gEnterBootloaderUpdateMode = false;
@@ -30,12 +42,19 @@ static uint32_t programStartAddress;
 // size of the data block to program (raw or decompressed),
 static uint32_t blockSize = 0;
 
+
+static volatile uint32_t* const flashedArray = FLASHED_ARRAY;
+
+
+static uint8_t index = 0;
+
 /* Global structure to store application-specific bootloader function handlers */
 static BL_Functions gBootloaderHandlers = {
 		.BL_TransferDataHandler = NULL,
 		.BL_Check_Memory = NULL,
 		.BL_Erase_Memory = NULL,
 		.BL_Finalize_Programming = NULL};
+
 
 // Initialize the bootloader with application-provided handlers and disable flash caches
 status_t Bootloader_Init(BL_Functions *a_pBLHandlersConfig)
@@ -84,8 +103,8 @@ status_t Bootloader_Erase_Memory(void)
 
 	/* Determine start address for erase, possibly remapped for update region */
 	uint32_t eraseStartAddress = gBootloaderData->ers_mem_start_address;
-	if ((eraseStartAddress >= 0x01000000U && eraseStartAddress <= 0x0103FFFFU) ||
-			(eraseStartAddress >= 0x01400000U && eraseStartAddress <= 0x0143FFFFU))
+	if ((eraseStartAddress >= BOOTMANAGER_START_ADDRESS && eraseStartAddress <= BOOTMANAGER_END_ADDRESS) ||
+			(eraseStartAddress >= BOOTLOADER_START_ADDRESS && eraseStartAddress <= BOOTLOADER_END_ADDRESS))
 	{
 		eraseStartAddress = RemapToUpdateRegion(eraseStartAddress);
 		gEnterBootloaderUpdateMode = true; /* Enable update-mode remapping for subsequent operations */
@@ -93,7 +112,9 @@ status_t Bootloader_Erase_Memory(void)
 	}
 
 	else
-		*((volatile uint32_t *)0x40040008) = 0x11111111;
+	{
+		*((volatile uint32_t *)0x40040008)= 0x11111111;
+	}
 
 	/* Erase flash memory starting at the specified address for the given size */
 	lastOperationStatus = BootloaderFlash_Erase(eraseStartAddress, gBootloaderData->ers_total_size);
@@ -164,6 +185,9 @@ status_t Bootloader_Program(void)
 	if (gEnterBootloaderUpdateMode)
 	{
 		programStartAddress = RemapToUpdateRegion(programStartAddress);
+		flashedArray[index] = programStartAddress;
+		flashedArray[index + 1] = blockSize;
+		index += 2;
 	}
 
 	/* Program flash memory with the provided data */
@@ -201,21 +225,26 @@ status_t Bootloader_CheckMemory(void)
 
 	/* Restore flash controller cache settings after flash operations */
 	BootloaderFlash_RestoreCache();
+	while(SIGNATURE_ARRAY[0] != 0x00000000 && SIGNATURE_ARRAY[1] != 0x00000000);
+	SIGNATURE_ARRAY[0] = programStartAddress;
+	SIGNATURE_ARRAY[1] = (size_t)totalActualSize;
+	*((uint32_t *)0x40040100) = 0xAAAAAAAA;
 
-	status_t hashStatus;
 
-	/* Initialize SHA-256 hash context if first pass */
-	if (!isHashInitialized)
-	{
-		status_t hashStatus = BLSig_InitHash();
-		isHashInitialized = true;
-	}
-
-	if (!(isHashInitialized && hashStatus == STATUS_ERROR))
-	{
-		/* now update the running hash with this chunk */
-		hashStatus = BLSig_UpdateHash((uint8_t *)(programStartAddress), (size_t)totalActualSize);
-	}
+	//	status_t hashStatus;
+	//
+	//	/* Initialize SHA-256 hash context if first pass */
+	//	if (!isHashInitialized)
+	//	{
+	//		status_t hashStatus = BLSig_InitHash();
+	//		isHashInitialized = true;
+	//	}
+	//
+	//	if (!(isHashInitialized && hashStatus == STATUS_ERROR))
+	//	{
+	//		/* now update the running hash with this chunk */
+	//		hashStatus = BLSig_UpdateHash((uint8_t *)(programStartAddress), (size_t)totalActualSize);
+	//	}
 
 	/* Compare the computed CRC with the expected CRC value from bootloader data */
 	return (calculatedCrc == gBootloaderData->CRC_Field) ? STATUS_SUCCESS : STATUS_ERROR;
@@ -224,24 +253,42 @@ status_t Bootloader_CheckMemory(void)
 // Finalize programming by verifying ECDSA signature against computed hash
 status_t Bootloader_Finalize_Programming(void)
 {
-
-	uint8_t hashDigest[32];
-
-	/* Finalize SHA-256 hash into local buffer */
-	status_t signatureStatus = BLSig_FinalizeHash(hashDigest);
-	if (signatureStatus != STATUS_SUCCESS)
-	{
-		return signatureStatus;
+	status_t signatureStatus = STATUS_ERROR;
+	for (int i = 0; i < 64; i += 4) {
+	    uint32_t word = ((uint32_t)gBootloaderData->signature[i]) |
+	                    ((uint32_t)gBootloaderData->signature[i + 1] << 8) |
+	                    ((uint32_t)gBootloaderData->signature[i + 2] << 16) |
+	                    ((uint32_t)gBootloaderData->signature[i + 3] << 24);
+	    SIGNATURE_ARRAY[i / 4 + 2] = word;
 	}
 
-	/* Verify ECDSA signature provided in bootloader data */
-	signatureStatus = BLSig_VerifySignature(hashDigest,
-			sizeof(hashDigest),
-			gBootloaderData->signature);
-	if (signatureStatus == STATUS_SUCCESS)
+	*((uint32_t *)0x40040100) = 0xFFFFFFFF;
+	//	uint8_t hashDigest[32];
+	//
+	//	/* Finalize SHA-256 hash into local buffer */
+	//	status_t signatureStatus = BLSig_FinalizeHash(hashDigest);
+	//	if (signatureStatus != STATUS_SUCCESS)
+	//	{
+	//		return signatureStatus;
+	//	}
+	//
+	//	/* Verify ECDSA signature provided in bootloader data */
+	//	signatureStatus = BLSig_VerifySignature(hashDigest,
+	//			sizeof(hashDigest),
+	//			gBootloaderData->signature);
+
+//	uint32_t signatureCompleted = *(volatile uint32_t *)0x40040100;
+	while(*(volatile uint32_t *)0x40040100 != 0x00000000);
+	if(*((uint32_t *)0x40040104) = 0x11111111)
 	{
-		/* Write valid flag to a known memory location */
+		signatureStatus = STATUS_SUCCESS;
 		*((volatile uint32_t *)0x40040008) = 0x00000000;
 	}
+
+	//	if (signatureStatus == STATUS_SUCCESS)
+	//	{
+	//		/* Write valid flag to a known memory location */
+	//		*((volatile uint32_t *)0x40040008) = 0x00000000;
+	//	}
 	return signatureStatus;
 }

@@ -35,7 +35,7 @@ __STACK_SIZE = DEFINED(__stack_size__) ? __stack_size__ : 0x00001000;
 
 /* Define FLASH */
 FLASH_BASE_ADDR = DEFINED(__flash_base_addr__) ? __flash_base_addr__ : 0x01400000;
-FLASH_SIZE =  DEFINED(__flash_size__) ? __flash_size__ : 1536K;
+FLASH_SIZE =  DEFINED(__flash_size__) ? __flash_size__ : 512K;
 
 /* Define SRAM */
 SRAM_BASE_ADDR = DEFINED(__sram_base_addr__) ? __sram_base_addr__ : 0x40000000;
@@ -50,7 +50,7 @@ MEMORY
 
     m_text : org = FLASH_BASE_ADDR, len = FLASH_SIZE
     m_data : org = SRAM_BASE_ADDR, len = SRAM_SIZE
-    m_data2 : ORIGIN = 0x40040000, len = 0x20 
+    m_data2 : ORIGIN = 0x40040000, len = 0x100 
     m_delta : ORIGIN = 0x01440000, len = 0x100K
 }
 

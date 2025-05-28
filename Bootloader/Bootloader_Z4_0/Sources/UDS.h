@@ -4,6 +4,8 @@
 #include "frameTypes.h"
 #include "ResetWrapper.h"
 #include "status.h"
+#include <stdlib.h>
+#include <time.h>
 
 #define UDS_BOOTLOADER
 
@@ -42,6 +44,14 @@
 
 #define ECU_ADDRESS_LENGTH 4
 
+#define SEC_ACCESS_SEED_REQ_LEN 2
+#define SEC_ACCESS_KEY_REQ_LEN 6
+#define SEC_ACCESS_REQ_TYPE_POS 1
+
+#define SEC_ACCESS_SEED_HIGH_BYTE 2
+#define SEC_ACCESS_SEED_LOW_BYTE 3
+#define SEC_ACCESS_KEY_START_BYTE 2
+
 typedef enum DID
 {
     NOT_DEFINED_ID = 0x0000,
@@ -59,6 +69,7 @@ typedef enum UDS_SID
     DIAGNOSTIC_SESSION_CONTROL = 0X10,
     ECU_RESET = 0X11,
     READ_DATA_BY_ID = 0X22,
+	SECURITY_ACCESS = 0x27,
     COMMUNICATION_CONTROL = 0X28,
     WRITE_DATA_BY_ID = 0X2E,
     ROUTINE_CONTROL = 0x31,
@@ -124,6 +135,26 @@ typedef enum SIGNATURE_TYPE
     NO_SIGNATURE = 0X00,
     ECDSA_SIGNATURE = 0X01,
 } SIGNATURE_TYPE;
+
+
+
+typedef enum
+{
+    SEED_STATE = 0X00,
+    KEY_STATE = 0X01,
+} SECURITY_ACCESS_STATE;
+
+typedef enum
+{
+    LOCKED = 0X00,
+    UNLOCKED = 0X01,
+} ECU_UNLOCK_STATE;
+
+typedef enum
+{
+    SEED_REQ = 0X01,
+    KEY_REQ = 0X02,
+} SECURITY_ACCESS_REQ_TYPE;
 
 /* for every request download one of these structs are made */
 typedef struct Req_Download_Info
@@ -193,10 +224,13 @@ void UDS_Request_Transfer_Exit();
 void UDS_Routine_Control();
 void UDS_Check_Memory(status_t *status);
 void UDS_Erase_Memory(status_t *status);
+void UDS_Security_Access(void);
 BL_Data *UDS_BL_Receive(void);
 
 /************RESPONSE APIs*************/
 void UDS_Create_pos_response(uint8_t isReady);
 void UDS_Create_neg_response(NRC neg_code, uint8_t isReady);
+
+uint32_t generate_recommended_key(uint32_t seed, uint8_t security_level);
 
 #endif

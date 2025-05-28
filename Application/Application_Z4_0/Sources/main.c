@@ -193,12 +193,12 @@ int main(void)
 //    dummy_force_include();
 //    UDS_Init();
 
-      xTaskCreate(UDS_StubTask,
-          "UDS_send example",
-	 	 configMINIMAL_STACK_SIZE,
-          (void *) 0,
-          5,
-          NULL);
+//      xTaskCreate(UDS_StubTask,
+//          "UDS_send example",
+//	 	 configMINIMAL_STACK_SIZE,
+//          (void *) 0,
+//          5,
+//          NULL);
 
      /*xTaskCreate(testSendConsec,
          "green",
@@ -217,27 +217,27 @@ int main(void)
         NULL);
 
 
-//  xTaskCreate(sendFromUDS2,
-//      "TPSend",
-//		configMINIMAL_STACK_SIZE,
-//      (void *) 0,
-//      6,
-//      NULL);
+  xTaskCreate(sendFromUDS2,
+      "TPSend",
+		configMINIMAL_STACK_SIZE,
+      (void *) 0,
+      6,
+      NULL);
 
 
-//  xTaskCreate(blink_led,
-//      "LED_Blink",
-//		configMINIMAL_STACK_SIZE,
-//      (void *) 0,
-//      6,
-//      NULL);
-//    xTaskCreate(UDS_Receive,
-//    		"UDSReceive",
-//    		configMINIMAL_STACK_SIZE,
-//        (void *) 0,
-//        2,
-//        NULL
-//    		);
+  xTaskCreate(blink_led,
+      "LED_Blink",
+		configMINIMAL_STACK_SIZE,
+      (void *) 0,
+      6,
+      NULL);
+    xTaskCreate(UDS_Receive,
+    		"UDSReceive",
+    		configMINIMAL_STACK_SIZE,
+        (void *) 0,
+        2,
+        NULL
+    		);
 
     vTaskStartScheduler();
 

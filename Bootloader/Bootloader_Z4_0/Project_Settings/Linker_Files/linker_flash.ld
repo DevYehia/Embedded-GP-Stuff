@@ -50,7 +50,8 @@ MEMORY
 
     m_text : org = FLASH_BASE_ADDR, len = FLASH_SIZE
     m_data : org = SRAM_BASE_ADDR, len = SRAM_SIZE
-    m_data2 : ORIGIN = 0x40040000, len = 0x20 
+    m_data2 : ORIGIN = 0x40040000, len = 0x100
+    m_data3	: ORIGIN = 0x40040100, len = 0x100 
 }
 
 
@@ -206,6 +207,15 @@ SECTIONS
          *(.noinit.*)
          __noinit_end__ = .;
     } > m_data2
+    
+    
+     .shared (NOLOAD) : ALIGN(4)
+    {
+         __shared_start__ = .;
+         *(.shared)      
+         *(.shared.*)
+         __shared_end__ = .;
+    } > m_data3
 
     .rodata :
     {

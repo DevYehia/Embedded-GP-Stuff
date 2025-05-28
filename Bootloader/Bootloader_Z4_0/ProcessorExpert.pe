@@ -3,7 +3,7 @@
   <Header>
     <Name>Bootloader_Z4_0</Name>
     <SavedBy>SDVPTH</SavedBy>
-    <ModificationStamp>12</ModificationStamp>
+    <ModificationStamp>25</ModificationStamp>
     <Date>2025-02-19</Date>
     <IDE>Eclipse IDE</IDE>
     <PEversion>1.12.2.RT7_b1743-0713</PEversion>
@@ -29,7 +29,7 @@
     <UseExistingModules>true</UseExistingModules>
     <RenamePeripheries>false</RenamePeripheries>
     <Autodependency>true</Autodependency>
-    <ProjectCompNumb>13</ProjectCompNumb>
+    <ProjectCompNumb>19</ProjectCompNumb>
     <DelUnusedPreviouslyGenFiles>true</DelUnusedPreviouslyGenFiles>
     <GeneratedCodeFrozen>false</GeneratedCodeFrozen>
     <AssignInitComponentNameToPrph>true</AssignInitComponentNameToPrph>
@@ -43102,8 +43102,8 @@
         <UserReadOnly>false</UserReadOnly>
         <PropertyModelIsAutomatic>false</PropertyModelIsAutomatic>
         <TypeSpecNameState>typeClockEnaDis</TypeSpecNameState>
-        <Index>1</Index>
-        <EnumSymbVal>Disabled</EnumSymbVal>
+        <Index>0</Index>
+        <EnumSymbVal>Enabled</EnumSymbVal>
       </ItemState>
       <ItemState>
         <ItemSymbol>Peripheral49_CLKEnablePowerMode_1_0</ItemSymbol>
@@ -43111,8 +43111,8 @@
         <UserReadOnly>false</UserReadOnly>
         <PropertyModelIsAutomatic>false</PropertyModelIsAutomatic>
         <TypeSpecNameState>typeClockEnaDis</TypeSpecNameState>
-        <Index>1</Index>
-        <EnumSymbVal>Disabled</EnumSymbVal>
+        <Index>0</Index>
+        <EnumSymbVal>Enabled</EnumSymbVal>
       </ItemState>
       <ItemState>
         <ItemSymbol>Peripheral49_CLKEnablePowerMode_2_0</ItemSymbol>
@@ -43120,8 +43120,8 @@
         <UserReadOnly>false</UserReadOnly>
         <PropertyModelIsAutomatic>false</PropertyModelIsAutomatic>
         <TypeSpecNameState>typeClockEnaDis</TypeSpecNameState>
-        <Index>1</Index>
-        <EnumSymbVal>Disabled</EnumSymbVal>
+        <Index>0</Index>
+        <EnumSymbVal>Enabled</EnumSymbVal>
       </ItemState>
       <ItemState>
         <ItemSymbol>Peripheral49_CLKEnablePowerMode_3_0</ItemSymbol>
@@ -43129,8 +43129,8 @@
         <UserReadOnly>false</UserReadOnly>
         <PropertyModelIsAutomatic>false</PropertyModelIsAutomatic>
         <TypeSpecNameState>typeClockEnaDis</TypeSpecNameState>
-        <Index>1</Index>
-        <EnumSymbVal>Disabled</EnumSymbVal>
+        <Index>0</Index>
+        <EnumSymbVal>Enabled</EnumSymbVal>
       </ItemState>
       <ItemState>
         <ItemSymbol>Peripheral49_CLKEnablePowerMode_4_0</ItemSymbol>
@@ -43138,8 +43138,8 @@
         <UserReadOnly>false</UserReadOnly>
         <PropertyModelIsAutomatic>false</PropertyModelIsAutomatic>
         <TypeSpecNameState>typeClockEnaDis</TypeSpecNameState>
-        <Index>1</Index>
-        <EnumSymbVal>Disabled</EnumSymbVal>
+        <Index>0</Index>
+        <EnumSymbVal>Enabled</EnumSymbVal>
       </ItemState>
       <ItemState>
         <ItemSymbol>Peripheral49_CLKEnablePowerMode_5_0</ItemSymbol>
@@ -43147,8 +43147,8 @@
         <UserReadOnly>false</UserReadOnly>
         <PropertyModelIsAutomatic>false</PropertyModelIsAutomatic>
         <TypeSpecNameState>typeClockEnaDis</TypeSpecNameState>
-        <Index>1</Index>
-        <EnumSymbVal>Disabled</EnumSymbVal>
+        <Index>0</Index>
+        <EnumSymbVal>Enabled</EnumSymbVal>
       </ItemState>
       <ItemState>
         <ItemSymbol>Peripheral49_CLKEnablePowerMode_6_0</ItemSymbol>
@@ -43156,8 +43156,8 @@
         <UserReadOnly>false</UserReadOnly>
         <PropertyModelIsAutomatic>false</PropertyModelIsAutomatic>
         <TypeSpecNameState>typeClockEnaDis</TypeSpecNameState>
-        <Index>1</Index>
-        <EnumSymbVal>Disabled</EnumSymbVal>
+        <Index>0</Index>
+        <EnumSymbVal>Enabled</EnumSymbVal>
       </ItemState>
       <ItemState>
         <ItemSymbol>Peripheral49_CLKEnablePowerMode_7_0</ItemSymbol>
@@ -43165,8 +43165,8 @@
         <UserReadOnly>false</UserReadOnly>
         <PropertyModelIsAutomatic>false</PropertyModelIsAutomatic>
         <TypeSpecNameState>typeClockEnaDis</TypeSpecNameState>
-        <Index>1</Index>
-        <EnumSymbVal>Disabled</EnumSymbVal>
+        <Index>0</Index>
+        <EnumSymbVal>Enabled</EnumSymbVal>
       </ItemState>
       <ItemState>
         <ItemSymbol>Peripheral49_CLKEnablePowerMode_8_0</ItemSymbol>
@@ -43200,8 +43200,8 @@
         <ReadOnly>false</ReadOnly>
         <UserReadOnly>false</UserReadOnly>
         <PropertyModelIsAutomatic>false</PropertyModelIsAutomatic>
-        <Value>false</Value>
-        <Expanded>false</Expanded>
+        <Value>true</Value>
+        <Expanded>true</Expanded>
       </ItemState>
       <ItemState>
         <ItemSymbol>Peripheral49_CLOCK_NAME0</ItemSymbol>
@@ -49160,7 +49160,7 @@
         <ReadOnly>false</ReadOnly>
         <UserReadOnly>false</UserReadOnly>
         <PropertyModelIsAutomatic>false</PropertyModelIsAutomatic>
-        <Value>30192</Value>
+        <Value>44000</Value>
         <Base>DEC</Base>
       </ItemState>
       <ItemState>
@@ -50946,8 +50946,8 @@
         <ReadOnly>false</ReadOnly>
         <UserReadOnly>false</UserReadOnly>
         <PropertyModelIsAutomatic>false</PropertyModelIsAutomatic>
-        <Index>1</Index>
-        <EnumSymbVal>CAN_LOOPBACK_MODE</EnumSymbVal>
+        <Index>0</Index>
+        <EnumSymbVal>CAN_NORMAL_MODE</EnumSymbVal>
       </ItemState>
       <ItemState>
         <ItemSymbol>peClkSrc0</ItemSymbol>

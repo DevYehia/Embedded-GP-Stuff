@@ -44,7 +44,8 @@ MEMORY
     
     /* Reserve 32 bytes starting at 0x40040000.
     This region is seperate from SRAM */
-    NOINIT : ORIGIN = 0x40040000, len = 0x20
+    NOINIT : ORIGIN = 0x40040000, len = 0x100
+    SHARED: ORIGIN = 0x400400100, len = 0x100
 }
 
 
@@ -293,7 +294,7 @@ SECTIONS
     } > SRAM
     
     /*-----------------------------------------------------
-      Persistent No-Init Section (32 bytes) placed in NOINIT
+      Persistent No-Init Section (64 bytes) placed in NOINIT
       This section is entirely separate from SRAM.
     -----------------------------------------------------*/
     .noinit (NOLOAD) : ALIGN(4)
@@ -303,6 +304,15 @@ SECTIONS
          *(.noinit.*)
          __noinit_end__ = .;
     } > NOINIT
+    
+     .shared (NOLOAD) : ALIGN(4)
+    {
+         __shared_start__ = .;
+         *(.shared)      
+         *(.shared.*)
+         __shared_end__ = .;
+    } > SHARED
+    
 
 /*-------- LABELS USED IN CODE -------------------------------*/
 

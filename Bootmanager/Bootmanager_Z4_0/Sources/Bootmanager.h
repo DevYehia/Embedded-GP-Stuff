@@ -12,11 +12,16 @@
 // Flag value that indicates a valid application state.
 #define VALIDITY_FLAG_VALUE 0x00000000
 
+#define BLU_FLAG_VALUE 0xBBBBBBBB
+
 // Start address for the bootloader image.
 #define BOOTLOADER_START_ADDRESS 0x01200000
 
 // Start address for the main application image.
 #define APPLICATION_START_ADDRESS 0x01400000
+
+// Start address for the main blu image.
+#define BLU_START_ADDRESS 0x01540000
 
 // Type definition for a function pointer with no parameters and no return.
 typedef void (*VoidFunction)(void);
