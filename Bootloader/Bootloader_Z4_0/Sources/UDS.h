@@ -37,7 +37,7 @@
 #define DIAG_ID_HIGH_BYTE_POS  0
 #define DIAG_ID_LOW_BYTE_POS   1
 #define EXPECTED_DIAG_ID       0x55
-#define LOCAL_DIAG_ID          0x33 
+#define LOCAL_DIAG_ID          0x55
 
 #define READY 1
 #define NOTREADY 0

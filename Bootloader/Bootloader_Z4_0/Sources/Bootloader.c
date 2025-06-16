@@ -158,7 +158,7 @@ status_t Bootloader_Program(void)
 		remainder = blockSize % 4;
 		if(remainder){
 			uint8_t idx = blockSize;
-			blockSize+= remainder;
+			blockSize+= (4 - remainder);
 			while(remainder--){
 				decompressedBuffer[idx] = 0xFF;
 				idx++;
@@ -175,7 +175,7 @@ status_t Bootloader_Program(void)
 		uint8_t remainder = 0;
 		remainder = blockSize % 4;
 		if(remainder)
-			blockSize+= remainder;
+			blockSize+= (4 - remainder);
 
 	}
 
@@ -216,6 +216,10 @@ status_t Bootloader_CheckMemory(void)
 	{
 		return STATUS_ERROR;
 	}
+
+	if(*((volatile uint32_t *)0x40040004) != 0xFFFFBBBB)
+		Core_Boot();
+	*((volatile uint32_t *)0x40040004) = 0xFFFFBBBB;
 
 	/* Initialize CRC calculation module */
 	BootloaderFlash_InitCRC();

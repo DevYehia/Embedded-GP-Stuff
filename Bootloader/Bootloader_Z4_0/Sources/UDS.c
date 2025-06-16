@@ -26,7 +26,7 @@ BL_Functions *BL_Callbacks;
 
 uint8_t BL_Func_missing = 0;
 
-uint16_t sec_access_seed = 0x0000; //seed generated in UDS_Security_Acess Function
+uint32_t sec_access_seed = 0x00000000; //seed generated in UDS_Security_Acess Function
 
 
 ECU_UNLOCK_STATE ECU_unlock_state = LOCKED;
@@ -104,14 +104,14 @@ static void Transfer_Data_Abort()
 }
 
 static void Add_DID(){
-	for (int i = requestFrame.dataSize - 1; i >= 0; i--) {
-		requestFrame.dataBuffer[i + 2] = requestFrame.dataBuffer[i];
+	for (int i = responseFrame.dataSize - 1; i >= 0; i--) {
+		responseFrame.dataBuffer[i + 2] = responseFrame.dataBuffer[i];
 	}
 
-	requestFrame.dataBuffer[DIAG_ID_HIGH_BYTE_POS] = (LOCAL_DIAG_ID>>8)&0x7;
-	requestFrame.dataBuffer[DIAG_ID_LOW_BYTE_POS] =  (uint8_t)LOCAL_DIAG_ID;
+	responseFrame.dataBuffer[DIAG_ID_HIGH_BYTE_POS] = (LOCAL_DIAG_ID>>8)&0x7;
+	responseFrame.dataBuffer[DIAG_ID_LOW_BYTE_POS] =  (uint8_t)LOCAL_DIAG_ID;
 
-	requestFrame.dataSize += 2;
+	responseFrame.dataSize += 2;
 
 	responseFrame.ready = READY;
 }
@@ -198,12 +198,14 @@ void UDS_Security_Access(void){
 
         //generate random seed
         srand(*((uint32_t *) (0x40040010)));
-        sec_access_seed = rand() % 0x10000;
+        sec_access_seed = rand() % 0x100000000;
         //respond
         UDS_Create_pos_response(NOTREADY);
-        requestFrame.dataBuffer[SEC_ACCESS_SEED_HIGH_BYTE] = (sec_access_seed >> 8) & 0xFF;
-        requestFrame.dataBuffer[SEC_ACCESS_SEED_LOW_BYTE] = sec_access_seed & 0xFF;
-        requestFrame.dataSize = 4;
+        responseFrame.dataBuffer[2] = (sec_access_seed >> 24) & 0xFF;
+        responseFrame.dataBuffer[3] = (sec_access_seed >> 16) & 0xFF;
+        responseFrame.dataBuffer[4] = (sec_access_seed >> 8) & 0xFF;
+        responseFrame.dataBuffer[5] = sec_access_seed & 0xFF;
+        responseFrame.dataSize = 6;
         Add_DID();
         //set state to waiting for key
         currentState = KEY_STATE;
@@ -231,8 +233,6 @@ void UDS_Security_Access(void){
 
         //return back to original state
         currentState = SEED_STATE;
-
-
     }
 
 
@@ -646,7 +646,7 @@ void UDS_Routine_Control()
 
 			remainder = BL_data.ers_total_size % 4;
 			if(remainder){
-				BL_data.ers_total_size += remainder;
+				BL_data.ers_total_size += (4 - remainder);
 			}
 
 			UDS_Erase_Memory(&status); /* pass needed parameters */

@@ -67,16 +67,16 @@ static void Transfer_Data_Abort()
 }
 
 static void Add_DID(){
-    for (int i = requestFrame.dataSize - 1; i >= 0; i--) {
-        requestFrame.dataBuffer[i + 2] = requestFrame.dataBuffer[i];
-    }
+	for (int i = responseFrame.dataSize - 1; i >= 0; i--) {
+		responseFrame.dataBuffer[i + 2] = responseFrame.dataBuffer[i];
+	}
 
-    requestFrame.dataBuffer[DIAG_ID_HIGH_BYTE_POS] = (LOCAL_DIAG_ID>>8)&0x7;
-    requestFrame.dataBuffer[DIAG_ID_LOW_BYTE_POS] =  (uint8_t)LOCAL_DIAG_ID;
+	responseFrame.dataBuffer[DIAG_ID_HIGH_BYTE_POS] = (LOCAL_DIAG_ID>>8)&0x7;
+	responseFrame.dataBuffer[DIAG_ID_LOW_BYTE_POS] =  (uint8_t)LOCAL_DIAG_ID;
 
-    requestFrame.dataSize += 2;
+	responseFrame.dataSize += 2;
 
-    responseFrame.ready = READY;
+	responseFrame.ready = READY;
 }
 
 static DID_Found_Status checkIfIDExists(DID ID)
@@ -161,7 +161,8 @@ void UDS_Session_Control()
 		responseFrame.dataBuffer[4] = 0x23;
 		responseFrame.dataBuffer[5] = 0x23;
 		responseFrame.dataSize = 6;
-		responseFrame.ready = READY;
+		Add_DID();
+		//		responseFrame.ready = READY;
 		if (requested_session == PROGRAMMING_SESSION && currentSession == DEFAULT_SESSION)
 		{
 
@@ -174,20 +175,20 @@ void UDS_Session_Control()
 			// #ifndef UDS_BOOTLOADER
 			// SOFT_RESET();
 			// HARD_RESET();
-			vTaskDelay(pdMS_TO_TICKS(20));
-#ifndef UDS_BOOTLOADER
-			// SOFT_RESET();
-			// HARD_RESET();
-			*((uint32_t *) (0x40040010)) = PIT_DRV_GetCurrentTimerCount(INST_PIT1, 3);
-//			volatile uint32_t v1 = PIT_DRV_GetCurrentTimerCount(INST_PIT1, 3);
-			CAN_Deinit(&can_pal1_instance);
-			PIT_DRV_Deinit(INST_PIT1);
-			__asm__("e_lis %r12,0x00F9");
-			__asm__("e_or2i %r12,0x8010");
-			__asm__("e_lwz %r0,0(%r12) ");
-			__asm__("mtlr %r0");
-			__asm__("se_blrl");
-#endif
+//			vTaskDelay(pdMS_TO_TICKS(20));
+//#ifndef UDS_BOOTLOADER
+//			// SOFT_RESET();
+//			// HARD_RESET();
+//			*((uint32_t *) (0x40040010)) = PIT_DRV_GetCurrentTimerCount(INST_PIT1, 3);
+//			//			volatile uint32_t v1 = PIT_DRV_GetCurrentTimerCount(INST_PIT1, 3);
+//			CAN_Deinit(&can_pal1_instance);
+//			PIT_DRV_Deinit(INST_PIT1);
+//			__asm__("e_lis %r12,0x00F9");
+//			__asm__("e_or2i %r12,0x8010");
+//			__asm__("e_lwz %r0,0(%r12) ");
+//			__asm__("mtlr %r0");
+//			__asm__("se_blrl");
+//#endif
 			// #endif
 		}
 	}
@@ -812,10 +813,10 @@ void UDS_Receive(void)
 	{
 
 		diagnostic_Id = ((requestFrame.dataBuffer[DIAG_ID_HIGH_BYTE_POS]<<8)&0x7) | requestFrame.dataBuffer[DIAG_ID_LOW_BYTE_POS];
-        requestFrame.dataSize -= 2;
-        for (uint32_t i = 0; i < requestFrame.dataSize; i++) {
-            requestFrame.dataBuffer[i] = requestFrame.dataBuffer[i + 2];
-        }
+		requestFrame.dataSize -= 2;
+		for (uint32_t i = 0; i < requestFrame.dataSize; i++) {
+			requestFrame.dataBuffer[i] = requestFrame.dataBuffer[i + 2];
+		}
 		prev_SID = SID;
 		SID = requestFrame.dataBuffer[SID_POS];
 		if(diagnostic_Id==EXPECTED_DIAG_ID){
@@ -853,6 +854,7 @@ void UDS_Receive(void)
 				UDS_Request_Transfer_Exit();
 			}
 #endif
+
 			else
 			{
 				UDS_Create_neg_response(SERVICE_NOT_SUPPORTED, READY);
@@ -861,6 +863,20 @@ void UDS_Receive(void)
 			reset_dataframe(&requestFrame);
 		}
 	}
+	else if(requestFrame.ready == 2)
+	{
+		requestFrame.ready = 0;
+		*((uint32_t *) (0x40040010)) = PIT_DRV_GetCurrentTimerCount(INST_PIT1, 3);
+		//			volatile uint32_t v1 = PIT_DRV_GetCurrentTimerCount(INST_PIT1, 3);
+		CAN_Deinit(&can_pal1_instance);
+		PIT_DRV_Deinit(INST_PIT1);
+		__asm__("e_lis %r12,0x00F9");
+		__asm__("e_or2i %r12,0x8010");
+		__asm__("e_lwz %r0,0(%r12) ");
+		__asm__("mtlr %r0");
+		__asm__("se_blrl");
+	}
+
 }
 
 BL_Data *UDS_BL_Receive(void)

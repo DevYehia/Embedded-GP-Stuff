@@ -4,7 +4,7 @@
 <listEntry value="D://Graduation Project//FinalProject//Embedded-GP-Stuff//Application//Application_Z4_0//Debug//Application_Z4_0.elf"/>
 <listEntry value="D://Graduation Project//FinalProject//Embedded-GP-Stuff//Bootloader//Bootloader_Z4_0//Debug//Bootloader_Z4_0.elf"/>
 <listEntry value="C://Users//Ahmed//Desktop//final//BootloaderUpdater//BootloaderUpdater_Z4_0//Debug//BootloaderUpdater_Z4_0.elf"/>
-<listEntry value="C:\Users\Ahmed\Desktop\final\testt\testt_Z4_1\Debug\SingatureVerification_Z4_1.elf"/>
+<listEntry value="C://Users//Ahmed//Desktop//final//SignatureVerification//SignatureVerification_Z4_1//Debug//SignatureVerification_Z4_1.elf"/>
 </listAttribute>
 <intAttribute key="com.pemicro.debug.gdbjtag.ppc.NUMBER_ELVES" value="4"/>
 <stringAttribute key="com.pemicro.debug.gdbjtag.ppc.PE.DEVICE_NAME" value="MPC5748G"/>
@@ -94,7 +94,7 @@
 <stringAttribute key="com.pemicro.debug.gdbjtag.ppc.preserveMemoryTo2" value="3"/>
 <stringAttribute key="com.pemicro.debug.gdbjtag.ppc.sda.CYCLONE_IP" value=""/>
 <booleanAttribute key="com.pemicro.debug.gdbjtag.ppc.sda.DO_RESET_DELAY" value="false"/>
-<intAttribute key="com.pemicro.debug.gdbjtag.ppc.sda.INTERFACE_PORT" value="-1"/>
+<intAttribute key="com.pemicro.debug.gdbjtag.ppc.sda.INTERFACE_PORT" value="0"/>
 <stringAttribute key="com.pemicro.debug.gdbjtag.ppc.sda.INTERFACE_PORT_STRING" value="USB1"/>
 <stringAttribute key="com.pemicro.debug.gdbjtag.ppc.sda.NETWORK_CARD_IP" value=""/>
 <stringAttribute key="com.pemicro.debug.gdbjtag.ppc.sda.POWER_DOWN_DELAY" value=""/>
@@ -167,7 +167,7 @@
 <stringAttribute key="org.eclipse.cdt.launch.PROGRAM_NAME" value="Debug/Bootmanager_Z4_0.elf"/>
 <stringAttribute key="org.eclipse.cdt.launch.PROJECT_ATTR" value="Bootmanager_Z4_0"/>
 <booleanAttribute key="org.eclipse.cdt.launch.PROJECT_BUILD_CONFIG_AUTO_ATTR" value="false"/>
-<stringAttribute key="org.eclipse.cdt.launch.PROJECT_BUILD_CONFIG_ID_ATTR" value="com.freescale.s32ds.cross.gnu.e200.exe.debug.207287649"/>
+<stringAttribute key="org.eclipse.cdt.launch.PROJECT_BUILD_CONFIG_ID_ATTR" value="com.freescale.s32ds.cross.gnu.e200.exe.release.1260965563"/>
 <listAttribute key="org.eclipse.debug.core.MAPPED_RESOURCE_PATHS">
 <listEntry value="/Bootmanager_Z4_0"/>
 </listAttribute>
@@ -181,5 +181,5 @@
 </listAttribute>
 <stringAttribute key="org.eclipse.dsf.launch.MEMORY_BLOCKS" value="&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot; standalone=&quot;no&quot;?&gt;&#13;&#10;&lt;memoryBlockExpressionList context=&quot;reserved-for-future-use&quot;/&gt;&#13;&#10;"/>
 <stringAttribute key="process_factory_id" value="org.eclipse.cdt.dsf.gdb.GdbProcessFactory"/>
-<stringAttribute key="saved_expressions&lt;seperator&gt;Unknown" value="0x1200000,0x4000400,0x01040000,0xffec0000,D890000F,0x140996c,0x1042BC8,0x40080000,0x40040000,0x1400000,0x4004000,0x40040100,0x150000,0x170000,0x1500000"/>
+<stringAttribute key="saved_expressions&lt;seperator&gt;Unknown" value="0x140996c,0x1042BC8,0x40080000,0x40040000,0x1400000,0x4004000,0x40040100,0x150000,0x170000,0x1500000,4000c73d,0x4000c73d,0x1200000,0x1401000,0x1402000"/>
 </launchConfiguration>

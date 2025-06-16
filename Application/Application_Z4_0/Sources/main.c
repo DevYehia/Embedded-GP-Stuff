@@ -146,7 +146,7 @@ __attribute__((section(".led_blink")))
 void blink_led(void* params){
 	while(1){
 		PINS_DRV_TogglePins(PTA, (1 << 4));
-		vTaskDelay(pdMS_TO_TICKS(8000));
+		vTaskDelay(pdMS_TO_TICKS(2000));
 	}
 }
 
@@ -231,13 +231,13 @@ int main(void)
       (void *) 0,
       6,
       NULL);
-    xTaskCreate(UDS_Receive,
-    		"UDSReceive",
-    		configMINIMAL_STACK_SIZE,
-        (void *) 0,
-        2,
-        NULL
-    		);
+//    xTaskCreate(UDS_Receive,
+//    		"UDSReceive",
+//    		configMINIMAL_STACK_SIZE,
+//        (void *) 0,
+//        2,
+//        NULL
+//    		);
 
     vTaskStartScheduler();
 

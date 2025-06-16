@@ -108,7 +108,7 @@ void send_consecutive_frame(uint8_t *payload,uint32_t buffIdx)
         }
         if(size<7)
         {
-            for(int i = sendingUDS->dataSize + 1;i<8;i++)
+            for(int i = frame_message_size + 1;i<8;i++)
                 {
                     message.data[i] = 0xAA;
                 }
@@ -119,6 +119,7 @@ void send_consecutive_frame(uint8_t *payload,uint32_t buffIdx)
         i = i+7;
         vTaskDelay(pdMS_TO_TICKS( 20 ));
     }
+    UDSFrame->ready = 2;
 }
 
 // reads canTP frame type
@@ -340,7 +341,6 @@ void CanTP_init(dataFrame* sendingBuffer, dataFrame* recieveBuffer)
     UDSFrame = recieveBuffer;
     currState = handleFirstFrame;
     xBinarySemaphore = xSemaphoreCreateBinary();
-
 }
 
 
