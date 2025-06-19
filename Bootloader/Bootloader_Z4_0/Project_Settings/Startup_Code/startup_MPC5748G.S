@@ -220,6 +220,41 @@ sram_loop:
     e_addi      r5, r5, 128         ;# Increment the RAM pointer to next 128bytes
     e_bdnz      sram_loop           ;# Loop for all of SRAM
 
+  	.equ  MC_RGM_DES,    0xFFFA8000      /* Destructive Event Status Register */
+
+    /* r3 <- MC_RGM_DES base */
+    e_lis   r3, MC_RGM_DES@h
+    e_or2i  r3, MC_RGM_DES@l
+	e_li    r4,0
+    /* r4 <- *(uint32_t*)r3 */
+    e_lwz   r4, 0(r3)
+	/* if POR==0 (warm), skip over the entire clear */
+
+     /* isolate bit-0 -> put it in r4[0] and set CR0 */
+    e_li r6, 1
+	and. r4, r4, r6     ; #AND with 0x1  isolates bit 0, sets condition codes
+
+    /* if (bit-0 == 0), CR0.EQ is true -> branch */
+    e_beq      skip_clear;
+
+    /* zero the 256 B noinit bank in two 128 B bursts */
+    e_lis   r5, __noinit_start__@h
+    e_or2i  r5, __noinit_start__@l
+    e_li    r6, 2
+    mtctr   r6
+   	e_li    r0,0
+	e_li    r3,0
+	e_li    r4,0
+	e_li    r6,0
+
+clear_noinit_ecc:
+    e_stmw  r0, 0(r5)      ; #write registers R0–R31 128 bytes of zero
+    e_stw  r0, 20(r5)
+    e_addi  r5, r5, 128    ; #advance pointer by 128
+    e_bdnz  clear_noinit_ecc  ; #loop until CTR==0
+
+skip_clear:
+	e_li    r5,0
 
 ;#********************************* Enable BTB ********************************
 ;# Flush & Enable BTB - Set BBFI bit in BUCSR

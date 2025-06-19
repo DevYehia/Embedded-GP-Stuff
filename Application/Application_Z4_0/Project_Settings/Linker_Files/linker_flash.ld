@@ -31,7 +31,7 @@ ENTRY(_start)
 
 /* define heap and stack size */
 __HEAP_SIZE = DEFINED(__heap_size__) ? __heap_size__ : 0x00000000;
-__STACK_SIZE = DEFINED(__stack_size__) ? __stack_size__ : 0x00001000;
+__STACK_SIZE = DEFINED(__stack_size__) ? __stack_size__ : 0x00004000;
 
 /* Define FLASH */
 FLASH_BASE_ADDR = DEFINED(__flash_base_addr__) ? __flash_base_addr__ : 0x01400000;
@@ -50,7 +50,7 @@ MEMORY
 
     m_text : org = FLASH_BASE_ADDR, len = FLASH_SIZE
     m_data : org = SRAM_BASE_ADDR, len = SRAM_SIZE
-    m_data2 : ORIGIN = 0x40040000, len = 0x100 
+    m_data2  : ORIGIN = 0x40040000, len = 0x100 
     m_delta : ORIGIN = 0x01440000, len = 0x100K
 }
 
@@ -199,15 +199,13 @@ SECTIONS
 
 /* end  section FINI_ARRAY */
 
-
-     .noinit (NOLOAD) : ALIGN(4)
+  	.noinit (NOLOAD) : ALIGN(4)
     {
          __noinit_start__ = .;
          *(.noinit)      
          *(.noinit.*)
-         __noinit_end__ = . + 0x8;
+         __noinit_end__ = .;
     } > m_data2
-
 
     .led_blink :
     {

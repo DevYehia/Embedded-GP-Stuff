@@ -1,3 +1,47 @@
+/*
+ * Copyright (c) 2013 - 2015, Freescale Semiconductor, Inc.
+ * Copyright 2016-2017 NXP
+ * All rights reserved.
+ *
+ * THIS SOFTWARE IS PROVIDED BY NXP "AS IS" AND ANY EXPRESSED OR
+ * IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES
+ * OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.
+ * IN NO EVENT SHALL NXP OR ITS CONTRIBUTORS BE LIABLE FOR ANY DIRECT,
+ * INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
+ * (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+ * SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
+ * HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT,
+ * STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING
+ * IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF
+ * THE POSSIBILITY OF SUCH DAMAGE.
+ */
+/* ###################################################################
+**     Filename    : main.c
+**     Processor   : MPC574xG
+**     Abstract    :
+**         Main module.
+**         This module contains user's application code.
+**     Settings    :
+**     Contents    :
+**         No public methods
+**
+** ###################################################################*/
+/*!
+** @file main.c
+** @version 01.00
+** @brief
+**         Main module.
+**         This module contains user's application code.
+*/
+/*!
+**  @addtogroup main_module main module documentation
+**  @{
+*/
+/* MODULE main */
+
+
+/* Including necessary module. Cpu.h contains other modules needed for compiling.*/
+
 #include "Cpu.h"
 #include "CanTP.h"
 #include "UDS.h"
@@ -319,11 +363,11 @@ void DisableResetEscalation (void){
 	*DRETRegister = 0U;
 }
 
+
 void blink_led(void* params){
 	while(1){
 		//PINS_DRV_TogglePins(GREEN_PORT, (1 << GREEN_LED));
 		PINS_DRV_TogglePins(PTH, (1 << 5));
-
 		vTaskDelay(pdMS_TO_TICKS(2000));
 	}
 }
@@ -331,7 +375,6 @@ void blink_led(void* params){
 void Core_Boot(void)
 
 {
-
 	/* Enable e200z4b and e200z2 cores in RUN0-RUN3, DRUN and SAFE modes */
 	uint32_t mctl = MC_ME->MCTL;
 
@@ -388,6 +431,7 @@ int main(void)
 	/* Write your code here */
 	/* For example: for(;;) { } */
 
+	DisableResetEscalation();
 	/* Initialize clock gate*/
 	CLOCK_SYS_Init(g_clockManConfigsArr,   CLOCK_MANAGER_CONFIG_CNT,
 			g_clockManCallbacksArr, CLOCK_MANAGER_CALLBACK_CNT);
@@ -398,8 +442,7 @@ int main(void)
 	CanTP_init(&responseFrame, &requestFrame);
 	UDS_Init(&a_BLHandlersConfig);
 	Bootloader_Init(&a_BLHandlersConfig);
-
-
+    PINS_DRV_SetPins(PTH, (1 << 5));
 
 	//BOARD RECOVERY
 	//		status_t  returnStatus = BootloaderFlash_Unlock();
@@ -469,6 +512,19 @@ int main(void)
       break;
     }
   }
-  return exit_code;}
-
+  return exit_code;
   /*** Processor Expert end of main routine. DON'T WRITE CODE BELOW!!! ***/
+} /*** End of main routine. DO NOT MODIFY THIS TEXT!!! ***/
+
+/* END main */
+/*!
+** @}
+*/
+/*
+** ###################################################################
+**
+**     This file was created by Processor Expert 10.1 [05.21]
+**     for the NXP C55 series of microcontrollers.
+**
+** ###################################################################
+*/

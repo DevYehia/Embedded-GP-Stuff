@@ -32,7 +32,7 @@ ENTRY(_start)
 
 /* define heap and stack size */
 __HEAP_SIZE = DEFINED(__heap_size__) ? __heap_size__ : 0x00000000;
-__STACK_SIZE = DEFINED(__stack_size__) ? __stack_size__ : 0x00001000;
+__STACK_SIZE = DEFINED(__stack_size__) ? __stack_size__ : 0x00004000;
 
 /* Define SRAM */
 SRAM_BASE_ADDR = DEFINED(__sram_base_addr__) ? __sram_base_addr__ : 0x40000000;
@@ -42,7 +42,7 @@ MEMORY
 {
     SRAM : org = SRAM_BASE_ADDR, len = SRAM_SIZE
     
-    /* Reserve 32 bytes starting at 0x40040000.
+    /* Reserve 256 bytes starting at 0x40040000.
     This region is seperate from SRAM */
     NOINIT : ORIGIN = 0x40040000, len = 0x100
 }

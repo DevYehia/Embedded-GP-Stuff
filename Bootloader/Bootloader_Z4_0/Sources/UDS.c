@@ -262,14 +262,12 @@ void UDS_Session_Control()
 
 		if (requested_session == PROGRAMMING_SESSION && currentSession == DEFAULT_SESSION)
 		{
-
+			/* Set flag ... to be in flash/eeprom */
+#ifndef UDS_BOOTLOADER
 			currentSession = requested_session;
 			// taskYIELD();
 			// TODO wait for sending response
 			initVAR = 0xFFFFAAAA;
-
-			/* Set flag ... to be in flash/eeprom */
-#ifndef UDS_BOOTLOADER
 			// SOFT_RESET();
 			// HARD_RESET();
 			CAN_Deinit(&can_pal1_instance);
@@ -280,7 +278,7 @@ void UDS_Session_Control()
 			__asm__("mtlr %r0");
 			__asm__("se_blrl");
 #endif
-		}
+}
 
 		UDS_Create_pos_response(NOTREADY);
 		responseFrame.dataBuffer[2] = 0x23;
@@ -311,14 +309,16 @@ void UDS_ECU_Reset()
 		return;
 	}
 	// respond
-	initVAR = 0;
+	uint32_t appValid = *((volatile uint32_t *)0x40040008);
+	if(appValid == 0x00000000)
+		initVAR = 0;
 
 	UDS_Create_pos_response(NOTREADY);
 	Add_DID();
 
 	PINS_DRV_WritePin(PTH, 5, 1);
 	vTaskDelay(pdMS_TO_TICKS(20));
-
+	*(volatile uint32_t *)0x40040100 = 0xCCCCCCCC;
 	// TODO wait for response to be sent
 	portENTER_CRITICAL();
 	INT_SYS_DisableIRQGlobal();

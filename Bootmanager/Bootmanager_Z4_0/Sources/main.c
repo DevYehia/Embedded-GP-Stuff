@@ -3,6 +3,13 @@
 #include "Bootmanager.h"
 #include "clockMan1.h"
 
+
+#define MC_RGM_DES_ADDR   0xFFFA8000u
+#define MC_RGM_DES        (*(volatile uint32_t *)MC_RGM_DES_ADDR)
+
+/* Bit-31 is the POR flag */
+#define MC_RGM_POR_MASK   (1u << 0)
+
 // __attribute__((section(".noinit")))
 // volatile uint32_t initVAR;
 
@@ -33,6 +40,9 @@ void jumpToAddress(void *address)
 
 	// Disable interrupts globally before jumping
 	INT_SYS_DisableIRQGlobal();
+
+    /* Write 1 to bit 31 to clear POR; other bits remain unchanged. */
+    MC_RGM_DES = MC_RGM_POR_MASK;
 
 	__asm__ volatile(
 		"or   %%r12, %0, %0    \n\t" // Move the passed-in address into r12
@@ -68,37 +78,6 @@ void bluHandler()
 	jumpToAddress((void *)BLU_START_ADDRESS);
 }
 
-
-void Core_Boot(void)
-
-{
-
-	/* Enable e200z4b and e200z2 cores in RUN0-RUN3, DRUN and SAFE modes */
-	uint32_t mctl = MC_ME->MCTL;
-
-	MC_ME->CCTL2 = 0x00FEU;    /* e200z4b is active */
-
-	/* Set start address for e200z4b and e200z2 cores */
-
-	MC_ME->CADDR2 = 0x01040000 | 0x1U; /* e200z4b boot address + RMC bit */
-
-	/* Mode change - re-enter the DRUN mode to start cores */
-
-
-	MC_ME->MCTL = 0x30005AF0;         /* Mode & Key */
-
-	MC_ME->MCTL = 0x3000A50F;        /* Mode & Key inverted */
-
-	//	MC_ME->MCTL = (mctl & 0xffff0000ul) | KEY_VALUE1;
-	//	MC_ME->MCTL =  mctl;
-
-	while((MC_ME->GS & (1 << 27)) == 1);   /* Wait for mode entry complete */
-
-	while (((MC_ME->GS >> 28) & 0xF) != 0x3); /* Check DRUN mode entered */
-
-	//
-
-}//Core_Boot
 /**
  * @brief Entry point of the boot manager.
  *
@@ -121,8 +100,9 @@ int main(void)
 	DisableResetEscalation();
 
 //	if(*((volatile uint32_t *)0x40040004) != 0xFFFFBBBB)
-//		Core_Boot();
-//	*((volatile uint32_t *)0x40040004) = 0xFFFFBBBB;
+//	*((volatile uint32_t *)0x40040000) = 0xFFFFBBBB;
+//	*((volatile uint32_t *)0x40040008) = 0xFFFFBBBB;
+//	*((volatile uint32_t *)0x4004000C) = 0xFFFFBBBB;
 	//Core_Boot();
 //	*((volatile uint32_t *)0x40040004) = 0xFFFFBBBB;
 

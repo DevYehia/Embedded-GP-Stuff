@@ -52,7 +52,16 @@
 #define ORANGE_PORT PTJ
 #define ORANGE_LED 4
 
-  volatile int exit_code = 0;
+/* MMIO address of the Destructive Event Status register */
+#define MC_RGM_DES       (*(volatile uint32_t*)0xFFFA8000u)
+/* POR flag is bit 0 */
+#define MC_RGM_POR_MSK   (1u)
+
+/* Symbols defined by linker script around the no-init section */
+extern uint8_t __noinit_start__[];
+extern uint8_t __noinit_end__[];
+
+volatile int exit_code = 0;
 /* User includes (#include below this line is not maintained by Processor Expert) */
 
 /*!
@@ -96,14 +105,6 @@ void recieve2(void * pv){
 		vTaskDelay(pdMS_TO_TICKS( 10 ));
 	}
 }
-
-
-static void dummy_force_include(void) {
-    /* volatile to prevent optimizing away */
-    volatile uint32_t x = 0xDEADBEEF;
-    x ^= 0x12345678;
-}
-
 void loopBackTask(void* params){
 
     can_message_t message = {0, 0x55, {0x02,0x10,0x02,0xAA,0xAA,0xAA,0xAA,0xAA}, 8};
@@ -153,6 +154,18 @@ void blink_led(void* params){
 extern dataFrame requestFrame;
 extern dataFrame responseFrame;
 volatile int a= 1;
+
+
+//void clear_noinit_on_por(void)
+//{
+//    /* If this *is* a power-on reset, zero the whole no-init range */
+//    if (MC_RGM_DES & MC_RGM_POR_MSK) {
+//        uint8_t *p = __noinit_start__;
+//        while (p < 0x40040100) {
+//        	*p++ = 0;
+//        }
+//    }
+//}
 int main(void)
 {
 	//volatile int a= 1;
@@ -172,6 +185,7 @@ int main(void)
   /*** End of Processor Expert internal initialization.                    ***/
 
     DisableResetEscalation();
+//    clear_noinit_on_por();
     /* Initialize clocks */
     CLOCK_SYS_Init(g_clockManConfigsArr,   CLOCK_MANAGER_CONFIG_CNT,
   		 g_clockManCallbacksArr, CLOCK_MANAGER_CALLBACK_CNT);

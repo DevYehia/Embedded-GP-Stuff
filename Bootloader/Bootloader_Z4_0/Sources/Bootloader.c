@@ -285,6 +285,7 @@ status_t Bootloader_Finalize_Programming(void)
 	while(*(volatile uint32_t *)0x40040100 != 0x00000000);
 	if(*((uint32_t *)0x40040104) = 0x11111111)
 	{
+		*((uint32_t *)0x40040104) = 0x00000000;
 		signatureStatus = STATUS_SUCCESS;
 		*((volatile uint32_t *)0x40040008) = 0x00000000;
 	}

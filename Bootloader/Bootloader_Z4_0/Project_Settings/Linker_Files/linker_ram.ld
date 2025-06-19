@@ -294,7 +294,7 @@ SECTIONS
     } > SRAM
     
     /*-----------------------------------------------------
-      Persistent No-Init Section (64 bytes) placed in NOINIT
+      Persistent No-Init Section (256 bytes) placed in NOINIT
       This section is entirely separate from SRAM.
     -----------------------------------------------------*/
     .noinit (NOLOAD) : ALIGN(4)
@@ -323,4 +323,3 @@ __SRAM_BASE_ADDR = __sdata_end__;
 
 __BSS_SIZE    = __BSS_END - __BSS_START;
 
-}
